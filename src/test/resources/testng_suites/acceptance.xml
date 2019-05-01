@@ -1,0 +1,40 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite verbose="1" name="Zafira Acceptance Tests" annotations="JDK">
+	
+	<test parallel="none" thread-count="5" name="Parallel tests">
+		<classes>
+			<class name="com.qaprosoft.zafira.AuthTests">
+				<methods>
+					<include name="verifyValidLoginTest" />
+					<include name="verifyInvalidLoginTest" />
+				</methods>
+			</class>
+
+			<class name="com.qaprosoft.zafira.NavigationTests">
+				<methods>
+					<include name="verifySidebarElementsTest" />
+				</methods>
+			</class>
+
+			<class name="com.qaprosoft.zafira.UserProfileTests">
+				<methods>
+					<include name="verifyUserPhotoModalTest" />
+					<include name="verifyChangeProfileInformationTest" />
+					<include name="verifyGenerateAccessTokenTest" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+	<test name="Queued tests">
+		<classes>
+			<class name="com.qaprosoft.zafira.UserProfileTests">
+				<methods>
+					<include name="verifyChangePasswordTest" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+</suite>
