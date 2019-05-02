@@ -2,24 +2,30 @@ package com.qaprosoft.zafira.util;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class CommonUtils {
 
     public static String getInputText(ExtendedWebElement input) {
         return input.getAttribute("value");
+    }
+
+    public static String getSelectValue(ExtendedWebElement select) {
+        ExtendedWebElement valueLabel = select.findExtendedWebElement(By.xpath(".//md-select-value/span"));
+        return valueLabel.getText();
     }
 
     public static void pastTo(ExtendedWebElement element, WebDriver driver) {
@@ -78,9 +84,31 @@ public class CommonUtils {
         builder.moveToElement(element, x, y).click().build().perform();
     }
 
-    public static void waitUntilDocumentIdReady(WebDriver driver) {
-        Wait<WebDriver> wait = new WebDriverWait(driver, 2);
-        wait.until(dr -> ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
+    public static void select(ExtendedWebElement element, WebDriver driver, String value) {
+        WebElement valuesContainer = getMenuValuesContainer(element, driver);
+        WebElement valueElement = valuesContainer.findElement(By.xpath("//md-option[@value = '" + value + "']"));
+        valueElement.click();
+    }
+
+    public static void clickMenuItem(ExtendedWebElement element, WebDriver driver, String value) {
+        WebElement valuesContainer = getMenuValuesContainer(element, driver);
+        WebElement valueElement = valuesContainer.findElement(By.xpath("//*[text() = '" + value + "']"));
+        valueElement.click();
+    }
+
+    public static <T> T waitForCompletableFuture(CompletableFuture<T> completableFuture) {
+        T result = null;
+        try {
+            result = completableFuture.get(20, TimeUnit.SECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private static WebElement getMenuValuesContainer(ExtendedWebElement element, WebDriver driver) {
+        String containerId = element.getAttribute("aria-owns");
+        return driver.findElement(By.id(containerId));
     }
 
 }

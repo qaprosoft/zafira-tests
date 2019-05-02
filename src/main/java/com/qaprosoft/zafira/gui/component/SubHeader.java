@@ -11,8 +11,29 @@ public class SubHeader extends AbstractUIObject {
     @FindBy(className = "fixed-page-header-container_title")
     private ExtendedWebElement title;
 
+    @FindBy(id = "itemsCount")
+    private ExtendedWebElement itemsCountLabel;
+
     public SubHeader(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
+    }
+
+    public ExtendedWebElement getTitle() {
+        return title;
+    }
+
+    public String getTitleText() {
+        return title.getText();
+    }
+
+    public ExtendedWebElement getItemsCountLabel() {
+        return itemsCountLabel;
+    }
+
+    public int getItemsCount() {
+        String itemsCountLabelText = itemsCountLabel.getText();
+        String itemsCountText = itemsCountLabelText.split("\\(")[1].split("\\)")[0];
+        return Integer.valueOf(itemsCountText);
     }
 
 }
