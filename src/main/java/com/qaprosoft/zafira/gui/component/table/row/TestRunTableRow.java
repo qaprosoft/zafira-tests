@@ -20,6 +20,12 @@ public class TestRunTableRow extends AbstractUIObject {
     @FindBy(className = "test-run-card__app-name")
     private ExtendedWebElement appNameLabel;
 
+    @FindBy(xpath = ".//md-icon[text() = 'comments']")
+    private ExtendedWebElement commentIcon;
+
+    @FindBy(className = "_reviewed")
+    private ExtendedWebElement reviewedIcon;
+
     @FindBy(css = "._env .label")
     private ExtendedWebElement environmentLabel;
 
@@ -29,10 +35,10 @@ public class TestRunTableRow extends AbstractUIObject {
     @FindBy(css = "._statistics .label-success")
     private ExtendedWebElement passedLabel;
 
-    @FindBy(css = "._statistics .label-danger")
+    @FindBy(css = "._statistics .label-danger, ._statistics .label-danger-empty")
     private ExtendedWebElement failedLabel;
 
-    @FindBy(css = "._statistics .label-warning")
+    @FindBy(css = "._statistics .label-warning, ._statistics .label-warning-empty")
     private ExtendedWebElement skippedLabel;
 
     @FindBy(css = "._statistics .label-aborted-bg")
@@ -46,6 +52,9 @@ public class TestRunTableRow extends AbstractUIObject {
 
     @FindBy(css = "._menu button")
     private ExtendedWebElement menuButton;
+
+    @FindBy(className = "test-run-card__clickable")
+    private ExtendedWebElement clickableArea;
 
     public TestRunTableRow(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -81,6 +90,18 @@ public class TestRunTableRow extends AbstractUIObject {
 
     public String getAppNameLabelText() {
         return appNameLabel.getText();
+    }
+
+    public ExtendedWebElement getCommentIcon() {
+        return commentIcon;
+    }
+
+    public void clickCommentIcon() {
+        commentIcon.click();
+    }
+
+    public ExtendedWebElement getReviewedIcon() {
+        return reviewedIcon;
     }
 
     public ExtendedWebElement getEnvironmentLabel() {
@@ -149,6 +170,14 @@ public class TestRunTableRow extends AbstractUIObject {
 
     public void clickMenuButton() {
         menuButton.click();
+    }
+
+    public ExtendedWebElement getClickableArea() {
+        return clickableArea;
+    }
+
+    public void clickClickableArea() {
+        clickableArea.click();
     }
 
 }

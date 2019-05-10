@@ -1,6 +1,7 @@
 package com.qaprosoft.zafira.domain;
 
 import com.qaprosoft.carina.core.foundation.utils.R;
+import com.qaprosoft.zafira.util.ConfigXmlUtil;
 
 public enum Config {
 
@@ -9,7 +10,11 @@ public enum Config {
     ADMIN_ID("admin.id"),
 
     DEFAULT_DASHBOARD_ID("dashboard.default.id"),
-    DEFAULT_DASHBOARD_NAME("dashboard.default.name");
+    DEFAULT_DASHBOARD_NAME("dashboard.default.name"),
+
+    CONFIG_XML_APP_VERSION("app_version"),
+    CONFIG_XML_ENVIRONMENT("env"),
+    CONFIG_XML_BROWSER("browser");
 
     private final String key;
 
@@ -25,7 +30,12 @@ public enum Config {
         return R.TESTDATA.get(key);
     }
 
+    public String getConfigXmlValue() {
+        return ConfigXmlUtil.getConfigXmlValue(key);
+    }
+
     public long getLongValue() {
         return R.TESTDATA.getLong(key);
     }
+
 }

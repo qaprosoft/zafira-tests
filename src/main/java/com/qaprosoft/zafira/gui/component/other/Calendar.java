@@ -17,7 +17,7 @@ public class Calendar extends AbstractUIObject {
     @FindBy(xpath = ".//md-select[@placeholder = 'Year']")
     private ExtendedWebElement yearSelect;
 
-    @FindBy(css = ".md-date-range-picker__calendar .md-date-range-picker__calendar__grid")
+    @FindBy(css = ".md-date-range-picker__calendar .md-date-range-picker__calendar__grid span")
     private List<ExtendedWebElement> dates;
 
     public Calendar(WebDriver driver, SearchContext searchContext) {

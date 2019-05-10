@@ -2,6 +2,8 @@ package com.qaprosoft.zafira.util;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -85,14 +87,15 @@ public class CommonUtils {
     }
 
     public static void select(ExtendedWebElement element, WebDriver driver, String value) {
+        element.click();
         WebElement valuesContainer = getMenuValuesContainer(element, driver);
-        WebElement valueElement = valuesContainer.findElement(By.xpath("//md-option[@value = '" + value + "']"));
+        WebElement valueElement = valuesContainer.findElement(By.xpath(".//md-option[contains(translate(normalize-space(@value), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + value.toLowerCase() + "')]"));
         valueElement.click();
     }
 
     public static void clickMenuItem(ExtendedWebElement element, WebDriver driver, String value) {
         WebElement valuesContainer = getMenuValuesContainer(element, driver);
-        WebElement valueElement = valuesContainer.findElement(By.xpath("//*[text() = '" + value + "']"));
+        WebElement valueElement = valuesContainer.findElement(By.xpath(".//*[contains(translate(normalize-space(text()), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + value.toLowerCase() + "')]"));
         valueElement.click();
     }
 
@@ -106,9 +109,50 @@ public class CommonUtils {
         return result;
     }
 
+    public static boolean check(ExtendedWebElement element) {
+        boolean isChecked = isChecked(element);
+        boolean result = !isChecked;
+        if (result) {
+            element.click();
+        }
+        return result;
+    }
+
+    public static boolean uncheck(ExtendedWebElement element) {
+        boolean result = isChecked(element);
+        if (result) {
+            element.click();
+        }
+        element.scrollTo();
+        return result;
+    }
+
+    public static void scrollTop(WebDriver driver) {
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0)");
+    }
+
+    public static void scrollBottom(WebDriver driver) {
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+
+    public static boolean isChecked(ExtendedWebElement element) {
+        return Boolean.valueOf(element.getAttribute("aria-checked"));
+    }
+
     private static WebElement getMenuValuesContainer(ExtendedWebElement element, WebDriver driver) {
+        element.pause(2);
         String containerId = element.getAttribute("aria-owns");
         return driver.findElement(By.id(containerId));
+    }
+
+    public static void setAuthorizationCookie(WebDriver driver, String authToken) {
+        Cookie cookie = new Cookie("Authorization", authToken, "127.0.0.1", "/", null);
+        driver.manage().addCookie(cookie);
+    }
+
+    public static String getAuthorizationCookie(WebDriver driver) {
+        Cookie cookie = driver.manage().getCookieNamed("Authorization");
+        return cookie == null ? null : cookie.getValue();
     }
 
 }

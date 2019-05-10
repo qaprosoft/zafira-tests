@@ -19,4 +19,5 @@ public class TestRunTable extends BaseTable {
     public List<TestRunTableRow> getRows() {
         return rows;
     }
+
 }

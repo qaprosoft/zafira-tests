@@ -7,7 +7,7 @@ import com.qaprosoft.zafira.models.dto.TestCaseType;
 public class TestCaseBuilder extends BaseBuilder {
 
     static TestCaseType buildTestCase(long testSuiteId) {
-        return buildItem(client -> client.createTestCase(generateTestCase(testSuiteId)))
+        return callItem(client -> client.createTestCase(generateTestCase(testSuiteId)))
                 .orElseThrow(() -> new BuilderException("Test case was not created"));
     }
 

@@ -15,7 +15,7 @@ import java.util.function.Function;
 public class TestBuilder extends BaseBuilder {
 
     public enum BuildStatus {
-        PASSED, FAILED, KNOWN_ISSUE, BLOCKER, SKIPPED, ABORTED, IN_PROGRESS
+        PASSED, FAILED, KNOWN_ISSUE, BLOCKER, SKIPPED, ABORTED, IN_PROGRESS, REVIEWED
     }
 
     static TestType buildTest(long testRunId, long testCaseId, Function<TestType, TestType> testTypeFunction) {
@@ -26,13 +26,17 @@ public class TestBuilder extends BaseBuilder {
 
     static TestType startTest(long testRunId, long testCaseId) {
         TestType testType = generateTest(testRunId, testCaseId);
-        return buildItem(client -> client.startTest(testType))
+        TestType responseTestType = callItem(client -> client.startTest(testType))
                 .orElseThrow(() -> new BuilderException("Test was not started"));
+        responseTestType.setWorkItems(testType.getWorkItems());
+        return responseTestType;
     }
 
     static TestType finishTest(TestType testType) {
-        return buildItem(client -> client.finishTest(testType))
+        TestType responseTestType = callItem(client -> client.finishTest(testType))
                 .orElseThrow(() -> new BuilderException("Test was not finished"));
+        responseTestType.setWorkItems(testType.getWorkItems());
+        return responseTestType;
     }
 
     private static TestType generateTest(long testRunId, long testCaseId) {

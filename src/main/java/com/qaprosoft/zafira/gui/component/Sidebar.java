@@ -5,6 +5,7 @@ import com.qaprosoft.carina.core.gui.AbstractUIObject;
 import com.qaprosoft.zafira.gui.component.sidebarmenu.DashboardSidebarMenu;
 import com.qaprosoft.zafira.gui.component.sidebarmenu.ProjectSidebarMenu;
 import com.qaprosoft.zafira.gui.component.sidebarmenu.TestRunViewSidebarMenu;
+import com.qaprosoft.zafira.gui.component.sidebarmenu.UserSidebarMenu;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -20,8 +21,8 @@ public class Sidebar extends AbstractUIObject {
     @FindBy(xpath = ".//li[.//a[./*[text() = 'Views']]]")
     private TestRunViewSidebarMenu testRunsViewMenuButton;
 
-    @FindBy(xpath = ".//a[./*[text() = 'Users']]")
-    private ExtendedWebElement usersButton;
+    @FindBy(xpath = ".//li[.//*[text() = 'supervisor_account']]")
+    private UserSidebarMenu usersButton;
 
     @FindBy(xpath = ".//a[./*[text() = 'Monitors']]")
     private ExtendedWebElement monitorsButton;
@@ -63,12 +64,12 @@ public class Sidebar extends AbstractUIObject {
         testRunsViewMenuButton.getRootElement().click();
     }
 
-    public ExtendedWebElement getUsersButton() {
+    public UserSidebarMenu getUsersButton() {
         return usersButton;
     }
 
     public void clickUsersButton() {
-        usersButton.click();
+        usersButton.getRootElement().click();
     }
 
     public ExtendedWebElement getMonitorsButton() {

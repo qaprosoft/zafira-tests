@@ -17,7 +17,7 @@ public abstract class BaseBuilder {
         return RandomStringUtils.randomAlphabetic(15);
     }
 
-    protected static <T extends AbstractType> Optional<T> buildItem(Function<ZafiraClient, ZafiraClient.Response<T>> itemGetter) {
+    protected static <T extends AbstractType> Optional<T> callItem(Function<ZafiraClient, ZafiraClient.Response<T>> itemGetter) {
         T result = null;
         ZafiraClient.Response<T> response =  itemGetter.apply(client());
         if(response.getObject() != null) {

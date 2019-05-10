@@ -5,7 +5,10 @@ public enum Route {
     SIGNIN("/signin"),
     DASHBOARDS("/dashboards/%d"),
     TEST_RUNS("/tests/runs"),
+    TEST_RUNS_ITEM("/tests/runs/%d"),
     USERS("/users"),
+    GROUPS("/users/groups"),
+    INVITATIONS("/users/invitations"),
     MONITORS("/monitors"),
     INTEGRATIONS("/integrations"),
     USER_PROFILE("/users/profile");

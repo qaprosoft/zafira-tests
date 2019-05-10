@@ -9,7 +9,8 @@ public enum ServiceSingleton {
 
     INSTANCE;
 
-    private ZafiraClient zafiraClient;
+    private final ZafiraClient zafiraClient;
+    private String authToken;
 
     ServiceSingleton() {
         ZafiraClient.Response<AuthTokenType> auth = null;
@@ -20,7 +21,10 @@ public enum ServiceSingleton {
             zafiraClient = new ZafiraClient(serviceUrl);
             ZafiraClient.Response<AuthTokenType> authTokenTypeResponse = zafiraClient.login(username, password);
             if (zafiraClient.isAvailable()) {
-                auth = zafiraClient.refreshToken(authTokenTypeResponse.getObject().getAccessToken());
+                String authToken = authTokenTypeResponse.getObject().getAccessToken();
+                String authType = authTokenTypeResponse.getObject().getType();
+                this.authToken = authType + " " + authToken;
+                auth = zafiraClient.refreshToken(authToken);
             }
             if (auth != null && auth.getStatus() == 200) {
                 zafiraClient.setAuthToken(auth.getObject().getType() + " " + auth.getObject().getAccessToken());
@@ -33,4 +37,9 @@ public enum ServiceSingleton {
     public ZafiraClient getClient() {
         return zafiraClient;
     }
+
+    public String getAuthToken() {
+        return authToken;
+    }
+
 }

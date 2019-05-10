@@ -6,7 +6,7 @@ import com.qaprosoft.zafira.models.dto.user.UserType;
 public class UserBuilder extends BaseBuilder {
 
     static UserType buildUser() {
-        return buildItem(client -> client.createUser(generateUser())).orElseThrow(() -> new BuilderException("User was not created"));
+        return callItem(client -> client.createUser(generateUser())).orElseThrow(() -> new BuilderException("User was not created"));
     }
 
     private static UserType generateUser() {

@@ -1,7 +1,9 @@
 package com.qaprosoft.zafira.service;
 
 import com.qaprosoft.zafira.gui.DashboardPage;
+import com.qaprosoft.zafira.gui.GroupPage;
 import com.qaprosoft.zafira.gui.IntegrationPage;
+import com.qaprosoft.zafira.gui.InvitationPage;
 import com.qaprosoft.zafira.gui.MonitorPage;
 import com.qaprosoft.zafira.gui.TestRunPage;
 import com.qaprosoft.zafira.gui.UserPage;
@@ -21,6 +23,10 @@ public interface SidebarService {
     TestRunViewSidebarMenu clickTestRunViewMenuButton();
 
     UserPage goToUserPage();
+
+    GroupPage goToGroupPage();
+
+    InvitationPage goToInvitationPage();
 
     MonitorPage goToMonitorPage();
 

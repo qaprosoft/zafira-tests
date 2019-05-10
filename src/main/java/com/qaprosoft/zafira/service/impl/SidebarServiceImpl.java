@@ -4,7 +4,9 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.zafira.exception.DashboardNotFoundException;
 import com.qaprosoft.zafira.gui.BasePage;
 import com.qaprosoft.zafira.gui.DashboardPage;
+import com.qaprosoft.zafira.gui.GroupPage;
 import com.qaprosoft.zafira.gui.IntegrationPage;
+import com.qaprosoft.zafira.gui.InvitationPage;
 import com.qaprosoft.zafira.gui.MonitorPage;
 import com.qaprosoft.zafira.gui.TestRunPage;
 import com.qaprosoft.zafira.gui.UserPage;
@@ -13,6 +15,7 @@ import com.qaprosoft.zafira.gui.component.Sidebar;
 import com.qaprosoft.zafira.gui.component.sidebarmenu.DashboardSidebarMenu;
 import com.qaprosoft.zafira.gui.component.sidebarmenu.ProjectSidebarMenu;
 import com.qaprosoft.zafira.gui.component.sidebarmenu.TestRunViewSidebarMenu;
+import com.qaprosoft.zafira.gui.component.sidebarmenu.UserSidebarMenu;
 import com.qaprosoft.zafira.service.SidebarService;
 import org.openqa.selenium.WebDriver;
 
@@ -62,7 +65,27 @@ public class SidebarServiceImpl extends BaseService implements SidebarService {
     public UserPage goToUserPage() {
         Sidebar sidebar = page.getSidebar();
         sidebar.clickUsersButton();
+        UserSidebarMenu userSidebarMenu = sidebar.getUsersButton();
+        userSidebarMenu.clickUserButton();
         return new UserPage(driver);
+    }
+
+    @Override
+    public GroupPage goToGroupPage() {
+        Sidebar sidebar = page.getSidebar();
+        sidebar.clickUsersButton();
+        UserSidebarMenu userSidebarMenu = sidebar.getUsersButton();
+        userSidebarMenu.clickGroupButton();
+        return new GroupPage(driver);
+    }
+
+    @Override
+    public InvitationPage goToInvitationPage() {
+        Sidebar sidebar = page.getSidebar();
+        sidebar.clickUsersButton();
+        UserSidebarMenu userSidebarMenu = sidebar.getUsersButton();
+        userSidebarMenu.clickInvitationButton();
+        return new InvitationPage(driver);
     }
 
     @Override

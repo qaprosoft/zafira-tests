@@ -6,13 +6,11 @@ import com.qaprosoft.zafira.gui.BasePage;
 import com.qaprosoft.zafira.gui.component.modals.DateRangeModal;
 import com.qaprosoft.zafira.gui.component.other.Calendar;
 import com.qaprosoft.zafira.service.DateRangePickerService;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import java.time.LocalDateTime;
-import java.time.format.TextStyle;
 import java.util.List;
-
-import static java.util.Locale.US;
 
 public class DateRangePickerServiceImpl extends BaseService implements DateRangePickerService {
 
@@ -27,18 +25,21 @@ public class DateRangePickerServiceImpl extends BaseService implements DateRange
         Calendar rightCalendar = calendars.get(1);
         pickDate(leftCalendar, dateFrom);
         if(dateTo != null) {
-            pickDate(rightCalendar, dateTo);
+            Calendar toCalendar = dateFrom.getMonth().getValue() == dateTo.getMonth().getValue() ? leftCalendar : rightCalendar;
+            pickDate(toCalendar, dateTo);
         }
     }
 
     private void pickDate(Calendar calendar, LocalDateTime date) {
         calendar.selectYear(driver, String.valueOf(date.getYear()));
-        calendar.selectMonth(driver, date.getMonth().getDisplayName(TextStyle.FULL, US));
+        calendar.selectMonth(driver, Integer.valueOf(date.getMonth().getValue() - 1).toString());
         String day = String.valueOf(date.getDayOfMonth());
-        ExtendedWebElement d = calendar.getDates().stream()
+        ExtendedWebElement d = calendar.findExtendedWebElement(
+                By.xpath(".//span[contains(@class, 'md-date-range-picker__calendar__grid') and not(contains(@class, 'not-in-active-month'))]//*[text() = '" + day + "']"));
+        /*ExtendedWebElement d = calendar.getDates().stream()
                                               .filter(dateElement -> dateElement.getText().equals(day))
                                               .findAny()
-                                              .orElseThrow(() -> new DateNotFoundException("Day " + day + " does not exist"));
+                                              .orElseThrow(() -> new DateNotFoundException("Day " + day + " does not exist"));*/
         d.click();
     }
 

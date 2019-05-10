@@ -7,7 +7,7 @@ import com.qaprosoft.zafira.models.dto.TestSuiteType;
 public class TestSuiteBuilder extends BaseBuilder {
 
     static TestSuiteType buildTestSuite() {
-        return buildItem(client -> client.createTestSuite(generateTestSuite()))
+        return callItem(client -> client.createTestSuite(generateTestSuite()))
                 .orElseThrow(() -> new BuilderException("Test suite was not created"));
     }
 

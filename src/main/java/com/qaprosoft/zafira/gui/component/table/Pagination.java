@@ -48,7 +48,7 @@ public class Pagination extends AbstractUIObject {
     }
 
     public void clickNavigateBeforeButton() {
-        navigateFirstButton.click();
+        navigateBeforeButton.click();
     }
 
     public ExtendedWebElement getNavigateNextButton() {
@@ -56,7 +56,7 @@ public class Pagination extends AbstractUIObject {
     }
 
     public void clickNavigateNextButton() {
-        navigateFirstButton.click();
+        navigateNextButton.click();
     }
 
     public ExtendedWebElement getNavigateLastButton() {
@@ -64,7 +64,7 @@ public class Pagination extends AbstractUIObject {
     }
 
     public void clickNavigateLastButton() {
-        navigateFirstButton.click();
+        navigateLastButton.click();
     }
 
 }
