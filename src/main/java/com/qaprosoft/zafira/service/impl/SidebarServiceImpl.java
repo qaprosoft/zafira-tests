@@ -51,6 +51,7 @@ public class SidebarServiceImpl extends BaseService implements SidebarService {
     public TestRunPage goToTestRunPage() {
         Sidebar sidebar = page.getSidebar();
         sidebar.clickTestRunsButton();
+        waitProgressLinear();
         return new TestRunPage(driver);
     }
 

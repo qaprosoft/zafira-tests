@@ -2,6 +2,9 @@ package com.qaprosoft.zafira.service.impl;
 
 import com.qaprosoft.zafira.gui.BasePage;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -46,6 +49,14 @@ public abstract class BaseService<T extends BasePage> {
             }
         }
         return page == null ? result : page;
+    }
+
+    public void waitProgressLinear() {
+        T page = getUIObject(driver);
+        if (page.getProgressLinear().isElementPresent(1)) {
+            Wait<WebDriver> wait = new WebDriverWait(driver, 15, 100);
+            wait.until(ExpectedConditions.invisibilityOf(page.getProgressLinear().getElement()));
+        }
     }
 
 }

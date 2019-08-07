@@ -2,14 +2,22 @@ package com.qaprosoft.zafira.gui.component.table.row;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
+import com.qaprosoft.zafira.service.builder.TestBuilder;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TestRunTableRow extends AbstractUIObject {
 
     @FindBy(name = "testRunCheckbox")
     private ExtendedWebElement selectedCheckbox;
+
+    @FindBy(css = ".test-run-card__progressbar md-progress-circular")
+    private ExtendedWebElement inProgressCircularProgressBar;
 
     @FindBy(className = "test-run-card__title")
     private ExtendedWebElement testSuiteNameLabel;
@@ -66,6 +74,14 @@ public class TestRunTableRow extends AbstractUIObject {
 
     public void clickSelectedCheckbox() {
         selectedCheckbox.click();
+    }
+
+    public ExtendedWebElement getInProgressCircularProgressBar() {
+        return inProgressCircularProgressBar;
+    }
+
+    public void clickInProgressCircularProgressBar() {
+        inProgressCircularProgressBar.click();
     }
 
     public ExtendedWebElement getTestSuiteNameLabel() {
@@ -178,6 +194,13 @@ public class TestRunTableRow extends AbstractUIObject {
 
     public void clickClickableArea() {
         clickableArea.click();
+    }
+
+    public TestBuilder.BuildStatus getStatus() {
+        String[] classes = getRootElement().getAttribute("class").split(" ");
+        List<String> statuses = Arrays.stream(TestBuilder.BuildStatus.values()).map(Enum::name).collect(Collectors.toList());
+        String status = Arrays.stream(classes).filter(statuses::contains).findFirst().orElseThrow(() -> new RuntimeException("No test run status was detected"));
+        return TestBuilder.BuildStatus.valueOf(status);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.qaprosoft.zafira;
 
 import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
+import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.zafira.domain.Config;
 import com.qaprosoft.zafira.domain.TestRunCollector;
 import com.qaprosoft.zafira.gui.DashboardPage;
@@ -32,6 +33,7 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.IntStream;
 
+import static com.qaprosoft.zafira.service.builder.TestBuilder.BuildStatus.IN_PROGRESS;
 import static com.qaprosoft.zafira.util.CommonUtils.getSelectValue;
 import static com.qaprosoft.zafira.util.CommonUtils.isChecked;
 import static com.qaprosoft.zafira.util.CommonUtils.scrollTop;
@@ -73,8 +75,9 @@ public class TestRunTests extends BaseTest {
         List<TestRunTableRow> testRunTableRows = testRunPage.getTable().getRows();
         TestRunSearchBlock searchBlock = testRunPage.getSearchBlock();
         testRunTableRows.forEach(testRunTableRow -> {
-            Assert.assertFalse(isChecked(testRunTableRow.getSelectedCheckbox()), "Test run checkbox is checked by default");
-            testRunTableRow.clickSelectedCheckbox();
+            ExtendedWebElement checkbox = IN_PROGRESS.equals(testRunTableRow.getStatus()) ? testRunTableRow.getInProgressCircularProgressBar() : testRunTableRow.getSelectedCheckbox();
+            Assert.assertFalse(isChecked(checkbox), "Test run checkbox is checked by default");
+            checkbox.click();
         });
         Assert.assertTrue(isChecked(searchBlock.getMainCheckbox()), "Main checkbox is unchecked after all test run checkboxes was checked");
 
@@ -83,7 +86,8 @@ public class TestRunTests extends BaseTest {
         testRunTableRows.forEach(testRunTableRow -> {
             Assert.assertTrue(isChecked(testRunTableRow.getSelectedCheckbox()), "Test run checkbox is not checked after checking");
             testRunTableRow.clickSelectedCheckbox();
-            Assert.assertFalse(isChecked(testRunTableRow.getSelectedCheckbox()), "Test run checkbox is checked after unchecking");
+            ExtendedWebElement checkbox = IN_PROGRESS.equals(testRunTableRow.getStatus()) ? testRunTableRow.getInProgressCircularProgressBar() : testRunTableRow.getSelectedCheckbox();
+            Assert.assertFalse(isChecked(checkbox), "Test run checkbox is checked after unchecking");
         });
         Assert.assertFalse(isChecked(searchBlock.getMainCheckbox()), "Main checkbox is checked after all test run checkboxes was unchecked");
 
@@ -288,6 +292,7 @@ public class TestRunTests extends BaseTest {
         Assert.assertTrue(sendAsEmailModal.getSendButton().getElement().isEnabled(), "Send email button is disabled");
         sendAsEmailModal.clickSendButton();
         Assert.assertTrue(testRunPage.isElementWithTextPresent(testRunPage.getErrorAlert(), "Add a recipient!"), "Send email error alert text is incorrect");
+        sendAsEmailModal.getEmailsInput().click();
         sendAsEmailModal.typeRecipients("test@test.test");
         sendAsEmailModal.clickSendButton();
         Assert.assertEquals(testRunPage.getSuccessAlertText(), "Email was successfully sent!", "Send email success alert text is incorrect");

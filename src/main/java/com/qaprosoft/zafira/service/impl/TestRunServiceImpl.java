@@ -182,6 +182,7 @@ public class TestRunServiceImpl extends BaseService<TestRunPage> implements Test
         TestRunPage testRunPage = getUIObject(driver);
         TestRunTableRow row = testRunPage.getTable().getRows().get(index);
         row.clickMenuButton();
+        waitProgressLinear();
         CommonUtils.clickMenuItem(row.getMenuButton(), driver, "Send as email");
         return new SendAsEmailModal(driver);
     }

@@ -4,6 +4,8 @@ import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
 import com.qaprosoft.zafira.domain.Config;
 import com.qaprosoft.zafira.gui.DashboardPage;
 import com.qaprosoft.zafira.gui.LoginPage;
+import com.qaprosoft.zafira.service.AuthService;
+import com.qaprosoft.zafira.service.impl.AuthServiceImpl;
 import com.qaprosoft.zafira.util.CommonUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -24,7 +26,8 @@ public class AuthTests extends BaseTest {
     @Test
     @MethodOwner(owner = "brutskov")
     public void verifyValidLoginTest() {
-        simpleLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
+        AuthService authService = new AuthServiceImpl(getDriver());
+        authService.signin(ADMIN_USERNAME, ADMIN_PASSWORD);
         DashboardPage dashboardPage = new DashboardPage(getDriver(), Config.DEFAULT_DASHBOARD_ID.getLongValue());
         Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page not opened");
     }

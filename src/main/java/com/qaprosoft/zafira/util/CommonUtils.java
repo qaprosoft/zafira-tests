@@ -96,6 +96,7 @@ public class CommonUtils {
     public static void clickMenuItem(ExtendedWebElement element, WebDriver driver, String value) {
         WebElement valuesContainer = getMenuValuesContainer(element, driver);
         WebElement valueElement = valuesContainer.findElement(By.xpath(".//*[contains(translate(normalize-space(text()), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + value.toLowerCase() + "')]"));
+        element.pause(1);
         valueElement.click();
     }
 
@@ -128,7 +129,8 @@ public class CommonUtils {
     }
 
     public static void scrollTop(WebDriver driver) {
-        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0)");
+        WebElement element = driver.findElement(By.className("page"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
     }
 
     public static void scrollBottom(WebDriver driver) {
@@ -136,7 +138,7 @@ public class CommonUtils {
     }
 
     public static boolean isChecked(ExtendedWebElement element) {
-        return Boolean.valueOf(element.getAttribute("aria-checked"));
+        return Boolean.parseBoolean(element.getAttribute("aria-checked"));
     }
 
     private static WebElement getMenuValuesContainer(ExtendedWebElement element, WebDriver driver) {

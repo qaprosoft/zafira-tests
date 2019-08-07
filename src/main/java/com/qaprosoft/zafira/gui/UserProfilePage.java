@@ -47,7 +47,7 @@ public class UserProfilePage extends BasePage {
     @FindBy(id = "userPassword")
     private InputMessage inputMessage;
 
-    @FindBy(className = "fa-eye")
+    @FindBy(xpath = ".//*[contains(@class, 'fa-eye')]")
     private ExtendedWebElement eyePasswordButton;
 
     @FindBy(id = "changePassword")

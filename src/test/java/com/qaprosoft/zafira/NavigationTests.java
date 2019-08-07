@@ -48,9 +48,6 @@ public class NavigationTests extends BaseTest {
         page = sidebarService.goToInvitationPage();
         Assert.assertTrue(page.isPageOpened(), "Invitation page is not opened");
 
-        page = sidebarService.goToMonitorPage();
-        Assert.assertTrue(page.isPageOpened(), "Monitor page is not opened");
-
         page = sidebarService.goToIntegrationPage();
         Assert.assertTrue(page.isPageOpened(), "Integration page is not opened");
 

@@ -24,7 +24,16 @@
 					<include name="verifyGenerateAccessTokenTest" />
 				</methods>
 			</class>
+		</classes>
+	</test>
 
+	<test name="Queued tests">
+		<classes>
+			<class name="com.qaprosoft.zafira.UserProfileTests">
+				<methods>
+					<include name="verifyChangePasswordTest" />
+				</methods>
+			</class>
 			<class name="com.qaprosoft.zafira.TestRunTests">
 				<methods>
 					<include name="verifyTestRunRegistrationTest" />
@@ -36,16 +45,6 @@
 					<include name="verifyTestRunMarkAsReviewedTest" />
 					<include name="verifyTestRunSendEmailTest" />
 					<include name="verifyTestRunDeleteTest" />
-				</methods>
-			</class>
-		</classes>
-	</test>
-
-	<test name="Queued tests">
-		<classes>
-			<class name="com.qaprosoft.zafira.UserProfileTests">
-				<methods>
-					<include name="verifyChangePasswordTest" />
 				</methods>
 			</class>
 		</classes>

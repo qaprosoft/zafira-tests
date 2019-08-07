@@ -16,10 +16,10 @@ public abstract class BasePage extends AbstractPage {
     @FindBy(id = "header")
     private Header header;
 
-    @FindBy(className = "ajs-success")
+    @FindBy(css = ".message-toast._success")
     private ExtendedWebElement successAlert;
 
-    @FindBy(className = "ajs-error")
+    @FindBy(css = ".message-toast._error")
     private ExtendedWebElement errorAlert;
 
     @FindBy(className = "ajs-warning")
@@ -27,6 +27,9 @@ public abstract class BasePage extends AbstractPage {
 
     @FindBy(id = "loading-bar-spinner")
     private ExtendedWebElement loaderSpinner;
+
+    @FindBy(xpath = "//md-progress-linear")
+    private ExtendedWebElement progressLinear;
 
     private final Route route;
 
@@ -74,6 +77,10 @@ public abstract class BasePage extends AbstractPage {
 
     public ExtendedWebElement getLoaderSpinner() {
         return loaderSpinner;
+    }
+
+    public ExtendedWebElement getProgressLinear() {
+        return progressLinear;
     }
 
     public Route getRoute() {

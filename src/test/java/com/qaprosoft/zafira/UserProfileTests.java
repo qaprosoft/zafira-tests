@@ -28,15 +28,15 @@ public class UserProfileTests extends BaseTest {
 
     private static final Map<String, String> PASSWORD_TEST_DATA = new HashMap<>();
 
-    private static final String ERR_MSG_LENGTH = "Password must be between 8 and 50 characters";
+    private static final String ERR_MSG_LENGTH = "Password must be between 5 and 50 characters";
     private static final String ERR_MDG_SYMBOLS = "Password must have only latin letters, numbers or special symbols";
 
     static {
         PASSWORD_TEST_DATA.put("q", ERR_MSG_LENGTH);
-        PASSWORD_TEST_DATA.put("qwertyq", ERR_MSG_LENGTH);
-        PASSWORD_TEST_DATA.put("qwe-qwe", ERR_MSG_LENGTH);
+        PASSWORD_TEST_DATA.put("qwer", ERR_MSG_LENGTH);
+        PASSWORD_TEST_DATA.put("q-we", ERR_MSG_LENGTH);
         PASSWORD_TEST_DATA.put("qwertyqwertyqwertyqwertyqwertyqwertyqwertyqwertyqwe", ERR_MSG_LENGTH);
-        PASSWORD_TEST_DATA.put("q-wertyqw", ERR_MDG_SYMBOLS);
+        PASSWORD_TEST_DATA.put("q-wertyqw※", ERR_MDG_SYMBOLS);
     }
 
     private UserProfilePage userProfilePage;
@@ -56,7 +56,7 @@ public class UserProfileTests extends BaseTest {
         UserProfileService userProfileService = new UserProfileServiceImpl(getDriver());
         UploadUserPhotoModal uploadUserPhotoModal = userProfileService.clickUserPhotoButton();
 
-        Assert.assertEquals(uploadUserPhotoModal.getTitleText(), "Profile image", "Upload user profile image modal has invalid header");
+        Assert.assertEquals(uploadUserPhotoModal.getTitleText(), "Upload image", "Upload user profile image modal has invalid header");
         Assert.assertFalse(uploadUserPhotoModal.getUploadButton().getElement().isEnabled(), "Upload image button is enabled");
 
         uploadUserPhotoModal.clickCloseButton();
@@ -94,6 +94,7 @@ public class UserProfileTests extends BaseTest {
         Assert.assertEquals(getInputText(userProfilePage.getEmailInput()), email, "Email is invalid after changing without page reload");
 
         userProfilePage.refresh();
+        pause(ANIMATION_TIMEOUT);
 
         Assert.assertEquals(getInputText(userProfilePage.getFirstNameInput()), newFirstName, "First name is invalid after changing with page reload");
         Assert.assertEquals(getInputText(userProfilePage.getLastNameInput()), newLastName, "Last name is invalid after changing with page reload");
@@ -115,7 +116,7 @@ public class UserProfileTests extends BaseTest {
         Assert.assertEquals(userProfilePage.getNewPasswordInput().getAttribute("type"), "password", "New password input type is not 'password'");
         Assert.assertTrue(getInputText(userProfilePage.getNewPasswordInput()).isEmpty(), "New password input is not empty");
         Assert.assertFalse(userProfilePage.getChangePasswordButton().getElement().isEnabled(), "Change password button is enabled with empty inputs");
-        Assert.assertTrue(userProfilePage.getEyePasswordButton().isElementPresent(1), "Password eye button is not present");
+        Assert.assertTrue(userProfilePage.getEyePasswordButton().isPresent(1), "Password eye button is not present");
 
         Assert.assertEquals(userProfilePage.getOldPasswordInput().getAttribute("type"), "password", "Old password input has not type 'password'");
         Assert.assertEquals(userProfilePage.getNewPasswordInput().getAttribute("type"), "password", "New password input has not type 'password'");
@@ -164,6 +165,7 @@ public class UserProfileTests extends BaseTest {
         SidebarService sidebarService = new SidebarServiceImpl(getDriver(), dashboardPage);
         sidebarService.goToUserProfilePage();
         userProfileService.changePassword(newPassword, ADMIN_PASSWORD);
+        pause(2);
     }
 
     @Test

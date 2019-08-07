@@ -12,7 +12,7 @@ public class TestRunSearchBlock extends AbstractUIObject {
     @FindBy(name = "testRunSearchCheckbox")
     private ExtendedWebElement mainCheckbox;
 
-    @FindBy(className = "tests-runs-search__input-field")
+    @FindBy(css = ".tests-runs-search__input-label input")
     private ExtendedWebElement querySearchInput;
 
     @FindBy(className = "reviewed")
@@ -30,7 +30,7 @@ public class TestRunSearchBlock extends AbstractUIObject {
     @FindBy(id = "searchCalendar")
     private ExtendedWebElement datePickerButton;
 
-    @FindBy(className = "tests-runs-search__reset-btn")
+    @FindBy(xpath = ".//button[.//*[text() = 'RESET']]")
     private ExtendedWebElement resetButton;
 
     public TestRunSearchBlock(WebDriver driver, SearchContext searchContext) {

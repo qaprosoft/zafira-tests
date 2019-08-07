@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class UserProfileSubHeader extends SubHeader {
 
-    @FindBy(xpath = ".//button[.//*[text() = 'logout']]")
+    @FindBy(xpath = ".//button[.//*[text() = 'Logout']]")
     private ExtendedWebElement logoutButton;
 
     public UserProfileSubHeader(WebDriver driver, SearchContext searchContext) {
