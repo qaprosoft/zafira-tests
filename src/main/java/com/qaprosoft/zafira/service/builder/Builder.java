@@ -22,4 +22,8 @@ public enum Builder {
         return (T) builderSupplier.apply(o);
     }
 
+    public <T> T build() {
+        return build(null);
+    }
+
 }

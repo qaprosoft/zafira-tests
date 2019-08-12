@@ -1,6 +1,8 @@
 package com.qaprosoft.zafira.util;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
+import com.qaprosoft.zafira.gui.component.Modal;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
@@ -8,18 +10,27 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class CommonUtils {
+
+    private static final Logger LOGGER = Logger.getLogger(CommonUtils.class);
 
     public static String getInputText(ExtendedWebElement input) {
         return input.getAttribute("value");
@@ -78,7 +89,16 @@ public class CommonUtils {
 
     public static void clickOutside(WebDriver driver) {
         WebElement body = driver.findElement(By.tagName("body"));
-        clickByCoordinates(body, driver, 0, 0);
+        clickOutside(body, driver);
+    }
+
+    public static void clickOutside(WebElement webElement, WebDriver driver) {
+        clickByCoordinates(webElement, driver, 0, 0);
+    }
+
+    public static void clickElementAndOutside(ExtendedWebElement webElement) {
+        webElement.click();
+        clickOutside(webElement.getDriver());
     }
 
     public static void clickByCoordinates(WebElement element, WebDriver driver, int x, int y) {
@@ -155,6 +175,38 @@ public class CommonUtils {
     public static String getAuthorizationCookie(WebDriver driver) {
         Cookie cookie = driver.manage().getCookieNamed("Authorization");
         return cookie == null ? null : cookie.getValue();
+    }
+
+    public static String getTooltipText(WebDriver driver) {
+        WebElement webElement = driver.findElement(By.className("md-panel-outer-wrapper"));
+        return webElement.getText();
+    }
+
+    public static Date parseDate(String textDate, String formatterString) {
+        Date result = null;
+        DateFormat formatter = new SimpleDateFormat(formatterString);
+        try {
+            result = formatter.parse(textDate);
+        } catch (ParseException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return result;
+    }
+
+    public static String formatDate(Date date, String formatterString) {
+        DateFormat formatter = new SimpleDateFormat(formatterString);
+        return formatter.format(date);
+    }
+
+    public static void waitUntilModalIsOpened(WebDriver driver, Modal modal) {
+        Wait<WebDriver> wait = new WebDriverWait(driver, 2);
+        wait.until(ExpectedConditions.visibilityOf(modal.getTitle().getElement()));
+        modal.pause(0.5);
+    }
+
+    public static void waitUntilAlertIsOpened(WebDriver driver) {
+        Wait<WebDriver> wait = new WebDriverWait(driver, 2, 100);
+        wait.until(ExpectedConditions.alertIsPresent());
     }
 
 }

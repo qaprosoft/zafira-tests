@@ -5,12 +5,14 @@ import com.qaprosoft.zafira.gui.DashboardPage;
 import com.qaprosoft.zafira.gui.LoginPage;
 import com.qaprosoft.zafira.gui.UserProfilePage;
 import com.qaprosoft.zafira.gui.component.modals.UploadUserPhotoModal;
+import com.qaprosoft.zafira.models.dto.user.UserType;
 import com.qaprosoft.zafira.service.AuthService;
 import com.qaprosoft.zafira.service.SidebarService;
 import com.qaprosoft.zafira.service.UserProfileService;
 import com.qaprosoft.zafira.service.impl.AuthServiceImpl;
 import com.qaprosoft.zafira.service.impl.SidebarServiceImpl;
 import com.qaprosoft.zafira.service.impl.UserProfileServiceImpl;
+import com.qaprosoft.zafira.service.impl.UserServiceImpl;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -100,14 +102,21 @@ public class UserProfileTests extends BaseTest {
         Assert.assertEquals(getInputText(userProfilePage.getLastNameInput()), newLastName, "Last name is invalid after changing with page reload");
         Assert.assertEquals(getInputText(userProfilePage.getUsernameInput()), username, "Username is invalid after changing with page reload");
         Assert.assertEquals(getInputText(userProfilePage.getEmailInput()), email, "Email is invalid after changing with page reload");
-
-        userProfilePage.typeFirstName(oldFirstName);
-        userProfilePage.typeLastName(oldLastName);
     }
 
     @Test
     @MethodOwner(owner = "brutskov")
     public void verifyChangePasswordTest() {
+        UserServiceImpl userService = new UserServiceImpl(getDriver());
+        UserType userType = userService.buildUsers(1).get(0);
+
+        AuthService authService = new AuthServiceImpl(getDriver());
+        authService.logout();
+        DashboardPage dashboardPage = authService.signin(userType.getUsername(), userType.getPassword());
+
+        SidebarService sidebarService = new SidebarServiceImpl(getDriver(), dashboardPage);
+        userProfilePage = sidebarService.goToUserProfilePage();
+
         String newPassword = "newpassw";
         Assert.assertTrue(userProfilePage.getOldPasswordInput().getElement().isEnabled(), "Old password input is disabled");
         Assert.assertEquals(userProfilePage.getOldPasswordInput().getAttribute("type"), "password", "Old password input type is not 'password'");
@@ -139,7 +148,7 @@ public class UserProfileTests extends BaseTest {
             userProfilePage.getNewPasswordInput().getElement().clear();
         });
 
-        userProfilePage.typeOldPassword(ADMIN_PASSWORD);
+        userProfilePage.typeOldPassword(userType.getPassword());
         userProfilePage.typeNewPassword(newPassword);
         pause(ANIMATION_TIMEOUT);
         Assert.assertEquals(userProfilePage.getInputMessage().getMessages().size(), 0, "Error message is displayed with valid password");
@@ -159,13 +168,9 @@ public class UserProfileTests extends BaseTest {
         UserProfileService userProfileService = new UserProfileServiceImpl(getDriver());
         LoginPage loginPage = userProfileService.clickLogoutButton();
         pause(SMALL_TIMEOUT);
-        AuthService authService = new AuthServiceImpl(getDriver(), loginPage);
-        DashboardPage dashboardPage = authService.signin(ADMIN_USERNAME, newPassword);
+        authService = new AuthServiceImpl(getDriver(), loginPage);
+        dashboardPage = authService.signin(userType.getUsername(), newPassword);
         Assert.assertTrue(dashboardPage.isPageOpened(SMALL_TIMEOUT), "Cannot login with new password");
-        SidebarService sidebarService = new SidebarServiceImpl(getDriver(), dashboardPage);
-        sidebarService.goToUserProfilePage();
-        userProfileService.changePassword(newPassword, ADMIN_PASSWORD);
-        pause(2);
     }
 
     @Test
@@ -179,6 +184,9 @@ public class UserProfileTests extends BaseTest {
 
         userProfilePage.clickGenerateTokenButton();
         Assert.assertTrue(userProfilePage.getSuccessAlert().isElementNotPresent(1), "Success alert is present on generate access token button clicking");
+
+        UserProfileServiceImpl userProfileService = new UserProfileServiceImpl(getDriver());
+        userProfileService.waitProgressLinear();
         accessToken = userProfilePage.getAccessTokenInputText();
         Assert.assertFalse(accessToken.isEmpty(), "Access token is not generated");
         Assert.assertTrue(userProfilePage.getCopyTokenButton().isElementPresent(1), "Copy access token button is not present");

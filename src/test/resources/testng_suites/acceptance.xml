@@ -1,8 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite verbose="1" name="Zafira Acceptance Tests" annotations="JDK">
-	
-	<test parallel="methods" thread-count="5" name="Parallel tests">
+
+	<test parallel="none" thread-count="2" name="Parallel tests">
 		<classes>
 			<class name="com.qaprosoft.zafira.AuthTests">
 				<methods>
@@ -22,6 +22,20 @@
 					<include name="verifyUserPhotoModalTest" />
 					<include name="verifyChangeProfileInformationTest" />
 					<include name="verifyGenerateAccessTokenTest" />
+					<include name="verifyChangePasswordTest" />
+				</methods>
+			</class>
+
+			<class name="com.qaprosoft.zafira.UserTests">
+				<methods>
+					<include name="verifyNavigationTest"/>
+					<include name="verifyUserCreationTest"/>
+					<include name="verifySearchTest"/>
+					<include name="verifyPaginationTest"/>
+					<include name="verifyEditUserTest"/>
+					<include name="verifyDeactivationAndActivationTest"/>
+					<include name="verifyChangePasswordTest"/>
+					<include name="verifyPerformanceDashboardNavigationTest"/>
 				</methods>
 			</class>
 		</classes>
@@ -29,11 +43,6 @@
 
 	<test name="Queued tests">
 		<classes>
-			<class name="com.qaprosoft.zafira.UserProfileTests">
-				<methods>
-					<include name="verifyChangePasswordTest" />
-				</methods>
-			</class>
 			<class name="com.qaprosoft.zafira.TestRunTests">
 				<methods>
 					<include name="verifyTestRunRegistrationTest" />

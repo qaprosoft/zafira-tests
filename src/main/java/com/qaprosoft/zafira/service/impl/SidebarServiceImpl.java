@@ -37,6 +37,7 @@ public class SidebarServiceImpl extends BaseService implements SidebarService {
     @Override
     public DashboardPage goToDashboardPage(String name) {
         DashboardSidebarMenu dashboardSidebarMenu = clickDashboardMenuButton();
+        waitProgressLinear();
         ExtendedWebElement dashboardButton = dashboardSidebarMenu.getItems().stream()
                                                                  .filter(item -> item.getText().equals(name))
                                                                  .findAny()

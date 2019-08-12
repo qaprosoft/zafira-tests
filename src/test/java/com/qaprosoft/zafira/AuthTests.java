@@ -27,7 +27,9 @@ public class AuthTests extends BaseTest {
     @MethodOwner(owner = "brutskov")
     public void verifyValidLoginTest() {
         AuthService authService = new AuthServiceImpl(getDriver());
+        authService.waitProgressLinear();
         authService.signin(ADMIN_USERNAME, ADMIN_PASSWORD);
+        authService.waitProgressLinear();
         DashboardPage dashboardPage = new DashboardPage(getDriver(), Config.DEFAULT_DASHBOARD_ID.getLongValue());
         Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page not opened");
     }
@@ -37,7 +39,10 @@ public class AuthTests extends BaseTest {
     public void verifyInvalidLoginTest() {
         String invalidUsername = "invalid";
         String invalidPassword = "credentials";
+        AuthService authService = new AuthServiceImpl(getDriver());
+        authService.waitProgressLinear();
         simpleLogin(invalidUsername, invalidPassword);
+        authService.waitProgressLinear();
         Assert.assertTrue(loginPage.getInvalidCredentialsLabel().isElementPresent(SMALL_TIMEOUT), "Invalid credentials alert not showed");
         Assert.assertEquals(loginPage.getInvalidCredentialsLabelText(), INVALID_CREDENTIALS, "Invalid credentials text is not valid");
     }

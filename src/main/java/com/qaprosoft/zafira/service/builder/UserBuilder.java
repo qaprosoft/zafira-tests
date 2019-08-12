@@ -6,7 +6,10 @@ import com.qaprosoft.zafira.models.dto.user.UserType;
 public class UserBuilder extends BaseBuilder {
 
     static UserType buildUser() {
-        return callItem(client -> client.createUser(generateUser())).orElseThrow(() -> new BuilderException("User was not created"));
+        UserType userToCreate = generateUser();
+        UserType createdUser = callItem(client ->  client.createUser(userToCreate)).orElseThrow(() -> new BuilderException("User was not created"));
+        createdUser.setPassword(userToCreate.getPassword());
+        return createdUser;
     }
 
     private static UserType generateUser() {
@@ -14,7 +17,10 @@ public class UserBuilder extends BaseBuilder {
         String email = generateRandomString() + "@qaprosoft.com";
         String firstName = generateRandomString();
         String lastName = generateRandomString();
-        return new UserType(username, email, firstName, lastName);
+        String password = generateRandomString();
+        UserType userType =  new UserType(username, email, firstName, lastName);
+        userType.setPassword(password);
+        return userType;
     }
 
 }

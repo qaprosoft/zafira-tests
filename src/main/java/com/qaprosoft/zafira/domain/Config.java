@@ -11,6 +11,7 @@ public enum Config {
 
     DEFAULT_DASHBOARD_ID("dashboard.default.id"),
     DEFAULT_DASHBOARD_NAME("dashboard.default.name"),
+    PERFORMANCE_DASHBOARD_ID("dashboard.performance.id"),
 
     CONFIG_XML_APP_VERSION("app_version"),
     CONFIG_XML_ENVIRONMENT("env"),

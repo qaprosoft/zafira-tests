@@ -1,16 +1,14 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.qaprosoft.zafira.gui.BasePage;
+import com.qaprosoft.zafira.service.UIService;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
-public abstract class BaseService<T extends BasePage> {
+public abstract class BaseService<T extends BasePage> implements UIService {
 
     protected final WebDriver driver;
     protected final Class<T> pageClass;
@@ -51,12 +49,10 @@ public abstract class BaseService<T extends BasePage> {
         return page == null ? result : page;
     }
 
-    public void waitProgressLinear() {
+    @Override
+    public boolean waitProgressLinear() {
         T page = getUIObject(driver);
-        if (page.getProgressLinear().isElementPresent(1)) {
-            Wait<WebDriver> wait = new WebDriverWait(driver, 15, 100);
-            wait.until(ExpectedConditions.invisibilityOf(page.getProgressLinear().getElement()));
-        }
+        return page.getProgressLinear().isPresent(1) && page.getProgressLinear().waitUntilElementDisappear(15);
     }
 
 }

@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class Pagination extends AbstractUIObject {
 
-    @FindBy(className = "label")
+    @FindBy(css = ".buttons .label")
     private ExtendedWebElement countLabel;
 
     @FindBy(xpath = ".//button[.//*[contains(@md-svg-icon, 'first')]]")
@@ -24,7 +24,7 @@ public class Pagination extends AbstractUIObject {
     private ExtendedWebElement navigateLastButton;
 
     public Pagination(WebDriver driver, SearchContext searchContext) {
-        super(driver, searchContext);
+        super(driver);
     }
 
     public ExtendedWebElement getCountLabel() {

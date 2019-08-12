@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <carina.version>6.1.18</carina.version>
+        <carina.version>6.1.24</carina.version>
     </properties>
 
     <dependencies>
