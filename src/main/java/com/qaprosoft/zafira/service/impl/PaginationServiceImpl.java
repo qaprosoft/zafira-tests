@@ -2,6 +2,7 @@ package com.qaprosoft.zafira.service.impl;
 
 import com.qaprosoft.zafira.gui.component.table.BaseTable;
 import com.qaprosoft.zafira.service.PaginationService;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 
 public class PaginationServiceImpl extends BaseService implements PaginationService {
@@ -17,21 +18,21 @@ public class PaginationServiceImpl extends BaseService implements PaginationServ
     public int getFromItemValue() {
         String countLabelText = table.getPagination().getCountLabelText();
         String fromValue = countLabelText.split("-")[0].trim();
-        return Integer.valueOf(fromValue);
+        return StringUtils.isBlank(fromValue) ? 0 : Integer.valueOf(fromValue);
     }
 
     @Override
     public int getToItemValue() {
         String countLabelText = table.getPagination().getCountLabelText();
         String toValue = countLabelText.split("-")[1].split("of")[0].trim();
-        return Integer.valueOf(toValue);
+        return StringUtils.isBlank(countLabelText) ? 0 : Integer.valueOf(toValue);
     }
 
     @Override
     public int getTotalItemsValue() {
         String countLabelText = table.getPagination().getCountLabelText();
         String totalValue = countLabelText.split("of")[1].trim();
-        return Integer.valueOf(totalValue);
+        return StringUtils.isBlank(countLabelText) ? 0 : Integer.valueOf(totalValue);
     }
 
 }

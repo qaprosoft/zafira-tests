@@ -41,18 +41,18 @@ public class UserProfileTests extends BaseTest {
         PASSWORD_TEST_DATA.put("q-wertyqw※", ERR_MDG_SYMBOLS);
     }
 
-    private UserProfilePage userProfilePage;
-
     @BeforeMethod
     public void setup() {
         DashboardPage dashboardPage = signin();
         SidebarService sidebarService = new SidebarServiceImpl(getDriver(), dashboardPage);
-        this.userProfilePage = sidebarService.goToUserProfilePage();
+        sidebarService.goToUserProfilePage();
     }
 
     @Test
     @MethodOwner(owner = "brutskov")
     public void verifyUserPhotoModalTest() {
+        UserProfilePage userProfilePage = new UserProfilePage(getDriver());
+        userProfilePage.waitUntilPageIsLoaded();
         Assert.assertTrue(userProfilePage.getProfilePhotoContainer().isElementPresent(1), "User profile photo container is not present");
 
         UserProfileService userProfileService = new UserProfileServiceImpl(getDriver());
@@ -69,6 +69,7 @@ public class UserProfileTests extends BaseTest {
     @Test
     @MethodOwner(owner = "brutskov")
     public void verifyChangeProfileInformationTest() {
+        UserProfilePage userProfilePage = new UserProfilePage(getDriver());
         Assert.assertEquals(userProfilePage.getUserRoleLabelText(), "ROLE_ADMIN", "User role label text is invalid");
 
         Assert.assertFalse(userProfilePage.getEmailInput().getElement().isEnabled(), "Username input is enabled");
@@ -96,7 +97,8 @@ public class UserProfileTests extends BaseTest {
         Assert.assertEquals(getInputText(userProfilePage.getEmailInput()), email, "Email is invalid after changing without page reload");
 
         userProfilePage.refresh();
-        pause(ANIMATION_TIMEOUT);
+        userProfilePage.waitUntilPageIsLoaded();
+        userProfilePage.waitProgressLinear();
 
         Assert.assertEquals(getInputText(userProfilePage.getFirstNameInput()), newFirstName, "First name is invalid after changing with page reload");
         Assert.assertEquals(getInputText(userProfilePage.getLastNameInput()), newLastName, "Last name is invalid after changing with page reload");
@@ -115,7 +117,7 @@ public class UserProfileTests extends BaseTest {
         DashboardPage dashboardPage = authService.signin(userType.getUsername(), userType.getPassword());
 
         SidebarService sidebarService = new SidebarServiceImpl(getDriver(), dashboardPage);
-        userProfilePage = sidebarService.goToUserProfilePage();
+        UserProfilePage userProfilePage = sidebarService.goToUserProfilePage();
 
         String newPassword = "newpassw";
         Assert.assertTrue(userProfilePage.getOldPasswordInput().getElement().isEnabled(), "Old password input is disabled");
@@ -176,6 +178,7 @@ public class UserProfileTests extends BaseTest {
     @Test
     @MethodOwner(owner = "brutskov")
     public void verifyGenerateAccessTokenTest() {
+        UserProfilePage userProfilePage = new UserProfilePage(getDriver());
         String accessToken = userProfilePage.getAccessTokenInputText();
         Assert.assertTrue(accessToken.isEmpty(), "Access token input is not empty on page load");
 

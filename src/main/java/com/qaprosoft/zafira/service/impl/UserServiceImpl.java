@@ -98,6 +98,8 @@ public class UserServiceImpl extends BaseService<UserPage> implements UserServic
         userInfoModal.clickDeactivateButton();
         CommonUtils.waitUntilAlertIsOpened(driver);
         driver.switchTo().alert().accept();
+        waitProgressLinear();
+        userInfoModal.getDeactivateButton().waitUntilElementDisappear(5);
     }
 
     @Override
@@ -106,6 +108,8 @@ public class UserServiceImpl extends BaseService<UserPage> implements UserServic
         userInfoModal.clickActivateButton();
         CommonUtils.waitUntilAlertIsOpened(driver);
         driver.switchTo().alert().accept();
+        waitProgressLinear();
+        userInfoModal.getActivateButton().waitUntilElementDisappear(5);
     }
 
     private UserType buildUser() {

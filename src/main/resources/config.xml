@@ -156,7 +156,7 @@
     </arg>
     <arg unique="false">
         <key>enable_l10n</key>
-        <value>true</value>
+        <value>false</value>
     </arg>
     <arg unique="false">
         <key>l10n_encoding</key>
@@ -168,7 +168,7 @@
     </arg>
     <arg unique="false">
         <key>enable_i18n</key>
-        <value>true</value>
+        <value>false</value>
     </arg>
     <arg unique="false">
         <key>language</key>

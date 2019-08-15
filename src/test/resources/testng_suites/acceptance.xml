@@ -2,7 +2,7 @@
 
 <suite verbose="1" name="Zafira Acceptance Tests" annotations="JDK">
 
-	<test parallel="none" thread-count="2" name="Parallel tests">
+	<test parallel="methods" thread-count="10" name="Parallel tests">
 		<classes>
 			<class name="com.qaprosoft.zafira.AuthTests">
 				<methods>
@@ -38,6 +38,16 @@
 					<include name="verifyPerformanceDashboardNavigationTest"/>
 				</methods>
 			</class>
+
+			<class name="com.qaprosoft.zafira.TestRunTests">
+				<methods>
+					<include name="verifyTestRunOpenTest" />
+					<include name="verifyTestRunCopyLinkTest" />
+					<include name="verifyTestRunMarkAsReviewedTest" />
+					<include name="verifyTestRunSendEmailTest" />
+					<include name="verifyTestRunDeleteTest" />
+				</methods>
+			</class>
 		</classes>
 	</test>
 
@@ -49,11 +59,6 @@
 					<include name="verifyNavigationTest" />
 					<include name="verifySearchTest" />
 					<include name="verifyPaginationTest" />
-					<include name="verifyTestRunOpenTest" />
-					<include name="verifyTestRunCopyLinkTest" />
-					<include name="verifyTestRunMarkAsReviewedTest" />
-					<include name="verifyTestRunSendEmailTest" />
-					<include name="verifyTestRunDeleteTest" />
 				</methods>
 			</class>
 		</classes>

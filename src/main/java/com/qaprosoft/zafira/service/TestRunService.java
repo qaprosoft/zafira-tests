@@ -15,6 +15,8 @@ public interface TestRunService {
 
     void search(String query, boolean reviewed, String status, String environment, String platform, LocalDateTime date);
 
+    void search(String query);
+
     void clearSearch();
 
     CompletableFuture<List<TestRunCollector>> generateTestRuns(int count, int passedCount, int failedCount, int knownIssueCount, int blockerCount,

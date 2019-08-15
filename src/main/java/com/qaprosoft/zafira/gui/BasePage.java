@@ -86,4 +86,9 @@ public abstract class BasePage extends AbstractPage {
     public Route getRoute() {
         return route;
     }
+
+    public boolean waitProgressLinear() {
+        return getProgressLinear().isPresent(1) && getProgressLinear().waitUntilElementDisappear(15);
+    }
+
 }

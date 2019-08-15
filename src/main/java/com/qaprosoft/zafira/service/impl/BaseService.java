@@ -52,7 +52,7 @@ public abstract class BaseService<T extends BasePage> implements UIService {
     @Override
     public boolean waitProgressLinear() {
         T page = getUIObject(driver);
-        return page.getProgressLinear().isPresent(1) && page.getProgressLinear().waitUntilElementDisappear(15);
+        return page.waitProgressLinear();
     }
 
 }

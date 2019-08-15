@@ -62,18 +62,17 @@ public class UserTests extends BaseTest {
             new DefaultKeyValue((Function<UserInfoModal, InputMessage>) userInfoModal -> {userInfoModal.typePassword(RandomStringUtils.randomAlphabetic(51));;return userInfoModal.getPasswordInputMessage();}, PASSWORD_LENGTH_ERROR_MESSAGE)
     );
 
-    private UserPage userPage;
-
     @BeforeMethod
     public void setup() {
         DashboardPage dashboardPage = signin();
         SidebarService sidebarService = new SidebarServiceImpl(getDriver(), dashboardPage);
-        this.userPage = sidebarService.goToUserPage();
+        sidebarService.goToUserPage();
     }
 
     @Test
     @MethodOwner(owner = "brutskov")
     public void verifyNavigationTest() {
+        UserPage userPage = new UserPage(getDriver());
         UserSubHeader userSubHeader = userPage.getUserSubHeader();
         Assert.assertEquals(userSubHeader.getTitleText(), "Users", "User page subheader title is incorrect");
         Assert.assertTrue(userSubHeader.getSearchInput().isElementPresent(2), "User page subheader search input does not exist");
@@ -126,6 +125,7 @@ public class UserTests extends BaseTest {
 
         userInfoModal.clickCreateButton();
         userService.waitProgressLinear();
+        UserPage userPage = new UserPage(getDriver());
         Assert.assertEquals(userPage.getSuccessAlertText(), "User created", "Success message is incorrect");
 
         AuthService authService = new AuthServiceImpl(getDriver());
@@ -141,7 +141,7 @@ public class UserTests extends BaseTest {
         List<UserType> userTypes = userService.buildUsers(1);
         UserType userType = userTypes.get(0);
 
-        userPage = userService.search(Long.toString(userType.getId()));
+        UserPage userPage = userService.search(Long.toString(userType.getId()));
         UserTableRow row = userPage.getUserTable().getUserTableRows().get(0);
         verifyUserTableRow(row, userType);
 
@@ -175,19 +175,21 @@ public class UserTests extends BaseTest {
     @Test
     @MethodOwner(owner = "brutskov")
     public void verifyPaginationTest() {
+        UserPage userPage = new UserPage(getDriver());
         PaginationService paginationService = new PaginationServiceImpl(getDriver(), userPage.getUserTable());
         int totalUsers = paginationService.getToItemValue();
 
         int countToGenerate = totalUsers < 25 ? 25 - totalUsers : totalUsers;
         UserService userService = new UserServiceImpl(getDriver());
         userService.buildUsers(countToGenerate);
+        userPage.refresh();
 
         Pagination pagination = userPage.getUserTable().getPagination();
 
-        verifyPagination(pagination::clickNavigateNextButton);
-        verifyPagination(pagination::clickNavigateBeforeButton);
-        verifyPagination(pagination::clickNavigateLastButton);
-        verifyPagination(pagination::clickNavigateFirstButton);
+        verifyPagination(userPage, pagination::clickNavigateNextButton);
+        verifyPagination(userPage, pagination::clickNavigateBeforeButton);
+        verifyPagination(userPage, pagination::clickNavigateLastButton);
+        verifyPagination(userPage, pagination::clickNavigateFirstButton);
     }
 
     @Test
@@ -196,7 +198,7 @@ public class UserTests extends BaseTest {
         UserServiceImpl userService = new UserServiceImpl(getDriver());
         UserType userType = userService.buildUsers(1).get(0);
 
-        userPage = userService.search(userType.getUsername());
+        UserPage userPage = userService.search(userType.getUsername());
 
         UserInfoModal userInfoModal = userService.clickEditUserButton(userPage.getUserTable().getUserTableRows().get(0));
         verifyUserEditModal(userInfoModal, userType);
@@ -227,9 +229,9 @@ public class UserTests extends BaseTest {
         UserServiceImpl userService = new UserServiceImpl(getDriver());
         UserType userType = userService.buildUsers(1).get(0);
 
-        userPage = userService.search(userType.getUsername());
+        UserPage userPage = userService.search(userType.getUsername());
         userService.deactivateUser(userPage.getUserTable().getUserTableRows().get(0));
-        userService.waitProgressLinear();
+        pause(ANIMATION_TIMEOUT);
         Assert.assertEquals(userPage.getUserTable().getUserTableRows().get(0).getStatusLabelText(), "INACTIVE", "User status in incorrect after user status change");
         userPage.getUserSubHeader().getSearchInput().getElement().clear();
         userService.waitProgressLinear();
@@ -240,7 +242,7 @@ public class UserTests extends BaseTest {
         Assert.assertFalse(userInfoModal.getDeactivateButton().isElementPresent(2), "Deactivate button is present if user in inactive");
         userInfoModal.clickCloseButton();
         userService.activateUser(userPage.getUserTable().getUserTableRows().get(0));
-        userService.waitProgressLinear();
+        pause(ANIMATION_TIMEOUT);
 
         Assert.assertEquals(userPage.getUserTable().getUserTableRows().get(0).getStatusLabelText(), "ACTIVE", "User status in incorrect after user status change");
         userPage.getUserSubHeader().getSearchInput().getElement().clear();
@@ -254,7 +256,7 @@ public class UserTests extends BaseTest {
     public void verifyChangePasswordTest() {
         UserServiceImpl userService = new UserServiceImpl(getDriver());
         UserType userType = userService.buildUsers(1).get(0);
-        userPage = userService.search(userType.getUsername());
+        UserPage userPage = userService.search(userType.getUsername());
 
         ChangePasswordModal changePasswordModal = userService.clickChangePasswordButton(userPage.getUserTable().getUserTableRows().get(0));
         Assert.assertEquals(changePasswordModal.getTitleText(), "Change password", "Change password modal title is incorrect");
@@ -282,7 +284,7 @@ public class UserTests extends BaseTest {
     public void verifyPerformanceDashboardNavigationTest() {
         UserServiceImpl userService = new UserServiceImpl(getDriver());
         UserType userType = userService.buildUsers(1).get(0);
-        userPage = userService.search(userType.getUsername());
+        UserPage userPage = userService.search(userType.getUsername());
 
         DashboardPage dashboardPage = userService.clickPerformanceButton(userPage.getUserTable().getUserTableRows().get(0));
         userService.waitProgressLinear();
@@ -303,7 +305,7 @@ public class UserTests extends BaseTest {
         Assert.assertTrue(row.getMenuButton().isElementPresent(2), "Menu button is not present");
     }
 
-    private void verifyPagination(Runnable paginationAction) {
+    private void verifyPagination(UserPage userPage, Runnable paginationAction) {
         String firstRowUsername = userPage.getUserTable().getUserTableRows().get(0).getUsernameLabelText();
         paginationAction.run();
         UserServiceImpl userService = new UserServiceImpl(getDriver());

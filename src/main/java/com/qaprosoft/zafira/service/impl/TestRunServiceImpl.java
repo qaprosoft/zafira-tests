@@ -25,7 +25,7 @@ import java.util.stream.IntStream;
 
 public class TestRunServiceImpl extends BaseService<TestRunPage> implements TestRunService {
 
-    private static final long SEARCH_TIMEOUT = 2L;
+    private static final double SEARCH_TIMEOUT = 0.8;
 
     public TestRunServiceImpl(WebDriver driver) {
         super(driver, TestRunPage.class);
@@ -64,6 +64,12 @@ public class TestRunServiceImpl extends BaseService<TestRunPage> implements Test
             dateRangeModal.clickSubmitButton();
         }
         testRunPage.pause(SEARCH_TIMEOUT);
+        testRunPage.waitProgressLinear();
+    }
+
+    @Override
+    public void search(String query) {
+        search(query, false, null, null, null, null);
     }
 
     @Override
@@ -72,6 +78,7 @@ public class TestRunServiceImpl extends BaseService<TestRunPage> implements Test
         TestRunSearchBlock searchBlock = testRunPage.getSearchBlock();
         searchBlock.clickResetButton();
         testRunPage.pause(SEARCH_TIMEOUT);
+        testRunPage.waitProgressLinear();
     }
 
     @Override
@@ -81,7 +88,7 @@ public class TestRunServiceImpl extends BaseService<TestRunPage> implements Test
             List<TestRunCollector> testRunTypes = new ArrayList<>();
             TestRunPage testRunPage = getUIObject(driver);
             int totalCount = testRunPage.getSubHeader().getItemsCount();
-            int countToAdd = toCount ? count - totalCount > 0 ? count - totalCount : 0 : count;
+            int countToAdd = toCount ? Math.max(count - totalCount, 0) : count;
             IntStream stream = parallel ? IntStream.range(0, countToAdd).parallel() : IntStream.range(0, countToAdd);
             stream.forEach(index -> testRunTypes.add(buildTestRun(passedCount, failedCount, knownIssueCount, blockerCount, skippedCount, abortedCount, inProgressCount)));
             return testRunTypes;

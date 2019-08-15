@@ -41,23 +41,22 @@ import static com.qaprosoft.zafira.util.CommonUtils.waitForCompletableFuture;
 
 public class TestRunTests extends BaseTest {
 
-    private TestRunPage testRunPage;
-
     @BeforeMethod
     public void setup() {
         DashboardPage dashboardPage = signin();
         SidebarService sidebarService = new SidebarServiceImpl(getDriver(), dashboardPage);
-        this.testRunPage = sidebarService.goToTestRunPage();
+        sidebarService.goToTestRunPage();
     }
 
     @Test
     @MethodOwner(owner = "brutskov")
     public void verifyTestRunRegistrationTest() {
         TestRunService testRunService = new TestRunServiceImpl(getDriver());
+        TestRunPage testRunPage = new TestRunPage(getDriver());
         int currentCount = testRunPage.getSubHeader().getItemsCount();
         List<TestRunCollector> testRunCollectors = waitForCompletableFuture(testRunService.generateTestRuns(2, false, false));
         Assert.assertEquals(testRunPage.getSubHeader().getItemsCount(), currentCount + testRunCollectors.size(), "Test run total count is not changed after new test runs registration");
-        verifyGeneratedTestRuns(testRunCollectors);
+        verifyGeneratedTestRuns(testRunPage, testRunCollectors);
     }
 
     @Test
@@ -65,6 +64,7 @@ public class TestRunTests extends BaseTest {
     public void verifyNavigationTest() {
         TestRunService testRunService = new TestRunServiceImpl(getDriver());
         CompletableFuture<List<TestRunCollector>> testRunsBuildFuture = testRunService.generateTestRuns(2, true, true);
+        TestRunPage testRunPage = new TestRunPage(getDriver());
         TestRunSubHeader subHeader = testRunPage.getSubHeader();
         Assert.assertTrue(subHeader.getTitleText().matches("Test runs \\([0-9]+\\)"), "Incorrect test runs page title");
         Assert.assertTrue(subHeader.getItemsCountLabel().isElementPresent(1), "Test runs total count label is not present");
@@ -123,6 +123,7 @@ public class TestRunTests extends BaseTest {
         TestRunService testRunService = new TestRunServiceImpl(getDriver());
         CompletableFuture<List<TestRunCollector>> testRunsBuildFuture = testRunService.generateTestRuns(1, 2, 0, 0, 0, 0, 0, 0, false, false);
         CompletableFuture<CompletableFuture<List<TestRunCollector>>> testRunsBuildSecondFuture = testRunsBuildFuture.thenApply(testRunCollectors -> testRunService.generateTestRuns(1, false, false));
+        TestRunPage testRunPage = new TestRunPage(getDriver());
         TestRunSearchBlock searchBlock = testRunPage.getSearchBlock();
         Assert.assertTrue(searchBlock.getMainCheckbox().isElementPresent(1), "Main checkbox is not present");
         Assert.assertTrue(searchBlock.getQuerySearchInput().isElementPresent(1), "Search query input is not present");
@@ -149,34 +150,34 @@ public class TestRunTests extends BaseTest {
         testRunService.markAsReviewed(1, "test");
 
         testRunService.search(testRunCollector.getTestSuiteType().getName().substring(0, 5), false, null, null, null, null);
-        verifyGeneratedTestRuns(testRunCollectors);
+        verifyGeneratedTestRuns(testRunPage, testRunCollectors);
         testRunService.clearSearch();
 
         TestRunTableRow row = testRunPage.getTable().getRows().get(1);
         Assert.assertEquals(row.getTestSuiteNameLableText(), testRunCollector.getTestSuiteType().getName(), "Search clear logic is incorrect");
 
         testRunService.search(testRunCollector.getJobType().getJobURL(), false, null, null, null, null);
-        verifyGeneratedTestRuns(testRunCollectors);
+        verifyGeneratedTestRuns(testRunPage, testRunCollectors);
         testRunService.clearSearch();
 
         testRunService.search(Config.CONFIG_XML_APP_VERSION.getValue(), false, "PASSED", null, null, null);
-        verifyGeneratedTestRuns(testRunCollectors);
+        verifyGeneratedTestRuns(testRunPage, testRunCollectors);
         testRunService.clearSearch();
 
         testRunService.search(null, true, "PASSED", null, null, null);
-        verifyGeneratedTestRuns(testRunCollectors);
+        verifyGeneratedTestRuns(testRunPage, testRunCollectors);
         testRunService.clearSearch();
 
         testRunService.search(null, false, "PASSED", Config.CONFIG_XML_ENVIRONMENT.getConfigXmlValue(), null, null);
-        verifyGeneratedTestRuns(testRunCollectors);
+        verifyGeneratedTestRuns(testRunPage, testRunCollectors);
         testRunService.clearSearch();
 
         testRunService.search(null, false, "PASSED", null, Config.CONFIG_XML_BROWSER.getConfigXmlValue(), null);
-        verifyGeneratedTestRuns(testRunCollectors);
+        verifyGeneratedTestRuns(testRunPage, testRunCollectors);
         testRunService.clearSearch();
 
         testRunService.search(null, false, "PASSED", null, null, LocalDateTime.now());
-        verifyGeneratedTestRuns(testRunCollectors);
+        verifyGeneratedTestRuns(testRunPage, testRunCollectors);
         testRunService.clearSearch();
     }
 
@@ -186,6 +187,7 @@ public class TestRunTests extends BaseTest {
         TestRunService testRunService = new TestRunServiceImpl(getDriver());
         CompletableFuture<List<TestRunCollector>> testRunsBuildFuture = testRunService.generateTestRuns(25, true, true);
 
+        TestRunPage testRunPage = new TestRunPage(getDriver());
         Assert.assertTrue(testRunPage.getTable().getPagination().getCountLabel().isElementPresent(1), "Pagination count label is not present");
         Assert.assertTrue(testRunPage.getTable().getPagination().getNavigateFirstButton().isElementPresent(1), "Pagination navigate first button is not present");
         Assert.assertTrue(testRunPage.getTable().getPagination().getNavigateBeforeButton().isElementPresent(1), "Pagination navigate before button is not present");
@@ -202,7 +204,7 @@ public class TestRunTests extends BaseTest {
         boolean isNextEnabled = true;
 
         while(isNextEnabled) {
-            isNextEnabled = verifyPaginationInfo(paginationService, page, count);
+            isNextEnabled = verifyPaginationInfo(testRunPage, paginationService, page, count);
             testRunPage.getTable().getPagination().clickNavigateNextButton();
             page ++;
         }
@@ -212,18 +214,18 @@ public class TestRunTests extends BaseTest {
 
         while(isNextEnabled) {
             page --;
-            verifyPaginationInfo(paginationService, page, count);
+            verifyPaginationInfo(testRunPage, paginationService, page, count);
             testRunPage.getTable().getPagination().clickNavigateBeforeButton();
             isNextEnabled = page != 0;
         }
 
         testRunPage.getTable().getPagination().clickNavigateLastButton();
         page = totalPageCount;
-        verifyPaginationInfo(paginationService, page, count);
+        verifyPaginationInfo(testRunPage, paginationService, page, count);
 
         testRunPage.getTable().getPagination().clickNavigateFirstButton();
         page = 0;
-        verifyPaginationInfo(paginationService, page, count);
+        verifyPaginationInfo(testRunPage, paginationService, page, count);
     }
 
     @Test
@@ -232,6 +234,7 @@ public class TestRunTests extends BaseTest {
         TestRunService testRunService = new TestRunServiceImpl(getDriver());
         List<TestRunCollector> testRunCollectors = waitForCompletableFuture(testRunService.generateTestRuns(1, false, false));
         TestRunCollector testRunCollector = testRunCollectors.get(0);
+        testRunService.search(testRunCollector.getTestSuiteType().getName());
         Set<String> handles = getDriver().getWindowHandles();
         TestRunItemPage testRunItemPage = testRunService.open(0, testRunCollector.getTestRunType().getId());
         Assert.assertTrue(testRunItemPage.isPageOpened(), "Test run open logic is not correct");
@@ -245,6 +248,7 @@ public class TestRunTests extends BaseTest {
         TestRunService testRunService = new TestRunServiceImpl(getDriver());
         List<TestRunCollector> testRunCollectors = waitForCompletableFuture(testRunService.generateTestRuns(1, false, false));
         TestRunCollector testRunCollector = testRunCollectors.get(0);
+        testRunService.search(testRunCollector.getTestSuiteType().getName());
         String generatedUrl = testRunService.copyLink(0, testRunCollector.getTestRunType().getId());
         Assert.assertEquals(CommonUtils.getStringFromBuffer(), generatedUrl, "Test run copied link is incorrect");
     }
@@ -255,6 +259,8 @@ public class TestRunTests extends BaseTest {
         TestRunService testRunService = new TestRunServiceImpl(getDriver());
         List<TestRunCollector> testRunCollectors = waitForCompletableFuture(testRunService.generateTestRuns(1, 2, 0, 0, 0, 0, 0, 0, false, false));
         TestRunCollector testRunCollector = testRunCollectors.get(0);
+        testRunService.search(testRunCollector.getTestSuiteType().getName());
+        TestRunPage testRunPage = new TestRunPage(getDriver());
         TestRunTableRow row = testRunPage.getTable().getRows().get(0);
         ReviewedModal reviewedModal = testRunService.clickMarkAsReviewedButton(row);
 
@@ -264,6 +270,7 @@ public class TestRunTests extends BaseTest {
 
         reviewedModal.typeComment("test");
         reviewedModal.clickMarkAsReviewedButton();
+        reviewedModal.getMarkAsReviewedButton().waitUntilElementDisappear(5);
 
         Assert.assertEquals(testRunPage.getSuccessAlertText(), "Test run #" + testRunCollector.getTestRunType().getId() + " marked as reviewed", "Mark as reviewed success alert has incorrect text");
         Assert.assertTrue(row.getReviewedIcon().isElementPresent(1), "Reviewed icon is not present");
@@ -284,17 +291,21 @@ public class TestRunTests extends BaseTest {
     @MethodOwner(owner = "brutskov")
     public void verifyTestRunSendEmailTest() {
         TestRunService testRunService = new TestRunServiceImpl(getDriver());
-        waitForCompletableFuture(testRunService.generateTestRuns(1, true, false));
+        List<TestRunCollector> testRunCollectors = waitForCompletableFuture(testRunService.generateTestRuns(1, false, false));
+        TestRunCollector testRunCollector = testRunCollectors.get(0);
+        testRunService.search(testRunCollector.getTestSuiteType().getName());
         SendAsEmailModal sendAsEmailModal = testRunService.clickSendAsEmailButton(0);
 
         Assert.assertEquals(sendAsEmailModal.getTitleText(), "Email", "Send as email modal title is incorrect");
         Assert.assertTrue(sendAsEmailModal.getEmailsInput().getElement().isEnabled(), "Emails input is disabled");
         Assert.assertTrue(sendAsEmailModal.getSendButton().getElement().isEnabled(), "Send email button is disabled");
         sendAsEmailModal.clickSendButton();
+        TestRunPage testRunPage = new TestRunPage(getDriver());
         Assert.assertTrue(testRunPage.isElementWithTextPresent(testRunPage.getErrorAlert(), "Add a recipient!"), "Send email error alert text is incorrect");
         sendAsEmailModal.getEmailsInput().click();
         sendAsEmailModal.typeRecipients("test@test.test");
         sendAsEmailModal.clickSendButton();
+        sendAsEmailModal.getSendButton().waitUntilElementDisappear(5);
         Assert.assertEquals(testRunPage.getSuccessAlertText(), "Email was successfully sent!", "Send email success alert text is incorrect");
     }
 
@@ -304,11 +315,14 @@ public class TestRunTests extends BaseTest {
         TestRunService testRunService = new TestRunServiceImpl(getDriver());
         List<TestRunCollector> testRunCollectors = waitForCompletableFuture(testRunService.generateTestRuns(1, false, false));
         TestRunCollector testRunCollector = testRunCollectors.get(0);
+        testRunService.search(testRunCollector.getTestSuiteType().getName());
+        TestRunPage testRunPage = new TestRunPage(getDriver());
         TestRunTableRow row = testRunPage.getTable().getRows().get(0);
 
         Assert.assertEquals(row.getTestSuiteNameLableText(), testRunCollector.getTestSuiteType().getName(), "Test run was not generated");
 
         testRunService.delete(0);
+        testRunService.clearSearch();
 
         Assert.assertEquals(testRunPage.getSuccessAlertText(), "Test run #" + testRunCollector.getTestRunType().getId() + " removed", "Test run delete success alert is not valid");
         testRunPage = new TestRunPage(getDriver());
@@ -316,7 +330,7 @@ public class TestRunTests extends BaseTest {
         Assert.assertNotEquals(row.getTestSuiteNameLableText(), testRunCollector.getTestSuiteType().getName(), "Test run is present after deleting");
     }
 
-    private void verifyGeneratedTestRuns(List<TestRunCollector> testRunCollectors) {
+    private void verifyGeneratedTestRuns(TestRunPage testRunPage, List<TestRunCollector> testRunCollectors) {
         TestRunService testRunService = new TestRunServiceImpl(getDriver());
         IntStream.range(0, testRunCollectors.size()).forEach(index -> {
             int revertedIndex = testRunCollectors.size() - index - 1;
@@ -383,7 +397,7 @@ public class TestRunTests extends BaseTest {
      * @param totalCount - total itemsCount
      * @return isNextButtonEnabled
      */
-    private boolean verifyPaginationInfo(PaginationService paginationService, int pageCount, int totalCount) {
+    private boolean verifyPaginationInfo(TestRunPage testRunPage, PaginationService paginationService, int pageCount, int totalCount) {
 
         int defaultFromValue = 1;
         int defaultPaginationItemsCount = 20;
