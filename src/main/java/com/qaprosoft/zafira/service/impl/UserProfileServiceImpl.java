@@ -28,7 +28,9 @@ public class UserProfileServiceImpl extends BaseService<UserProfilePage> impleme
     public UploadUserPhotoModal clickUserPhotoButton() {
         UserProfilePage userProfilePage = getUIObject(driver);
         CommonUtils.hoverAndClickOn(userProfilePage.getProfilePhotoContainer(), userProfilePage.getProfilePhotoIconButton(), driver);
-        return new UploadUserPhotoModal(driver);
+        UploadUserPhotoModal uploadUserPhotoModal = new UploadUserPhotoModal(driver);
+        CommonUtils.waitUntilModalIsOpened(driver, uploadUserPhotoModal);
+        return uploadUserPhotoModal;
     }
 
     @Override

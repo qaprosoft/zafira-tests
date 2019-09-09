@@ -294,13 +294,15 @@ public class TestRunTests extends BaseTest {
         List<TestRunCollector> testRunCollectors = waitForCompletableFuture(testRunService.generateTestRuns(1, false, false));
         TestRunCollector testRunCollector = testRunCollectors.get(0);
         testRunService.search(testRunCollector.getTestSuiteType().getName());
+
+        TestRunPage testRunPage = new TestRunPage(getDriver());
+        testRunPage.waitProgressLinear();
         SendAsEmailModal sendAsEmailModal = testRunService.clickSendAsEmailButton(0);
 
         Assert.assertEquals(sendAsEmailModal.getTitleText(), "Email", "Send as email modal title is incorrect");
         Assert.assertTrue(sendAsEmailModal.getEmailsInput().getElement().isEnabled(), "Emails input is disabled");
         Assert.assertTrue(sendAsEmailModal.getSendButton().getElement().isEnabled(), "Send email button is disabled");
         sendAsEmailModal.clickSendButton();
-        TestRunPage testRunPage = new TestRunPage(getDriver());
         Assert.assertTrue(testRunPage.isElementWithTextPresent(testRunPage.getErrorAlert(), "Add a recipient!"), "Send email error alert text is incorrect");
         sendAsEmailModal.getEmailsInput().click();
         sendAsEmailModal.typeRecipients("test@test.test");
@@ -365,6 +367,7 @@ public class TestRunTests extends BaseTest {
         });
 
         testRunItemPage.getTestRunItemSubHeader().clickBackButton();
+        testRunItemPage.waitProgressLinear();
     }
 
     private void verifyTestRunCommonInfo(TestRunTableRow row, TestRunCollector testRunCollector) {

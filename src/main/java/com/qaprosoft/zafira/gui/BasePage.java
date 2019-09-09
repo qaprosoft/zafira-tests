@@ -16,7 +16,7 @@ public abstract class BasePage extends AbstractPage {
     @FindBy(id = "header")
     private Header header;
 
-    @FindBy(css = ".message-toast._success")
+    @FindBy(css = ".message-toast._success .md-toast-text")
     private ExtendedWebElement successAlert;
 
     @FindBy(css = ".message-toast._error")
