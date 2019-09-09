@@ -106,7 +106,7 @@ public class UserProfileTests extends BaseTest {
         Assert.assertEquals(getInputText(userProfilePage.getEmailInput()), email, "Email is invalid after changing with page reload");
     }
 
-    @Test
+    @Test(enabled = false)
     @MethodOwner(owner = "brutskov")
     public void verifyChangePasswordTest() {
         UserServiceImpl userService = new UserServiceImpl(getDriver());
