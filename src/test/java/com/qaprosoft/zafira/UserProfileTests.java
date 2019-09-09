@@ -13,6 +13,7 @@ import com.qaprosoft.zafira.service.impl.AuthServiceImpl;
 import com.qaprosoft.zafira.service.impl.SidebarServiceImpl;
 import com.qaprosoft.zafira.service.impl.UserProfileServiceImpl;
 import com.qaprosoft.zafira.service.impl.UserServiceImpl;
+import com.qaprosoft.zafira.util.CommonUtils;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -23,7 +24,6 @@ import java.util.Map;
 
 import static com.qaprosoft.zafira.util.CommonUtils.clickAndHold;
 import static com.qaprosoft.zafira.util.CommonUtils.getInputText;
-import static com.qaprosoft.zafira.util.CommonUtils.getStringFromBuffer;
 import static com.qaprosoft.zafira.util.CommonUtils.releaseAction;
 
 public class UserProfileTests extends BaseTest {
@@ -197,7 +197,10 @@ public class UserProfileTests extends BaseTest {
         userProfilePage.clickCopyTokenButton();
         Assert.assertTrue(userProfilePage.getSuccessAlert().isElementPresent(2), "Success alert is not visible");
 
-        String copiedToken = getStringFromBuffer();
+        userProfilePage.getAccessTokenInput().getElement().clear();
+        Assert.assertTrue(userProfilePage.getAccessTokenInputText().isEmpty(), "Cannot clear access token input to test clipboard");
+        CommonUtils.pastTo(userProfilePage.getAccessTokenInput());
+        String copiedToken = userProfilePage.getAccessTokenInputText();
         Assert.assertEquals(copiedToken, accessToken, "Access token is invalid");
     }
 

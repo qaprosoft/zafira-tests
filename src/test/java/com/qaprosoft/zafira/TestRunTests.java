@@ -250,7 +250,13 @@ public class TestRunTests extends BaseTest {
         TestRunCollector testRunCollector = testRunCollectors.get(0);
         testRunService.search(testRunCollector.getTestSuiteType().getName());
         String generatedUrl = testRunService.copyLink(0, testRunCollector.getTestRunType().getId());
-        Assert.assertEquals(CommonUtils.getStringFromBuffer(), generatedUrl, "Test run copied link is incorrect");
+
+        TestRunPage testRunPage = new TestRunPage(getDriver());
+        testRunPage.getSearchBlock().getQuerySearchInput().getElement().clear();
+        Assert.assertTrue(CommonUtils.getInputText(testRunPage.getSearchBlock().getQuerySearchInput()).isEmpty(), "Cannot clear access token input to test clipboard");
+        CommonUtils.pastTo(testRunPage.getSearchBlock().getQuerySearchInput());
+        String copiedUrl = CommonUtils.getInputText(testRunPage.getSearchBlock().getQuerySearchInput());
+        Assert.assertEquals(copiedUrl, generatedUrl, "Test run copied link is incorrect");
     }
 
     @Test

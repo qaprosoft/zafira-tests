@@ -14,11 +14,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,23 +36,15 @@ public class CommonUtils {
         return valueLabel.getText();
     }
 
-    public static void pastTo(ExtendedWebElement element, WebDriver driver) {
+    public static void pastTo(ExtendedWebElement element) {
         String osName = System.getProperty("os.name");
         Keys ctrlKey = osName.toLowerCase().contains("mac") ? Keys.COMMAND : Keys.CONTROL;
-        Actions action = new Actions(driver);
-        action.sendKeys(Keys.chord(ctrlKey, "v")).build().perform();
+        LOGGER.info("OS name is " + osName);
+        pastToInput(element, ctrlKey);
     }
 
-    public static String getStringFromBuffer() {
-        String result = null;
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Clipboard clipboard = toolkit.getSystemClipboard();
-        try {
-            result = (String) clipboard.getData(DataFlavor.stringFlavor);
-        } catch (UnsupportedFlavorException | IOException e) {
-            e.printStackTrace();
-        }
-        return result;
+    private static void pastToInput(ExtendedWebElement element, Keys keys) {
+        element.getElement().sendKeys(Keys.chord(Keys.CONTROL, "v"));
     }
 
     public static void hoverAndClickOn(ExtendedWebElement hoverElement, ExtendedWebElement clickElement, WebDriver driver) {
