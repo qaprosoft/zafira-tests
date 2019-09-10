@@ -56,7 +56,21 @@ public abstract class BasePage extends AbstractPage {
     }
 
     public String getSuccessAlertText() {
-        return getSuccessAlert().isElementPresent(EXPLICIT_TIMEOUT) ? successAlert.getText() : null;
+        String result = null;
+        boolean alertIsPresent = getSuccessAlert().isElementPresent(EXPLICIT_TIMEOUT);
+        if (alertIsPresent) {
+            waitForNotEmptyElement(getSuccessAlert(), 0.2, 2);
+            result = getSuccessAlert().getText();
+        }
+        return result;
+    }
+
+    private void waitForNotEmptyElement(ExtendedWebElement webElement, double timeout, int attemps) {
+        if (webElement.getText().isBlank() && attemps != 0) {
+            pause(timeout);
+            attemps --;
+            waitForNotEmptyElement(webElement, timeout, attemps);
+        }
     }
 
     public ExtendedWebElement getErrorAlert() {
