@@ -89,6 +89,7 @@ public class UserServiceImpl extends BaseService<UserPage> implements UserServic
         UserPage userPage = getUIObject(driver);
         userPage.getUserSubHeader().typeSearchInput(searchText);
         waitProgressLinear();
+        userPage.pause(0.2);
         return new UserPage(driver);
     }
 
