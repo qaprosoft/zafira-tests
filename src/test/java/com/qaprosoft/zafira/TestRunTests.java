@@ -293,7 +293,8 @@ public class TestRunTests extends BaseTest {
         Assert.assertEquals(testRunPage.getSuccessAlertText(), "Test run #" + testRunCollector.getTestRunType().getId() + " marked as reviewed", "Mark as reviewed success alert has incorrect text");
     }
 
-    @Test
+    // TODO: 9/11/19 enable test after bug connected with integrations update handling will be fixed 
+    @Test(enabled = false)
     @MethodOwner(owner = "brutskov")
     public void verifyTestRunSendEmailTest() {
         TestRunService testRunService = new TestRunServiceImpl(getDriver());
