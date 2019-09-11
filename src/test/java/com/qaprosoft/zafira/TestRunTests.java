@@ -293,7 +293,7 @@ public class TestRunTests extends BaseTest {
         Assert.assertEquals(testRunPage.getSuccessAlertText(), "Test run #" + testRunCollector.getTestRunType().getId() + " marked as reviewed", "Mark as reviewed success alert has incorrect text");
     }
 
-    // TODO: 9/11/19 enable test after bug connected with integrations update handling will be fixed 
+    // TODO: 9/11/19 enable test after bug connected with integrations update handling will be fixed
     @Test(enabled = false)
     @MethodOwner(owner = "brutskov")
     public void verifyTestRunSendEmailTest() {
@@ -333,7 +333,7 @@ public class TestRunTests extends BaseTest {
         testRunService.delete(0);
         testRunService.clearSearch();
 
-        Assert.assertEquals(testRunPage.getSuccessAlertText(), "Test run #" + testRunCollector.getTestRunType().getId() + " removed", "Test run delete success alert is not valid");
+        testRunPage.getSuccessAlert().assertElementWithTextPresent("Test run #" + testRunCollector.getTestRunType().getId() + " removed", 2);
         testRunPage = new TestRunPage(getDriver());
         row = testRunPage.getTable().getRows().get(0);
         Assert.assertNotEquals(row.getTestSuiteNameLableText(), testRunCollector.getTestSuiteType().getName(), "Test run is present after deleting");
