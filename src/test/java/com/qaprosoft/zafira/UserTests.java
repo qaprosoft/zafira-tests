@@ -164,6 +164,7 @@ public class UserTests extends BaseTest {
         pause(ANIMATION_TIMEOUT);
         userPage.getUserSubHeader().getSearchInput().getElement().clear();
         pause(0.8);
+        userPage.waitProgressLinear();
         userType.setStatus(INACTIVE);
         userPage = userService.search(INACTIVE.name());
         row = userPage.getUserTable().getUserTableRows().get(0);
