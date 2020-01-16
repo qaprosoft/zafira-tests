@@ -1,0 +1,32 @@
+{
+  "id": "regex:[\\d]",
+  "modifiedAt": "regex:[\\d]",
+  "createdAt": "regex:[\\d]",
+  "name": "type:String",
+  "status": "FAILED",
+  "testArgs": "type:String",
+  "testRunId": "regex:[\\d]",
+  "testCaseId": "regex:[\\d]",
+  "testGroup": "type:String",
+  "message": "type:String",
+  "messageHashCode": "regex:[\\d]",
+  "startTime": "regex:[\\d]",
+  "finishTime": "regex:[\\d]",
+  "retry": "regex:[\\d]",
+  "testConfig": {
+    "id": "regex:[\\d]",
+    "modifiedAt": "regex:[\\d]",
+    "createdAt": "regex:[\\d]"
+  },
+  "workItems": [],
+  "knownIssue": "type:Boolean",
+  "blocker": "type:Boolean",
+  "needRerun": "type:Boolean",
+  "owner": "type:String",
+  "dependsOnMethods": "type:String",
+  "testClass": "type:String",
+  "artifacts": [],
+  "ciTestId": "type:String",
+  "tags": [],
+  "notNullTestGroup": "type:String"
+}

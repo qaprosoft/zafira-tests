@@ -1,0 +1,24 @@
+[
+  {
+    "id": "regex:[\\d]",
+    "name": "type:String",
+    "model": "string",
+    "type": "string",
+    "scmAccountType": {
+      "id": "regex:[\\d]",
+      "organizationName": "type:String",
+      "repositoryName": "type:String",
+      "repositoryURL": "type:String"
+    },
+    "presets": null,
+    "job": {
+      "id": "regex:[\\d]",
+      "name": "type:String",
+      "jobURL": "type:String",
+      "jenkinsHost": "type:String",
+      "userId": "regex:[\\d]",
+      "automationServerId": "regex:[\\d]"
+    },
+    "autoScan": true
+  }
+]

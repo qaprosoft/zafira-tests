@@ -66,7 +66,7 @@ public abstract class BasePage extends AbstractPage {
     }
 
     private void waitForNotEmptyElement(ExtendedWebElement webElement, double timeout, int attemps) {
-        if (webElement.getText().isBlank() && attemps != 0) {
+        if (webElement.getText().trim().isEmpty() && attemps != 0) {
             pause(timeout);
             attemps --;
             waitForNotEmptyElement(webElement, timeout, attemps);

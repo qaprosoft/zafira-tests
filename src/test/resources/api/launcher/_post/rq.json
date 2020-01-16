@@ -1,0 +1,35 @@
+{
+  "autoScan": true,
+  "id": 0,
+  "job": {
+    "automationServerId": 0,
+    "id": 0,
+    "jenkinsHost": "https://ci.qaprosoft.farm",
+    "jobURL": "https://ci.qaprosoft.farm/job/automation/job/launcher",
+    "name": "string",
+    "userId": 0
+  },
+  "model": "string",
+  "name": "string",
+  "presets": [
+    {
+      "id": 0,
+      "name": "string",
+      "params": "string"
+    }
+  ],
+  "scmAccountType": {
+    "apiVersion": "string",
+    "avatarURL": "string",
+    "defaultBranch": "string",
+    "id": ${
+  id
+},
+"name": "GITHUB",
+"organizationName": "string",
+"repositoryName": "string",
+"repositoryURL": "string",
+"userId": 0
+},
+"type": "string"
+}

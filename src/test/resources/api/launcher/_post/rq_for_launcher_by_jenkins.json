@@ -1,0 +1,12 @@
+{
+  "jenkinsJobs": [
+    {
+      "parameters": "string",
+      "type": "string",
+      "url": "string"
+    }
+  ],
+  "repo": "automation",
+  "success": true,
+  "userId": 2
+}

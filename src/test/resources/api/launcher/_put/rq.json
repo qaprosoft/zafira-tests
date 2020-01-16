@@ -1,0 +1,26 @@
+{
+  "id": ${
+  id
+},
+"name": "string",
+"model": "string",
+"type": "${type}",
+"scmAccountType": {
+"id": 1,
+"apiVersion": "string",
+"organizationName": "string",
+"repositoryName": "selenideex",
+"avatarURL": "https://avatars1.githubusercontent.com/u/43011516?v=4",
+"repositoryURL": "https://github.com/secourse2019/selenideex"
+},
+"presets": null,
+"job": {
+"id": 1,
+"name": "launcher",
+"jobURL": "https://ci.qaprosoft.farm/job/automation/job/launcher",
+"jenkinsHost": "https://ci.qaprosoft.farm",
+"userId": 3,
+"automationServerId": 13
+},
+"autoScan": false
+}

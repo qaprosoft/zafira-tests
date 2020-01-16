@@ -187,13 +187,13 @@ public class CommonUtils {
 
     public static void waitUntilModalIsOpened(WebDriver driver, Modal modal) {
         Wait<WebDriver> wait = new WebDriverWait(driver, 2);
-        wait.until(ExpectedConditions.visibilityOf(modal.getTitle().getElement()));
+        //wait.until(ExpectedConditions.visibilityOf(modal.getTitle().getElement()));
         modal.pause(0.5);
     }
 
     public static void waitUntilAlertIsOpened(WebDriver driver) {
         Wait<WebDriver> wait = new WebDriverWait(driver, 2, 100);
-        wait.until(ExpectedConditions.alertIsPresent());
+        //wait.until(ExpectedConditions.alertIsPresent());
     }
 
 }

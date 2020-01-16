@@ -1,0 +1,24 @@
+{
+  "id": "regex:[\\d]",
+  "name": "string",
+  "model": "string",
+  "type": "string",
+  "scmAccountType": {
+    "id": "regex:[\\d]",
+    "apiVersion": "string",
+    "organizationName": "string",
+    "repositoryName": "string",
+    "avatarURL": "string",
+    "repositoryURL": "string"
+  },
+  "presets": null,
+  "job": {
+    "id": "regex:[\\d]",
+    "name": "launcher",
+    "jobURL": "https://ci.qaprosoft.farm/job/automation/job/launcher",
+    "jenkinsHost": "https://ci.qaprosoft.farm",
+    "userId": "regex:[\\d]",
+    "automationServerId": "regex:[\\d]"
+  },
+  "autoScan": false
+}

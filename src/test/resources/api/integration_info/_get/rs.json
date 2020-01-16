@@ -1,0 +1,162 @@
+{
+  "STORAGE_PROVIDER": {
+    "AMAZON": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": null,
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ]
+  },
+  "MAIL": {
+    "EMAIL": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": null,
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ]
+  },
+  "AUTOMATION_SERVER": {
+    "JENKINS": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": null,
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ]
+  },
+  "SLACK": {
+    "SLACK": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": null,
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ]
+  },
+  "ACCESS_MANAGEMENT": {
+    "LDAP": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": null,
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ]
+  },
+  "TEST_CASE_MANAGEMENT": {
+    "TESTRAIL": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": null,
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ],
+    "JIRA": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": null,
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ],
+    "QTEST": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": null,
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ]
+  },
+  "TEST_AUTOMATION_TOOL": {
+    "LAMBDATEST": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": "type:String",
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ],
+    "MCLOUD": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": "type:String",
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ],
+    "AEROKUBE": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": "type:String",
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ],
+    "ZEBRUNNER": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": "type:String",
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ],
+    "SAUCELABS": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": "type:String",
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ],
+    "SELENIUM": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": null,
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ],
+    "BROWSERSTACK": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": "type:String",
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ]
+  },
+  "MESSAGE_BROKER": {
+    "RABBITMQ": [
+      {
+        "integrationId": "regex:[\\d]",
+        "integrationBackReferenceId": null,
+        "connected": "type:Boolean",
+        "enabled": "type:Boolean",
+        "default": "type:Boolean"
+      }
+    ]
+  }
+}

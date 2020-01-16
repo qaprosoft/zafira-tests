@@ -1,0 +1,29 @@
+{
+  "blocker": true,
+  "buildNumber": 0,
+  "ciRunId": "string",
+  "configXML": "",
+  "id": ${
+  id
+},
+"jobId": ${jobId},
+"knownIssue": true,
+"project": {
+"description": "string",
+"id": 0,
+"name": "string"
+},
+"reviewed": true,
+"scmBranch": "string",
+"scmCommit": "string",
+"scmURL": "string",
+"startedBy": "HUMAN",
+"status": "UNKNOWN",
+"testSuiteId": ${
+testSuiteId
+},
+"upstreamJobBuildNumber": 0,
+"upstreamJobId": 0,
+"userId": 0,
+"workItem": "${workItem}"
+}

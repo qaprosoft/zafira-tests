@@ -3,8 +3,8 @@ package com.qaprosoft.zafira.service.builder;
 import com.qaprosoft.zafira.domain.Config;
 import com.qaprosoft.zafira.domain.TestRunCollector;
 import com.qaprosoft.zafira.exception.BuilderException;
+import com.qaprosoft.zafira.models.db.Initiator;
 import com.qaprosoft.zafira.models.db.Status;
-import com.qaprosoft.zafira.models.db.TestRun;
 import com.qaprosoft.zafira.models.dto.JobType;
 import com.qaprosoft.zafira.models.dto.TestCaseType;
 import com.qaprosoft.zafira.models.dto.TestRunType;
@@ -130,7 +130,7 @@ public class TestRunBuilder extends BaseBuilder {
         }
         long userId = Config.ADMIN_ID.getLongValue();
         int buildNumber = RandomUtils.nextInt();
-        TestRun.Initiator startedBy = TestRun.Initiator.HUMAN;
+        Initiator startedBy = Initiator.HUMAN;
         return new TestRunType(ciRunId, testSuiteId, null, null, null, configXml, jobId, buildNumber, startedBy, null);
     }
 
