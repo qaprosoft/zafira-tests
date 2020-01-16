@@ -16,6 +16,7 @@ public class ConfigConstant {
     public static final String LINK_KEY = "link";
     public static final String EXPECTED_JIRA_ID_KEY = "jiraId";
     public static final String WORK_ITEM_TYPE_KEY = "work_item_type";
-    public static final String JENKINS_MOCK_HOST = "jenkins_mock_host";
+    public static final String JENKINS_MOCK_HOST_KEY = "jenkins_mock_host";
+    public static final String EMAIL_INTEGRATION_ID_KEY = "email_integration_id";
 
 }

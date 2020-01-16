@@ -5,8 +5,10 @@ import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
+import com.qaprosoft.zafira.constant.TimeConstant;
 import com.qaprosoft.zafira.domain.EmailMsg;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.enums.IntegrationGroupType;
 import com.qaprosoft.zafira.manager.BashExecutorManager;
 import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.manager.EmailManager;
@@ -84,6 +86,10 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test
     public void testSendTestRunResultEmail() {
         String token = new APIContextManager().getAccessToken();
+        Assert.assertTrue(
+                new IntegrationServiceImpl().isIntegrationEnabled(token,
+                        R.TESTDATA.getInt(ConfigConstant.EMAIL_INTEGRATION_ID_KEY), IntegrationGroupType.MAIL),
+                "Email integration disabled!");
         int testRunId = createTestRun(token, 1);
         new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
         String expectedTestRunIdInMail = String.format("%s/%s/%s", APIContextManager.BASE_URL,
@@ -231,6 +237,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
         final int lastEmailIndex = 0;
         final int emailsCount = 1;
         LOGGER.info("Will get last email from inbox.");
+        pause(TimeConstant.SHORT_TIMEOUT); // depence from connection, wait a little bit
         EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
         return email.getContent().contains(testrunURL);
     }

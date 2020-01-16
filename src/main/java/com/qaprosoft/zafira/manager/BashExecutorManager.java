@@ -33,7 +33,7 @@ public class BashExecutorManager {
         String scriptPath = "src/main/mock/jenkins_mock/initJenkinsMockServer.sh";
         makeScriptExecutableForAllUsersAndGroups(scriptPath);
         String absoluteScriptPath = new File(scriptPath).getAbsolutePath();
-        String[] cmd = {"bash", absoluteScriptPath, R.CONFIG.get(ConfigConstant.JENKINS_MOCK_HOST)};
+        String[] cmd = {"bash", absoluteScriptPath, R.CONFIG.get(ConfigConstant.JENKINS_MOCK_HOST_KEY)};
         Process p = null;
         exec(p, cmd);
     }
