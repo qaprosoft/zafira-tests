@@ -2,7 +2,9 @@ package com.qaprosoft.zafira.service;
 
 public interface TestRunServiceAPI {
 
-    int getId(String accessToken, int testSuiteId, int jobId);
+    int create(String accessToken, int testSuiteId, int jobId);
+
+    String getCiRunId(String accessToken, int testSuiteId);
 
     String finishTestRun(String accessToken, int testRunId);
 

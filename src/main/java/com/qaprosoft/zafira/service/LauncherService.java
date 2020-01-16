@@ -8,9 +8,9 @@ public interface LauncherService {
 
     int getById(String accessToken, int id);
 
-    int post(String accessToken, int autoServerId, int accountTypeId);
+    int create(String accessToken, int autoServerId, int accountTypeId);
 
-    int put(String accessToken, int id, String valueToUpdate);
+    int update(String accessToken, int id, String valueToUpdate);
 
     void deleteById(String accessToken, int id);
 

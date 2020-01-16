@@ -22,7 +22,7 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public int getId(String accessToken, int testCaseId, int testRunId) {
+    public int create(String accessToken, int testCaseId, int testRunId) {
         String response = apiExecutor.callApiMethod(new PostStartTestMethod(accessToken, testCaseId, testRunId),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);

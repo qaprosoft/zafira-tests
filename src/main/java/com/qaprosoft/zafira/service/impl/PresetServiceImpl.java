@@ -22,7 +22,7 @@ public class PresetServiceImpl implements PresetService {
     }
 
     @Override
-    public int post(String accessToken, int launcherId) {
+    public int create(String accessToken, int launcherId) {
         String postPresetRs = apiExecutor.callApiMethod(new PostLauncherPresetMethod(accessToken, launcherId),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         return JsonPath.from(postPresetRs).getInt(JSONConstant.ID_KEY);

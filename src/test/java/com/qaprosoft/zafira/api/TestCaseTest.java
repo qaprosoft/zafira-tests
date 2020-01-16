@@ -12,7 +12,7 @@ public class TestCaseTest extends ZariraAPIBaseTest {
     public void testCreateTestCase() {
         APIContextManager manager = new APIContextManager();
         String token = manager.getAccessToken();
-        int testSuiteId = new TestSuiteServiceImpl().getId(token);
+        int testSuiteId = new TestSuiteServiceImpl().create(token);
         apiExecutor.callApiMethod(new PostTestCaseMethod(token, testSuiteId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }

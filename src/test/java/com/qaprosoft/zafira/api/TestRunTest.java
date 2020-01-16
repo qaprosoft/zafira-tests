@@ -29,6 +29,8 @@ public class TestRunTest extends ZariraAPIBaseTest {
 
     private final static Logger LOGGER = Logger.getLogger(TestRunTest.class);
 
+    private final int TESTS_TO_ADD = 1;
+
     @BeforeTest
     public void startServer() {
         BashExecutorManager.getInstance().initJenkinsMockServerWithData();
@@ -37,8 +39,8 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test
     public void testStartTestRun() {
         String token = new APIContextManager().getAccessToken();
-        int testSuiteId = new TestSuiteServiceImpl().getId(token);
-        int jobId = new JobServiceImpl().getId(token);
+        int testSuiteId = new TestSuiteServiceImpl().create(token);
+        int jobId = new JobServiceImpl().create(token);
         apiExecutor.callApiMethod(new PostStartTestRunMethod(token, testSuiteId, jobId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
@@ -46,9 +48,9 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test
     public void testUpdateTestRun() {
         String token = new APIContextManager().getAccessToken();
-        int testSuiteId = new TestSuiteServiceImpl().getId(token);
-        int jobId = new JobServiceImpl().getId(token);
-        int testRunId = new TestRunServiceAPIImpl().getId(token, testSuiteId, jobId);
+        int testSuiteId = new TestSuiteServiceImpl().create(token);
+        int jobId = new JobServiceImpl().create(token);
+        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
         String expectedWorkItemValue = R.TESTDATA.get(ConfigConstant.WORK_ITEM_KEY);
         String putLauncherRs = apiExecutor.callApiMethod(
                 new PutTestRunMethod(token, testSuiteId, jobId, testRunId, expectedWorkItemValue),
@@ -60,7 +62,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test
     public void testGetTestRun() {
         String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, 1);
+        int testRunId = createTestRun(token, TESTS_TO_ADD);
         apiExecutor.callApiMethod(new GetTestRunMethod(token, testRunId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
@@ -68,7 +70,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test
     public void testDeleteTestRun() {
         String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, 1);
+        int testRunId = createTestRun(token, TESTS_TO_ADD);
         apiExecutor.callApiMethod(new DeleteTestRunMethod(token, testRunId), HTTPStatusCodeType.OK, false, null);
         apiExecutor.callApiMethod(new GetTestRunMethod(token, testRunId), HTTPStatusCodeType.NOT_FOUND, false, null);
 
@@ -77,7 +79,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test
     public void testFinishTestRun() {
         String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, 1);
+        int testRunId = createTestRun(token, TESTS_TO_ADD);
         String expectedTestRunStatus = R.TESTDATA.get(ConfigConstant.STATUS_EXPECTED_KEY);
         String testRunStatus = new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
         Assert.assertEquals(testRunStatus, expectedTestRunStatus, "TestRun was not finish!");
@@ -90,7 +92,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
                 new IntegrationServiceImpl().isIntegrationEnabled(token,
                         R.TESTDATA.getInt(ConfigConstant.EMAIL_INTEGRATION_ID_KEY), IntegrationGroupType.MAIL),
                 "Email integration disabled!");
-        int testRunId = createTestRun(token, 1);
+        int testRunId = createTestRun(token, TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
         String expectedTestRunIdInMail = String.format("%s/%s/%s", APIContextManager.BASE_URL,
                 R.TESTDATA.get(ConfigConstant.TEST_RUN_URL_PREFIX_KEY), testRunId);
@@ -103,7 +105,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test
     public void testGetTestRunResultHtmlText() {
         String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, 1);
+        int testRunId = createTestRun(token, TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
         apiExecutor.callApiMethod(new GetTestRunResultHtmlTextMethod(token, testRunId), HTTPStatusCodeType.OK, false,
                 null);
@@ -112,7 +114,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test
     public void testMarkTestRunReviewed() {
         String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, 1);
+        int testRunId = createTestRun(token, TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
         apiExecutor.callApiMethod(new PostMarkTestRunReviewedMethod(token, testRunId), HTTPStatusCodeType.OK, false,
                 null);
@@ -122,11 +124,11 @@ public class TestRunTest extends ZariraAPIBaseTest {
     public void testGetTestByTestRunId() {
         TestServiceImpl testServiceImpl = new TestServiceImpl();
         String token = new APIContextManager().getAccessToken();
-        int testSuiteId = new TestSuiteServiceImpl().getId(token);
-        int jobId = new JobServiceImpl().getId(token);
-        int testRunId = new TestRunServiceAPIImpl().getId(token, testSuiteId, jobId);
-        int testCaseId = new TestCaseServiceImpl().getId(token, testSuiteId);
-        int testId = testServiceImpl.getId(token, testCaseId, testRunId);
+        int testSuiteId = new TestSuiteServiceImpl().create(token);
+        int jobId = new JobServiceImpl().create(token);
+        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
+        int testCaseId = new TestCaseServiceImpl().create(token, testSuiteId);
+        int testId = testServiceImpl.create(token, testCaseId, testRunId);
         testServiceImpl.finishTest(token, testCaseId, testRunId, testId);
         apiExecutor.callApiMethod(new GetTestByTestRunIdMethod(token, testRunId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
@@ -135,7 +137,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testBuildTestRunJob() {
         String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, 1);
+        int testRunId = createTestRun(token, TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
         apiExecutor.callApiMethod(new PostTestRunByJobMethod(token, testRunId), HTTPStatusCodeType.OK, false, null);
     }
@@ -143,7 +145,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testDebugJob() {
         String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, 1);
+        int testRunId = createTestRun(token, TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
 
         apiExecutor.callApiMethod(new GetDebugJobMethod(token, testRunId), HTTPStatusCodeType.OK, false, null);
@@ -152,7 +154,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testGetTestRunJobParameters() {
         String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, 1);
+        int testRunId = createTestRun(token, TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
 
         apiExecutor.callApiMethod(new GetTestRunJobParametersMethod(token, testRunId), HTTPStatusCodeType.OK, true,
@@ -167,7 +169,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test(dataProvider = "rerunFailuresDataProvider", enabled = false) //TODO: enable this test when jenkins mock container will be up)
     public void testGetTestRunJobById(boolean rerunFailures) {
         String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, 1);
+        int testRunId = createTestRun(token, TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
 
         apiExecutor.callApiMethod(new GetRerunTestRunByIdMethod(token, testRunId, rerunFailures), HTTPStatusCodeType.OK,
@@ -177,7 +179,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test(dataProvider = "rerunFailuresDataProvider", enabled = false) //TODO: enable this test when jenkins mock container will be up)
     public void testRerunTestRunJob(boolean rerunFailures) {
         String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, 1);
+        int testRunId = createTestRun(token, TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
 
         apiExecutor.callApiMethod(new PostRerunTestRunJobsMethod(token, rerunFailures), HTTPStatusCodeType.OK, false,
@@ -187,10 +189,8 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testAbortTestRun() {
         String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, 1);
-        String ciRunId = JsonPath.from(
-                apiExecutor.callApiMethod(new GetTestRunMethod(token, testRunId), HTTPStatusCodeType.OK, false, null))
-                .getString(JSONConstant.CI_RUN_ID_KEY);
+        int testRunId = createTestRun(token, TESTS_TO_ADD);
+        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(token, testRunId);
         apiExecutor.callApiMethod(new PostAbortTestRunMethod(token, testRunId, ciRunId), HTTPStatusCodeType.OK, false,
                 null);
     }
@@ -198,10 +198,8 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testAbortTestRunCi() {
         String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, 1);
-        String ciRunId = JsonPath.from(
-                apiExecutor.callApiMethod(new GetTestRunMethod(token, testRunId), HTTPStatusCodeType.OK, false, null))
-                .getString(JSONConstant.CI_RUN_ID_KEY);
+        int testRunId = createTestRun(token, TESTS_TO_ADD);
+        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(token, testRunId);
         apiExecutor.callApiMethod(new GetAbortTestRunCiMethod(token, testRunId, ciRunId), HTTPStatusCodeType.OK, false,
                 null);
     }
@@ -209,10 +207,8 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testAbortTestRunDebug() {
         String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, 1);
-        String ciRunId = JsonPath.from(
-                apiExecutor.callApiMethod(new GetTestRunMethod(token, testRunId), HTTPStatusCodeType.OK, false, null))
-                .getString(JSONConstant.CI_RUN_ID_KEY);
+        int testRunId = createTestRun(token, TESTS_TO_ADD);
+        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(token, testRunId);
         apiExecutor.callApiMethod(new GetAbortDebugTestRunMethod(token, testRunId, ciRunId), HTTPStatusCodeType.OK,
                 false, null);
     }
@@ -220,10 +216,8 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testGetBuildConsoleOutput() {
         String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, 1);
-        String ciRunId = JsonPath.from(
-                apiExecutor.callApiMethod(new GetTestRunMethod(token, testRunId), HTTPStatusCodeType.OK, false, null))
-                .getString(JSONConstant.CI_RUN_ID_KEY);
+        int testRunId = createTestRun(token, TESTS_TO_ADD);
+        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(token, testRunId);
         apiExecutor.callApiMethod(new GetBuildConsoleOutputMethod(token, ciRunId), HTTPStatusCodeType.OK, false, null);
     }
 
@@ -237,7 +231,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
         final int lastEmailIndex = 0;
         final int emailsCount = 1;
         LOGGER.info("Will get last email from inbox.");
-        pause(TimeConstant.SHORT_TIMEOUT); // depence from connection, wait a little bit
+        pause(TimeConstant.SHORT_TIMEOUT); // decency from connection, wait a little bit
         EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
         return email.getContent().contains(testrunURL);
     }

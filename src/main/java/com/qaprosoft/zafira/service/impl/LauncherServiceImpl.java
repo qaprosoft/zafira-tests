@@ -47,7 +47,7 @@ public class LauncherServiceImpl implements LauncherService {
      * @return id of launcher
      */
     @Override
-    public int post(String accessToken, int autoServerId, int accountTypeId) {
+    public int create(String accessToken, int autoServerId, int accountTypeId) {
         String postLauncherRs = apiExecutor.callApiMethod(
                 new PostLauncherMethod(accessToken, autoServerId, accountTypeId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
@@ -55,7 +55,7 @@ public class LauncherServiceImpl implements LauncherService {
     }
 
     @Override
-    public int put(String accessToken, int id, String valueToUpdate) {
+    public int update(String accessToken, int id, String valueToUpdate) {
         String putLauncherRs = apiExecutor.callApiMethod(new PutLauncherMethod(accessToken, id, valueToUpdate),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         return JsonPath.from(putLauncherRs).getInt(JSONConstant.ID_KEY);

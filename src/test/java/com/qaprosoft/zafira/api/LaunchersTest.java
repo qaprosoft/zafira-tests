@@ -36,7 +36,7 @@ public class LaunchersTest extends ZariraAPIBaseTest {
         String token = manager.getAccessToken();
         int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        new LauncherServiceImpl().post(token, autoServerId, accountTypeId);
+        new LauncherServiceImpl().create(token, autoServerId, accountTypeId);
         apiExecutor.callApiMethod(new GetAllLaunchersMethod(token), HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
@@ -57,7 +57,7 @@ public class LaunchersTest extends ZariraAPIBaseTest {
         String token = manager.getAccessToken();
         int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        int launcherId = new LauncherServiceImpl().post(token, autoServerId, accountTypeId);
+        int launcherId = new LauncherServiceImpl().create(token, autoServerId, accountTypeId);
         apiExecutor.callApiMethod(new GetLauncherByIdMethod(token, launcherId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
@@ -69,7 +69,7 @@ public class LaunchersTest extends ZariraAPIBaseTest {
         String token = manager.getAccessToken();
         int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        int launcherId = new LauncherServiceImpl().post(token, autoServerId, accountTypeId);
+        int launcherId = new LauncherServiceImpl().create(token, autoServerId, accountTypeId);
         String putLauncherRs = apiExecutor.callApiMethod(new PutLauncherMethod(token, launcherId, expectedTypeValue),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         String type = JsonPath.from(putLauncherRs).get(JSONConstant.TYPE_RS_KEY);
@@ -83,7 +83,7 @@ public class LaunchersTest extends ZariraAPIBaseTest {
         String token = manager.getAccessToken();
         int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        int launcherId = launcherService.post(token, autoServerId, accountTypeId);
+        int launcherId = launcherService.create(token, autoServerId, accountTypeId);
         launcherService.deleteById(token, launcherId);
         apiExecutor.callApiMethod(new GetLauncherByIdMethod(token, launcherId), HTTPStatusCodeType.NOT_FOUND, false,
                 null);
@@ -96,8 +96,8 @@ public class LaunchersTest extends ZariraAPIBaseTest {
         String token = manager.getAccessToken();
         int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        int launcherId = new LauncherServiceImpl().post(token, autoServerId, accountTypeId);
-        int presetId = presetServiceImpl.post(token, launcherId);
+        int launcherId = new LauncherServiceImpl().create(token, autoServerId, accountTypeId);
+        int presetId = presetServiceImpl.create(token, launcherId);
         String ref = presetServiceImpl.getWebhookUrl(token, launcherId, presetId);
         apiExecutor.callApiMethod(new PostJobByWebHookMethod(token, launcherId, ref), HTTPStatusCodeType.OK, false,
                 null);
