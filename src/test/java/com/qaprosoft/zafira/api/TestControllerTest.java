@@ -83,6 +83,7 @@ public class TestControllerTest extends ZariraAPIBaseTest {
         int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
         int testId = new TestServiceImpl().create(token, testCaseId, testRunId);
         apiExecutor.callApiMethod(new DeleteTestByIdMethod(token, testId), HTTPStatusCodeType.OK, false, null);
+        // Trying to delete test that has been already deleted as api doesnt have endpoint get test by id. Just an additional validation
         apiExecutor.callApiMethod(new DeleteTestByIdMethod(token, testId), HTTPStatusCodeType.NOT_FOUND, false, null);
     }
 

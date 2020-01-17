@@ -17,8 +17,7 @@
     "needRerun": "type:Boolean",
     "dependsOnMethods": "type:String",
     "testClass": "type:String",
-    "artifacts": [
-    ],
+    "artifacts": "type:JSONArray",
     "ciTestId": "type:String",
     "tags": [
     ]
