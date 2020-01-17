@@ -231,7 +231,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
         final int lastEmailIndex = 0;
         final int emailsCount = 1;
         LOGGER.info("Will get last email from inbox.");
-        pause(TimeConstant.SHORT_TIMEOUT); // decency from connection, wait a little bit
+        pause(TimeConstant.EMAIL_TIMEOUT); // decency from connection, wait a little bit
         EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
         return email.getContent().contains(testrunURL);
     }

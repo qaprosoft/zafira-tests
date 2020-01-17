@@ -40,17 +40,10 @@ public class LauncherServiceImpl implements LauncherService {
         return JsonPath.from(getLauncherByIdRs).getInt(JSONConstant.ID_KEY);
     }
 
-    /**
-     * @param accessToken
-     * @param autoServerId
-     * @param accountTypeId
-     * @return id of launcher
-     */
     @Override
-    public int create(String accessToken, int autoServerId, int accountTypeId) {
-        String postLauncherRs = apiExecutor.callApiMethod(
-                new PostLauncherMethod(accessToken, autoServerId, accountTypeId), HTTPStatusCodeType.OK, true,
-                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    public int create(String accessToken, int jobId, int accountTypeId) {
+        String postLauncherRs = apiExecutor.callApiMethod(new PostLauncherMethod(accessToken, jobId, accountTypeId), HTTPStatusCodeType.OK,
+                true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         return JsonPath.from(postLauncherRs).getInt(JSONConstant.ID_KEY);
     }
 

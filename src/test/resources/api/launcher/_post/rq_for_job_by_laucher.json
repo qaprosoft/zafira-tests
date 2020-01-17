@@ -20,14 +20,12 @@
     "apiVersion": "string",
     "avatarURL": "string",
     "defaultBranch": "string",
-    "id": ${
-  id
-},
-"name": "GITHUB",
-"organizationName": "string",
-"repositoryName": "string",
-"repositoryURL": "string",
-"userId": 0
-},
-"type": "string"
+    "id": ${id},
+  "name": "GITHUB",
+  "organizationName": "string",
+  "repositoryName": "string",
+  "repositoryURL": "string",
+  "userId": 0
+  },
+  "type": "string"
 }
