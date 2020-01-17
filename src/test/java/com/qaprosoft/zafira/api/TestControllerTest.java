@@ -137,4 +137,44 @@ public class TestControllerTest extends ZariraAPIBaseTest {
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
+    @Test
+    public void testRetrieveTestBySearchCriteria() {
+        String token = new APIContextManager().getAccessToken();
+        int testSuiteId = new TestSuiteServiceImpl().create(token);
+        int jobId = new JobServiceImpl().create(token);
+        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
+        int testCaseId = new TestCaseServiceImpl().create(token, testSuiteId);
+        new TestServiceImpl().create(token, testCaseId, testRunId);
+        String testRs = apiExecutor.callApiMethod(new PostRetrieveTestBySearchCriteriaMethod(token, testRunId),
+                HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        int allTestId = JsonPath.from(testRs).get(JSONConstant.ALL_TEST_ID_KEY);
+        LOGGER.info(allTestId);
+    }
+
+    @Test
+    public void testDeleteWorkItem() {
+        String token = new APIContextManager().getAccessToken();
+        String expectedJiraIdValue = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
+        String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
+        int testSuiteId = new TestSuiteServiceImpl().create(token);
+        int jobId = new JobServiceImpl().create(token);
+        int testCaseId = new TestCaseServiceImpl().create(token, testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
+        int testId = new TestServiceImpl().create(token, testCaseId, testRunId);
+        String linkWorkItemRs = apiExecutor.callApiMethod(new PostLinkWorkItemMethod(token, testCaseId, expectedJiraIdValue, testId, workItemType),
+                HTTPStatusCodeType.OK, false, null);
+        int workItemId = JsonPath.from(linkWorkItemRs).get(JSONConstant.ID_KEY);
+        String testRs = apiExecutor.callApiMethod(new PostRetrieveTestBySearchCriteriaMethod(token, testRunId),
+                HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        int workItemIdRs = JsonPath.from(testRs).get(JSONConstant.WORK_ITEM_ID_CHECK_KEY);
+        LOGGER.info(workItemIdRs);
+        Assert.assertNotEquals(0, workItemIdRs, "Work item was not link!");
+        apiExecutor.callApiMethod(new DeleteWorkItemMethod(token, testId, workItemId), HTTPStatusCodeType.OK, false, null);
+        String testRsAfterDelete = apiExecutor.callApiMethod(new PostRetrieveTestBySearchCriteriaMethod(token, testRunId),
+                HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        List<Integer> workItemsAfterDelete = JsonPath.from(testRsAfterDelete).getList(JSONConstant.WORK_ITEMS_ARRAY_KEY);
+        LOGGER.info(workItemsAfterDelete);
+        Assert.assertTrue(workItemsAfterDelete.isEmpty(), "Work item was not deleted!");
+    }
+
 }
