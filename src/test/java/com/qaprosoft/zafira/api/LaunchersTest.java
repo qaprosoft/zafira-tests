@@ -56,9 +56,9 @@ public class LaunchersTest extends ZariraAPIBaseTest {
     public void testGetLauncherById() {
         APIContextManager manager = new APIContextManager();
         String token = manager.getAccessToken();
-        int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        int launcherId = new LauncherServiceImpl().create(token, autoServerId, accountTypeId);
+        int jobId = new JobServiceImpl().create(token);
+        int launcherId = new LauncherServiceImpl().create(token, jobId, accountTypeId);
         apiExecutor.callApiMethod(new GetLauncherByIdMethod(token, launcherId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
@@ -68,9 +68,9 @@ public class LaunchersTest extends ZariraAPIBaseTest {
         String expectedTypeValue = R.TESTDATA.get(ConfigConstant.TYPE_KEY);
         APIContextManager manager = new APIContextManager();
         String token = manager.getAccessToken();
-        int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        int launcherId = new LauncherServiceImpl().create(token, autoServerId, accountTypeId);
+        int jobId = new JobServiceImpl().create(token);
+        int launcherId = new LauncherServiceImpl().create(token, jobId, accountTypeId);
         String putLauncherRs = apiExecutor.callApiMethod(new PutLauncherMethod(token, launcherId, expectedTypeValue),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         String type = JsonPath.from(putLauncherRs).get(JSONConstant.TYPE_RS_KEY);
@@ -82,22 +82,22 @@ public class LaunchersTest extends ZariraAPIBaseTest {
         APIContextManager manager = new APIContextManager();
         LauncherServiceImpl launcherService = new LauncherServiceImpl();
         String token = manager.getAccessToken();
-        int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        int launcherId = launcherService.create(token, autoServerId, accountTypeId);
+        int jobId = new JobServiceImpl().create(token);
+        int launcherId = new LauncherServiceImpl().create(token, jobId, accountTypeId);
         launcherService.deleteById(token, launcherId);
         apiExecutor.callApiMethod(new GetLauncherByIdMethod(token, launcherId), HTTPStatusCodeType.NOT_FOUND, false,
                 null);
     }
 
-    @Test
+    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testBuildJobByWebhook() {
         APIContextManager manager = new APIContextManager();
         PresetServiceImpl presetServiceImpl = new PresetServiceImpl();
         String token = manager.getAccessToken();
-        int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        int launcherId = new LauncherServiceImpl().create(token, autoServerId, accountTypeId);
+        int jobId = new JobServiceImpl().create(token);
+        int launcherId = new LauncherServiceImpl().create(token, jobId, accountTypeId);
         int presetId = presetServiceImpl.create(token, launcherId);
         String ref = presetServiceImpl.getWebhookUrl(token, launcherId, presetId);
         apiExecutor.callApiMethod(new PostJobByWebHookMethod(token, launcherId, ref), HTTPStatusCodeType.OK, false,
@@ -121,7 +121,7 @@ public class LaunchersTest extends ZariraAPIBaseTest {
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testScanLauncher() {
         APIContextManager manager = new APIContextManager();
         String token = manager.getAccessToken();
@@ -130,7 +130,7 @@ public class LaunchersTest extends ZariraAPIBaseTest {
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testGetBuildNumber() {
         APIContextManager manager = new APIContextManager();
         String token = manager.getAccessToken();
@@ -139,7 +139,7 @@ public class LaunchersTest extends ZariraAPIBaseTest {
         apiExecutor.callApiMethod(new GetBuildNumberMethod(token, queueItemUrl), HTTPStatusCodeType.OK, false, null);
     }
 
-    @Test
+    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testCancelLauncherScanner() {
         APIContextManager manager = new APIContextManager();
         LauncherServiceImpl launcherServiceImpl = new LauncherServiceImpl();
