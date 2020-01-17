@@ -7,6 +7,7 @@ import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.manager.APIContextManager;
+import com.qaprosoft.zafira.service.impl.JobServiceImpl;
 import com.qaprosoft.zafira.service.impl.LauncherServiceImpl;
 import com.qaprosoft.zafira.service.impl.PresetServiceImpl;
 import org.apache.log4j.Logger;
@@ -45,9 +46,9 @@ public class LaunchersTest extends ZariraAPIBaseTest {
     public void testCreateLauncher() {
         APIContextManager manager = new APIContextManager();
         String token = manager.getAccessToken();
-        int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
+        int jobId = new JobServiceImpl().create(token);
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        apiExecutor.callApiMethod(new PostLauncherMethod(token, autoServerId, accountTypeId), HTTPStatusCodeType.OK,
+        apiExecutor.callApiMethod(new PostLauncherMethod(token, jobId, accountTypeId), HTTPStatusCodeType.OK,
                 true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
@@ -103,7 +104,7 @@ public class LaunchersTest extends ZariraAPIBaseTest {
                 null);
     }
 
-    @Test
+    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testBuildJobByLauncher() {
         APIContextManager manager = new APIContextManager();
         String token = manager.getAccessToken();
@@ -112,7 +113,7 @@ public class LaunchersTest extends ZariraAPIBaseTest {
                 null);
     }
 
-    @Test
+    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testCreateLauncherFromJenkiins() {
         APIContextManager manager = new APIContextManager();
         String token = manager.getAccessToken();

@@ -1,24 +1,24 @@
 {
   "id": "regex:[\\d]",
-  "name": "string",
-  "model": "string",
-  "type": "string",
+  "name": "type:String",
+  "model": "type:String",
+  "type": "type:String",
   "scmAccountType": {
     "id": "regex:[\\d]",
-    "apiVersion": "string",
-    "organizationName": "string",
-    "repositoryName": "string",
-    "avatarURL": "string",
-    "repositoryURL": "string"
+    "apiVersion": "type:String",
+    "organizationName": "type:String",
+    "repositoryName": "type:String",
+    "avatarURL": "type:String",
+    "repositoryURL": "type:String"
   },
   "presets": null,
   "job": {
     "id": "regex:[\\d]",
-    "name": "launcher",
-    "jobURL": "https://ci.qaprosoft.farm/job/automation/job/launcher",
-    "jenkinsHost": "https://ci.qaprosoft.farm",
+    "name": "type:String",
+    "jobURL": "type:String",
+    "jenkinsHost": "type:String",
     "userId": "regex:[\\d]",
     "automationServerId": "regex:[\\d]"
   },
-  "autoScan": false
+  "autoScan": "type:Boolean"
 }

@@ -29,6 +29,13 @@
         "connected": "type:Boolean",
         "enabled": "type:Boolean",
         "default": "type:Boolean"
+      },
+      {
+        "connected": "type:Boolean",
+        "default": "type:Boolean",
+        "enabled": "type:Boolean",
+        "integrationBackReferenceId": "type:String",
+        "integrationId": "regex:[\\d]"
       }
     ]
   },
