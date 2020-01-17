@@ -1,0 +1,13 @@
+{
+  "id": "regex:[\\d]",
+  "testClass": "type:String",
+  "testMethod": "type:String",
+  "info": "type:String",
+  "testSuiteId": "regex:[\\d]",
+  "primaryOwnerId": "regex:[\\d]",
+  "project": {
+    "id": "regex:[\\d]",
+    "name": "type:String",
+    "description": "type:String"
+  }
+}

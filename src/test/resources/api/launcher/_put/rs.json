@@ -1,0 +1,24 @@
+{
+  "id": "regex:[\\d]",
+  "name": "string",
+  "model": "string",
+  "type": "type:String",
+  "scmAccountType": {
+    "id": "regex:[\\d]",
+    "apiVersion": "type:String",
+    "organizationName": "string",
+    "repositoryName": "selenideex",
+    "avatarURL": "https://avatars1.githubusercontent.com/u/43011516?v=4",
+    "repositoryURL": "https://github.com/secourse2019/selenideex"
+  },
+  "presets": null,
+  "job": {
+    "id": "regex:[\\d]",
+    "name": "launcher",
+    "jobURL": "https://ci.qaprosoft.farm/job/automation/job/launcher",
+    "jenkinsHost": "https://ci.qaprosoft.farm",
+    "userId": "regex:[\\d]",
+    "automationServerId": "regex:[\\d]"
+  },
+  "autoScan": false
+}

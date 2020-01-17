@@ -1,0 +1,20 @@
+{
+  "blocker": true,
+  "buildNumber": 1,
+  "ciRunId": "${ciRunId}",
+  "configXML": "",
+  "id": 0,
+  "jobId": ${
+  jobId
+},
+"knownIssue": true,
+"reviewed": true,
+"scmBranch": "string",
+"scmCommit": "string",
+"scmURL": "string",
+"startedBy": "HUMAN",
+"status": "UNKNOWN",
+"testSuiteId": ${testSuiteId},
+"upstreamJobBuildNumber": null,
+"workItem": "string"
+}

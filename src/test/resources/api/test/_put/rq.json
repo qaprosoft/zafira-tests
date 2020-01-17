@@ -1,0 +1,21 @@
+{
+  "id": ${
+  id
+},
+"ciRunId": "string",
+"testSuiteId": ${testSuiteId},
+"status": "${status}",
+"scmURL": "string",
+"scmBranch": "string",
+"scmCommit": "string",
+"configXML": " ",
+"jobId": ${
+jobId
+},
+"upstreamJobBuildNumber": 0,
+"buildNumber": 0,
+"startedBy": "HUMAN",
+"knownIssue": true,
+"blocker": true,
+"reviewed": false
+}

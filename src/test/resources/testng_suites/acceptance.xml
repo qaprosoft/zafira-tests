@@ -4,20 +4,20 @@
 
 	<test parallel="methods" thread-count="10" name="Parallel tests">
 		<classes>
-			<class name="com.qaprosoft.zafira.AuthTests">
+			<class name="com.qaprosoft.zafira.gui.AuthTests">
 				<methods>
 					<include name="verifyValidLoginTest" />
 					<include name="verifyInvalidLoginTest" />
 				</methods>
 			</class>
 
-			<class name="com.qaprosoft.zafira.NavigationTests">
+			<class name="com.qaprosoft.zafira.gui.NavigationTests">
 				<methods>
 					<include name="verifySidebarElementsTest" />
 				</methods>
 			</class>
 
-			<class name="com.qaprosoft.zafira.UserProfileTests">
+			<class name="com.qaprosoft.zafira.gui.UserProfileTests">
 				<methods>
 					<include name="verifyUserPhotoModalTest" />
 					<include name="verifyChangeProfileInformationTest" />
@@ -26,7 +26,7 @@
 				</methods>
 			</class>
 
-			<class name="com.qaprosoft.zafira.UserTests">
+			<class name="com.qaprosoft.zafira.gui.UserTests">
 				<methods>
 					<include name="verifyNavigationTest"/>
 					<include name="verifyUserCreationTest"/>
@@ -39,7 +39,7 @@
 				</methods>
 			</class>
 
-			<class name="com.qaprosoft.zafira.TestRunTests">
+			<class name="com.qaprosoft.zafira.gui.TestRunTests">
 				<methods>
 					<include name="verifyTestRunOpenTest" />
 					<include name="verifyTestRunCopyLinkTest" />
@@ -53,7 +53,7 @@
 
 	<test name="Queued tests">
 		<classes>
-			<class name="com.qaprosoft.zafira.TestRunTests">
+			<class name="com.qaprosoft.zafira.gui.TestRunTests">
 				<methods>
 					<include name="verifyTestRunRegistrationTest" />
 					<include name="verifyNavigationTest" />

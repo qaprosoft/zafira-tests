@@ -1,0 +1,7 @@
+{
+  "branch": "string",
+  "rescan": true,
+  "scmAccountId": ${
+  scmAccountId
+}
+}

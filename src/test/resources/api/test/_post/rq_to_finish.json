@@ -1,0 +1,24 @@
+{
+  "id": 0,
+  "name": "string",
+  "status": "UNKNOWN",
+  "testArgs": "string",
+  "testRunId": ${
+  testRunId
+},
+"testCaseId": ${testCaseId},
+"testGroup": "string",
+"message": "string ...",
+"messageHashCode": 0,
+"startTime": 0,
+"finishTime": 0,
+"retry": 0,
+"knownIssue": true,
+"blocker": true,
+"needRerun": true,
+"dependsOnMethods": "string",
+"testClass": "string",
+"artifacts": [],
+"ciTestId": "string",
+"tags": []
+}
