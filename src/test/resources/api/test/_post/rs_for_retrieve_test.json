@@ -26,7 +26,7 @@
         "modifiedAt": "regex:[\\d]",
         "createdAt": "regex:[\\d]"
       },
-      "workItems": [],
+      "workItems": "type:JSONArray",
       "knownIssue": "type:Boolean",
       "blocker": "type:Boolean",
       "needRerun": "type:Boolean",

@@ -1,5 +1,3 @@
 {
-  "testRunId": ${
-  testRunId
-}
+"testRunId": ${testRunId}
 }
