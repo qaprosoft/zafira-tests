@@ -97,8 +97,7 @@ public class EmailManager {
     }
 
     // help method to verify INBOX email contains new mail
-    public void waitForEmailDelivered(final Date startTestTime, final String emailTitle,
-                                      final String emailBodyFragment) {
+    public void waitForEmailDelivered(final Date startTestTime, final String testRunUrl) {
         Wait<Boolean> waiter = new FluentWait<>(false).withTimeout(Duration.ofSeconds(DEFAULT_NOTIFICATION_TIMEOUT))
                 .pollingEvery(Duration.ofSeconds(FLUENT_WAIT_POLLING_INTERVAL));
         try {
@@ -108,31 +107,29 @@ public class EmailManager {
                 for (EmailMsg msg : messages) {
                     LOGGER.info("Retrieved msg: " + msg.toString());
                     if ((msg.getTime().compareTo(startTestTime) > 0)
-                            && (msg.getSubject().contains(emailTitle)
-                            && (msg.getContent().contains(emailBodyFragment)))) {
+                            && (msg.getContent().contains(testRunUrl))) {
                         return true;
                     }
                 }
                 return false;
             });
-            LOGGER.info("Email '" + emailTitle + "' with proper delivery date found in Inbox");
         } catch (TimeoutException e) {
-            throw new RuntimeException(String.format("Email '%s' not delivered after %d sec waiting", emailTitle,
+            throw new RuntimeException(String.format("Email with '%s' not delivered after %d sec waiting", testRunUrl,
                     DEFAULT_NOTIFICATION_TIMEOUT));
         }
-        LOGGER.info("Email '" + emailTitle + "' with proper delivery date found in Inbox");
+        LOGGER.info("Email with '" + testRunUrl + "' with proper delivery date found in Inbox");
     }
 
-    public EmailMsg readEmail(final Date startTestTime, final String emailTitle, final String emailBodyFragment) {
-        waitForEmailDelivered(startTestTime, emailTitle, emailBodyFragment);
+    public EmailMsg readEmail(final Date startTestTime, final String testRunUrl) {
+        waitForEmailDelivered(startTestTime, testRunUrl);
         EmailMsg[] messages = getInbox(DEFAULT_EMAILS_COUNT_TO_RETRIEVE);
         for (EmailMsg msg : messages) {
             if ((msg.getTime().compareTo(startTestTime) > 0)
-                    && (msg.getSubject().contains(emailTitle) && (msg.getContent().contains(emailBodyFragment)))) {
+                     && (msg.getContent().contains(testRunUrl))) {
                 return msg;
             }
         }
-        throw new RuntimeException("Expected email '" + emailTitle + "' not found in Inbox");
+        throw new RuntimeException("Expected email with '" + testRunUrl + "' not found in Inbox");
     }
 
 }

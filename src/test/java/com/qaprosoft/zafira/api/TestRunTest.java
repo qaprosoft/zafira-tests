@@ -21,6 +21,8 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Date;
+
 public class TestRunTest extends ZariraAPIBaseTest {
 
     private final EmailManager EMAIL = new EmailManager(
@@ -231,7 +233,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
         final int lastEmailIndex = 0;
         final int emailsCount = 1;
         LOGGER.info("Will get last email from inbox.");
-        pause(TimeConstant.EMAIL_TIMEOUT); // decency from connection, wait a little bit
+        EMAIL.waitForEmailDelivered(new Date(), testrunURL); // decency from connection, wait a little bit
         EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
         return email.getContent().contains(testrunURL);
     }
