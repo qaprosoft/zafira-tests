@@ -13,8 +13,8 @@ public class IntegrationServiceImpl implements IntegrationService {
     private ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
     @Override
-    public boolean isIntegrationEnabled(String accessToken, int id, IntegrationGroupType integrationGroup) {
-        String rs = apiExecutor.callApiMethod(new GetIntegrationInfoByIdMethod(accessToken, id, integrationGroup),
+    public boolean isIntegrationEnabled(int id, IntegrationGroupType integrationGroup) {
+        String rs = apiExecutor.callApiMethod(new GetIntegrationInfoByIdMethod(id, integrationGroup),
                 HTTPStatusCodeType.OK, false, null);
         return JsonPath.from(rs).getBoolean(JSONConstant.INTEGRATION_ENABLED_KEY);
     }

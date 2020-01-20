@@ -10,10 +10,8 @@ import org.testng.annotations.Test;
 public class TestCaseTest extends ZariraAPIBaseTest {
     @Test
     public void testCreateTestCase() {
-        APIContextManager manager = new APIContextManager();
-        String token = manager.getAccessToken();
-        int testSuiteId = new TestSuiteServiceImpl().create(token);
-        apiExecutor.callApiMethod(new PostTestCaseMethod(token, testSuiteId), HTTPStatusCodeType.OK, true,
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        apiExecutor.callApiMethod(new PostTestCaseMethod(testSuiteId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }

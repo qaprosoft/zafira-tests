@@ -10,9 +10,7 @@ public class TestSuiteTest extends ZariraAPIBaseTest {
 
     @Test
     public void testCreateTestSuite() {
-        APIContextManager manager = new APIContextManager();
-        String token = manager.getAccessToken();
-        apiExecutor.callApiMethod(new PostTestSuiteMethod(token), HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT,
+        apiExecutor.callApiMethod(new PostTestSuiteMethod(), HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }

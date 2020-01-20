@@ -22,16 +22,15 @@ public class PresetServiceImpl implements PresetService {
     }
 
     @Override
-    public int create(String accessToken, int launcherId) {
-        String postPresetRs = apiExecutor.callApiMethod(new PostLauncherPresetMethod(accessToken, launcherId),
+    public int create(int launcherId) {
+        String postPresetRs = apiExecutor.callApiMethod(new PostLauncherPresetMethod(launcherId),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         return JsonPath.from(postPresetRs).getInt(JSONConstant.ID_KEY);
     }
 
     @Override
-    public String getWebhookUrl(String accessToken, int launcherId, int presetId) {
-        GetLauncherWebHookMethod getLauncherWebhookMethod = new GetLauncherWebHookMethod(accessToken, launcherId,
-                presetId);
+    public String getWebhookUrl(int launcherId, int presetId) {
+        GetLauncherWebHookMethod getLauncherWebhookMethod = new GetLauncherWebHookMethod(launcherId, presetId);
         String getPresetRs = apiExecutor.callApiMethod(getLauncherWebhookMethod, HTTPStatusCodeType.OK, false, null);
         LOGGER.info(String.format("WebHookUrl = %s", getPresetRs));
         Pattern pattern = Pattern.compile("\\w{20}");
@@ -39,7 +38,7 @@ public class PresetServiceImpl implements PresetService {
         String ref = "";
         if (matcher.find()) {
             ref = matcher.group();
-            LOGGER.info(String.format("ref = $s", ref));
+            LOGGER.info(String.format("ref = %s", ref));
         }
         return ref;
     }

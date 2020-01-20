@@ -4,10 +4,10 @@ import java.util.List;
 
 public interface TestService {
 
-    int create(String accessToken, int testCaseId, int testRunId);
+    int create(int testCaseId, int testRunId);
 
-    void finishTest(String accessToken, int testCaseId, int testRunId, int testId);
+    void finishTest(int testCaseId, int testRunId, int testId);
 
-    List<Integer> getAllArtifacts(String accessToken, int testRunId);
+    List<Integer> getAllArtifacts(int testRunId);
 
 }

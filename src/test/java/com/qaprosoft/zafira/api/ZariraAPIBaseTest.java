@@ -8,15 +8,15 @@ public class ZariraAPIBaseTest extends AbstractTest {
     private static final Logger LOGGER = Logger.getLogger(ZariraAPIBaseTest.class);
     protected ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
-    protected int createTestRun(String accessToken, int numOfTests) {
+    protected int createTestRun(int numOfTests) {
         TestRunServiceAPIImpl testRunServiceImpl = new TestRunServiceAPIImpl();
-        int testSuiteId = new TestSuiteServiceImpl().create(accessToken);
-        int jobId = new JobServiceImpl().create(accessToken);
-        int testRunId = testRunServiceImpl.create(accessToken, testSuiteId, jobId);
-        int testCaseId = new TestCaseServiceImpl().create(accessToken, testSuiteId);
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testRunId = testRunServiceImpl.create(testSuiteId, jobId);
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
 
         for (int i = 0; i < numOfTests; ++i) {
-            new TestServiceImpl().create(accessToken, testCaseId, testRunId);
+            new TestServiceImpl().create(testCaseId, testRunId);
         }
         return testRunId;
     }

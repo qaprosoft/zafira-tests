@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface TestRunServiceAPI {
 
-    int create(String accessToken, int testSuiteId, int jobId);
+    int create(int testSuiteId, int jobId);
 
-    String getCiRunId(String accessToken, int testSuiteId);
+    String getCiRunId(int testSuiteId);
 
-    String finishTestRun(String accessToken, int testRunId);
+    String finishTestRun(int testRunId);
 
-    List<Integer> getAll(String accessToken, String searchCriteriaType, int searchCriteriaId);
+    List<Integer> getAll(String searchCriteriaType, int searchCriteriaId);
 }
