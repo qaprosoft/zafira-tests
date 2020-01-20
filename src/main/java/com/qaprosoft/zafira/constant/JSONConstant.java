@@ -14,5 +14,6 @@ public class JSONConstant {
     public static final String INTEGRATION_ENABLED_KEY = "enabled";
     public static final String WORK_ITEM_ID_CHECK_KEY = "results[0].workItems[0].id";
     public static final String WORK_ITEMS_ARRAY_KEY = "results[0].workItems";
+    public static final String ALL_TEST_ID_BY_TEST_SUITE_ID_KEY = "results[0].id";
 
 }

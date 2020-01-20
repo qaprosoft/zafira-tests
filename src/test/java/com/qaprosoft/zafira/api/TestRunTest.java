@@ -168,7 +168,8 @@ public class TestRunTest extends ZariraAPIBaseTest {
         return new Object[][]{{true}, {false}};
     }
 
-    @Test(dataProvider = "rerunFailuresDataProvider", enabled = false) //TODO: enable this test when jenkins mock container will be up)
+    @Test(dataProvider = "rerunFailuresDataProvider", enabled = false)
+    //TODO: enable this test when jenkins mock container will be up)
     public void testGetTestRunJobById(boolean rerunFailures) {
         String token = new APIContextManager().getAccessToken();
         int testRunId = createTestRun(token, TESTS_TO_ADD);
@@ -178,7 +179,8 @@ public class TestRunTest extends ZariraAPIBaseTest {
                 true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(dataProvider = "rerunFailuresDataProvider", enabled = false) //TODO: enable this test when jenkins mock container will be up)
+    @Test(dataProvider = "rerunFailuresDataProvider", enabled = false)
+    //TODO: enable this test when jenkins mock container will be up)
     public void testRerunTestRunJob(boolean rerunFailures) {
         String token = new APIContextManager().getAccessToken();
         int testRunId = createTestRun(token, TESTS_TO_ADD);

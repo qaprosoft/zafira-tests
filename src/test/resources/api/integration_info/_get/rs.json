@@ -22,22 +22,7 @@
     ]
   },
   "AUTOMATION_SERVER": {
-    "JENKINS": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": null,
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      },
-      {
-        "connected": "type:Boolean",
-        "default": "type:Boolean",
-        "enabled": "type:Boolean",
-        "integrationBackReferenceId": "type:String",
-        "integrationId": "regex:[\\d]"
-      }
-    ]
+    "JENKINS": "type:JSONArray"
   },
   "SLACK": {
     "SLACK": [
