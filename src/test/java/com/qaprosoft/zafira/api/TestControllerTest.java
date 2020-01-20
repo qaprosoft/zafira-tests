@@ -148,7 +148,7 @@ public class TestControllerTest extends ZariraAPIBaseTest {
         String testRs = apiExecutor.callApiMethod(new PostRetrieveTestBySearchCriteriaMethod(token, testRunId),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int allTestId = JsonPath.from(testRs).get(JSONConstant.ALL_TEST_ID_KEY);
-        LOGGER.info(allTestId);
+        LOGGER.info(String.format("Test Ids: %s", allTestId));
     }
 
     @Test

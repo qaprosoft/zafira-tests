@@ -2,6 +2,7 @@ package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
+import com.qaprosoft.zafira.api.GetTestRunBySearchCriteriaMethod;
 import com.qaprosoft.zafira.api.GetTestRunMethod;
 import com.qaprosoft.zafira.api.PostFinishTestRunMethod;
 import com.qaprosoft.zafira.api.PostStartTestRunMethod;
@@ -10,6 +11,8 @@ import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.TestRunServiceAPI;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
+
+import java.util.List;
 
 public class TestRunServiceAPIImpl implements TestRunServiceAPI {
     private static final Logger LOGGER = Logger.getLogger(TestRunServiceAPIImpl.class);
@@ -38,5 +41,12 @@ public class TestRunServiceAPIImpl implements TestRunServiceAPI {
         String response = apiExecutor.callApiMethod(new PostFinishTestRunMethod(accessToken, testRunId),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         return JsonPath.from(response).getString(JSONConstant.STATUS_KEY);
+    }
+
+    @Override
+    public List<Integer> getAll(String accessToken, String searchCriteriaType, int searchCriteriaId) {
+        String response = apiExecutor.callApiMethod(new GetTestRunBySearchCriteriaMethod(accessToken, searchCriteriaType, searchCriteriaId),
+                HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        return JsonPath.from(response).getList(JSONConstant.ALL_TEST_ID_BY_TEST_SUITE_ID_KEY);
     }
 }
