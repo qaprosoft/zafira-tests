@@ -10,7 +10,9 @@ public class TestSuiteTest extends ZariraAPIBaseTest {
 
     @Test
     public void testCreateTestSuite() {
-        apiExecutor.callApiMethod(new PostTestSuiteMethod(), HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT,
-                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        PostTestSuiteMethod postTestSuiteMethod = new PostTestSuiteMethod();
+        apiExecutor.expectStatus(postTestSuiteMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postTestSuiteMethod);
+        apiExecutor.validateResponse(postTestSuiteMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }

@@ -23,15 +23,14 @@ public class PresetServiceImpl implements PresetService {
 
     @Override
     public int create(int launcherId) {
-        String postPresetRs = apiExecutor.callApiMethod(new PostLauncherPresetMethod(launcherId),
-                HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String postPresetRs = apiExecutor.callApiMethod(new PostLauncherPresetMethod(launcherId));
         return JsonPath.from(postPresetRs).getInt(JSONConstant.ID_KEY);
     }
 
     @Override
     public String getWebhookUrl(int launcherId, int presetId) {
         GetLauncherWebHookMethod getLauncherWebhookMethod = new GetLauncherWebHookMethod(launcherId, presetId);
-        String getPresetRs = apiExecutor.callApiMethod(getLauncherWebhookMethod, HTTPStatusCodeType.OK, false, null);
+        String getPresetRs = apiExecutor.callApiMethod(getLauncherWebhookMethod);
         LOGGER.info(String.format("WebHookUrl = %s", getPresetRs));
         Pattern pattern = Pattern.compile("\\w{20}");
         Matcher matcher = pattern.matcher(getPresetRs);

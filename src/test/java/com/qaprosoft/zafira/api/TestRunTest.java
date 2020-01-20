@@ -14,6 +14,7 @@ import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.*;
 import com.qaprosoft.zafira.util.CryptoUtil;
+import okhttp3.internal.http1.Http1Codec;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
@@ -42,8 +43,11 @@ public class TestRunTest extends ZariraAPIBaseTest {
     public void testStartTestRun() {
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();
-        apiExecutor.callApiMethod(new PostStartTestRunMethod(testSuiteId, jobId), HTTPStatusCodeType.OK, true,
-                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        PostStartTestRunMethod postStartTestRunMethod = new PostStartTestRunMethod(testSuiteId, jobId);
+        apiExecutor.expectStatus(postStartTestRunMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postStartTestRunMethod);
+        apiExecutor.validateResponse(postStartTestRunMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
@@ -52,26 +56,33 @@ public class TestRunTest extends ZariraAPIBaseTest {
         int jobId = new JobServiceImpl().create();
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         String expectedWorkItemValue = R.TESTDATA.get(ConfigConstant.WORK_ITEM_KEY);
-        String putLauncherRs = apiExecutor.callApiMethod(
-                new PutTestRunMethod(testSuiteId, jobId, testRunId, expectedWorkItemValue),
-                HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        String workItem = JsonPath.from(putLauncherRs).get(JSONConstant.WORK_ITEM_RS_KEY);
+
+        PutTestRunMethod putTestRunMethod = new PutTestRunMethod(testSuiteId, jobId, testRunId, expectedWorkItemValue);
+        apiExecutor.expectStatus(putTestRunMethod, HTTPStatusCodeType.OK);
+        String putTestRunRs = apiExecutor.callApiMethod(putTestRunMethod);
+        apiExecutor.validateResponse(putTestRunMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String workItem = JsonPath.from(putTestRunRs).get(JSONConstant.WORK_ITEM_RS_KEY);
         Assert.assertEquals(workItem, expectedWorkItemValue, "Launcher was not updated!");
     }
 
     @Test
     public void testGetTestRun() {
         int testRunId = createTestRun(TESTS_TO_ADD);
-        apiExecutor.callApiMethod(new GetTestRunMethod(testRunId), HTTPStatusCodeType.OK, true,
-                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        GetTestRunMethod getTestRunMethod = new GetTestRunMethod(testRunId);
+        apiExecutor.expectStatus(getTestRunMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getTestRunMethod);
+        apiExecutor.validateResponse(getTestRunMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
     public void testDeleteTestRun() {
         int testRunId = createTestRun(TESTS_TO_ADD);
-        apiExecutor.callApiMethod(new DeleteTestRunMethod(testRunId), HTTPStatusCodeType.OK, false, null);
-        apiExecutor.callApiMethod(new GetTestRunMethod(testRunId), HTTPStatusCodeType.NOT_FOUND, false, null);
+        apiExecutor.callApiMethod(new DeleteTestRunMethod(testRunId));
 
+        GetTestRunMethod getTestRunMethod = new GetTestRunMethod(testRunId);
+        apiExecutor.expectStatus(getTestRunMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(getTestRunMethod);
     }
 
     @Test
@@ -93,8 +104,11 @@ public class TestRunTest extends ZariraAPIBaseTest {
         String expectedTestRunIdInMail = String.format("%s/%s/%s", APIContextManager.BASE_URL,
                 R.TESTDATA.get(ConfigConstant.TEST_RUN_URL_PREFIX_KEY), testRunId);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
-        apiExecutor.callApiMethod(new PostTestRunResultEmailMethod(testRunId), HTTPStatusCodeType.OK, false,
-                null);
+
+        PostTestRunResultEmailMethod postTestRunResultEmailMethod = new PostTestRunResultEmailMethod(testRunId);
+        apiExecutor.expectStatus(postTestRunResultEmailMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postTestRunResultEmailMethod);
+
         Assert.assertTrue(verifyIfEmailWasDelivered(expectedTestRunIdInMail), "Email was not delivered!");
     }
 
@@ -102,16 +116,20 @@ public class TestRunTest extends ZariraAPIBaseTest {
     public void testGetTestRunResultHtmlText() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
-        apiExecutor.callApiMethod(new GetTestRunResultHtmlTextMethod(testRunId), HTTPStatusCodeType.OK, false,
-                null);
+
+        GetTestRunResultHtmlTextMethod getTestRunResultHtmlTextMethod = new GetTestRunResultHtmlTextMethod(testRunId);
+        apiExecutor.expectStatus(getTestRunResultHtmlTextMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getTestRunResultHtmlTextMethod);
     }
 
     @Test
     public void testMarkTestRunReviewed() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
-        apiExecutor.callApiMethod(new PostMarkTestRunReviewedMethod(testRunId), HTTPStatusCodeType.OK, false,
-                null);
+
+        PostMarkTestRunReviewedMethod postMarkTestRunReviewedMethod = new PostMarkTestRunReviewedMethod(testRunId);
+        apiExecutor.expectStatus(postMarkTestRunReviewedMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postMarkTestRunReviewedMethod);
     }
 
     @Test
@@ -123,15 +141,21 @@ public class TestRunTest extends ZariraAPIBaseTest {
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         int testId = testServiceImpl.create(testCaseId, testRunId);
         testServiceImpl.finishTest(testCaseId, testRunId, testId);
-        apiExecutor.callApiMethod(new GetTestByTestRunIdMethod(testRunId), HTTPStatusCodeType.OK, true,
-                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        GetTestByTestRunIdMethod getTestByTestRunIdMethod = new GetTestByTestRunIdMethod(testRunId);
+        apiExecutor.expectStatus(getTestByTestRunIdMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getTestByTestRunIdMethod);
+        apiExecutor.validateResponse(getTestByTestRunIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testBuildTestRunJob() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
-        apiExecutor.callApiMethod(new PostTestRunByJobMethod(testRunId), HTTPStatusCodeType.OK, false, null);
+
+        PostTestRunByJobMethod postTestRunByJobMethod = new PostTestRunByJobMethod(testRunId);
+        apiExecutor.expectStatus(postTestRunByJobMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postTestRunByJobMethod);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
@@ -139,7 +163,9 @@ public class TestRunTest extends ZariraAPIBaseTest {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
 
-        apiExecutor.callApiMethod(new GetDebugJobMethod(testRunId), HTTPStatusCodeType.OK, false, null);
+        GetDebugJobMethod getDebugJobMethod = new GetDebugJobMethod(testRunId);
+        apiExecutor.expectStatus(getDebugJobMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getDebugJobMethod);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
@@ -147,8 +173,10 @@ public class TestRunTest extends ZariraAPIBaseTest {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
 
-        apiExecutor.callApiMethod(new GetTestRunJobParametersMethod(testRunId), HTTPStatusCodeType.OK, true,
-                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        GetTestRunJobParametersMethod getTestRunJobParametersMethod = new GetTestRunJobParametersMethod(testRunId);
+        apiExecutor.expectStatus(getTestRunJobParametersMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getTestRunJobParametersMethod);
+        apiExecutor.validateResponse(getTestRunJobParametersMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @DataProvider(name = "rerunFailuresDataProvider")
@@ -162,8 +190,10 @@ public class TestRunTest extends ZariraAPIBaseTest {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
 
-        apiExecutor.callApiMethod(new GetRerunTestRunByIdMethod(testRunId, rerunFailures), HTTPStatusCodeType.OK,
-                true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        GetRerunTestRunByIdMethod getRerunTestRunByIdMethod = new GetRerunTestRunByIdMethod(testRunId, rerunFailures);
+        apiExecutor.expectStatus(getRerunTestRunByIdMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getRerunTestRunByIdMethod);
+        apiExecutor.validateResponse(getRerunTestRunByIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test(dataProvider = "rerunFailuresDataProvider", enabled = false)
@@ -172,39 +202,48 @@ public class TestRunTest extends ZariraAPIBaseTest {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
 
-        apiExecutor.callApiMethod(new PostRerunTestRunJobsMethod(rerunFailures), HTTPStatusCodeType.OK, false,
-                null);
+        PostRerunTestRunJobsMethod postRerunTestRunJobsMethod = new PostRerunTestRunJobsMethod(rerunFailures);
+        apiExecutor.expectStatus(postRerunTestRunJobsMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postRerunTestRunJobsMethod);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testAbortTestRun() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
-        apiExecutor.callApiMethod(new PostAbortTestRunMethod(testRunId, ciRunId), HTTPStatusCodeType.OK, false,
-                null);
+
+        PostAbortTestRunMethod postAbortTestRunMethod = new PostAbortTestRunMethod(testRunId, ciRunId);
+        apiExecutor.expectStatus(postAbortTestRunMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postAbortTestRunMethod);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testAbortTestRunCi() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
-        apiExecutor.callApiMethod(new GetAbortTestRunCiMethod(testRunId, ciRunId), HTTPStatusCodeType.OK, false,
-                null);
+
+        GetAbortTestRunCiMethod getAbortTestRunCiMethod = new GetAbortTestRunCiMethod(testRunId, ciRunId);
+        apiExecutor.expectStatus(getAbortTestRunCiMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getAbortTestRunCiMethod);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testAbortTestRunDebug() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
-        apiExecutor.callApiMethod(new GetAbortDebugTestRunMethod(testRunId, ciRunId), HTTPStatusCodeType.OK,
-                false, null);
+
+        GetAbortDebugTestRunMethod getAbortDebugTestRunMethod = new GetAbortDebugTestRunMethod(testRunId, ciRunId);
+        apiExecutor.expectStatus(getAbortDebugTestRunMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getAbortDebugTestRunMethod);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testGetBuildConsoleOutput() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
-        apiExecutor.callApiMethod(new GetBuildConsoleOutputMethod(ciRunId), HTTPStatusCodeType.OK, false, null);
+        GetBuildConsoleOutputMethod getBuildConsoleOutputMethod = new GetBuildConsoleOutputMethod(ciRunId);
+        apiExecutor.expectStatus(getBuildConsoleOutputMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getBuildConsoleOutputMethod);
     }
 
     @Test
@@ -212,10 +251,12 @@ public class TestRunTest extends ZariraAPIBaseTest {
         String searchCriteriaType = R.TESTDATA.get(ConfigConstant.SEARCH_CRITERIA_TYPE_KEY);
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();
-        apiExecutor.callApiMethod(new PostStartTestRunMethod(testSuiteId, jobId), HTTPStatusCodeType.OK,
-                true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        apiExecutor.callApiMethod(new GetTestRunBySearchCriteriaMethod(searchCriteriaType, testSuiteId), HTTPStatusCodeType.OK,
-                true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        apiExecutor.callApiMethod(new PostStartTestRunMethod(testSuiteId, jobId));
+
+        GetTestRunBySearchCriteriaMethod getTestRunBySearchCriteriaMethod = new GetTestRunBySearchCriteriaMethod(searchCriteriaType, testSuiteId);
+        apiExecutor.expectStatus(getTestRunBySearchCriteriaMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getTestRunBySearchCriteriaMethod);
+        apiExecutor.validateResponse(getTestRunBySearchCriteriaMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     /**

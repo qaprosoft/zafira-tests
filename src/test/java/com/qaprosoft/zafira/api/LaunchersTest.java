@@ -34,16 +34,22 @@ public class LaunchersTest extends ZariraAPIBaseTest {
         int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         new LauncherServiceImpl().create(autoServerId, accountTypeId);
-        apiExecutor.callApiMethod(new GetAllLaunchersMethod(), HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT,
-                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        GetAllLaunchersMethod getAllLaunchersMethod = new GetAllLaunchersMethod();
+        apiExecutor.expectStatus(getAllLaunchersMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getAllLaunchersMethod);
+        apiExecutor.validateResponse(getAllLaunchersMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
     public void testCreateLauncher() {
         int jobId = new JobServiceImpl().create();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        apiExecutor.callApiMethod(new PostLauncherMethod(jobId, accountTypeId), HTTPStatusCodeType.OK,
-                true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        PostLauncherMethod postLauncherMethod = new PostLauncherMethod(jobId, accountTypeId);
+        apiExecutor.expectStatus(postLauncherMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postLauncherMethod);
+        apiExecutor.validateResponse(postLauncherMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
     }
 
     @Test
@@ -51,8 +57,11 @@ public class LaunchersTest extends ZariraAPIBaseTest {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         int jobId = new JobServiceImpl().create();
         int launcherId = new LauncherServiceImpl().create(jobId, accountTypeId);
-        apiExecutor.callApiMethod(new GetLauncherByIdMethod(launcherId), HTTPStatusCodeType.OK, true,
-                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        GetLauncherByIdMethod getLauncherByIdMethod = new GetLauncherByIdMethod(launcherId);
+        apiExecutor.expectStatus(getLauncherByIdMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getLauncherByIdMethod);
+        apiExecutor.validateResponse(getLauncherByIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
@@ -61,8 +70,12 @@ public class LaunchersTest extends ZariraAPIBaseTest {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         int jobId = new JobServiceImpl().create();
         int launcherId = new LauncherServiceImpl().create(jobId, accountTypeId);
-        String putLauncherRs = apiExecutor.callApiMethod(new PutLauncherMethod(launcherId, expectedTypeValue),
-                HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        PutLauncherMethod putLauncherMethod = new PutLauncherMethod(launcherId, expectedTypeValue);
+        apiExecutor.expectStatus(putLauncherMethod, HTTPStatusCodeType.OK);
+        String putLauncherRs = apiExecutor.callApiMethod(putLauncherMethod);
+        apiExecutor.validateResponse(putLauncherMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
         String type = JsonPath.from(putLauncherRs).get(JSONConstant.TYPE_RS_KEY);
         Assert.assertEquals(type, expectedTypeValue, "Launcher was not updated!");
     }
@@ -74,8 +87,10 @@ public class LaunchersTest extends ZariraAPIBaseTest {
         int jobId = new JobServiceImpl().create();
         int launcherId = new LauncherServiceImpl().create(jobId, accountTypeId);
         launcherService.deleteById(launcherId);
-        apiExecutor.callApiMethod(new GetLauncherByIdMethod(launcherId), HTTPStatusCodeType.NOT_FOUND, false,
-                null);
+
+        GetLauncherByIdMethod getLauncherByIdMethod = new GetLauncherByIdMethod(launcherId);
+        apiExecutor.expectStatus(getLauncherByIdMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(getLauncherByIdMethod);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
@@ -86,35 +101,48 @@ public class LaunchersTest extends ZariraAPIBaseTest {
         int launcherId = new LauncherServiceImpl().create(jobId, accountTypeId);
         int presetId = presetServiceImpl.create(launcherId);
         String ref = presetServiceImpl.getWebhookUrl(launcherId, presetId);
-        apiExecutor.callApiMethod(new PostJobByWebHookMethod(launcherId, ref), HTTPStatusCodeType.OK, false,
-                null);
+
+        PostJobByWebHookMethod postJobByWebHookMethod = new PostJobByWebHookMethod(launcherId, ref);
+        apiExecutor.expectStatus(postJobByWebHookMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postJobByWebHookMethod);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testBuildJobByLauncher() {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        apiExecutor.callApiMethod(new PostJobByLauncherMethod(accountTypeId), HTTPStatusCodeType.OK, false,
-                null);
+
+        PostJobByLauncherMethod postJobByLauncherMethod = new PostJobByLauncherMethod(accountTypeId);
+        apiExecutor.expectStatus(postJobByLauncherMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postJobByLauncherMethod);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testCreateLauncherFromJenkiins() {
-        apiExecutor.callApiMethod(new PostLauncherFromJenkinsMethod(), HTTPStatusCodeType.OK, true,
-                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        PostLauncherFromJenkinsMethod postLauncherFromJenkinsMethod = new PostLauncherFromJenkinsMethod();
+        apiExecutor.expectStatus(postLauncherFromJenkinsMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postLauncherFromJenkinsMethod);
+        apiExecutor.validateResponse(postLauncherFromJenkinsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testScanLauncher() {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        apiExecutor.callApiMethod(new PostScanLaucherMethod(accountTypeId), HTTPStatusCodeType.OK, true,
-                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        PostScanLaucherMethod postScanLaucherMethod = new PostScanLaucherMethod(accountTypeId);
+        apiExecutor.expectStatus(postScanLaucherMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postScanLaucherMethod);
+        apiExecutor.validateResponse(postScanLaucherMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testGetBuildNumber() {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         String queueItemUrl = new LauncherServiceImpl().getQueueItemUrl(accountTypeId);
-        apiExecutor.callApiMethod(new GetBuildNumberMethod(queueItemUrl), HTTPStatusCodeType.OK, false, null);
+
+        GetBuildNumberMethod getBuildNumberMethod = new GetBuildNumberMethod(queueItemUrl);
+        apiExecutor.expectStatus(getBuildNumberMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getBuildNumberMethod);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
@@ -122,6 +150,10 @@ public class LaunchersTest extends ZariraAPIBaseTest {
         LauncherServiceImpl launcherServiceImpl = new LauncherServiceImpl();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         String buildnumber = launcherServiceImpl.getBuildNumber(launcherServiceImpl.getQueueItemUrl(accountTypeId));
-        apiExecutor.callApiMethod(new DeleteLauncherScannerMethod(buildnumber, accountTypeId), HTTPStatusCodeType.OK, false, null);
+
+
+        DeleteLauncherScannerMethod deleteLauncherScannerMethod = new DeleteLauncherScannerMethod(buildnumber, accountTypeId);
+        apiExecutor.expectStatus(deleteLauncherScannerMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(deleteLauncherScannerMethod);
     }
 }

@@ -8,13 +8,20 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 
 public class ExecutionServiceImpl implements ExecutionService {
     @Override
-    public String callApiMethod(AbstractApiMethodV2 method, HTTPStatusCodeType status, boolean isBodyValidationNeeded,
-                                JSONCompareMode mode, String... validationFlags) {
+    public void expectStatus(AbstractApiMethodV2 method, HTTPStatusCodeType status) {
         method.getRequest().expect().statusCode(status.getStatusCode());
+    }
+
+    @Override
+    public String callApiMethod(AbstractApiMethodV2 method) {
         Response response = method.callAPI();
-        if (isBodyValidationNeeded) {
-            method.validateResponse(mode, validationFlags);
-        }
+
         return response.asString().isEmpty() ? null : response.asString();
     }
+
+    @Override
+    public void validateResponse(AbstractApiMethodV2 method, JSONCompareMode mode, String... validationFlags) {
+        method.validateResponse(mode, validationFlags);
+    }
+
 }
