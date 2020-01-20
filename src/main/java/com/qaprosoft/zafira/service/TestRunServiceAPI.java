@@ -11,4 +11,8 @@ public interface TestRunServiceAPI {
     String finishTestRun(String accessToken, int testRunId);
 
     List<Integer> getAll(String accessToken, String searchCriteriaType, int searchCriteriaId);
+
+    void deleteById(String accessToken, int testRunId);
+
+
 }

@@ -49,4 +49,9 @@ public class TestRunServiceAPIImpl implements TestRunServiceAPI {
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         return JsonPath.from(response).getList(JSONConstant.ALL_TEST_ID_BY_TEST_SUITE_ID_KEY);
     }
+
+    @Override
+    public void deleteById(String accessToken, int testRunId) {
+        apiExecutor.callApiMethod(new GetTestRunMethod(accessToken, testRunId), HTTPStatusCodeType.OK, false, null);
+    }
 }

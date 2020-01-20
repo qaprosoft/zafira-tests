@@ -240,4 +240,14 @@ public class TestRunTest extends ZariraAPIBaseTest {
         return email.getContent().contains(testrunURL);
     }
 
+    @Test
+    public void testGetTestRunBySearchCriteria() {
+        String token = new APIContextManager().getAccessToken();
+        String searchCriteriaType = R.TESTDATA.get(ConfigConstant.SEARCH_CRITERIA_TYPE_KEY);
+        int testSuiteId = new TestSuiteServiceImpl().create(token);
+        String rs = apiExecutor.callApiMethod(new GetTestRunBySearchCriteriaMethod(token, searchCriteriaType, testSuiteId), HTTPStatusCodeType.OK,
+                true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+
 }
