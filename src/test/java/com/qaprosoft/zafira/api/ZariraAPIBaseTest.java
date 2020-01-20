@@ -15,25 +15,25 @@ public class ZariraAPIBaseTest extends AbstractTest {
     protected ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
     @AfterTest
-    protected void deleteAllTestRun(){
+    protected void deleteAllTestRun() {
         TestRunServiceAPIImpl testRunServiceAPIImpl = new TestRunServiceAPIImpl();
         String token = new APIContextManager().getAccessToken();
         String searchCriteriaType = R.TESTDATA.get(ConfigConstant.SEARCH_CRITERIA_TYPE_KEY);
-        int testSuiteId = new TestSuiteServiceImpl().create(token);
-        List<Integer> ids = testRunServiceAPIImpl.getAll(token, searchCriteriaType, testSuiteId);
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        List<Integer> ids = testRunServiceAPIImpl.getAll(searchCriteriaType, testSuiteId);
         LOGGER.info(String.format("Test run IDs to delete: %s", ids.toString()));
-        ids.forEach(id -> testRunServiceAPIImpl.deleteById(token, id));
+        ids.forEach(id -> testRunServiceAPIImpl.deleteById(id));
     }
 
-    protected int createTestRun(String accessToken, int numOfTests) {
+    protected int createTestRun(int numOfTests) {
         TestRunServiceAPIImpl testRunServiceImpl = new TestRunServiceAPIImpl();
-        int testSuiteId = new TestSuiteServiceImpl().create(accessToken);
-        int jobId = new JobServiceImpl().create(accessToken);
-        int testRunId = testRunServiceImpl.create(accessToken, testSuiteId, jobId);
-        int testCaseId = new TestCaseServiceImpl().create(accessToken, testSuiteId);
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testRunId = testRunServiceImpl.create(testSuiteId, jobId);
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
 
         for (int i = 0; i < numOfTests; ++i) {
-            new TestServiceImpl().create(accessToken, testCaseId, testRunId);
+            new TestServiceImpl().create(testCaseId, testRunId);
         }
         return testRunId;
     }

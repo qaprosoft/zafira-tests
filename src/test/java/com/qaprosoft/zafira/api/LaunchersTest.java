@@ -24,54 +24,44 @@ public class LaunchersTest extends ZariraAPIBaseTest {
     @AfterTest
     private void deleteAllLaunchers() {
         LauncherServiceImpl launcherService = new LauncherServiceImpl();
-        APIContextManager manager = new APIContextManager();
-        String token = manager.getAccessToken();
-        List<Integer> ids = launcherService.getAll(token);
+        List<Integer> ids = launcherService.getAll();
         LOGGER.info(String.format("IDs to delete: %s", ids.toString()));
-        ids.forEach(id -> launcherService.deleteById(token, id));
+        ids.forEach(launcherService::deleteById);
     }
 
     @Test
     public void testGetAllLaunchers() {
-        APIContextManager manager = new APIContextManager();
-        String token = manager.getAccessToken();
         int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        new LauncherServiceImpl().create(token, autoServerId, accountTypeId);
-        apiExecutor.callApiMethod(new GetAllLaunchersMethod(token), HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT,
+        new LauncherServiceImpl().create(autoServerId, accountTypeId);
+        apiExecutor.callApiMethod(new GetAllLaunchersMethod(), HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
     public void testCreateLauncher() {
-        APIContextManager manager = new APIContextManager();
-        String token = manager.getAccessToken();
-        int jobId = new JobServiceImpl().create(token);
+        int jobId = new JobServiceImpl().create();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        apiExecutor.callApiMethod(new PostLauncherMethod(token, jobId, accountTypeId), HTTPStatusCodeType.OK,
+        apiExecutor.callApiMethod(new PostLauncherMethod(jobId, accountTypeId), HTTPStatusCodeType.OK,
                 true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
     public void testGetLauncherById() {
-        APIContextManager manager = new APIContextManager();
-        String token = manager.getAccessToken();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        int jobId = new JobServiceImpl().create(token);
-        int launcherId = new LauncherServiceImpl().create(token, jobId, accountTypeId);
-        apiExecutor.callApiMethod(new GetLauncherByIdMethod(token, launcherId), HTTPStatusCodeType.OK, true,
+        int jobId = new JobServiceImpl().create();
+        int launcherId = new LauncherServiceImpl().create(jobId, accountTypeId);
+        apiExecutor.callApiMethod(new GetLauncherByIdMethod(launcherId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
     public void testUpdateLauncher() {
         String expectedTypeValue = R.TESTDATA.get(ConfigConstant.TYPE_KEY);
-        APIContextManager manager = new APIContextManager();
-        String token = manager.getAccessToken();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        int jobId = new JobServiceImpl().create(token);
-        int launcherId = new LauncherServiceImpl().create(token, jobId, accountTypeId);
-        String putLauncherRs = apiExecutor.callApiMethod(new PutLauncherMethod(token, launcherId, expectedTypeValue),
+        int jobId = new JobServiceImpl().create();
+        int launcherId = new LauncherServiceImpl().create(jobId, accountTypeId);
+        String putLauncherRs = apiExecutor.callApiMethod(new PutLauncherMethod(launcherId, expectedTypeValue),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         String type = JsonPath.from(putLauncherRs).get(JSONConstant.TYPE_RS_KEY);
         Assert.assertEquals(type, expectedTypeValue, "Launcher was not updated!");
@@ -79,75 +69,59 @@ public class LaunchersTest extends ZariraAPIBaseTest {
 
     @Test
     public void testDeleteNewLauncher() {
-        APIContextManager manager = new APIContextManager();
         LauncherServiceImpl launcherService = new LauncherServiceImpl();
-        String token = manager.getAccessToken();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        int jobId = new JobServiceImpl().create(token);
-        int launcherId = new LauncherServiceImpl().create(token, jobId, accountTypeId);
-        launcherService.deleteById(token, launcherId);
-        apiExecutor.callApiMethod(new GetLauncherByIdMethod(token, launcherId), HTTPStatusCodeType.NOT_FOUND, false,
+        int jobId = new JobServiceImpl().create();
+        int launcherId = new LauncherServiceImpl().create(jobId, accountTypeId);
+        launcherService.deleteById(launcherId);
+        apiExecutor.callApiMethod(new GetLauncherByIdMethod(launcherId), HTTPStatusCodeType.NOT_FOUND, false,
                 null);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testBuildJobByWebhook() {
-        APIContextManager manager = new APIContextManager();
         PresetServiceImpl presetServiceImpl = new PresetServiceImpl();
-        String token = manager.getAccessToken();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        int jobId = new JobServiceImpl().create(token);
-        int launcherId = new LauncherServiceImpl().create(token, jobId, accountTypeId);
-        int presetId = presetServiceImpl.create(token, launcherId);
-        String ref = presetServiceImpl.getWebhookUrl(token, launcherId, presetId);
-        apiExecutor.callApiMethod(new PostJobByWebHookMethod(token, launcherId, ref), HTTPStatusCodeType.OK, false,
+        int jobId = new JobServiceImpl().create();
+        int launcherId = new LauncherServiceImpl().create(jobId, accountTypeId);
+        int presetId = presetServiceImpl.create(launcherId);
+        String ref = presetServiceImpl.getWebhookUrl(launcherId, presetId);
+        apiExecutor.callApiMethod(new PostJobByWebHookMethod(launcherId, ref), HTTPStatusCodeType.OK, false,
                 null);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testBuildJobByLauncher() {
-        APIContextManager manager = new APIContextManager();
-        String token = manager.getAccessToken();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        apiExecutor.callApiMethod(new PostJobByLauncherMethod(token, accountTypeId), HTTPStatusCodeType.OK, false,
+        apiExecutor.callApiMethod(new PostJobByLauncherMethod(accountTypeId), HTTPStatusCodeType.OK, false,
                 null);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testCreateLauncherFromJenkiins() {
-        APIContextManager manager = new APIContextManager();
-        String token = manager.getAccessToken();
-        apiExecutor.callApiMethod(new PostLauncherFromJenkinsMethod(token), HTTPStatusCodeType.OK, true,
+        apiExecutor.callApiMethod(new PostLauncherFromJenkinsMethod(), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testScanLauncher() {
-        APIContextManager manager = new APIContextManager();
-        String token = manager.getAccessToken();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        apiExecutor.callApiMethod(new PostScanLaucherMethod(token, accountTypeId), HTTPStatusCodeType.OK, true,
+        apiExecutor.callApiMethod(new PostScanLaucherMethod(accountTypeId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testGetBuildNumber() {
-        APIContextManager manager = new APIContextManager();
-        String token = manager.getAccessToken();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        String queueItemUrl = new LauncherServiceImpl().getQueueItemUrl(token, accountTypeId);
-        apiExecutor.callApiMethod(new GetBuildNumberMethod(token, queueItemUrl), HTTPStatusCodeType.OK, false, null);
+        String queueItemUrl = new LauncherServiceImpl().getQueueItemUrl(accountTypeId);
+        apiExecutor.callApiMethod(new GetBuildNumberMethod(queueItemUrl), HTTPStatusCodeType.OK, false, null);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testCancelLauncherScanner() {
-        APIContextManager manager = new APIContextManager();
         LauncherServiceImpl launcherServiceImpl = new LauncherServiceImpl();
-        String token = manager.getAccessToken();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        String buildnumber = launcherServiceImpl.getBuildNumber(token,
-                launcherServiceImpl.getQueueItemUrl(token, accountTypeId));
-        apiExecutor.callApiMethod(new DeleteLauncherScannerMethod(token, buildnumber, accountTypeId),
-                HTTPStatusCodeType.OK, false, null);
+        String buildnumber = launcherServiceImpl.getBuildNumber(launcherServiceImpl.getQueueItemUrl(accountTypeId));
+        apiExecutor.callApiMethod(new DeleteLauncherScannerMethod(buildnumber, accountTypeId), HTTPStatusCodeType.OK, false, null);
     }
 }

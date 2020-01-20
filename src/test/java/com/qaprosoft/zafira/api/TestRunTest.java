@@ -40,22 +40,20 @@ public class TestRunTest extends ZariraAPIBaseTest {
 
     @Test
     public void testStartTestRun() {
-        String token = new APIContextManager().getAccessToken();
-        int testSuiteId = new TestSuiteServiceImpl().create(token);
-        int jobId = new JobServiceImpl().create(token);
-        apiExecutor.callApiMethod(new PostStartTestRunMethod(token, testSuiteId, jobId), HTTPStatusCodeType.OK, true,
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        apiExecutor.callApiMethod(new PostStartTestRunMethod(testSuiteId, jobId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
     public void testUpdateTestRun() {
-        String token = new APIContextManager().getAccessToken();
-        int testSuiteId = new TestSuiteServiceImpl().create(token);
-        int jobId = new JobServiceImpl().create(token);
-        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         String expectedWorkItemValue = R.TESTDATA.get(ConfigConstant.WORK_ITEM_KEY);
         String putLauncherRs = apiExecutor.callApiMethod(
-                new PutTestRunMethod(token, testSuiteId, jobId, testRunId, expectedWorkItemValue),
+                new PutTestRunMethod(testSuiteId, jobId, testRunId, expectedWorkItemValue),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         String workItem = JsonPath.from(putLauncherRs).get(JSONConstant.WORK_ITEM_RS_KEY);
         Assert.assertEquals(workItem, expectedWorkItemValue, "Launcher was not updated!");
@@ -63,103 +61,93 @@ public class TestRunTest extends ZariraAPIBaseTest {
 
     @Test
     public void testGetTestRun() {
-        String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, TESTS_TO_ADD);
-        apiExecutor.callApiMethod(new GetTestRunMethod(token, testRunId), HTTPStatusCodeType.OK, true,
+        int testRunId = createTestRun(TESTS_TO_ADD);
+        apiExecutor.callApiMethod(new GetTestRunMethod(testRunId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
     public void testDeleteTestRun() {
-        String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, TESTS_TO_ADD);
-        apiExecutor.callApiMethod(new DeleteTestRunMethod(token, testRunId), HTTPStatusCodeType.OK, false, null);
-        apiExecutor.callApiMethod(new GetTestRunMethod(token, testRunId), HTTPStatusCodeType.NOT_FOUND, false, null);
+        int testRunId = createTestRun(TESTS_TO_ADD);
+        apiExecutor.callApiMethod(new DeleteTestRunMethod(testRunId), HTTPStatusCodeType.OK, false, null);
+        apiExecutor.callApiMethod(new GetTestRunMethod(testRunId), HTTPStatusCodeType.NOT_FOUND, false, null);
 
     }
 
     @Test
     public void testFinishTestRun() {
-        String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, TESTS_TO_ADD);
+        int testRunId = createTestRun(TESTS_TO_ADD);
         String expectedTestRunStatus = R.TESTDATA.get(ConfigConstant.STATUS_EXPECTED_KEY);
-        String testRunStatus = new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
+        String testRunStatus = new TestRunServiceAPIImpl().finishTestRun(testRunId);
         Assert.assertEquals(testRunStatus, expectedTestRunStatus, "TestRun was not finish!");
     }
 
     @Test
     public void testSendTestRunResultEmail() {
-        String token = new APIContextManager().getAccessToken();
         Assert.assertTrue(
-                new IntegrationServiceImpl().isIntegrationEnabled(token,
+                new IntegrationServiceImpl().isIntegrationEnabled(
                         R.TESTDATA.getInt(ConfigConstant.EMAIL_INTEGRATION_ID_KEY), IntegrationGroupType.MAIL),
                 "Email integration disabled!");
-        int testRunId = createTestRun(token, TESTS_TO_ADD);
-        new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
+        int testRunId = createTestRun(TESTS_TO_ADD);
+        new TestRunServiceAPIImpl().finishTestRun(testRunId);
         String expectedTestRunIdInMail = String.format("%s/%s/%s", APIContextManager.BASE_URL,
                 R.TESTDATA.get(ConfigConstant.TEST_RUN_URL_PREFIX_KEY), testRunId);
-        new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
-        apiExecutor.callApiMethod(new PostTestRunResultEmailMethod(token, testRunId), HTTPStatusCodeType.OK, false,
+        new TestRunServiceAPIImpl().finishTestRun(testRunId);
+        apiExecutor.callApiMethod(new PostTestRunResultEmailMethod(testRunId), HTTPStatusCodeType.OK, false,
                 null);
         Assert.assertTrue(verifyIfEmailWasDelivered(expectedTestRunIdInMail), "Email was not delivered!");
     }
 
     @Test
     public void testGetTestRunResultHtmlText() {
-        String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, TESTS_TO_ADD);
-        new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
-        apiExecutor.callApiMethod(new GetTestRunResultHtmlTextMethod(token, testRunId), HTTPStatusCodeType.OK, false,
+        int testRunId = createTestRun(TESTS_TO_ADD);
+        new TestRunServiceAPIImpl().finishTestRun(testRunId);
+        apiExecutor.callApiMethod(new GetTestRunResultHtmlTextMethod(testRunId), HTTPStatusCodeType.OK, false,
                 null);
     }
 
     @Test
     public void testMarkTestRunReviewed() {
-        String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, TESTS_TO_ADD);
-        new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
-        apiExecutor.callApiMethod(new PostMarkTestRunReviewedMethod(token, testRunId), HTTPStatusCodeType.OK, false,
+        int testRunId = createTestRun(TESTS_TO_ADD);
+        new TestRunServiceAPIImpl().finishTestRun(testRunId);
+        apiExecutor.callApiMethod(new PostMarkTestRunReviewedMethod(testRunId), HTTPStatusCodeType.OK, false,
                 null);
     }
 
     @Test
     public void testGetTestByTestRunId() {
         TestServiceImpl testServiceImpl = new TestServiceImpl();
-        String token = new APIContextManager().getAccessToken();
-        int testSuiteId = new TestSuiteServiceImpl().create(token);
-        int jobId = new JobServiceImpl().create(token);
-        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
-        int testCaseId = new TestCaseServiceImpl().create(token, testSuiteId);
-        int testId = testServiceImpl.create(token, testCaseId, testRunId);
-        testServiceImpl.finishTest(token, testCaseId, testRunId, testId);
-        apiExecutor.callApiMethod(new GetTestByTestRunIdMethod(token, testRunId), HTTPStatusCodeType.OK, true,
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testId = testServiceImpl.create(testCaseId, testRunId);
+        testServiceImpl.finishTest(testCaseId, testRunId, testId);
+        apiExecutor.callApiMethod(new GetTestByTestRunIdMethod(testRunId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testBuildTestRunJob() {
-        String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, TESTS_TO_ADD);
-        new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
-        apiExecutor.callApiMethod(new PostTestRunByJobMethod(token, testRunId), HTTPStatusCodeType.OK, false, null);
+        int testRunId = createTestRun(TESTS_TO_ADD);
+        new TestRunServiceAPIImpl().finishTestRun(testRunId);
+        apiExecutor.callApiMethod(new PostTestRunByJobMethod(testRunId), HTTPStatusCodeType.OK, false, null);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testDebugJob() {
-        String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, TESTS_TO_ADD);
-        new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
+        int testRunId = createTestRun(TESTS_TO_ADD);
+        new TestRunServiceAPIImpl().finishTestRun(testRunId);
 
-        apiExecutor.callApiMethod(new GetDebugJobMethod(token, testRunId), HTTPStatusCodeType.OK, false, null);
+        apiExecutor.callApiMethod(new GetDebugJobMethod(testRunId), HTTPStatusCodeType.OK, false, null);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testGetTestRunJobParameters() {
-        String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, TESTS_TO_ADD);
-        new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
+        int testRunId = createTestRun(TESTS_TO_ADD);
+        new TestRunServiceAPIImpl().finishTestRun(testRunId);
 
-        apiExecutor.callApiMethod(new GetTestRunJobParametersMethod(token, testRunId), HTTPStatusCodeType.OK, true,
+        apiExecutor.callApiMethod(new GetTestRunJobParametersMethod(testRunId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
@@ -171,58 +159,52 @@ public class TestRunTest extends ZariraAPIBaseTest {
     @Test(dataProvider = "rerunFailuresDataProvider", enabled = false)
     //TODO: enable this test when jenkins mock container will be up)
     public void testGetTestRunJobById(boolean rerunFailures) {
-        String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, TESTS_TO_ADD);
-        new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
+        int testRunId = createTestRun(TESTS_TO_ADD);
+        new TestRunServiceAPIImpl().finishTestRun(testRunId);
 
-        apiExecutor.callApiMethod(new GetRerunTestRunByIdMethod(token, testRunId, rerunFailures), HTTPStatusCodeType.OK,
+        apiExecutor.callApiMethod(new GetRerunTestRunByIdMethod(testRunId, rerunFailures), HTTPStatusCodeType.OK,
                 true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test(dataProvider = "rerunFailuresDataProvider", enabled = false)
     //TODO: enable this test when jenkins mock container will be up)
     public void testRerunTestRunJob(boolean rerunFailures) {
-        String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, TESTS_TO_ADD);
-        new TestRunServiceAPIImpl().finishTestRun(token, testRunId);
+        int testRunId = createTestRun(TESTS_TO_ADD);
+        new TestRunServiceAPIImpl().finishTestRun(testRunId);
 
-        apiExecutor.callApiMethod(new PostRerunTestRunJobsMethod(token, rerunFailures), HTTPStatusCodeType.OK, false,
+        apiExecutor.callApiMethod(new PostRerunTestRunJobsMethod(rerunFailures), HTTPStatusCodeType.OK, false,
                 null);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testAbortTestRun() {
-        String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, TESTS_TO_ADD);
-        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(token, testRunId);
-        apiExecutor.callApiMethod(new PostAbortTestRunMethod(token, testRunId, ciRunId), HTTPStatusCodeType.OK, false,
+        int testRunId = createTestRun(TESTS_TO_ADD);
+        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
+        apiExecutor.callApiMethod(new PostAbortTestRunMethod(testRunId, ciRunId), HTTPStatusCodeType.OK, false,
                 null);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testAbortTestRunCi() {
-        String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, TESTS_TO_ADD);
-        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(token, testRunId);
-        apiExecutor.callApiMethod(new GetAbortTestRunCiMethod(token, testRunId, ciRunId), HTTPStatusCodeType.OK, false,
+        int testRunId = createTestRun(TESTS_TO_ADD);
+        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
+        apiExecutor.callApiMethod(new GetAbortTestRunCiMethod(testRunId, ciRunId), HTTPStatusCodeType.OK, false,
                 null);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testAbortTestRunDebug() {
-        String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, TESTS_TO_ADD);
-        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(token, testRunId);
-        apiExecutor.callApiMethod(new GetAbortDebugTestRunMethod(token, testRunId, ciRunId), HTTPStatusCodeType.OK,
+        int testRunId = createTestRun(TESTS_TO_ADD);
+        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
+        apiExecutor.callApiMethod(new GetAbortDebugTestRunMethod(testRunId, ciRunId), HTTPStatusCodeType.OK,
                 false, null);
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
     public void testGetBuildConsoleOutput() {
-        String token = new APIContextManager().getAccessToken();
-        int testRunId = createTestRun(token, TESTS_TO_ADD);
-        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(token, testRunId);
-        apiExecutor.callApiMethod(new GetBuildConsoleOutputMethod(token, ciRunId), HTTPStatusCodeType.OK, false, null);
+        int testRunId = createTestRun(TESTS_TO_ADD);
+        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
+        apiExecutor.callApiMethod(new GetBuildConsoleOutputMethod(ciRunId), HTTPStatusCodeType.OK, false, null);
     }
 
     /**

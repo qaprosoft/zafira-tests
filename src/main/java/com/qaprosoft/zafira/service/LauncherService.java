@@ -4,18 +4,18 @@ import java.util.List;
 
 public interface LauncherService {
 
-    List<Integer> getAll(String accessToken);
+    List<Integer> getAll();
 
-    int getById(String accessToken, int id);
+    int getById(int id);
 
-    int create(String accessToken, int autoServerId, int accountTypeId);
+    int create(int autoServerId, int accountTypeId);
 
-    int update(String accessToken, int id, String valueToUpdate);
+    int update(int id, String valueToUpdate);
 
-    void deleteById(String accessToken, int id);
+    void deleteById(int id);
 
-    String getQueueItemUrl(String accessToken, int scmAccountId);
+    String getQueueItemUrl(int scmAccountId);
 
-    String getBuildNumber(String accessToken, String queueItemUrl);
+    String getBuildNumber(String queueItemUrl);
 
 }

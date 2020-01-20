@@ -2,7 +2,7 @@ package com.qaprosoft.zafira.service;
 
 public interface PresetService {
 
-    int create(String accessToken, int launcherId);
+    int create(int launcherId);
 
-    String getWebhookUrl(String accessToken, int launcherId, int presetId);
+    String getWebhookUrl(int launcherId, int presetId);
 }

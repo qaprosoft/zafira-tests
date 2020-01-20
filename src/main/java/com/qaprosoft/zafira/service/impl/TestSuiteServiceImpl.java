@@ -18,8 +18,8 @@ public class TestSuiteServiceImpl implements TestSuiteService {
     }
 
     @Override
-    public int create(String accessToken) {
-        String response = apiExecutor.callApiMethod(new PostTestSuiteMethod(accessToken), HTTPStatusCodeType.OK, true,
+    public int create() {
+        String response = apiExecutor.callApiMethod(new PostTestSuiteMethod(), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
