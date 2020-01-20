@@ -11,7 +11,10 @@ public class TestCaseTest extends ZariraAPIBaseTest {
     @Test
     public void testCreateTestCase() {
         int testSuiteId = new TestSuiteServiceImpl().create();
-        apiExecutor.callApiMethod(new PostTestCaseMethod(testSuiteId), HTTPStatusCodeType.OK, true,
-                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        PostTestCaseMethod postTestCaseMethod = new PostTestCaseMethod(testSuiteId);
+        apiExecutor.expectStatus(postTestCaseMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postTestCaseMethod);
+        apiExecutor.validateResponse(postTestCaseMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }

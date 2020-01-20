@@ -23,21 +23,18 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public int create(int testCaseId, int testRunId) {
-        String response = apiExecutor.callApiMethod(new PostStartTestMethod(testCaseId, testRunId),
-                HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String response = apiExecutor.callApiMethod(new PostStartTestMethod(testCaseId, testRunId));
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
 
     @Override
     public void finishTest(int testCaseId, int testRunId, int testId) {
-        apiExecutor.callApiMethod(new PostFinishTestMethod(testCaseId, testRunId, testId),
-                HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        apiExecutor.callApiMethod(new PostFinishTestMethod(testCaseId, testRunId, testId));
     }
 
     @Override
     public List<Integer> getAllArtifacts(int testRunId) {
-        String response = apiExecutor.callApiMethod(new GetTestByTestRunIdMethod(testRunId),
-                HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String response = apiExecutor.callApiMethod(new GetTestByTestRunIdMethod(testRunId));
         return JsonPath.from(response).getList(JSONConstant.ARTIFACT_ID_KEY);
     }
 }

@@ -19,8 +19,7 @@ public class TestCaseServiceImpl implements TestCaseService {
 
     @Override
     public int create(int testSuiteId) {
-        String response = apiExecutor.callApiMethod(new PostTestCaseMethod(testSuiteId),
-                HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String response = apiExecutor.callApiMethod(new PostTestCaseMethod(testSuiteId));
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
 }

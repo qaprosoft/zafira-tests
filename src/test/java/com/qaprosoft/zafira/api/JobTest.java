@@ -8,7 +8,10 @@ import org.testng.annotations.Test;
 public class JobTest extends ZariraAPIBaseTest {
     @Test
     public void testCreateJob() {
-        apiExecutor.callApiMethod(new PostJobMethod(), HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT,
+        PostJobMethod postJobMethod = new PostJobMethod();
+        apiExecutor.expectStatus(postJobMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postJobMethod);
+        apiExecutor.validateResponse(postJobMethod, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }
