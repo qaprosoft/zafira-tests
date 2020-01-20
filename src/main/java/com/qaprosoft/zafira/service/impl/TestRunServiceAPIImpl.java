@@ -2,10 +2,7 @@ package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.zafira.api.GetTestRunBySearchCriteriaMethod;
-import com.qaprosoft.zafira.api.GetTestRunMethod;
-import com.qaprosoft.zafira.api.PostFinishTestRunMethod;
-import com.qaprosoft.zafira.api.PostStartTestRunMethod;
+import com.qaprosoft.zafira.api.*;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.TestRunServiceAPI;
@@ -47,6 +44,11 @@ public class TestRunServiceAPIImpl implements TestRunServiceAPI {
     public List<Integer> getAll(String searchCriteriaType, int searchCriteriaId) {
         String response = apiExecutor.callApiMethod(new GetTestRunBySearchCriteriaMethod(searchCriteriaType, searchCriteriaId),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        return JsonPath.from(response).getList(JSONConstant.ALL_TEST_ID_BY_TEST_SUITE_ID_KEY);
+        return JsonPath.from(response).getList(JSONConstant.ALL_TEST_RUN_ID_BY_SEARCH_CRITERIA_KEY);
+    }
+
+    @Override
+    public void deleteById( int testRunId) {
+        apiExecutor.callApiMethod(new DeleteTestRunMethod(testRunId), HTTPStatusCodeType.OK, false, null);
     }
 }
