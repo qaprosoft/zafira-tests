@@ -1,10 +1,10 @@
 package com.qaprosoft.zafira.api;
 
-        import com.qaprosoft.carina.core.foundation.utils.R;
-        import com.qaprosoft.zafira.constant.ConfigConstant;
-        import com.qaprosoft.zafira.manager.APIContextManager;
+import com.qaprosoft.carina.core.foundation.utils.R;
+import com.qaprosoft.zafira.constant.ConfigConstant;
+import com.qaprosoft.zafira.manager.APIContextManager;
 
-        import java.util.Properties;
+import java.util.Properties;
 
 public class GetTestRunBySearchCriteriaMethod extends ZafiraBaseApiMethodWithAuth {
     public GetTestRunBySearchCriteriaMethod(String searchCriteriaType, int testSuiteId) {

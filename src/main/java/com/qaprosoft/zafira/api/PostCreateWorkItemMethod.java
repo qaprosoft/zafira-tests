@@ -2,7 +2,7 @@ package com.qaprosoft.zafira.api;
 
 import com.qaprosoft.zafira.manager.APIContextManager;
 
-class PostCreateWorkItemMethod extends ZafiraBaseApiMethodWithAuth {
+public class PostCreateWorkItemMethod extends ZafiraBaseApiMethodWithAuth {
 
     public PostCreateWorkItemMethod(int testId, String jiraId) {
         super("api/test/_post/rq_to_create_workItem.json", "api/test/_post/rs_to_create_workItem.json",
