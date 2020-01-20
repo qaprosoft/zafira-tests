@@ -18,8 +18,8 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public int create(String accessToken) {
-        String response = apiExecutor.callApiMethod(new PostJobMethod(accessToken), HTTPStatusCodeType.OK, true,
+    public int create() {
+        String response = apiExecutor.callApiMethod(new PostJobMethod(), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }

@@ -23,29 +23,29 @@ public class TestRunServiceAPIImpl implements TestRunServiceAPI {
     }
 
     @Override
-    public int create(String accessToken, int testSuiteId, int jobId) {
-        String response = apiExecutor.callApiMethod(new PostStartTestRunMethod(accessToken, testSuiteId, jobId),
+    public int create(int testSuiteId, int jobId) {
+        String response = apiExecutor.callApiMethod(new PostStartTestRunMethod(testSuiteId, jobId),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
 
     @Override
-    public String getCiRunId(String accessToken, int testSuiteId) {
+    public String getCiRunId(int testSuiteId) {
         return JsonPath.from(
-                apiExecutor.callApiMethod(new GetTestRunMethod(accessToken, testSuiteId), HTTPStatusCodeType.OK, false, null))
+                apiExecutor.callApiMethod(new GetTestRunMethod(testSuiteId), HTTPStatusCodeType.OK, false, null))
                 .getString(JSONConstant.CI_RUN_ID_KEY);
     }
 
     @Override
-    public String finishTestRun(String accessToken, int testRunId) {
-        String response = apiExecutor.callApiMethod(new PostFinishTestRunMethod(accessToken, testRunId),
+    public String finishTestRun(int testRunId) {
+        String response = apiExecutor.callApiMethod(new PostFinishTestRunMethod(testRunId),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         return JsonPath.from(response).getString(JSONConstant.STATUS_KEY);
     }
 
     @Override
-    public List<Integer> getAll(String accessToken, String searchCriteriaType, int searchCriteriaId) {
-        String response = apiExecutor.callApiMethod(new GetTestRunBySearchCriteriaMethod(accessToken, searchCriteriaType, searchCriteriaId),
+    public List<Integer> getAll(String searchCriteriaType, int searchCriteriaId) {
+        String response = apiExecutor.callApiMethod(new GetTestRunBySearchCriteriaMethod(searchCriteriaType, searchCriteriaId),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         return JsonPath.from(response).getList(JSONConstant.ALL_TEST_ID_BY_TEST_SUITE_ID_KEY);
     }

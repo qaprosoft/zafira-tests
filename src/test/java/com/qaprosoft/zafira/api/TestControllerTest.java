@@ -20,38 +20,35 @@ public class TestControllerTest extends ZariraAPIBaseTest {
 
     @Test
     public void testStartTest() {
-        String token = new APIContextManager().getAccessToken();
-        int testSuiteId = new TestSuiteServiceImpl().create(token);
-        int jobId = new JobServiceImpl().create(token);
-        int testCaseId = new TestCaseServiceImpl().create(token, testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
-        apiExecutor.callApiMethod(new PostStartTestMethod(token, testCaseId, testRunId), HTTPStatusCodeType.OK, true,
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        apiExecutor.callApiMethod(new PostStartTestMethod(testCaseId, testRunId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
     public void testFinishTest() {
-        String token = new APIContextManager().getAccessToken();
-        int testSuiteId = new TestSuiteServiceImpl().create(token);
-        int jobId = new JobServiceImpl().create(token);
-        int testCaseId = new TestCaseServiceImpl().create(token, testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(token, testCaseId, testRunId);
-        apiExecutor.callApiMethod(new PostFinishTestMethod(token, testCaseId, testRunId, testId), HTTPStatusCodeType.OK,
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        apiExecutor.callApiMethod(new PostFinishTestMethod(testCaseId, testRunId, testId), HTTPStatusCodeType.OK,
                 true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
     public void testUpdateTestStatus() {
         String expectedTestStatusValue = R.TESTDATA.get(ConfigConstant.TEST_STATUS_EXPECTED_UPDATE_KEY);
-        String token = new APIContextManager().getAccessToken();
-        int testSuiteId = new TestSuiteServiceImpl().create(token);
-        int jobId = new JobServiceImpl().create(token);
-        int testCaseId = new TestCaseServiceImpl().create(token, testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(token, testCaseId, testRunId);
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = new TestServiceImpl().create(testCaseId, testRunId);
         String putTestRs = apiExecutor.callApiMethod(
-                new PutUpdateTestStatusMethod(token, testId, testSuiteId, jobId, expectedTestStatusValue),
+                new PutUpdateTestStatusMethod(testId, testSuiteId, jobId, expectedTestStatusValue),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         String testStatus = JsonPath.from(putTestRs).get(JSONConstant.STATUS_KEY);
         Assert.assertEquals(testStatus, expectedTestStatusValue, "Test status was not updated!");
@@ -61,44 +58,41 @@ public class TestControllerTest extends ZariraAPIBaseTest {
     public void testCreateTestArtifact() {
         TestServiceImpl testServiceImpl = new TestServiceImpl();
         String link = R.TESTDATA.get(ConfigConstant.LINK_KEY);
-        String token = new APIContextManager().getAccessToken();
-        int testSuiteId = new TestSuiteServiceImpl().create(token);
-        int jobId = new JobServiceImpl().create(token);
-        int testCaseId = new TestCaseServiceImpl().create(token, testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
-        int testId = testServiceImpl.create(token, testCaseId, testRunId);
-        apiExecutor.callApiMethod(new PostCreateTestArtifactMethod(token, link, testId), HTTPStatusCodeType.OK, false,
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = testServiceImpl.create(testCaseId, testRunId);
+        apiExecutor.callApiMethod(new PostCreateTestArtifactMethod(link, testId), HTTPStatusCodeType.OK, false,
                 null);
-        List<Integer> artifactId = testServiceImpl.getAllArtifacts(token, testRunId);
+        List<Integer> artifactId = testServiceImpl.getAllArtifacts(testRunId);
         LOGGER.info(String.format("Artifact ID: %s", artifactId.toString()));
         Assert.assertNotEquals(0, artifactId.get(0), "Test's artifact was not attache to test!");
     }
 
     @Test
     public void testDeleteTestById() {
-        String token = new APIContextManager().getAccessToken();
-        int testSuiteId = new TestSuiteServiceImpl().create(token);
-        int jobId = new JobServiceImpl().create(token);
-        int testCaseId = new TestCaseServiceImpl().create(token, testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(token, testCaseId, testRunId);
-        apiExecutor.callApiMethod(new DeleteTestByIdMethod(token, testId), HTTPStatusCodeType.OK, false, null);
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        apiExecutor.callApiMethod(new DeleteTestByIdMethod(testId), HTTPStatusCodeType.OK, false, null);
         // Trying to delete test that has been already deleted as api doesnt have endpoint get test by id. Just an additional validation
-        apiExecutor.callApiMethod(new DeleteTestByIdMethod(token, testId), HTTPStatusCodeType.NOT_FOUND, false, null);
+        apiExecutor.callApiMethod(new DeleteTestByIdMethod(testId), HTTPStatusCodeType.NOT_FOUND, false, null);
     }
 
     @Test
     public void testLinkWorkItemToTest() {
-        String token = new APIContextManager().getAccessToken();
         String expectedJiraIdValue = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
         String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
-        int testSuiteId = new TestSuiteServiceImpl().create(token);
-        int jobId = new JobServiceImpl().create(token);
-        int testCaseId = new TestCaseServiceImpl().create(token, testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(token, testCaseId, testRunId);
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = new TestServiceImpl().create(testCaseId, testRunId);
         String linkWorkItemRs = apiExecutor.callApiMethod(
-                new PostLinkWorkItemMethod(token, testCaseId, expectedJiraIdValue, testId, workItemType),
+                new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue, testId, workItemType),
                 HTTPStatusCodeType.OK, false, null);
         String jiraId = JsonPath.from(linkWorkItemRs).get(JSONConstant.JIRA_ID_KEY);
         Assert.assertEquals(jiraId, expectedJiraIdValue, "Work item was not link to test!");
@@ -106,17 +100,16 @@ public class TestControllerTest extends ZariraAPIBaseTest {
 
     @Test
     public void testGetWorkItem() {
-        String token = new APIContextManager().getAccessToken();
         String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
         String jiraId = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
-        int testSuiteId = new TestSuiteServiceImpl().create(token);
-        int jobId = new JobServiceImpl().create(token);
-        int testCaseId = new TestCaseServiceImpl().create(token, testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(token, testCaseId, testRunId);
-        apiExecutor.callApiMethod(new PostLinkWorkItemMethod(token, testCaseId, jiraId, testId, workItemType),
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        apiExecutor.callApiMethod(new PostLinkWorkItemMethod(testCaseId, jiraId, testId, workItemType),
                 HTTPStatusCodeType.OK, false, null);
-        String workItemRs = apiExecutor.callApiMethod(new GetWorkItemMethod(token, testId, workItemType),
+        String workItemRs = apiExecutor.callApiMethod(new GetWorkItemMethod(testId, workItemType),
                 HTTPStatusCodeType.OK, false, null);
         List<Integer> workItemId = JsonPath.from(workItemRs).getList(JSONConstant.ID_KEY);
         LOGGER.info(workItemId);
@@ -126,26 +119,24 @@ public class TestControllerTest extends ZariraAPIBaseTest {
 
     @Test
     public void testCreateWorkItem() {
-        String token = new APIContextManager().getAccessToken();
         String jiraId = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
-        int testSuiteId = new TestSuiteServiceImpl().create(token);
-        int jobId = new JobServiceImpl().create(token);
-        int testCaseId = new TestCaseServiceImpl().create(token, testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(token, testCaseId, testRunId);
-        apiExecutor.callApiMethod(new PostCreateWorkItemMethod(token, testId, jiraId), HTTPStatusCodeType.OK, true,
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        apiExecutor.callApiMethod(new PostCreateWorkItemMethod(testId, jiraId), HTTPStatusCodeType.OK, true,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
     public void testRetrieveTestBySearchCriteria() {
-        String token = new APIContextManager().getAccessToken();
-        int testSuiteId = new TestSuiteServiceImpl().create(token);
-        int jobId = new JobServiceImpl().create(token);
-        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
-        int testCaseId = new TestCaseServiceImpl().create(token, testSuiteId);
-        new TestServiceImpl().create(token, testCaseId, testRunId);
-        String testRs = apiExecutor.callApiMethod(new PostRetrieveTestBySearchCriteriaMethod(token, testRunId),
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        new TestServiceImpl().create(testCaseId, testRunId);
+        String testRs = apiExecutor.callApiMethod(new PostRetrieveTestBySearchCriteriaMethod(testRunId),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int allTestId = JsonPath.from(testRs).get(JSONConstant.ALL_TEST_ID_KEY);
         LOGGER.info(String.format("Test Ids: %s", allTestId));
@@ -153,24 +144,23 @@ public class TestControllerTest extends ZariraAPIBaseTest {
 
     @Test
     public void testDeleteWorkItem() {
-        String token = new APIContextManager().getAccessToken();
         String expectedJiraIdValue = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
         String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
-        int testSuiteId = new TestSuiteServiceImpl().create(token);
-        int jobId = new JobServiceImpl().create(token);
-        int testCaseId = new TestCaseServiceImpl().create(token, testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(token, testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(token, testCaseId, testRunId);
-        String linkWorkItemRs = apiExecutor.callApiMethod(new PostLinkWorkItemMethod(token, testCaseId, expectedJiraIdValue, testId, workItemType),
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        String linkWorkItemRs = apiExecutor.callApiMethod(new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue, testId, workItemType),
                 HTTPStatusCodeType.OK, false, null);
         int workItemId = JsonPath.from(linkWorkItemRs).get(JSONConstant.ID_KEY);
-        String testRs = apiExecutor.callApiMethod(new PostRetrieveTestBySearchCriteriaMethod(token, testRunId),
+        String testRs = apiExecutor.callApiMethod(new PostRetrieveTestBySearchCriteriaMethod(testRunId),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int workItemIdRs = JsonPath.from(testRs).get(JSONConstant.WORK_ITEM_ID_CHECK_KEY);
         LOGGER.info(workItemIdRs);
         Assert.assertNotEquals(0, workItemIdRs, "Work item was not link!");
-        apiExecutor.callApiMethod(new DeleteWorkItemMethod(token, testId, workItemId), HTTPStatusCodeType.OK, false, null);
-        String testRsAfterDelete = apiExecutor.callApiMethod(new PostRetrieveTestBySearchCriteriaMethod(token, testRunId),
+        apiExecutor.callApiMethod(new DeleteWorkItemMethod(testId, workItemId), HTTPStatusCodeType.OK, false, null);
+        String testRsAfterDelete = apiExecutor.callApiMethod(new PostRetrieveTestBySearchCriteriaMethod(testRunId),
                 HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         List<Integer> workItemsAfterDelete = JsonPath.from(testRsAfterDelete).getList(JSONConstant.WORK_ITEMS_ARRAY_KEY);
         LOGGER.info(workItemsAfterDelete);
