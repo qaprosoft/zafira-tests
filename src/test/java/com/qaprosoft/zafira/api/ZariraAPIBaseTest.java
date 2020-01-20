@@ -5,6 +5,7 @@ import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.service.impl.*;
 import org.apache.log4j.Logger;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class ZariraAPIBaseTest extends AbstractTest {
     private static final Logger LOGGER = Logger.getLogger(ZariraAPIBaseTest.class);
     protected ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
-    @AfterTest(enabled = false)
+    @AfterSuite
     protected void deleteAllTestRuns() {
         TestRunServiceAPIImpl testRunServiceAPIImpl = new TestRunServiceAPIImpl();
         String searchCriteriaType = R.TESTDATA.get(ConfigConstant.SEARCH_CRITERIA_TYPE_KEY);
