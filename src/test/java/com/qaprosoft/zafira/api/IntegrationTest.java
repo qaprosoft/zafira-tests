@@ -9,7 +9,10 @@ public class IntegrationTest extends ZariraAPIBaseTest {
 
     @Test
     public void testGetIntegrationConnectionInfo() {
-        apiExecutor.callApiMethod(new GetIntegrationInfoMethod(), HTTPStatusCodeType.OK, true,
+        GetIntegrationInfoMethod getIntegrationInfoMethod = new GetIntegrationInfoMethod();
+        apiExecutor.expectStatus(getIntegrationInfoMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getIntegrationInfoMethod);
+        apiExecutor.validateResponse(getIntegrationInfoMethod,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }

@@ -37,7 +37,7 @@ public class APIContextManager {
 
     public void setAccessToken() {
         ExecutionServiceImpl executor = new ExecutionServiceImpl();
-        String rsString = executor.callApiMethod(new RefreshTokenMethod(), HTTPStatusCodeType.OK, false, null);
+        String rsString = executor.callApiMethod(new RefreshTokenMethod());
         accessToken = JsonPath.from(rsString).get(JSONConstant.ACCESS_TOKEN_KEY);
         LOGGER.info("Zafira Access Token: ".concat(accessToken));
     }

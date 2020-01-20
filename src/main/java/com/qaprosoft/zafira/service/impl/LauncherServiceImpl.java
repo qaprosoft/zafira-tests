@@ -25,31 +25,27 @@ public class LauncherServiceImpl implements LauncherService {
      */
     @Override
     public List<Integer> getAll() {
-        String getAllLaunchersRs = apiExecutor.callApiMethod(new GetAllLaunchersMethod(),
-                HTTPStatusCodeType.OK, false, null);
+        String getAllLaunchersRs = apiExecutor.callApiMethod(new GetAllLaunchersMethod());
 
         return JsonPath.from(getAllLaunchersRs).getList(JSONConstant.ID_KEY);
     }
 
     @Override
     public int getById(int id) {
-        String getLauncherByIdRs = apiExecutor.callApiMethod(new GetLauncherByIdMethod(id),
-                HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String getLauncherByIdRs = apiExecutor.callApiMethod(new GetLauncherByIdMethod(id));
 
         return JsonPath.from(getLauncherByIdRs).getInt(JSONConstant.ID_KEY);
     }
 
     @Override
     public int create(int jobId, int accountTypeId) {
-        String postLauncherRs = apiExecutor.callApiMethod(new PostLauncherMethod(jobId, accountTypeId), HTTPStatusCodeType.OK,
-                true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String postLauncherRs = apiExecutor.callApiMethod(new PostLauncherMethod(jobId, accountTypeId));
         return JsonPath.from(postLauncherRs).getInt(JSONConstant.ID_KEY);
     }
 
     @Override
     public int update(int id, String valueToUpdate) {
-        String putLauncherRs = apiExecutor.callApiMethod(new PutLauncherMethod(id, valueToUpdate),
-                HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String putLauncherRs = apiExecutor.callApiMethod(new PutLauncherMethod(id, valueToUpdate));
         return JsonPath.from(putLauncherRs).getInt(JSONConstant.ID_KEY);
     }
 
@@ -60,16 +56,14 @@ public class LauncherServiceImpl implements LauncherService {
 
     @Override
     public String getQueueItemUrl(int scmAccountId) {
-        String putLauncherRs = apiExecutor.callApiMethod(new PostScanLaucherMethod(scmAccountId),
-                HTTPStatusCodeType.OK, true, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String putLauncherRs = apiExecutor.callApiMethod(new PostScanLaucherMethod(scmAccountId));
         return JsonPath.from(putLauncherRs).getString(JSONConstant.QUEUE_ITEM_URL_KEY);
     }
 
     @Override
     public String getBuildNumber(String queueItemUrl) {
         String buildNumber = apiExecutor
-                .callApiMethod(new GetBuildNumberMethod(queueItemUrl), HTTPStatusCodeType.OK, false, null)
-                .toString();
+                .callApiMethod(new GetBuildNumberMethod(queueItemUrl));
         LOGGER.info(String.format("Build number = %s", buildNumber));
         return buildNumber;
     }
