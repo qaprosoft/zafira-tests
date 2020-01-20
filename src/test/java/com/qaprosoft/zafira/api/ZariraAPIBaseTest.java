@@ -13,7 +13,7 @@ public class ZariraAPIBaseTest extends AbstractTest {
     private static final Logger LOGGER = Logger.getLogger(ZariraAPIBaseTest.class);
     protected ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
-    @AfterTest
+    @AfterTest(enabled = false)
     protected void deleteAllTestRuns() {
         TestRunServiceAPIImpl testRunServiceAPIImpl = new TestRunServiceAPIImpl();
         String searchCriteriaType = R.TESTDATA.get(ConfigConstant.SEARCH_CRITERIA_TYPE_KEY);
