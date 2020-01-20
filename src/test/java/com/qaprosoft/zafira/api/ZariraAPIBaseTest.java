@@ -1,12 +1,27 @@
 package com.qaprosoft.zafira.api;
 
 import com.qaprosoft.carina.core.foundation.AbstractTest;
+import com.qaprosoft.carina.core.foundation.utils.R;
+import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.service.impl.*;
 import org.apache.log4j.Logger;
+import org.testng.annotations.AfterTest;
+
+import java.util.List;
 
 public class ZariraAPIBaseTest extends AbstractTest {
     private static final Logger LOGGER = Logger.getLogger(ZariraAPIBaseTest.class);
     protected ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
+
+    @AfterTest
+    protected void deleteAllTestRuns() {
+        TestRunServiceAPIImpl testRunServiceAPIImpl = new TestRunServiceAPIImpl();
+        String searchCriteriaType = R.TESTDATA.get(ConfigConstant.SEARCH_CRITERIA_TYPE_KEY);
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        List<Integer> ids = testRunServiceAPIImpl.getAll(searchCriteriaType, testSuiteId);
+        LOGGER.info(String.format("Test run IDs to delete: %s", ids.toString()));
+        ids.forEach(testRunServiceAPIImpl::deleteById);
+    }
 
     protected int createTestRun(int numOfTests) {
         TestRunServiceAPIImpl testRunServiceImpl = new TestRunServiceAPIImpl();

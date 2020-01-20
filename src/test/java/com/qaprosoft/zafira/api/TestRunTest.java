@@ -246,6 +246,19 @@ public class TestRunTest extends ZariraAPIBaseTest {
         apiExecutor.callApiMethod(getBuildConsoleOutputMethod);
     }
 
+    @Test
+    public void testGetTestRunBySearchCriteria() {
+        String searchCriteriaType = R.TESTDATA.get(ConfigConstant.SEARCH_CRITERIA_TYPE_KEY);
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        apiExecutor.callApiMethod(new PostStartTestRunMethod(testSuiteId, jobId));
+
+        GetTestRunBySearchCriteriaMethod getTestRunBySearchCriteriaMethod = new GetTestRunBySearchCriteriaMethod(searchCriteriaType, testSuiteId);
+        apiExecutor.expectStatus(getTestRunBySearchCriteriaMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getTestRunBySearchCriteriaMethod);
+        apiExecutor.validateResponse(getTestRunBySearchCriteriaMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
     /**
      * Checks the expected testrun url contains in the last email
      *
@@ -260,5 +273,4 @@ public class TestRunTest extends ZariraAPIBaseTest {
         EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
         return email.getContent().contains(testrunURL);
     }
-
 }
