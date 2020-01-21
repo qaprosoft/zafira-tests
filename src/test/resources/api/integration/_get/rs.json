@@ -1,0 +1,17 @@
+[
+  {
+    "id": "regex:[\\d]",
+    "name": "type:String",
+    "backReferenceId": null,
+    "enabled": "type:Boolean",
+    "connected": "type:Boolean",
+    "settings": "type:JSONArray",
+    "type": {
+      "id": 1,
+      "name": "type:String",
+      "iconUrl": "type:String",
+      "params": "type:JSONArray"
+    },
+    "default": "type:Boolean"
+  }
+]
