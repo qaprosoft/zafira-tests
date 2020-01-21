@@ -33,24 +33,49 @@ public class IntegrationTest extends ZariraAPIBaseTest {
     public void testUpdatesJiraIntegrationById(boolean enabledType) {
         String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.JIRA_INTEGRATION_ID_KEY);
-        String IntegrationResponse = new IntegrationServiceImpl().getUpdateIntegrationResponse(
+        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(
                 "api/integration/_put/rq_for_JIRA.json", integrationId, enabledType);
-        Assert.assertEquals(enabledType, JsonPath.from(IntegrationResponse)
+        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
+        String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse)
                 .getBoolean(JSONConstant.INTEGRATION_ENABLED_KEY), "Enabled was not update!");
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse)
+                .getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY), "Integration is not connect!");
     }
 
     @Test(dataProvider = "updateIntegration")
     public void testUPdateTestrailIntegrationById(boolean enabledType) {
         String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.TESTRAIL_INTEGRATION_ID_KEY);
-        String IntegrationResponse = new IntegrationServiceImpl().getUpdateIntegrationResponse(
+        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(
                 "api/integration/_put/rq_for_TESTRAIL.json", integrationId, enabledType);
-        Assert.assertEquals(enabledType, JsonPath.from(IntegrationResponse)
+        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
+        String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse)
                 .getBoolean(JSONConstant.INTEGRATION_ENABLED_KEY), "Enabled was not update!");
-
-
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse)
+                .getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY), "Integration is not connect!");
     }
 
+    @Test(dataProvider = "updateIntegration")
+    public void testUPdateQTestIntegrationById(boolean enabledType) {
+        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        int integrationId = JsonPath.from(response).get(JSONConstant.QTEST_INTEGRATION_ID_KEY);
+        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(
+                "api/integration/_put/rq_for_QTEST.json", integrationId, enabledType);
+        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
+        String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse)
+                .getBoolean(JSONConstant.INTEGRATION_ENABLED_KEY), "Enabled was not update!");
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse)
+                .getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY), "Integration is not connect!");
 
+    }
 }
 

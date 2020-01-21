@@ -12,10 +12,12 @@ public class JSONConstant {
     public static final String ALL_TEST_ID_KEY = "results[0].id";
     public static final String CI_RUN_ID_KEY = "ciRunId";
     public static final String INTEGRATION_ENABLED_KEY = "enabled";
+    public static final String INTEGRATION_CONNECTED_KEY = "connected";
     public static final String WORK_ITEM_ID_CHECK_KEY = "results[0].workItems[0].id";
     public static final String WORK_ITEMS_ARRAY_KEY = "results[0].workItems";
     public static final String ALL_TEST_RUN_ID_BY_SEARCH_CRITERIA_KEY = "results.id";
     public static final String JIRA_INTEGRATION_ID_KEY = "TEST_CASE_MANAGEMENT.JIRA[0].integrationId";
     public static final String TESTRAIL_INTEGRATION_ID_KEY = "TEST_CASE_MANAGEMENT.TESTRAIL[0].integrationId";
+    public static final String QTEST_INTEGRATION_ID_KEY = "TEST_CASE_MANAGEMENT.QTEST[0].integrationId";
 
 }

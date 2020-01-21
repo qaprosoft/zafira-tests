@@ -1,0 +1,41 @@
+{
+  "id": 16,
+  "name": "QTEST",
+  "backReferenceId": null,
+  "enabled": ${enabled},
+  "connected": false,
+  "settings": [
+    {
+      "id": 48,
+      "value": "test",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 48,
+        "name": "QTEST_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false,
+        "required": false
+      }
+    }
+  ],
+  "type": {
+    "id": 16,
+    "name": "QTEST",
+    "iconUrl": "",
+    "params": [
+      {
+        "id": 48,
+        "name": "QTEST_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    ]
+  },
+  "default": true,
+  "connectionChecking": true
+}

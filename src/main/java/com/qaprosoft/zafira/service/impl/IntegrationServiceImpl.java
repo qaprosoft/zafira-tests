@@ -22,7 +22,7 @@ public class IntegrationServiceImpl implements IntegrationService {
     }
 
     @Override
-    public String getUpdateIntegrationResponse(String rqPath, int integrationId, Boolean enabledType) {
+    public String updateIntegrationInfoById(String rqPath, int integrationId, Boolean enabledType) {
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId,
                 enabledType);
         apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
