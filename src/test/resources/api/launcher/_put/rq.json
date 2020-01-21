@@ -1,7 +1,5 @@
 {
-  "id": ${
-  id
-},
+  "id": ${id},
 "name": "string",
 "model": "string",
 "type": "${type}",

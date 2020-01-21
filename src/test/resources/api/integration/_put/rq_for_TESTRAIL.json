@@ -1,0 +1,40 @@
+{
+  "id": 15,
+  "name": "TESTRAIL",
+  "backReferenceId": null,
+  "enabled": ${enabled},
+  "connected": false,
+  "settings": [
+    {
+      "id": 47,
+      "value": "test",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 47,
+        "name": "TESTRAIL_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    }
+  ],
+  "type": {
+    "id": 15,
+    "name": "TESTRAIL",
+    "iconUrl": "",
+    "params": [
+      {
+        "id": 47,
+        "name": "TESTRAIL_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    ]
+  },
+  "default": true,
+  "connectionChecking": true
+}

@@ -1,0 +1,106 @@
+{
+  "id": 14,
+  "name": "JIRA",
+  "backReferenceId": null,
+  "enabled": ${enabled},
+  "connected": false,
+  "settings": [
+    {
+      "id": 43,
+      "value": "https://solvd.atlassian.net",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 43,
+        "name": "JIRA_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    },
+    {
+      "id": 44,
+      "value": "itsvirko1@solvd.com",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 44,
+        "name": "JIRA_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    },
+    {
+      "id": 45,
+      "value": "qgKOR5kNbr9qKjeCMZAMC699",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 45,
+        "name": "JIRA_PASSWORD",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": true
+      }
+    },
+    {
+      "id": 46,
+      "value": "CLOSED",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 46,
+        "name": "JIRA_CLOSED_STATUS",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    }
+  ],
+  "type": {
+    "id": 14,
+    "name": "JIRA",
+    "iconUrl": "",
+    "params": [
+      {
+        "id": 43,
+        "name": "JIRA_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      },
+      {
+        "id": 44,
+        "name": "JIRA_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      },
+      {
+        "id": 45,
+        "name": "JIRA_PASSWORD",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": true
+      },
+      {
+        "id": 46,
+        "name": "JIRA_CLOSED_STATUS",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    ]
+  },
+  "default": true,
+  "connectionChecking": true
+}
