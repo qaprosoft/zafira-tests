@@ -4,6 +4,7 @@ import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.enums.IntegrationRqPath;
 import com.qaprosoft.zafira.service.impl.IntegrationInfoServiceImpl;
 import com.qaprosoft.zafira.service.impl.IntegrationServiceImpl;
 import org.apache.log4j.Logger;
@@ -34,10 +35,10 @@ public class IntegrationTest extends ZariraAPIBaseTest {
         String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.JIRA_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(
-                "api/integration/_put/rq_for_JIRA.json", integrationId, enabledType);
+                IntegrationRqPath.JIRA.getPath(), integrationId, enabledType);
         apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
         String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
-        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.STRICT,
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.LENIENT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         Assert.assertEquals(enabledType, JsonPath.from(integrationResponse)
                 .getBoolean(JSONConstant.INTEGRATION_ENABLED_KEY), "Enabled was not update!");
@@ -46,14 +47,14 @@ public class IntegrationTest extends ZariraAPIBaseTest {
     }
 
     @Test(dataProvider = "updateIntegration")
-    public void testUPdateTestrailIntegrationById(boolean enabledType) {
+    public void testUpdateTestrailIntegrationById(boolean enabledType) {
         String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.TESTRAIL_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(
-                "api/integration/_put/rq_for_TESTRAIL.json", integrationId, enabledType);
+                IntegrationRqPath.TESTRAIL.getPath(), integrationId, enabledType);
         apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
         String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
-        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.STRICT,
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.LENIENT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         Assert.assertEquals(enabledType, JsonPath.from(integrationResponse)
                 .getBoolean(JSONConstant.INTEGRATION_ENABLED_KEY), "Enabled was not update!");
@@ -62,20 +63,35 @@ public class IntegrationTest extends ZariraAPIBaseTest {
     }
 
     @Test(dataProvider = "updateIntegration")
-    public void testUPdateQTestIntegrationById(boolean enabledType) {
+    public void testUpdateQTestIntegrationById(boolean enabledType) {
         String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.QTEST_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(
-                "api/integration/_put/rq_for_QTEST.json", integrationId, enabledType);
+                IntegrationRqPath.QTEST.getPath(), integrationId, enabledType);
         apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
         String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
-        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.STRICT,
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.LENIENT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         Assert.assertEquals(enabledType, JsonPath.from(integrationResponse)
                 .getBoolean(JSONConstant.INTEGRATION_ENABLED_KEY), "Enabled was not update!");
         Assert.assertEquals(enabledType, JsonPath.from(integrationResponse)
                 .getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY), "Integration is not connect!");
+    }
 
+    @Test(dataProvider = "updateIntegration")
+    public void testUpdateZebrunnerIntegrationById(boolean enabledType){
+        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        int integrationId = JsonPath.from(response).get(JSONConstant.ZEBRUNNER_INTEGRATION_ID_KEY);
+        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(
+                IntegrationRqPath.ZEBRUNNER.getPath(), integrationId, enabledType);
+        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
+        String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.LENIENT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse)
+                .getBoolean(JSONConstant.INTEGRATION_ENABLED_KEY), "Enabled was not update!");
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse)
+                .getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY), "Integration is not connect!");
     }
 }
 

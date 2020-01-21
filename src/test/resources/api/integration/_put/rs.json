@@ -1,7 +1,6 @@
 {
   "id": "regex:[\\d]",
   "name": "type:String",
-  "backReferenceId": null,
   "enabled": "type:Boolean",
   "connected": "type:Boolean",
   "settings": "type:JSONArray",

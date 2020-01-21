@@ -19,5 +19,6 @@ public class JSONConstant {
     public static final String JIRA_INTEGRATION_ID_KEY = "TEST_CASE_MANAGEMENT.JIRA[0].integrationId";
     public static final String TESTRAIL_INTEGRATION_ID_KEY = "TEST_CASE_MANAGEMENT.TESTRAIL[0].integrationId";
     public static final String QTEST_INTEGRATION_ID_KEY = "TEST_CASE_MANAGEMENT.QTEST[0].integrationId";
+    public static final String ZEBRUNNER_INTEGRATION_ID_KEY = "TEST_AUTOMATION_TOOL.ZEBRUNNER[0].integrationId";
 
 }
