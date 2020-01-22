@@ -20,5 +20,14 @@ public class JSONConstant {
     public static final String TESTRAIL_INTEGRATION_ID_KEY = "TEST_CASE_MANAGEMENT.TESTRAIL[0].integrationId";
     public static final String QTEST_INTEGRATION_ID_KEY = "TEST_CASE_MANAGEMENT.QTEST[0].integrationId";
     public static final String ZEBRUNNER_INTEGRATION_ID_KEY = "TEST_AUTOMATION_TOOL.ZEBRUNNER[0].integrationId";
+    public static final String SELENIUM_INTEGRATION_ID_KEY = "TEST_AUTOMATION_TOOL.SELENIUM[0].integrationId";
+    public static final String BROWSERSTACK_INTEGRATION_ID_KEY = "TEST_AUTOMATION_TOOL.BROWSERSTACK[0].integrationId";
+    public static final String MCLOUD_INTEGRATION_ID_KEY = "TEST_AUTOMATION_TOOL.MCLOUD[0].integrationId";
+    public static final String SAUCELABS_INTEGRATION_ID_KEY = "TEST_AUTOMATION_TOOL.SAUCELABS[0].integrationId";
+    public static final String LAMBDATEST_INTEGRATION_ID_KEY = "TEST_AUTOMATION_TOOL.LAMBDATEST[0].integrationId";
+    public static final String AMAZON_INTEGRATION_ID_KEY = "STORAGE_PROVIDER.AMAZON[0].integrationId";
+    public static final String SLACK_INTEGRATION_ID_KEY = "SLACK.SLACK[0].integrationId";
+    public static final String RABBITMQ_INTEGRATION_ID_KEY = "MESSAGE_BROKER.RABBITMQ[0].integrationId";
+    public static final String EMAIL_INTEGRATION_ID_KEY = "MAIL.EMAIL[0].integrationId";
 
 }

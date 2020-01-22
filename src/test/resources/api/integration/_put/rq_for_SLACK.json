@@ -1,0 +1,41 @@
+{
+  "id": 4,
+  "name": "SLACK",
+  "backReferenceId": null,
+  "enabled": ${enabled},
+  "connected": false,
+  "settings": [
+    {
+      "id": 11,
+      "value": "https://hooks.slack.com/services/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",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 11,
+        "name": "SLACK_WEB_HOOK_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false,
+        "required": false
+      }
+    }
+  ],
+  "type": {
+    "id": 4,
+    "name": "SLACK",
+    "iconUrl": "",
+    "params": [
+      {
+        "id": 11,
+        "name": "SLACK_WEB_HOOK_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    ]
+  },
+  "default": true,
+  "connectionChecking": true
+}

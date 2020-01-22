@@ -1,14 +1,11 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
-import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.zafira.api.GetLauncherWebHookMethod;
-import com.qaprosoft.zafira.api.PostLauncherPresetMethod;
+import com.qaprosoft.zafira.api.PresetMethods.GetLauncherWebHookMethod;
+import com.qaprosoft.zafira.api.PresetMethods.PostLauncherPresetMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
-import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.PresetService;
 import org.apache.log4j.Logger;
-import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
