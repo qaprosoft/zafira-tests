@@ -1,13 +1,10 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
-import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.zafira.api.*;
+import com.qaprosoft.zafira.api.TestRunMethods.*;
 import com.qaprosoft.zafira.constant.JSONConstant;
-import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.TestRunServiceAPI;
 import org.apache.log4j.Logger;
-import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.util.List;
 

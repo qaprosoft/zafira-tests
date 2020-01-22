@@ -1,6 +1,6 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.qaprosoft.zafira.api.GetIntegrationInfoMethod;
+import com.qaprosoft.zafira.api.IntegrationInfoMethods.GetIntegrationInfoMethod;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.IntegrationInfoService;
 import org.apache.log4j.Logger;

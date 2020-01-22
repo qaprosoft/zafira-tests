@@ -1,0 +1,10 @@
+[
+  {
+    "id": "regex:[\\d]",
+    "name": "type:String",
+    "iconUrl": "type:String",
+    "displayName": "type:String",
+    "multipleAllowed": "type:Boolean",
+    "types": "type:JSONArray"
+  }
+]

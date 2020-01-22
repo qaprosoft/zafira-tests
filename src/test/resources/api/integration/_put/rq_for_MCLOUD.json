@@ -1,0 +1,87 @@
+{
+  "id": 10,
+  "name": "MCLOUD",
+  "backReferenceId": "MCLOUD",
+  "enabled": ${enabled},
+  "connected": false,
+  "settings": [
+    {
+      "id": 30,
+      "value": "https://hub.zebrunner.com/wd/hub",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 30,
+        "name": "MCLOUD_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false,
+        "required": false
+      }
+    },
+    {
+      "id": 31,
+      "value": "admin",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 31,
+        "name": "MCLOUD_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false,
+        "required": false
+      }
+    },
+    {
+      "id": 32,
+      "value": "DQx8NXfuEMhYuffSjT8E",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 32,
+        "name": "MCLOUD_PASSWORD",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": true,
+        "required": false
+      }
+    }
+  ],
+  "type": {
+    "id": 10,
+    "name": "MCLOUD",
+    "iconUrl": "",
+    "params": [
+      {
+        "id": 32,
+        "name": "MCLOUD_PASSWORD",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": true
+      },
+      {
+        "id": 30,
+        "name": "MCLOUD_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      },
+      {
+        "id": 31,
+        "name": "MCLOUD_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    ]
+  },
+  "default": true,
+  "connectionChecking": true
+}

@@ -3,10 +3,10 @@ package com.qaprosoft.zafira.api;
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
+import com.qaprosoft.zafira.api.TestMethods.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.service.impl.*;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -56,7 +56,8 @@ public class TestControllerTest extends ZariraAPIBaseTest {
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testId = new TestServiceImpl().create(testCaseId, testRunId);
 
-        PutUpdateTestStatusMethod putUpdateTestStatusMethod = new PutUpdateTestStatusMethod(testId, testSuiteId, jobId, expectedTestStatusValue);
+        PutUpdateTestStatusMethod putUpdateTestStatusMethod = new PutUpdateTestStatusMethod(testId, testSuiteId,
+                jobId, expectedTestStatusValue);
         apiExecutor.expectStatus(putUpdateTestStatusMethod, HTTPStatusCodeType.OK);
         String putTestRs = apiExecutor.callApiMethod(putUpdateTestStatusMethod);
         apiExecutor.validateResponse(putUpdateTestStatusMethod,
@@ -110,7 +111,8 @@ public class TestControllerTest extends ZariraAPIBaseTest {
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testId = new TestServiceImpl().create(testCaseId, testRunId);
 
-        PostLinkWorkItemMethod postLinkWorkItemMethod = new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue, testId, workItemType);
+        PostLinkWorkItemMethod postLinkWorkItemMethod = new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue,
+                testId, workItemType);
         apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.OK);
         String linkWorkItemRs = apiExecutor.callApiMethod(postLinkWorkItemMethod);
         String jiraId = JsonPath.from(linkWorkItemRs).get(JSONConstant.JIRA_ID_KEY);
@@ -169,7 +171,8 @@ public class TestControllerTest extends ZariraAPIBaseTest {
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testId = new TestServiceImpl().create(testCaseId, testRunId);
-        String linkWorkItemRs = apiExecutor.callApiMethod(new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue, testId, workItemType));
+        String linkWorkItemRs = apiExecutor.callApiMethod(new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue,
+                testId, workItemType));
         int workItemId = JsonPath.from(linkWorkItemRs).get(JSONConstant.ID_KEY);
         String testRs = apiExecutor.callApiMethod(new PostRetrieveTestBySearchCriteriaMethod(testRunId));
         int workItemIdRs = JsonPath.from(testRs).get(JSONConstant.WORK_ITEM_ID_CHECK_KEY);
