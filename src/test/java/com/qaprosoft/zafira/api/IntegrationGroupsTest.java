@@ -14,6 +14,5 @@ public class IntegrationGroupsTest extends ZariraAPIBaseTest {
         apiExecutor.callApiMethod(getAllIntegrationGroupsMethod);
         apiExecutor.validateResponse(getAllIntegrationGroupsMethod, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-
     }
 }

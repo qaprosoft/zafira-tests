@@ -16,5 +16,4 @@ public class IntegrationInfoTest extends ZariraAPIBaseTest {
         apiExecutor.validateResponse(getIntegrationInfoMethod,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
-
 }
