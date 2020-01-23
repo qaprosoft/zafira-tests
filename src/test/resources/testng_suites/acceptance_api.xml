@@ -69,4 +69,10 @@
         </classes>
     </test>
 
+    <test name="Integration-group controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.IntegrationGroupsTest"/>
+        </classes>
+    </test>
+
 </suite>
