@@ -20,5 +20,8 @@ public class ConfigConstant {
     public static final String EMAIL_INTEGRATION_ID_KEY = "email_integration_id";
     public static final String SEARCH_CRITERIA_TYPE_KEY = "search_criteria_type";
     public static final String PAGE_SIZE_KEY = "page_size";
+    public static final String AUTH_USERNAME_KEY = "auth_username";
+    public static final String AUTTH_PASSWORD_KEY = "auth_password";
+    public static final String TEST_EMAIL_KEY = "test_API_email";
 
 }

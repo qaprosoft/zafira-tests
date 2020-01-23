@@ -93,12 +93,16 @@ public class TestControllerTest extends ZariraAPIBaseTest {
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testId = new TestServiceImpl().create(testCaseId, testRunId);
 
+        TestServiceImpl testServiseImpl = new TestServiceImpl();
+        String testRs = testServiseImpl.getAllTest(testRunId);
+        int testIdRs = JsonPath.from(testRs).get(JSONConstant.ALL_TEST_ID_KEY);
+        Assert.assertEquals(testId, testIdRs, "Test was not create!");
+
         DeleteTestByIdMethod deleteTestByIdMethod = new DeleteTestByIdMethod(testId);
         apiExecutor.expectStatus(deleteTestByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(deleteTestByIdMethod);
-        // Trying to delete test that has been already deleted as api doesnt have endpoint get test by id. Just an additional validation
-        apiExecutor.expectStatus(deleteTestByIdMethod, HTTPStatusCodeType.NOT_FOUND);
-        apiExecutor.callApiMethod(deleteTestByIdMethod);
+        String testRsAfterDelete = testServiseImpl.getAllTest(testRunId);
+        Assert.assertFalse(testRsAfterDelete.contains(String.valueOf(testIdRs)), "Test was not delete!");
     }
 
     @Test
@@ -157,7 +161,12 @@ public class TestControllerTest extends ZariraAPIBaseTest {
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         new TestServiceImpl().create(testCaseId, testRunId);
-        String testRs = apiExecutor.callApiMethod(new PostRetrieveTestBySearchCriteriaMethod(testRunId));
+
+        PostRetrieveTestBySearchCriteriaMethod postRetrieveTestBySearchCriteriaMethod = new PostRetrieveTestBySearchCriteriaMethod(testRunId);
+        apiExecutor.expectStatus(postRetrieveTestBySearchCriteriaMethod, HTTPStatusCodeType.OK);
+        String testRs = apiExecutor.callApiMethod(postRetrieveTestBySearchCriteriaMethod);
+        apiExecutor.validateResponse(postRetrieveTestBySearchCriteriaMethod, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int allTestId = JsonPath.from(testRs).get(JSONConstant.ALL_TEST_ID_KEY);
         LOGGER.info(String.format("Test Ids: %s", allTestId));
     }
@@ -170,19 +179,20 @@ public class TestControllerTest extends ZariraAPIBaseTest {
         int jobId = new JobServiceImpl().create();
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+
         int testId = new TestServiceImpl().create(testCaseId, testRunId);
         String linkWorkItemRs = apiExecutor.callApiMethod(new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue,
                 testId, workItemType));
         int workItemId = JsonPath.from(linkWorkItemRs).get(JSONConstant.ID_KEY);
-        String testRs = apiExecutor.callApiMethod(new PostRetrieveTestBySearchCriteriaMethod(testRunId));
+
+        TestServiceImpl testServiseImpl = new TestServiceImpl();
+        String testRs = testServiseImpl.getAllTest(testRunId);
         int workItemIdRs = JsonPath.from(testRs).get(JSONConstant.WORK_ITEM_ID_CHECK_KEY);
-        LOGGER.info(workItemIdRs);
         Assert.assertNotEquals(0, workItemIdRs, "Work item was not link!");
+
         apiExecutor.callApiMethod(new DeleteWorkItemMethod(testId, workItemId));
-        String testRsAfterDelete = apiExecutor.callApiMethod(new PostRetrieveTestBySearchCriteriaMethod(testRunId));
+        String testRsAfterDelete = testServiseImpl.getAllTest(testRunId);
         List<Integer> workItemsAfterDelete = JsonPath.from(testRsAfterDelete).getList(JSONConstant.WORK_ITEMS_ARRAY_KEY);
-        LOGGER.info(workItemsAfterDelete);
         Assert.assertTrue(workItemsAfterDelete.isEmpty(), "Work item was not deleted!");
     }
-
 }
