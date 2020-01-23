@@ -10,4 +10,6 @@ public interface TestService {
 
     List<Integer> getAllArtifacts(int testRunId);
 
+    String getAllTest(int testRunId);
+
 }

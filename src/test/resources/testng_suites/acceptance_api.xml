@@ -75,4 +75,10 @@
         </classes>
     </test>
 
+    <test name="Auth controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.AuthTest"/>
+        </classes>
+    </test>
+
 </suite>

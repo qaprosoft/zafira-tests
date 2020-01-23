@@ -107,7 +107,6 @@ public class TestRunTest extends ZariraAPIBaseTest {
         PostTestRunResultEmailMethod postTestRunResultEmailMethod = new PostTestRunResultEmailMethod(testRunId);
         apiExecutor.expectStatus(postTestRunResultEmailMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postTestRunResultEmailMethod);
-
         Assert.assertTrue(verifyIfEmailWasDelivered(expectedTestRunIdInMail), "Email was not delivered!");
     }
 
