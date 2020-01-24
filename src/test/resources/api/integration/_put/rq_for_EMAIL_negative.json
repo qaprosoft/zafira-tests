@@ -1,0 +1,128 @@
+{
+  "id": 3,
+  "name": "EMAIL",
+  "backReferenceId": null,
+  "enabled": ${enabled},
+  "connected": false,
+  "settings": [
+    {
+      "id": 6,
+      "value": "smtp.gmail.com",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 6,
+        "name": "EMAIL_HOST",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    },
+    {
+      "id": 7,
+      "value": "5",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 7,
+        "name": "EMAIL_PORT",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    },
+    {
+      "id": 8,
+      "value": "noreply@zebrunner.com",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 8,
+        "name": "EMAIL_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    },
+    {
+      "id": 9,
+      "value": "yY4Rpm+bVK6Q+VlclZSndz/t1Q5P8KaxMzQgN75kjOY=",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 9,
+        "name": "EMAIL_PASSWORD",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": true
+      }
+    },
+    {
+      "id": 10,
+      "value": "noreply@zebrunner.com",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 10,
+        "name": "EMAIL_FROM_ADDRESS",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": false,
+        "needEncryption": false
+      }
+    }
+  ],
+  "type": {
+    "id": 3,
+    "name": "EMAIL",
+    "iconUrl": "",
+    "params": [
+      {
+        "id": 6,
+        "name": "EMAIL_HOST",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      },
+      {
+        "id": 7,
+        "name": "EMAIL_PORT",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      },
+      {
+        "id": 8,
+        "name": "EMAIL_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      },
+      {
+        "id": 9,
+        "name": "EMAIL_PASSWORD",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": true
+      },
+      {
+        "id": 10,
+        "name": "EMAIL_FROM_ADDRESS",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": false,
+        "needEncryption": false
+      }
+    ]
+  },
+  "default": true,
+  "connectionChecking": true
+}

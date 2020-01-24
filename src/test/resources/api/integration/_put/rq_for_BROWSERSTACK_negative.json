@@ -1,0 +1,87 @@
+{
+  "id": 9,
+  "name": "BROWSERSTACK",
+  "backReferenceId": "BROWSERSTACK",
+  "enabled": ${enabled},
+  "connected": false,
+  "settings": [
+    {
+      "id": 27,
+      "value": "https://hub-cloud.browserstack.com/wd/hub",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 27,
+        "name": "BROWSERSTACK_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false,
+        "required": false
+      }
+    },
+    {
+      "id": 28,
+      "value": "paulkebets1",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 28,
+        "name": "BROWSERSTACK_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false,
+        "required": false
+      }
+    },
+    {
+      "id": 29,
+      "value": "test12345",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 29,
+        "name": "BROWSERSTACK_ACCESS_KEY",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": true,
+        "required": false
+      }
+    }
+  ],
+  "type": {
+    "id": 9,
+    "name": "BROWSERSTACK",
+    "iconUrl": "",
+    "params": [
+      {
+        "id": 27,
+        "name": "BROWSERSTACK_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      },
+      {
+        "id": 28,
+        "name": "BROWSERSTACK_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      },
+      {
+        "id": 29,
+        "name": "BROWSERSTACK_ACCESS_KEY",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": true
+      }
+    ]
+  },
+  "default": true,
+  "connectionChecking": true
+}

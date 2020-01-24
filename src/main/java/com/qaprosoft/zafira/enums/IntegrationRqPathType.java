@@ -26,7 +26,25 @@ public enum IntegrationRqPathType {
 
     RABBITMQ("api/integration/_put/rq_for_RABBITMQ.json"),
 
-    EMAIL("api/integration/_put/rq_for_EMAIL.json");
+    EMAIL("api/integration/_put/rq_for_EMAIL.json"),
+
+    ZEBRUNNER_NEGATIVE("api/integration/_put/rq_for_ZEBRUNNER_negative.json"),
+
+    SELENIUM_NEGATIVE("api/integration/_put/rq_for_SELENIUM_negative.json"),
+
+    BROWSERSTACK_NEGATIVE("api/integration/_put/rq_for_BROWSERSTACK_negative.json"),
+
+    MCLOUD_NEGATIVE("api/integration/_put/rq_for_MCLOUD_negative.json"),
+
+    SAUCELABS_NEGATIVE("api/integration/_put/rq_for_SAUCELABS_negative.json"),
+
+    LAMBDATEST_NEGATIVE("api/integration/_put/rq_for_LAMBDATEST_negative.json"),
+
+    AMAZON_NEGATIVE("api/integration/_put/rq_for_AMAZON_negative.json"),
+
+    RABBITMQ_NEGATIVE("api/integration/_put/rq_for_RABBITMQ_negative.json"),
+
+    EMAIL_NEGATIVE("api/integration/_put/rq_for_EMAIL_negative.json");
 
     private String rqPath;
 

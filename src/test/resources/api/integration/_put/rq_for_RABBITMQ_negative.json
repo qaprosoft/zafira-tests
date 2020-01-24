@@ -1,0 +1,106 @@
+{
+  "id": 1,
+  "name": "RABBITMQ",
+  "backReferenceId": null,
+  "enabled": ${enabled},
+  "connected": false,
+  "settings": [
+    {
+      "id": 1,
+      "value": "a558a5a46e70311e98fb402a4fd6ce46-1266441358.us-east-1.elb.amazonaws.com",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 1,
+        "name": "RABBITMQ_HOST",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    },
+    {
+      "id": 2,
+      "value": "316",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 2,
+        "name": "RABBITMQ_PORT",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    },
+    {
+      "id": 3,
+      "value": "admin",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 3,
+        "name": "RABBITMQ_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    },
+    {
+      "id": 4,
+      "value": "Bzo1Wbg8+6OIvJtnX6WZNIyOL9tN/SpYUacgeM+BmGA=",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 4,
+        "name": "RABBITMQ_PASSWORD",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": true
+      }
+    }
+  ],
+  "type": {
+    "id": 1,
+    "name": "RABBITMQ",
+    "iconUrl": "",
+    "params": [
+      {
+        "id": 1,
+        "name": "RABBITMQ_HOST",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      },
+      {
+        "id": 2,
+        "name": "RABBITMQ_PORT",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      },
+      {
+        "id": 3,
+        "name": "RABBITMQ_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      },
+      {
+        "id": 4,
+        "name": "RABBITMQ_PASSWORD",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": true
+      }
+    ]
+  },
+  "default": true,
+  "connectionChecking": true
+}
