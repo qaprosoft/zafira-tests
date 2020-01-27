@@ -1,0 +1,87 @@
+{
+  "id": 11,
+  "name": "SAUCELABS",
+  "backReferenceId": "SAUCELABS",
+  "enabled": ${enabled},
+  "connected": false,
+  "settings": [
+    {
+      "id": 33,
+      "value": "https://ondemand.saucelabs.com:443/wd/hub",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 33,
+        "name": "SAUCELABS_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false,
+        "required": false
+      }
+    },
+    {
+      "id": 34,
+      "value": "akhursevich",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 34,
+        "name": "SAUCELABS_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false,
+        "required": false
+      }
+    },
+    {
+      "id": 35,
+      "value": "test12345",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 35,
+        "name": "SAUCELABS_PASSWORD",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": true,
+        "required": false
+      }
+    }
+  ],
+  "type": {
+    "id": 11,
+    "name": "SAUCELABS",
+    "iconUrl": "",
+    "params": [
+      {
+        "id": 33,
+        "name": "SAUCELABS_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      },
+      {
+        "id": 34,
+        "name": "SAUCELABS_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      },
+      {
+        "id": 35,
+        "name": "SAUCELABS_PASSWORD",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": true
+      }
+    ]
+  },
+  "default": true,
+  "connectionChecking": true
+}

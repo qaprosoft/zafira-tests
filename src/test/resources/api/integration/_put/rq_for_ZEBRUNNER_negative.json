@@ -1,0 +1,84 @@
+{
+  "id": 8,
+  "name": "ZEBRUNNER",
+  "backReferenceId": "ZEBRUNNER",
+  "enabled": ${enabled},
+  "connected": false,
+  "settings": [
+    {
+      "id": 24,
+      "value": "https://hub.test.com/wd/hub",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 24,
+        "name": "ZEBRUNNER_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      }
+    },
+    {
+      "id": 25,
+      "value": "automation",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 25,
+        "name": "ZEBRUNNER_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": false,
+        "needEncryption": false
+      }
+    },
+    {
+      "id": 26,
+      "value": "FxSysfEdao4RzFIl8TxMjhRFY3Am5ekHBXoQrZAyE24=",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 26,
+        "name": "ZEBRUNNER_PASSWORD",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": false,
+        "needEncryption": true
+      }
+    }
+  ],
+  "type": {
+    "id": 8,
+    "name": "ZEBRUNNER",
+    "iconUrl": "",
+    "params": [
+      {
+        "id": 24,
+        "name": "ZEBRUNNER_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      },
+      {
+        "id": 25,
+        "name": "ZEBRUNNER_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": false,
+        "needEncryption": false
+      },
+      {
+        "id": 26,
+        "name": "ZEBRUNNER_PASSWORD",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": false,
+        "needEncryption": true
+      }
+    ]
+  },
+  "default": true,
+  "connectionChecking": true
+}

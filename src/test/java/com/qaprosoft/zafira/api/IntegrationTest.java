@@ -27,7 +27,7 @@ public class IntegrationTest extends ZariraAPIBaseTest {
     }
 
     @DataProvider(name = "updateIntegration")
-    public Object[][] getRerunFailuresFlag() {
+    public Object[][] getEnabledType() {
         return new Object[][]{{false}, {true}};
     }
 
@@ -223,6 +223,159 @@ public class IntegrationTest extends ZariraAPIBaseTest {
                 "Enabled was not update!");
         Assert.assertEquals(enabledType, JsonPath.from(integrationResponse).getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY),
                 "Integration is not connect!");
+    }
+
+    @DataProvider(name = "updateZebrunnerIntegrationNegative")
+    public Object[][] getZebrunnerRqPath() {
+        return new Object[][]{{IntegrationRqPathType.ZEBRUNNER_NEGATIVE.getPath(), false}, {IntegrationRqPathType.ZEBRUNNER.getPath(), true}};
+    }
+
+    @Test(description = "invalid_URL", dataProvider = "updateZebrunnerIntegrationNegative")
+    public void testUpdateZebrunnerIntegrationByIdNegative(String rqPath, boolean enabledType) {
+        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        int integrationId = JsonPath.from(response).get(JSONConstant.ZEBRUNNER_INTEGRATION_ID_KEY);
+        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
+        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
+        String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse).getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY),
+                "Integration is not work correctly!");
+    }
+
+    @DataProvider(name = "updateSeleniumIntegrationNegative")
+    public Object[][] getSeleniumRqPath() {
+        return new Object[][]{{IntegrationRqPathType.SELENIUM_NEGATIVE.getPath(), false}, {IntegrationRqPathType.SELENIUM.getPath(), true}};
+    }
+
+    @Test(description = "invalid_URL", dataProvider = "updateSeleniumIntegrationNegative")
+    public void testUpdateSeleniumIntegrationByIdNegative(String rqPath, boolean enabledType) {
+        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        int integrationId = JsonPath.from(response).get(JSONConstant.SELENIUM_INTEGRATION_ID_KEY);
+        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
+        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
+        String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse).getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY),
+                "Integration is not work correctly!");
+    }
+
+    @DataProvider(name = "updateBrowserstackIntegrationNegative")
+    public Object[][] getBrowserstackRqPath() {
+        return new Object[][]{{IntegrationRqPathType.BROWSERSTACK_NEGATIVE.getPath(), false}, {IntegrationRqPathType.BROWSERSTACK.getPath(), true}};
+    }
+
+    @Test(description = "invalid_password", dataProvider = "updateBrowserstackIntegrationNegative")
+    public void testUpdateBrowserstackIntegrationByIdNegative(String rqPath, boolean enabledType) {
+        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        int integrationId = JsonPath.from(response).get(JSONConstant.BROWSERSTACK_INTEGRATION_ID_KEY);
+        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
+        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
+        String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse).getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY),
+                "Integration is not work correctly!");
+    }
+
+    @DataProvider(name = "updateMcloudIntegrationNegative")
+    public Object[][] getMcloudRqPath() {
+        return new Object[][]{{IntegrationRqPathType.MCLOUD_NEGATIVE.getPath(), false}, {IntegrationRqPathType.MCLOUD.getPath(), true}};
+    }
+
+    @Test(description = "invalid_URL", dataProvider = "updateMcloudIntegrationNegative")
+    public void testUpdateMcloudIntegrationByIdNegative(String rqPath, boolean enabledType) {
+        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        int integrationId = JsonPath.from(response).get(JSONConstant.MCLOUD_INTEGRATION_ID_KEY);
+        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
+        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
+        String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse).getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY),
+                "Integration is not work correctly!");
+    }
+
+    @DataProvider(name = "updateSaucelabsIntegrationNegative")
+    public Object[][] getSaucelabsRqPath() {
+        return new Object[][]{{IntegrationRqPathType.SAUCELABS_NEGATIVE.getPath(), false}, {IntegrationRqPathType.SAUCELABS.getPath(), true}};
+    }
+
+    @Test(description = "invalid_password", dataProvider = "updateSaucelabsIntegrationNegative")
+    public void testUpdateSaucelabsIntegrationByIdNegative(String rqPath, boolean enabledType) {
+        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        int integrationId = JsonPath.from(response).get(JSONConstant.SAUCELABS_INTEGRATION_ID_KEY);
+        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
+        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
+        String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse).getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY),
+                "Integration is not work correctly!");
+    }
+
+    @DataProvider(name = "updateLambdatestIntegrationNegative")
+    public Object[][] getLambdatestRqPath() {
+        return new Object[][]{{IntegrationRqPathType.LAMBDATEST_NEGATIVE.getPath(), false}, {IntegrationRqPathType.LAMBDATEST.getPath(), true}};
+    }
+
+    @Test(description = "invalid_password", dataProvider = "updateLambdatestIntegrationNegative")
+    public void testUpdateLambdatestIntegrationByIdNegative(String rqPath, boolean enabledType) {
+        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        int integrationId = JsonPath.from(response).get(JSONConstant.LAMBDATEST_INTEGRATION_ID_KEY);
+        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
+        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
+        String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse).getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY),
+                "Integration is not work correctly!");
+    }
+
+    @DataProvider(name = "updateAmazonIntegrationNegative")
+    public Object[][] getAmazonRqPath() {
+        return new Object[][]{{IntegrationRqPathType.AMAZON_NEGATIVE.getPath(), false}, {IntegrationRqPathType.AMAZON.getPath(), true}};
+    }
+
+    @Test(description = "invalid_access_key", dataProvider = "updateAmazonIntegrationNegative")
+    public void testUpdateAmazonIntegrationByIdNegative(String rqPath, boolean enabledType) {
+        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        int integrationId = JsonPath.from(response).get(JSONConstant.AMAZON_INTEGRATION_ID_KEY);
+        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
+        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
+        String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse).getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY),
+                "Integration is not work correctly!");
+    }
+
+    @DataProvider(name = "updateRabbitmqIntegrationNegative")
+    public Object[][] getRabbitmqRqPath() {
+        return new Object[][]{{IntegrationRqPathType.RABBITMQ_NEGATIVE.getPath(), false}, {IntegrationRqPathType.RABBITMQ.getPath(), true}};
+    }
+
+    @Test(description = "invalid_port", dataProvider = "updateRabbitmqIntegrationNegative")
+    public void testUpdateRabbitmqIntegrationByIdNegative(String rqPath, boolean enabledType) {
+        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        int integrationId = JsonPath.from(response).get(JSONConstant.RABBITMQ_INTEGRATION_ID_KEY);
+        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
+        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
+        String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse).getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY),
+                "Integration is not work correctly!");
+    }
+
+    @DataProvider(name = "updateEmailIntegrationNegative")
+    public Object[][] getEmailRqPath() {
+        return new Object[][]{{IntegrationRqPathType.EMAIL_NEGATIVE.getPath(), false}, {IntegrationRqPathType.EMAIL.getPath(), true}};
+    }
+
+    @Test(description = "invalid_port", dataProvider = "updateEmailIntegrationNegative")
+    public void testUpdateEmailIntegrationByIdNegative(String rqPath, boolean enabledType) {
+        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        int integrationId = JsonPath.from(response).get(JSONConstant.EMAIL_INTEGRATION_ID_KEY);
+        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
+        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
+        String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
+        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse).getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY),
+                "Integration is not work correctly!");
     }
 }
 

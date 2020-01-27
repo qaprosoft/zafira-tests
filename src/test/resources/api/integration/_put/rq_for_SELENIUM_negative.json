@@ -1,0 +1,87 @@
+{
+  "id": 7,
+  "name": "SELENIUM",
+  "backReferenceId": null,
+  "enabled": ${enabled},
+  "connected": false,
+  "settings": [
+    {
+      "id": 21,
+      "value": "https://hub.test.com/wd/hub",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 21,
+        "name": "SELENIUM_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false,
+        "required": false
+      }
+    },
+    {
+      "id": 22,
+      "value": "automation",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 22,
+        "name": "SELENIUM_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": false,
+        "needEncryption": false,
+        "required": false
+      }
+    },
+    {
+      "id": 23,
+      "value": "test",
+      "binaryData": null,
+      "encrypted": false,
+      "param": {
+        "id": 23,
+        "name": "SELENIUM_PASSWORD",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": false,
+        "needEncryption": true,
+        "required": false
+      }
+    }
+  ],
+  "type": {
+    "id": 7,
+    "name": "SELENIUM",
+    "iconUrl": "",
+    "params": [
+      {
+        "id": 21,
+        "name": "SELENIUM_URL",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": true,
+        "needEncryption": false
+      },
+      {
+        "id": 22,
+        "name": "SELENIUM_USER",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": false,
+        "needEncryption": false
+      },
+      {
+        "id": 23,
+        "name": "SELENIUM_PASSWORD",
+        "metadata": null,
+        "defaultValue": null,
+        "mandatory": false,
+        "needEncryption": true
+      }
+    ]
+  },
+  "default": true,
+  "connectionChecking": true
+}
