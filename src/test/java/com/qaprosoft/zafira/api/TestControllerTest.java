@@ -95,7 +95,7 @@ public class TestControllerTest extends ZariraAPIBaseTest {
 
         TestServiceImpl testServiseImpl = new TestServiceImpl();
         String testRs = testServiseImpl.getAllTest(testRunId);
-        int testIdRs = JsonPath.from(testRs).get(JSONConstant.ALL_TEST_ID_KEY);
+        int testIdRs = JsonPath.from(testRs).get(JSONConstant.ALL_ID_FROM_RESULTS_KEY);
         Assert.assertEquals(testId, testIdRs, "Test was not create!");
 
         DeleteTestByIdMethod deleteTestByIdMethod = new DeleteTestByIdMethod(testId);
@@ -167,7 +167,7 @@ public class TestControllerTest extends ZariraAPIBaseTest {
         String testRs = apiExecutor.callApiMethod(postRetrieveTestBySearchCriteriaMethod);
         apiExecutor.validateResponse(postRetrieveTestBySearchCriteriaMethod, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        int allTestId = JsonPath.from(testRs).get(JSONConstant.ALL_TEST_ID_KEY);
+        int allTestId = JsonPath.from(testRs).get(JSONConstant.ALL_ID_FROM_RESULTS_KEY);
         LOGGER.info(String.format("Test Ids: %s", allTestId));
     }
 

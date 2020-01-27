@@ -9,7 +9,7 @@ public class JSONConstant {
     public static final String STATUS_KEY = "status";
     public static final String ARTIFACT_ID_KEY = "artifacts[0].id";
     public static final String JIRA_ID_KEY = "jiraId";
-    public static final String ALL_TEST_ID_KEY = "results[0].id";
+    public static final String ALL_ID_FROM_RESULTS_KEY = "results[0].id";
     public static final String CI_RUN_ID_KEY = "ciRunId";
     public static final String INTEGRATION_ENABLED_KEY = "enabled";
     public static final String INTEGRATION_CONNECTED_KEY = "connected";

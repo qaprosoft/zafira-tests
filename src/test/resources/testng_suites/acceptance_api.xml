@@ -81,4 +81,10 @@
         </classes>
     </test>
 
+    <test name="Invitation controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.InvitationTest"/>
+        </classes>
+    </test>
+
 </suite>
