@@ -23,6 +23,7 @@ import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 public class InvitationTest extends ZariraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(InvitationTest.class);
