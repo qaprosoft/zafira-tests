@@ -11,6 +11,7 @@ public class ConfigConstant {
     public static final String STATUS_EXPECTED_KEY = "status_for_validate";
     public static final String TEST_STATUS_EXPECTED_UPDATE_KEY = "test_status_expected_for_update";
     public static final String TEST_RUN_URL_PREFIX_KEY = "test_run_url_prefix";
+    public static final String INVITATIONS_URL_PREFIX_KEY = "invitations_url_prefix";
     public static final String GMAIL_USERNAME_KEY = "gmail_username";
     public static final String GMAIL_PASSWORD_KEY = "gmail_password";
     public static final String LINK_KEY = "link";

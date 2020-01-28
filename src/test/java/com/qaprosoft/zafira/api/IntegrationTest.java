@@ -19,6 +19,7 @@ public class IntegrationTest extends ZariraAPIBaseTest {
 
     @Test
     public void testGetAllIntegrations() {
+
         GetAllIntegrationsMethod getAllIntegrationsMethod = new GetAllIntegrationsMethod();
         apiExecutor.expectStatus(getAllIntegrationsMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getAllIntegrationsMethod);
