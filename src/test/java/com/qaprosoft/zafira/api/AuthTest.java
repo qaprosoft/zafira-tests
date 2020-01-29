@@ -13,18 +13,24 @@ import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.AuthServiceAPIImpl;
 import com.qaprosoft.zafira.service.impl.InvitationServiceImpl;
 import com.qaprosoft.zafira.service.impl.UserServiceAPIImpl;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import org.apache.commons.lang3.RandomStringUtils;
-
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AuthTest extends ZariraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(AuthTest.class);
+
+    @BeforeTest
+    public void deleteInviteBefore() {
+        String email = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
+        new InvitationServiceImpl().deleteInviteByEmail(email);
+    }
 
     @Test
     public void testGenerateAuthToken() {
@@ -69,8 +75,8 @@ public class AuthTest extends ZariraAPIBaseTest {
         apiExecutor.callApiMethod(postNewUserMethod);
 
         String newUserRs = new UserServiceAPIImpl().getUserByCriteria(emailGenerate);
-        Assert.assertTrue(newUserRs.contains(emailGenerate), "User was not register!");
         new InvitationServiceImpl().deleteInviteByEmail(email);
+        Assert.assertTrue(newUserRs.contains(emailGenerate), "User was not register!");
     }
 
     @Test
@@ -79,7 +85,7 @@ public class AuthTest extends ZariraAPIBaseTest {
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         String time = parser.format(new Date());
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
-        String emailGenerate = "TEST_".concat(RandomStringUtils.randomAlphabetic(15).concat("@gmail.com"));
+        String emailGenerate = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
 
         String inviteRs = new InvitationServiceImpl().postInvite(email, time);
         String token = JsonPath.from(inviteRs).getString(JSONConstant.INVITES_TOKEN_KEY);

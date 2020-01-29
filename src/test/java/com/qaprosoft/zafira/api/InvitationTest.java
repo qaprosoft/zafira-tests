@@ -8,25 +8,32 @@ import com.qaprosoft.zafira.api.InvitationMethods.GetInvitationByKeywordMethod;
 import com.qaprosoft.zafira.api.InvitationMethods.PostInvitesUserMethod;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
-import com.qaprosoft.zafira.domain.EmailMsg;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.enums.IntegrationGroupType;
-import com.qaprosoft.zafira.manager.APIContextManager;
-import com.qaprosoft.zafira.manager.EmailManager;
-import com.qaprosoft.zafira.service.impl.IntegrationServiceImpl;
 import com.qaprosoft.zafira.service.impl.InvitationServiceImpl;
-import com.qaprosoft.zafira.util.CryptoUtil;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
 public class InvitationTest extends ZariraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(InvitationTest.class);
+
+    @BeforeTest
+    public void deleteInviteBefore() {
+        String email = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
+        new InvitationServiceImpl().deleteInviteByEmail(email);
+    }
+
+    @AfterMethod
+    public void deleteInvite() {
+        String email = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
+        new InvitationServiceImpl().deleteInviteByEmail(email);
+    }
 
     @Test
     public void testGetInvitationByKeyword() {
@@ -47,7 +54,6 @@ public class InvitationTest extends ZariraAPIBaseTest {
         apiExecutor.expectStatus(postInvitesUserMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postInvitesUserMethod);
         apiExecutor.validateResponse(postInvitesUserMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        new InvitationServiceImpl().deleteInviteByEmail(email);
     }
 
     @Test
