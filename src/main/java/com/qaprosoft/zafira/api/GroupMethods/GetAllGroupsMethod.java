@@ -1,5 +1,6 @@
-package com.qaprosoft.zafira.api;
+package com.qaprosoft.zafira.api.GroupMethods;
 
+import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
 import com.qaprosoft.zafira.manager.APIContextManager;
 
 import java.util.Properties;

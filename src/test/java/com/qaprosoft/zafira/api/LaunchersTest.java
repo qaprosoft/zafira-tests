@@ -51,7 +51,6 @@ public class LaunchersTest extends ZariraAPIBaseTest {
         apiExecutor.expectStatus(postLauncherMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postLauncherMethod);
         apiExecutor.validateResponse(postLauncherMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-
     }
 
     @Test

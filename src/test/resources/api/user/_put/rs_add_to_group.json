@@ -1,0 +1,17 @@
+{
+  "id": "regex:[\\d]",
+  "modifiedAt": "regex:[\\d]",
+  "createdAt": "regex:[\\d]",
+  "username": "type:String",
+  "password": "type:String",
+  "email": "type:String",
+  "firstName": "type:String",
+  "lastName": "type:String",
+  "groups": "type:JSONArray",
+  "preferences": "type:JSONArray",
+  "source": "type:String",
+  "status": "type:String",
+  "roles": "type:JSONArray",
+  "grantedGroups": "type:JSONArray",
+  "permissions": "type:JSONArray"
+}

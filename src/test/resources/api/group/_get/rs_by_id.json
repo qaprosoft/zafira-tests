@@ -1,0 +1,11 @@
+{
+  "id": "regex:[\\d]",
+  "modifiedAt": "regex:[\\d]",
+  "createdAt": "regex:[\\d]",
+  "name": "type:String",
+  "role": "type:String",
+  "invitable": "type:Boolean",
+  "users": "type:JSONArray",
+  "permissions": "type:JSONArray",
+  "permissionNames": "type:JSONArray"
+}

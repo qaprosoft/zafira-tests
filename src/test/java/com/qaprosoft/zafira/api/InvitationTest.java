@@ -6,6 +6,7 @@ import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.InvitationMethods.DeleteInvitationByEmailMethod;
 import com.qaprosoft.zafira.api.InvitationMethods.GetInvitationByKeywordMethod;
 import com.qaprosoft.zafira.api.InvitationMethods.PostInvitesUserMethod;
+import com.qaprosoft.zafira.api.InvitationMethods.PostResendInviteUserMethod;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
@@ -74,5 +75,23 @@ public class InvitationTest extends ZariraAPIBaseTest {
 
         String responseAfterDelete = invitationServiceImpl.getInvitations(email);
         Assert.assertFalse(responseAfterDelete.contains(String.valueOf(invitationId)), "Invite was not delete!");
+    }
+
+    @Test
+    public void testResendInviteUser(){
+        String email = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        String time = parser.format(new Date());
+        InvitationServiceImpl invitationServiceImpl = new InvitationServiceImpl();
+        invitationServiceImpl.postInvite(email, time);
+
+        PostResendInviteUserMethod postResendInviteUserMethod = new PostResendInviteUserMethod(email, time);
+        apiExecutor.expectStatus(postResendInviteUserMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postResendInviteUserMethod);
+        apiExecutor.validateResponse(postResendInviteUserMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        invitationServiceImpl.deleteInviteByEmail(email);
+        apiExecutor.expectStatus(postResendInviteUserMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(postResendInviteUserMethod);
     }
 }

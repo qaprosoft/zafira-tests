@@ -4,7 +4,9 @@ import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.zafira.api.UserMethods.DeleteUserFromGroupMethod;
 import com.qaprosoft.zafira.api.UserMethods.PostSearchUserByCriteriaMethod;
+import com.qaprosoft.zafira.api.UserMethods.PutAddUserToGroupMethod;
 import com.qaprosoft.zafira.api.UserMethods.PutCreateUserMethod;
+import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.GroupServiceImpl;
 import com.qaprosoft.zafira.service.impl.UserServiceAPIImpl;
@@ -13,6 +15,9 @@ import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.Collections;
+import java.util.List;
 
 public class UserTest extends ZariraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(UserTest.class);
@@ -61,4 +66,28 @@ public class UserTest extends ZariraAPIBaseTest {
             Assert.assertFalse(groupAfterDel.contains(username), "User was not delete from group");
         }
     }
+
+    @Test
+    public void testAddUserToGroup() {
+        String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        String userRs = new UserServiceAPIImpl().getUserId(username);
+        int userId = JsonPath.from(userRs).getInt(JSONConstant.ID_KEY);
+
+        GroupServiceImpl groupService = new GroupServiceImpl();
+        String groupRs = groupService.getAllGroups();
+        List<Integer> allGroupsIds = JsonPath.from(groupRs).getList(JSONConstant.ID_KEY);
+        for (int i = 1; i < Collections.max(allGroupsIds); ++i) {
+            if (allGroupsIds.contains(i)) {
+                String rs = groupService.getGroupById(i);
+                if (rs.contains(username))
+                    continue;
+                PutAddUserToGroupMethod putAddUserToGroupMethod = new PutAddUserToGroupMethod(i, userId);
+                apiExecutor.expectStatus(putAddUserToGroupMethod, HTTPStatusCodeType.OK);
+                apiExecutor.callApiMethod(putAddUserToGroupMethod);
+                apiExecutor.validateResponse(putAddUserToGroupMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+            }
+        }
+    }
 }
+
+
