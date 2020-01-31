@@ -40,7 +40,7 @@ public class UserTest extends ZariraAPIBaseTest {
         apiExecutor.validateResponse(putCreateUserMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test //TODO: recode this test by GetGroupByIdMethod when bug #2015 will be fix
     public void testDeleteUserFromGroup() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         String userRs = new UserServiceAPIImpl().getUserId(username);
@@ -49,6 +49,7 @@ public class UserTest extends ZariraAPIBaseTest {
         GroupServiceImpl groupService = new GroupServiceImpl();
         String allGroupsRs = groupService.getAllGroups();
         Assert.assertTrue(allGroupsRs.contains(username), "User was not add to group!");
+
         String groupRs = JsonPath.from(allGroupsRs).getString("[0]");
         if (groupRs.contains(username)) {
             int groupId = JsonPath.from(allGroupsRs).getInt("id[0]");
@@ -67,7 +68,7 @@ public class UserTest extends ZariraAPIBaseTest {
         }
     }
 
-    @Test
+    @Test(enabled = false) //TODO: enable this test when bug #2015 will be fix
     public void testAddUserToGroup() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         String userRs = new UserServiceAPIImpl().getUserId(username);
@@ -76,11 +77,13 @@ public class UserTest extends ZariraAPIBaseTest {
         GroupServiceImpl groupService = new GroupServiceImpl();
         String groupRs = groupService.getAllGroups();
         List<Integer> allGroupsIds = JsonPath.from(groupRs).getList(JSONConstant.ID_KEY);
-        for (int i = 1; i < Collections.max(allGroupsIds); ++i) {
+        LOGGER.info(allGroupsIds);
+        for (int i = 1; i <= Collections.max(allGroupsIds); ++i) {
             if (allGroupsIds.contains(i)) {
                 String rs = groupService.getGroupById(i);
-                if (rs.contains(username))
+                if (rs.contains(username)) {
                     continue;
+                }
                 PutAddUserToGroupMethod putAddUserToGroupMethod = new PutAddUserToGroupMethod(i, userId);
                 apiExecutor.expectStatus(putAddUserToGroupMethod, HTTPStatusCodeType.OK);
                 apiExecutor.callApiMethod(putAddUserToGroupMethod);
