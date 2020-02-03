@@ -3,9 +3,7 @@
   "buildNumber": 0,
   "ciRunId": "string",
   "configXML": "",
-  "id": ${
-  id
-},
+  "id": ${id},
 "jobId": ${jobId},
 "knownIssue": true,
 "project": {
@@ -19,9 +17,7 @@
 "scmURL": "string",
 "startedBy": "HUMAN",
 "status": "UNKNOWN",
-"testSuiteId": ${
-testSuiteId
-},
+"testSuiteId": ${testSuiteId},
 "upstreamJobBuildNumber": 0,
 "upstreamJobId": 0,
 "userId": 0,

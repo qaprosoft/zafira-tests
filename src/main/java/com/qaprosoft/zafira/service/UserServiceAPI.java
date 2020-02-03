@@ -4,5 +4,5 @@ public interface UserServiceAPI {
 
     String getUserByCriteria(String query);
 
-    String getUserId(String username);
+    int getUserId(String username);
 }

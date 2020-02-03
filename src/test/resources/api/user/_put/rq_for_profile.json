@@ -1,0 +1,6 @@
+{
+  "firstName": "API",
+  "id": ${userId},
+  "lastName": "${lastName}",
+  "username": "${username}"
+}

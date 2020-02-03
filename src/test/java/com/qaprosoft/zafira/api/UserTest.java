@@ -1,11 +1,11 @@
 package com.qaprosoft.zafira.api;
 
+import com.google.gson.JsonObject;
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.zafira.api.UserMethods.DeleteUserFromGroupMethod;
-import com.qaprosoft.zafira.api.UserMethods.PostSearchUserByCriteriaMethod;
-import com.qaprosoft.zafira.api.UserMethods.PutAddUserToGroupMethod;
-import com.qaprosoft.zafira.api.UserMethods.PutCreateUserMethod;
+import com.qaprosoft.carina.core.foundation.utils.R;
+import com.qaprosoft.zafira.api.UserMethods.*;
+import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.GroupServiceImpl;
@@ -43,36 +43,26 @@ public class UserTest extends ZariraAPIBaseTest {
     @Test //TODO: recode this test by GetGroupByIdMethod when bug #2015 will be fix
     public void testDeleteUserFromGroup() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
-        String userRs = new UserServiceAPIImpl().getUserId(username);
-        int userId = JsonPath.from(userRs).getInt("id");
+        int userId = new UserServiceAPIImpl().getUserId(username);
 
         GroupServiceImpl groupService = new GroupServiceImpl();
         String allGroupsRs = groupService.getAllGroups();
         Assert.assertTrue(allGroupsRs.contains(username), "User was not add to group!");
-
+        
         String groupRs = JsonPath.from(allGroupsRs).getString("[0]");
-        if (groupRs.contains(username)) {
-            int groupId = JsonPath.from(allGroupsRs).getInt("id[0]");
-            DeleteUserFromGroupMethod deleteUserFromGroupMethod = new DeleteUserFromGroupMethod(groupId, userId);
-            apiExecutor.expectStatus(deleteUserFromGroupMethod, HTTPStatusCodeType.OK);
-            apiExecutor.callApiMethod(deleteUserFromGroupMethod);
-            String groupAfterDel = groupService.getAllGroups();
-            Assert.assertFalse(groupAfterDel.contains(username), "User was not delete from group");
-        } else {
-            int groupId = JsonPath.from(allGroupsRs).getInt("id[1]");
-            DeleteUserFromGroupMethod deleteUserFromGroupMethod = new DeleteUserFromGroupMethod(groupId, userId);
-            apiExecutor.expectStatus(deleteUserFromGroupMethod, HTTPStatusCodeType.OK);
-            apiExecutor.callApiMethod(deleteUserFromGroupMethod);
-            String groupAfterDel = groupService.getAllGroups();
-            Assert.assertFalse(groupAfterDel.contains(username), "User was not delete from group");
-        }
+
+        int groupId = JsonPath.from(allGroupsRs).getInt(groupRs.contains(username) ? "id[0]" : "id[1]");
+        DeleteUserFromGroupMethod deleteUserFromGroupMethod = new DeleteUserFromGroupMethod(groupId, userId);
+        apiExecutor.expectStatus(deleteUserFromGroupMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(deleteUserFromGroupMethod);
+        String groupAfterDel = groupService.getAllGroups();
+        Assert.assertFalse(groupAfterDel.contains(username), "User was not delete from group");
     }
 
     @Test(enabled = false) //TODO: enable this test when bug #2015 will be fix
     public void testAddUserToGroup() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
-        String userRs = new UserServiceAPIImpl().getUserId(username);
-        int userId = JsonPath.from(userRs).getInt(JSONConstant.ID_KEY);
+        int userId = new UserServiceAPIImpl().getUserId(username);
 
         GroupServiceImpl groupService = new GroupServiceImpl();
         String groupRs = groupService.getAllGroups();
@@ -90,6 +80,43 @@ public class UserTest extends ZariraAPIBaseTest {
                 apiExecutor.validateResponse(putAddUserToGroupMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
             }
         }
+    }
+
+    @Test
+    public void testUpdateUserPassword() {
+        String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        int userId = new UserServiceAPIImpl().getUserId(username);
+        PutUserPasswordMethod putUserPasswordMethod = new PutUserPasswordMethod(userId);
+        apiExecutor.expectStatus(putUserPasswordMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putUserPasswordMethod);
+    }
+
+    @Test
+    public void testUpdateUserProfile() {
+        String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        int userId = new UserServiceAPIImpl().getUserId(username);
+        String expextedLastName = R.TESTDATA.get(ConfigConstant.EXPECTED_LAST_NAME_KEY);
+
+        PutUserProfileMethod putUserProfileMethod = new PutUserProfileMethod(userId, expextedLastName, username);
+        apiExecutor.expectStatus(putUserProfileMethod, HTTPStatusCodeType.OK);
+        String response = apiExecutor.callApiMethod(putUserProfileMethod);
+        apiExecutor.validateResponse(putUserProfileMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String lastName = JsonPath.from(response).get(JSONConstant.LAST_NAME_KEY);
+        Assert.assertEquals(expextedLastName, lastName, "Profile was not update!");
+    }
+
+    @Test
+    public void testUpdateUserStatus() {
+        String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        int userId = new UserServiceAPIImpl().getUserId(username);
+        String expextedUserStatus = R.TESTDATA.get(ConfigConstant.EXPECTED_USER_STATUS_KEY);
+
+        PutUserStatusMethod putUserStatusMethod = new PutUserStatusMethod(userId, expextedUserStatus, username);
+        apiExecutor.expectStatus(putUserStatusMethod, HTTPStatusCodeType.OK);
+        String response = apiExecutor.callApiMethod(putUserStatusMethod);
+        apiExecutor.validateResponse(putUserStatusMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String actualStatus = JsonPath.from(response).get(JSONConstant.STATUS_KEY);
+        Assert.assertEquals(expextedUserStatus, actualStatus, "Profile was not update!");
     }
 }
 

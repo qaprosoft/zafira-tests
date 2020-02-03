@@ -1,7 +1,10 @@
 package com.qaprosoft.zafira.service.impl;
 
+import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.GroupMethods.GetAllGroupsMethod;
 import com.qaprosoft.zafira.api.GroupMethods.GetGroupByIdMethod;
+import com.qaprosoft.zafira.api.GroupMethods.PostGroupMethod;
+import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.GroupService;
 
@@ -20,5 +23,13 @@ public class GroupServiceImpl implements GroupService {
         GetGroupByIdMethod getGroupByIdMethod = new GetGroupByIdMethod(groupId);
         apiExecutor.expectStatus(getGroupByIdMethod, HTTPStatusCodeType.OK);
         return apiExecutor.callApiMethod(getGroupByIdMethod);
+    }
+
+    @Override
+    public int createGroup(String groupName) {
+        PostGroupMethod postGroupMethod = new PostGroupMethod(groupName);
+        apiExecutor.expectStatus(postGroupMethod, HTTPStatusCodeType.OK);
+        String response = apiExecutor.callApiMethod(postGroupMethod);
+        return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
 }
