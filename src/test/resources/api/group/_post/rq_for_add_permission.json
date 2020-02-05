@@ -1,0 +1,9 @@
+{
+  "id": ${id},
+  "invitable": true,
+  "permissions": [
+    { "id": ${permissionId},
+      "name": "MODIFY_DASHBOARDS"
+    }
+  ]
+}

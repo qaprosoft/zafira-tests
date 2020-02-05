@@ -1,6 +1,7 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
+import com.qaprosoft.zafira.api.GroupMethods.DeleteGroupByIdMethod;
 import com.qaprosoft.zafira.api.GroupMethods.GetAllGroupsMethod;
 import com.qaprosoft.zafira.api.GroupMethods.GetGroupByIdMethod;
 import com.qaprosoft.zafira.api.GroupMethods.PostGroupMethod;
@@ -32,4 +33,12 @@ public class GroupServiceImpl implements GroupService {
         String response = apiExecutor.callApiMethod(postGroupMethod);
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
+
+    @Override
+    public void deleteGroupById(int groupId) {
+        DeleteGroupByIdMethod deleteGroupByIdMethod = new DeleteGroupByIdMethod(groupId);
+        apiExecutor.expectStatus(deleteGroupByIdMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(deleteGroupByIdMethod);
+    }
+
 }

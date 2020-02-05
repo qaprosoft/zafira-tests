@@ -1,0 +1,9 @@
+[
+  {
+    "id": "regex:[\\d]",
+    "modifiedAt": "regex:[\\d]",
+    "createdAt": "regex:[\\d]",
+    "name": "type:String",
+    "block": "type:String"
+  }
+]
