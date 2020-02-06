@@ -9,14 +9,13 @@ import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.GroupServiceImpl;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class GroupTest extends ZariraAPIBaseTest {
+public class GroupTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetAllGroups() {

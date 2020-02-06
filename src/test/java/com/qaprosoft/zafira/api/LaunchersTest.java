@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class LaunchersTest extends ZariraAPIBaseTest {
+public class LaunchersTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(LaunchersTest.class);
 
     @AfterTest

@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class TestControllerTest extends ZariraAPIBaseTest {
+public class TestControllerTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(TestControllerTest.class);
 
     @Test

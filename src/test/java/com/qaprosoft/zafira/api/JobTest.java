@@ -5,7 +5,7 @@ import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.Test;
 
-public class JobTest extends ZariraAPIBaseTest {
+public class JobTest extends ZafiraAPIBaseTest {
     @Test
     public void testCreateJob() {
         PostJobMethod postJobMethod = new PostJobMethod();

@@ -1,6 +1,5 @@
 package com.qaprosoft.zafira.api;
 
-import com.google.gson.JsonObject;
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
@@ -8,6 +7,7 @@ import com.qaprosoft.zafira.api.UserMethods.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.service.impl.FileUtilServiceImpl;
 import com.qaprosoft.zafira.service.impl.GroupServiceImpl;
 import com.qaprosoft.zafira.service.impl.UserServiceAPIImpl;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -16,10 +16,11 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
-public class UserTest extends ZariraAPIBaseTest {
+public class UserTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(UserTest.class);
 
     @Test
@@ -48,7 +49,7 @@ public class UserTest extends ZariraAPIBaseTest {
         GroupServiceImpl groupService = new GroupServiceImpl();
         String allGroupsRs = groupService.getAllGroups();
         Assert.assertTrue(allGroupsRs.contains(username), "User was not add to group!");
-        
+
         String groupRs = JsonPath.from(allGroupsRs).getString("[0]");
 
         int groupId = JsonPath.from(allGroupsRs).getInt(groupRs.contains(username) ? "id[0]" : "id[1]");
@@ -59,7 +60,7 @@ public class UserTest extends ZariraAPIBaseTest {
         Assert.assertFalse(groupAfterDel.contains(username), "User was not delete from group");
     }
 
-    @Test(enabled = false) //TODO: enable this test when bug #2015 will be fix
+    @Test(enabled = true) //TODO: enable this test when bug #2015 will be fix
     public void testAddUserToGroup() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         int userId = new UserServiceAPIImpl().getUserId(username);
@@ -117,6 +118,19 @@ public class UserTest extends ZariraAPIBaseTest {
         apiExecutor.validateResponse(putUserStatusMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         String actualStatus = JsonPath.from(response).get(JSONConstant.STATUS_KEY);
         Assert.assertEquals(expextedUserStatus, actualStatus, "Profile was not update!");
+    }
+
+    @Test
+    public void testUpdateUser() {
+        String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        int userId = new UserServiceAPIImpl().getUserId(username);
+        File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY));
+        String imageUrl = JsonPath.from(new FileUtilServiceImpl().getUrl(uploadFile)).get(JSONConstant.IMAGE_URL_KEY);
+
+        PutUserMethod putUserMethod = new PutUserMethod(userId, username, imageUrl);
+        apiExecutor.expectStatus(putUserMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putUserMethod);
+        apiExecutor.validateResponse(putUserMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }
 

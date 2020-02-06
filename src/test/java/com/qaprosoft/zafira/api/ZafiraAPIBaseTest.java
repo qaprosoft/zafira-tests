@@ -6,12 +6,11 @@ import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.service.impl.*;
 import org.apache.log4j.Logger;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.AfterTest;
 
 import java.util.List;
 
-public class ZariraAPIBaseTest extends AbstractTest {
-    private static final Logger LOGGER = Logger.getLogger(ZariraAPIBaseTest.class);
+public class ZafiraAPIBaseTest extends AbstractTest {
+    private static final Logger LOGGER = Logger.getLogger(ZafiraAPIBaseTest.class);
     protected ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
     @AfterSuite

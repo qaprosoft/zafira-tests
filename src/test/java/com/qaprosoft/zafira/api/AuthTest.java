@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class AuthTest extends ZariraAPIBaseTest {
+public class AuthTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(AuthTest.class);
 
     @BeforeTest

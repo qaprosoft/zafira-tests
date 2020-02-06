@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class InvitationTest extends ZariraAPIBaseTest {
+public class InvitationTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(InvitationTest.class);
 
     @BeforeTest

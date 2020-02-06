@@ -87,4 +87,34 @@
         </classes>
     </test>
 
+    <test name="Group controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.GroupTest"/>
+        </classes>
+    </test>
+
+    <test name="User controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.UserTest"/>
+        </classes>
+    </test>
+
+    <test name="FileUtil controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.FileUtilTest"/>
+        </classes>
+    </test>
+
+    <test name="Permission controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.PermissionTest"/>
+        </classes>
+    </test>
+
+    <test name="Project controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.ProjectTest"/>
+        </classes>
+    </test>
+
 </suite>

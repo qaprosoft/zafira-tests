@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
 
 import java.util.Date;
 
-public class TestRunTest extends ZariraAPIBaseTest {
+public class TestRunTest extends ZafiraAPIBaseTest {
 
     private final EmailManager EMAIL = new EmailManager(
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY)),

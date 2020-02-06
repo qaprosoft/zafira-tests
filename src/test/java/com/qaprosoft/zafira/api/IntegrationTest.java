@@ -14,7 +14,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class IntegrationTest extends ZariraAPIBaseTest {
+public class IntegrationTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(IntegrationTest.class);
 
     @Test
