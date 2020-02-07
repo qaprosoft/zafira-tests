@@ -17,8 +17,7 @@
       "jobURL": "type:String",
       "jenkinsHost": "type:String",
       "userId": "regex:[\\d]",
-      "automationServerId": "regex:[\\d]"
     },
-    "autoScan": true
+    "autoScan": "type:Boolean"
   }
 ]

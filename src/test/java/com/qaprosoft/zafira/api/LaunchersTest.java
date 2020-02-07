@@ -9,6 +9,7 @@ import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.manager.APIContextManager;
+import com.qaprosoft.zafira.manager.BashExecutorManager;
 import com.qaprosoft.zafira.service.impl.JobServiceImpl;
 import com.qaprosoft.zafira.service.impl.LauncherServiceImpl;
 import com.qaprosoft.zafira.service.impl.PresetServiceImpl;
@@ -16,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -94,7 +96,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getLauncherByIdMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testBuildJobByWebhook() {
         PresetServiceImpl presetServiceImpl = new PresetServiceImpl();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
@@ -108,7 +110,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postJobByWebHookMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testBuildJobByLauncher() {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
 
@@ -117,7 +119,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postJobByLauncherMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testCreateLauncherFromJenkiins() {
         PostLauncherFromJenkinsMethod postLauncherFromJenkinsMethod = new PostLauncherFromJenkinsMethod();
         apiExecutor.expectStatus(postLauncherFromJenkinsMethod, HTTPStatusCodeType.OK);

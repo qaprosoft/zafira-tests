@@ -41,26 +41,32 @@ public class UserTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(putCreateUserMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test //TODO: recode this test by GetGroupByIdMethod when bug #2015 will be fix
+    @Test
     public void testDeleteUserFromGroup() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         int userId = new UserServiceAPIImpl().getUserId(username);
-
         GroupServiceImpl groupService = new GroupServiceImpl();
         String allGroupsRs = groupService.getAllGroups();
         Assert.assertTrue(allGroupsRs.contains(username), "User was not add to group!");
 
-        String groupRs = JsonPath.from(allGroupsRs).getString("[0]");
-
-        int groupId = JsonPath.from(allGroupsRs).getInt(groupRs.contains(username) ? "id[0]" : "id[1]");
-        DeleteUserFromGroupMethod deleteUserFromGroupMethod = new DeleteUserFromGroupMethod(groupId, userId);
-        apiExecutor.expectStatus(deleteUserFromGroupMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(deleteUserFromGroupMethod);
+        List<Integer> allGroupsIds = JsonPath.from(allGroupsRs).getList(JSONConstant.ID_KEY);
+        LOGGER.info(allGroupsIds);
+        for (int i = 1; i <= Collections.max(allGroupsIds); ++i) {
+            if (allGroupsIds.contains(i)) {
+                String rs = groupService.getGroupById(i);
+                if (rs.contains(username)) {
+                    DeleteUserFromGroupMethod deleteUserFromGroupMethod = new DeleteUserFromGroupMethod(i, userId);
+                    apiExecutor.expectStatus(deleteUserFromGroupMethod, HTTPStatusCodeType.OK);
+                    apiExecutor.callApiMethod(deleteUserFromGroupMethod);
+                }
+                continue;
+            }
+        }
         String groupAfterDel = groupService.getAllGroups();
         Assert.assertFalse(groupAfterDel.contains(username), "User was not delete from group");
     }
 
-    @Test(enabled = true) //TODO: enable this test when bug #2015 will be fix
+    @Test
     public void testAddUserToGroup() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         int userId = new UserServiceAPIImpl().getUserId(username);

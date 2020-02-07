@@ -12,12 +12,12 @@
     "presets": null,
     "job": {
       "id": "regex:[\\d]",
-      "name": "launcher",
-      "jobURL": "https://ci.qaprosoft.farm/job/automation/job/launcher",
-      "jenkinsHost": "https://ci.qaprosoft.farm",
+      "name": "type:String",
+      "jobURL": "type:String",
+      "jenkinsHost": "type:String",
       "userId": "regex:[\\d]",
       "automationServerId": "regex:[\\d]"
     },
-    "autoScan": false
+    "autoScan": "type:Boolean"
   }
 ]

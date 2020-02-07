@@ -1,5 +1,5 @@
 {
   "branch": "string",
-  "rescan": true,
+  "rescan": false,
   "scmAccountId": ${scmAccountId}
 }

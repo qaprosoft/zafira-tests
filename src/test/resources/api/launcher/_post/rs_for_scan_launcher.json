@@ -1,4 +1,4 @@
 {
   "queueItemUrl": "type:String",
-  "success": true
+  "success": "type:Boolean"
 }

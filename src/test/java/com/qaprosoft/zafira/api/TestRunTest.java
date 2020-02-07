@@ -33,10 +33,10 @@ public class TestRunTest extends ZafiraAPIBaseTest {
 
     private final int TESTS_TO_ADD = 1;
 
-    @BeforeTest
-    public void startServer() {
-        BashExecutorManager.getInstance().initJenkinsMockServerWithData();
-    }
+//    @BeforeTest
+//    public void startServer() {
+//        BashExecutorManager.getInstance().initJenkinsMockServerWithData();
+//    }
 
     @Test
     public void testStartTestRun() {
@@ -146,7 +146,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getTestByTestRunIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testBuildTestRunJob() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
@@ -156,7 +156,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postTestRunByJobMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testDebugJob() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
@@ -166,7 +166,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getDebugJobMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testGetTestRunJobParameters() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
@@ -182,8 +182,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         return new Object[][]{{true}, {false}};
     }
 
-    @Test(dataProvider = "rerunFailuresDataProvider", enabled = false)
-    //TODO: enable this test when jenkins mock container will be up)
+    @Test(dataProvider = "rerunFailuresDataProvider")
     public void testGetTestRunJobById(boolean rerunFailures) {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
@@ -194,8 +193,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getRerunTestRunByIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(dataProvider = "rerunFailuresDataProvider", enabled = false)
-    //TODO: enable this test when jenkins mock container will be up)
+    @Test(dataProvider = "rerunFailuresDataProvider")
     public void testRerunTestRunJob(boolean rerunFailures) {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
@@ -205,7 +203,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postRerunTestRunJobsMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testAbortTestRun() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
@@ -215,7 +213,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postAbortTestRunMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testAbortTestRunCi() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
@@ -225,7 +223,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getAbortTestRunCiMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testAbortTestRunDebug() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
@@ -235,7 +233,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getAbortDebugTestRunMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testGetBuildConsoleOutput() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);

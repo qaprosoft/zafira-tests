@@ -18,7 +18,7 @@
     <parameter name="jenkinsRegressionPipeline" value="Carina-Demo-Regression-Pipeline"/>
     <parameter name="jenkinsPipelineEnvironments" value="STAG"/>
     <parameter name="jenkinsJobExecutionMode" value="continue"/>
-    <parameter name="jenkinsMockHost" value="http://localhost:8000"/>
+    <parameter name="jenkinsMockHost" value="https://mockci.qaprosoft.farm"/>
 
 
     <test name="Integration-info controller tests">
