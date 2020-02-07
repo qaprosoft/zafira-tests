@@ -38,6 +38,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         new LauncherServiceImpl().create(autoServerId, accountTypeId);
+
         GetAllLaunchersMethod getAllLaunchersMethod = new GetAllLaunchersMethod();
         apiExecutor.expectStatus(getAllLaunchersMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getAllLaunchersMethod);
@@ -135,7 +136,6 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postScanLaucherMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postScanLaucherMethod);
         apiExecutor.validateResponse(postScanLaucherMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-
     }
 
     @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
@@ -153,7 +153,6 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         LauncherServiceImpl launcherServiceImpl = new LauncherServiceImpl();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         String buildnumber = launcherServiceImpl.getBuildNumber(launcherServiceImpl.getQueueItemUrl(accountTypeId));
-
 
         DeleteLauncherScannerMethod deleteLauncherScannerMethod = new DeleteLauncherScannerMethod(buildnumber, accountTypeId);
         apiExecutor.expectStatus(deleteLauncherScannerMethod, HTTPStatusCodeType.OK);

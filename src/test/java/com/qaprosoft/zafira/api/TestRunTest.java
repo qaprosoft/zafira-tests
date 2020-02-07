@@ -30,13 +30,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY)));
 
     private final static Logger LOGGER = Logger.getLogger(TestRunTest.class);
-
     private final int TESTS_TO_ADD = 1;
-
-//    @BeforeTest
-//    public void startServer() {
-//        BashExecutorManager.getInstance().initJenkinsMockServerWithData();
-//    }
 
     @Test
     public void testStartTestRun() {
