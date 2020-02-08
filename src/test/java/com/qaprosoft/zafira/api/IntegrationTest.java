@@ -2,8 +2,8 @@ package com.qaprosoft.zafira.api;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.zafira.api.IntegrationMethods.GetAllIntegrationsMethod;
-import com.qaprosoft.zafira.api.IntegrationMethods.PutIntegrationByIdMethod;
+import com.qaprosoft.zafira.api.integration.GetAllIntegrationsMethod;
+import com.qaprosoft.zafira.api.integration.PutIntegrationByIdMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.enums.IntegrationRqPathType;

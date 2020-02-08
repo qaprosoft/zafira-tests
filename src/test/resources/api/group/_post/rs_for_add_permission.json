@@ -6,6 +6,5 @@
   "role": null,
   "invitable": "type:Boolean",
   "users": null,
-  "permissions": "type:JSONArray",
-  "permissionNames": "type:JSONArray"
+  "permissions": "type:JSONArray"
 }

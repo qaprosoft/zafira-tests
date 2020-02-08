@@ -1,8 +1,8 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.qaprosoft.zafira.api.InvitationMethods.DeleteInvitationByEmailMethod;
-import com.qaprosoft.zafira.api.InvitationMethods.GetInvitationByKeywordMethod;
-import com.qaprosoft.zafira.api.InvitationMethods.PostInvitesUserMethod;
+import com.qaprosoft.zafira.api.invitation.DeleteInvitationByEmailMethod;
+import com.qaprosoft.zafira.api.invitation.GetInvitationByKeywordMethod;
+import com.qaprosoft.zafira.api.invitation.PostInvitesUserMethod;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.InvitationService;
 

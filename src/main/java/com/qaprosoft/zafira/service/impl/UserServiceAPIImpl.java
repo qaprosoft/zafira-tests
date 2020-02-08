@@ -1,8 +1,9 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
-import com.qaprosoft.zafira.api.UserMethods.PostSearchUserByCriteriaMethod;
-import com.qaprosoft.zafira.api.UserMethods.PutCreateUserMethod;
+import com.qaprosoft.zafira.api.user.DeleteUserFromGroupMethod;
+import com.qaprosoft.zafira.api.user.PostSearchUserByCriteriaMethod;
+import com.qaprosoft.zafira.api.user.PutCreateUserMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.UserServiceAPI;
@@ -23,5 +24,12 @@ public class UserServiceAPIImpl implements UserServiceAPI {
         apiExecutor.expectStatus(putCreateUserMethod, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(putCreateUserMethod);
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
+    }
+
+    @Override
+    public void deleteUserFromGroup(int groupId, int userId) {
+        DeleteUserFromGroupMethod deleteUserFromGroupMethod = new DeleteUserFromGroupMethod(groupId, userId);
+        apiExecutor.expectStatus(deleteUserFromGroupMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(deleteUserFromGroupMethod);
     }
 }

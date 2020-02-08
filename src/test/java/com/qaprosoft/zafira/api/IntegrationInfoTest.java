@@ -1,7 +1,7 @@
 package com.qaprosoft.zafira.api;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.zafira.api.IntegrationInfoMethods.GetIntegrationInfoMethod;
+import com.qaprosoft.zafira.api.integrationInfo.GetIntegrationInfoMethod;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.Test;

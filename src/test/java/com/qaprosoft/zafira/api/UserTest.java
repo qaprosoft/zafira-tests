@@ -3,7 +3,7 @@ package com.qaprosoft.zafira.api;
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
-import com.qaprosoft.zafira.api.UserMethods.*;
+import com.qaprosoft.zafira.api.user.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
@@ -46,7 +46,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         int userId = new UserServiceAPIImpl().getUserId(username);
         GroupServiceImpl groupService = new GroupServiceImpl();
-        String allGroupsRs = groupService.getAllGroups();
+        String allGroupsRs = groupService.getAllGroupsString();
         Assert.assertTrue(allGroupsRs.contains(username), "User was not add to group!");
 
         List<Integer> allGroupsIds = JsonPath.from(allGroupsRs).getList(JSONConstant.ID_KEY);
@@ -62,7 +62,7 @@ public class UserTest extends ZafiraAPIBaseTest {
                 continue;
             }
         }
-        String groupAfterDel = groupService.getAllGroups();
+        String groupAfterDel = groupService.getAllGroupsString();
         Assert.assertFalse(groupAfterDel.contains(username), "User was not delete from group");
     }
 
@@ -70,10 +70,9 @@ public class UserTest extends ZafiraAPIBaseTest {
     public void testAddUserToGroup() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         int userId = new UserServiceAPIImpl().getUserId(username);
-
         GroupServiceImpl groupService = new GroupServiceImpl();
-        String groupRs = groupService.getAllGroups();
-        List<Integer> allGroupsIds = JsonPath.from(groupRs).getList(JSONConstant.ID_KEY);
+
+        List<Integer> allGroupsIds = groupService.getAllGroupsIds();
         LOGGER.info(allGroupsIds);
         for (int i = 1; i <= Collections.max(allGroupsIds); ++i) {
             if (allGroupsIds.contains(i)) {

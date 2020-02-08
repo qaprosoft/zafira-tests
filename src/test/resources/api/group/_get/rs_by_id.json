@@ -7,5 +7,4 @@
   "invitable": "type:Boolean",
   "users": "type:JSONArray",
   "permissions": "type:JSONArray",
-  "permissionNames": "type:JSONArray"
 }

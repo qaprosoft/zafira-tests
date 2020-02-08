@@ -3,10 +3,10 @@ package com.qaprosoft.zafira.api;
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
-import com.qaprosoft.zafira.api.AuthMethods.GetApiTokenMethod;
-import com.qaprosoft.zafira.api.AuthMethods.PostGenerateAuthTokenMethod;
-import com.qaprosoft.zafira.api.AuthMethods.PostNewUserMethod;
-import com.qaprosoft.zafira.api.AuthMethods.PostSendResetPasswordEmailMethod;
+import com.qaprosoft.zafira.api.auth.GetApiTokenMethod;
+import com.qaprosoft.zafira.api.auth.PostGenerateAuthTokenMethod;
+import com.qaprosoft.zafira.api.auth.PostNewUserMethod;
+import com.qaprosoft.zafira.api.auth.PostSendResetPasswordEmailMethod;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
@@ -25,11 +25,11 @@ import java.util.Date;
 
 public class AuthTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(AuthTest.class);
+    private final static String EMAIL = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
 
     @BeforeTest
     public void deleteInviteBefore() {
-        String email = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
-        new InvitationServiceImpl().deleteInviteByEmail(email);
+        new InvitationServiceImpl().deleteInviteByEmail(EMAIL);
     }
 
     @Test
@@ -62,38 +62,36 @@ public class AuthTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testRegesterNewUser() {
-        String email = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         String time = parser.format(new Date());
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         String emailGenerate = "TEST_".concat(RandomStringUtils.randomAlphabetic(15).concat("@gmail.com"));
 
-        String inviteRs = new InvitationServiceImpl().postInvite(email, time);
+        String inviteRs = new InvitationServiceImpl().postInvite(EMAIL, time);
         String token = JsonPath.from(inviteRs).getString(JSONConstant.INVITES_TOKEN_KEY);
         PostNewUserMethod postNewUserMethod = new PostNewUserMethod(token, username, emailGenerate);
         apiExecutor.expectStatus(postNewUserMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postNewUserMethod);
 
         String newUserRs = new UserServiceAPIImpl().getUserByCriteria(emailGenerate);
-        new InvitationServiceImpl().deleteInviteByEmail(email);
+        new InvitationServiceImpl().deleteInviteByEmail(EMAIL);
         Assert.assertTrue(newUserRs.contains(emailGenerate), "User was not register!");
     }
 
     @Test
     public void testSendResetPasswordEmail() {
-        String email = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         String time = parser.format(new Date());
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         String emailGenerate = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
 
-        String inviteRs = new InvitationServiceImpl().postInvite(email, time);
+        String inviteRs = new InvitationServiceImpl().postInvite(EMAIL, time);
         String token = JsonPath.from(inviteRs).getString(JSONConstant.INVITES_TOKEN_KEY);
         new AuthServiceAPIImpl().registerNewUser(token, username, emailGenerate);
 
         PostSendResetPasswordEmailMethod postSendResetPasswordEmailMethod = new PostSendResetPasswordEmailMethod(emailGenerate);
         apiExecutor.expectStatus(postSendResetPasswordEmailMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postSendResetPasswordEmailMethod);
-        new InvitationServiceImpl().deleteInviteByEmail(email);
+        new InvitationServiceImpl().deleteInviteByEmail(EMAIL);
     }
 }

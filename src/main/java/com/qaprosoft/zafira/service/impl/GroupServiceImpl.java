@@ -1,19 +1,29 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
-import com.qaprosoft.zafira.api.GroupMethods.DeleteGroupByIdMethod;
-import com.qaprosoft.zafira.api.GroupMethods.GetAllGroupsMethod;
-import com.qaprosoft.zafira.api.GroupMethods.GetGroupByIdMethod;
-import com.qaprosoft.zafira.api.GroupMethods.PostGroupMethod;
+import com.qaprosoft.zafira.api.group.DeleteGroupByIdMethod;
+import com.qaprosoft.zafira.api.group.GetAllGroupsMethod;
+import com.qaprosoft.zafira.api.group.GetGroupByIdMethod;
+import com.qaprosoft.zafira.api.group.PostGroupMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.GroupService;
+
+import java.util.List;
 
 public class GroupServiceImpl implements GroupService {
     private ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
     @Override
-    public String getAllGroups() {
+    public List<Integer> getAllGroupsIds() {
+        GetAllGroupsMethod getAllGroupsMethod = new GetAllGroupsMethod();
+        apiExecutor.expectStatus(getAllGroupsMethod, HTTPStatusCodeType.OK);
+        String response = apiExecutor.callApiMethod(getAllGroupsMethod);
+        return JsonPath.from(response).getList(JSONConstant.ID_KEY);
+    }
+
+    @Override
+    public String getAllGroupsString() {
         GetAllGroupsMethod getAllGroupsMethod = new GetAllGroupsMethod();
         apiExecutor.expectStatus(getAllGroupsMethod, HTTPStatusCodeType.OK);
         return apiExecutor.callApiMethod(getAllGroupsMethod);

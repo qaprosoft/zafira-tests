@@ -1,8 +1,11 @@
 package com.qaprosoft.zafira.service;
 
+import java.util.List;
+
 public interface GroupService {
 
-    String getAllGroups();
+    List<Integer> getAllGroupsIds();
+    String getAllGroupsString();
 
     String getGroupById(int groupId);
 

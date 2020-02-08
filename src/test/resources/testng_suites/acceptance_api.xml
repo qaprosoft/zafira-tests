@@ -117,4 +117,10 @@
         </classes>
     </test>
 
+    <test name="Launcher preset api controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.LauncherPresetTest"/>
+        </classes>
+    </test>
+
 </suite>

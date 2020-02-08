@@ -2,10 +2,10 @@ package com.qaprosoft.zafira.api;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.zafira.api.ProjectMethods.DeleteProjectByIdMethod;
-import com.qaprosoft.zafira.api.ProjectMethods.GetAllProjectMethod;
-import com.qaprosoft.zafira.api.ProjectMethods.GetProjectByName;
-import com.qaprosoft.zafira.api.ProjectMethods.PostProjectMethod;
+import com.qaprosoft.zafira.api.project.DeleteProjectByIdMethod;
+import com.qaprosoft.zafira.api.project.GetAllProjectMethod;
+import com.qaprosoft.zafira.api.project.GetProjectByName;
+import com.qaprosoft.zafira.api.project.PostProjectMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.ProjectServiceImpl;
@@ -35,8 +35,8 @@ public class ProjectTest extends ZafiraAPIBaseTest {
         PostProjectMethod postProjectMethod = new PostProjectMethod(projectName);
         apiExecutor.expectStatus(postProjectMethod, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(postProjectMethod);
-        apiExecutor.validateResponse(postProjectMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         new ProjectServiceImpl().deleteProjectById(JsonPath.from(response).getInt(JSONConstant.ID_KEY));
+        apiExecutor.validateResponse(postProjectMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
@@ -49,8 +49,7 @@ public class ProjectTest extends ZafiraAPIBaseTest {
         DeleteProjectByIdMethod deleteProjectByIdMethod = new DeleteProjectByIdMethod(projectId);
         apiExecutor.expectStatus(deleteProjectByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(deleteProjectByIdMethod);
-        String allProjects = projectService.getAllProjects();
-        List<Integer> allProjectIds = JsonPath.from(allProjects).getList(JSONConstant.ID_KEY);
+        List<Integer> allProjectIds = projectService.getAllProjectsIds();
         LOGGER.info("All projects Ids:" + allProjectIds);
         Assert.assertFalse(allProjectIds.contains(projectId), "Project was not delete!");
     }
@@ -64,8 +63,8 @@ public class ProjectTest extends ZafiraAPIBaseTest {
         GetProjectByName getProjectByName = new GetProjectByName(projectName);
         apiExecutor.expectStatus(getProjectByName, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getProjectByName);
-        apiExecutor.validateResponse(getProjectByName, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         projectService.deleteProjectById(JsonPath.from(response).getInt(JSONConstant.ID_KEY));
+        apiExecutor.validateResponse(getProjectByName, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }
 

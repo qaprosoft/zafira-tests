@@ -1,12 +1,14 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
-import com.qaprosoft.zafira.api.ProjectMethods.DeleteProjectByIdMethod;
-import com.qaprosoft.zafira.api.ProjectMethods.GetAllProjectMethod;
-import com.qaprosoft.zafira.api.ProjectMethods.PostProjectMethod;
+import com.qaprosoft.zafira.api.project.DeleteProjectByIdMethod;
+import com.qaprosoft.zafira.api.project.GetAllProjectMethod;
+import com.qaprosoft.zafira.api.project.PostProjectMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.ProjectService;
+
+import java.util.List;
 
 public class ProjectServiceImpl implements ProjectService {
     private ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
@@ -19,10 +21,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public String getAllProjects() {
+    public List<Integer> getAllProjectsIds() {
         GetAllProjectMethod getAllProjectMethod = new GetAllProjectMethod();
         apiExecutor.expectStatus(getAllProjectMethod, HTTPStatusCodeType.OK);
-        return apiExecutor.callApiMethod(getAllProjectMethod);
+        String response = apiExecutor.callApiMethod(getAllProjectMethod);
+        return JsonPath.from(response).getList(JSONConstant.ID_KEY);
     }
 
     @Override
