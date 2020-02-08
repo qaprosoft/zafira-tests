@@ -34,4 +34,5 @@ public class JSONConstant {
     public static final String PERMISSIONS_IDS_KEY = "permissions.id";
     public static final String IMAGE_URL_KEY = "url";
     public static final String USERS_IDS_KEY = "users.id";
+    public static final String FILTER_NAME_KEY = "name";
 }
