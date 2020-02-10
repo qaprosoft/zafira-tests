@@ -18,7 +18,7 @@
     <parameter name="jenkinsRegressionPipeline" value="Carina-Demo-Regression-Pipeline"/>
     <parameter name="jenkinsPipelineEnvironments" value="STAG"/>
     <parameter name="jenkinsJobExecutionMode" value="continue"/>
-    <parameter name="jenkinsMockHost" value="http://localhost:8000"/>
+    <parameter name="jenkinsMockHost" value="https://mockci.qaprosoft.farm"/>
 
 
     <test name="Integration-info controller tests">
@@ -84,6 +84,42 @@
     <test name="Invitation controller tests">
         <classes>
             <class name="com.qaprosoft.zafira.api.InvitationTest"/>
+        </classes>
+    </test>
+
+    <test name="Group controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.GroupTest"/>
+        </classes>
+    </test>
+
+    <test name="User controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.UserTest"/>
+        </classes>
+    </test>
+
+    <test name="FileUtil controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.FileUtilTest"/>
+        </classes>
+    </test>
+
+    <test name="Permission controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.PermissionTest"/>
+        </classes>
+    </test>
+
+    <test name="Project controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.ProjectTest"/>
+        </classes>
+    </test>
+
+    <test name="Launcher preset api controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.LauncherPresetTest"/>
         </classes>
     </test>
 

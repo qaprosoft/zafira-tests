@@ -1,6 +1,6 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.qaprosoft.zafira.api.AuthMethods.PostNewUserMethod;
+import com.qaprosoft.zafira.api.auth.PostNewUserMethod;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.AuthServiceAPI;
 

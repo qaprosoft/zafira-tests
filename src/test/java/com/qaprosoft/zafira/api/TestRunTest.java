@@ -3,13 +3,12 @@ package com.qaprosoft.zafira.api;
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
-import com.qaprosoft.zafira.api.TestRunMethods.*;
+import com.qaprosoft.zafira.api.testRun.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.domain.EmailMsg;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.enums.IntegrationGroupType;
-import com.qaprosoft.zafira.manager.BashExecutorManager;
 import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.*;
@@ -17,26 +16,19 @@ import com.qaprosoft.zafira.util.CryptoUtil;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Date;
 
-public class TestRunTest extends ZariraAPIBaseTest {
+public class TestRunTest extends ZafiraAPIBaseTest {
 
     private final EmailManager EMAIL = new EmailManager(
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY)),
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY)));
 
     private final static Logger LOGGER = Logger.getLogger(TestRunTest.class);
-
     private final int TESTS_TO_ADD = 1;
-
-    @BeforeTest
-    public void startServer() {
-        BashExecutorManager.getInstance().initJenkinsMockServerWithData();
-    }
 
     @Test
     public void testStartTestRun() {
@@ -146,7 +138,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
         apiExecutor.validateResponse(getTestByTestRunIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testBuildTestRunJob() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
@@ -156,7 +148,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
         apiExecutor.callApiMethod(postTestRunByJobMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testDebugJob() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
@@ -166,7 +158,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
         apiExecutor.callApiMethod(getDebugJobMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testGetTestRunJobParameters() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
@@ -182,8 +174,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
         return new Object[][]{{true}, {false}};
     }
 
-    @Test(dataProvider = "rerunFailuresDataProvider", enabled = false)
-    //TODO: enable this test when jenkins mock container will be up)
+    @Test(dataProvider = "rerunFailuresDataProvider")
     public void testGetTestRunJobById(boolean rerunFailures) {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
@@ -194,8 +185,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
         apiExecutor.validateResponse(getRerunTestRunByIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(dataProvider = "rerunFailuresDataProvider", enabled = false)
-    //TODO: enable this test when jenkins mock container will be up)
+    @Test(dataProvider = "rerunFailuresDataProvider")
     public void testRerunTestRunJob(boolean rerunFailures) {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
@@ -205,7 +195,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
         apiExecutor.callApiMethod(postRerunTestRunJobsMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testAbortTestRun() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
@@ -215,7 +205,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
         apiExecutor.callApiMethod(postAbortTestRunMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testAbortTestRunCi() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
@@ -225,7 +215,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
         apiExecutor.callApiMethod(getAbortTestRunCiMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testAbortTestRunDebug() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
@@ -235,7 +225,7 @@ public class TestRunTest extends ZariraAPIBaseTest {
         apiExecutor.callApiMethod(getAbortDebugTestRunMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test
     public void testGetBuildConsoleOutput() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);

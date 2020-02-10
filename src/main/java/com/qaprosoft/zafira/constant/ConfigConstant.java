@@ -24,5 +24,10 @@ public class ConfigConstant {
     public static final String AUTH_USERNAME_KEY = "auth_username";
     public static final String AUTTH_PASSWORD_KEY = "auth_password";
     public static final String TEST_EMAIL_KEY = "test_API_email";
-
+    public static final String EXPECTED_LAST_NAME_KEY = "expected_last_name";
+    public static final String EXPECTED_USER_STATUS_KEY = "expected_user_status";
+    public static final String EXPECTED_PERMISSION_ID_KEY = "expected_permission_id";
+    public static final String IMAGE_PATH_KEY = "image_path_key";
+    public static final String SUBJECT_NAME_KEY = "subject_name";
+    public static final String EXPECTED_FILTER_NAME_KEY = "expected_filter_name";
 }

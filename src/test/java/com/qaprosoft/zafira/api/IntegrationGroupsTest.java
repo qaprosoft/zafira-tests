@@ -5,7 +5,7 @@ import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.Test;
 
-public class IntegrationGroupsTest extends ZariraAPIBaseTest {
+public class IntegrationGroupsTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetAllIntegrationGroups(){

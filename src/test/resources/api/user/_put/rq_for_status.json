@@ -1,0 +1,5 @@
+{
+  "id": ${userId},
+  "status": "${status}",
+  "username": "${username}"
+}

@@ -1,0 +1,22 @@
+{
+  "id":${id},
+  "modifiedAt":null,
+  "createdAt":null,
+  "name":"${name}",
+  "description":"API_test",
+  "subject":{
+    "name":"TEST_RUN",
+    "criterias":[
+      {
+        "name":"STATUS",
+        "operator":"EQUALS",
+        "operators":[
+          "EQUALS"
+        ],
+        "value":"PASSED"
+      }
+    ]
+  },
+  "userId":2,
+  "publicAccess":true
+}

@@ -11,6 +11,7 @@
       "createdAt": "regex:[\\d]",
       "username": "type:String",
       "password": "type:String",
+      "photoURL": "type:String",
       "groups": "type:JSONArray",
       "preferences": "type:JSONArray",
       "lastLogin": "regex:[\\d]",

@@ -1,8 +1,8 @@
 {
   "automationServerId": 13,
   "id": 0,
-  "jenkinsHost": "http://127.0.0.1:8000",
-  "jobURL": "http://127.0.0.1:8000/job/testJob",
+  "jenkinsHost": "https://mockci.qaprosoft.farm",
+  "jobURL": "https://mockci.qaprosoft.farm/job/testJob/",
   "name": "testJob",
   "userId": 2
 }

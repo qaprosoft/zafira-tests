@@ -30,5 +30,9 @@ public class JSONConstant {
     public static final String RABBITMQ_INTEGRATION_ID_KEY = "MESSAGE_BROKER.RABBITMQ[0].integrationId";
     public static final String EMAIL_INTEGRATION_ID_KEY = "MAIL.EMAIL[0].integrationId";
     public static final String INVITES_TOKEN_KEY = "[0].token";
-
+    public static final String LAST_NAME_KEY = "lastName";
+    public static final String PERMISSIONS_IDS_KEY = "permissions.id";
+    public static final String IMAGE_URL_KEY = "url";
+    public static final String USERS_IDS_KEY = "users.id";
+    public static final String FILTER_NAME_KEY = "name";
 }

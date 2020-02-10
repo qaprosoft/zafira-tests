@@ -1,0 +1,16 @@
+{
+  "id": ${id},
+  "users": [],
+  "name": "${name}",
+  "role": "ROLE_USER",
+  "permissions": [
+    {
+      "id": 1,
+      "name": "VIEW_HIDDEN_DASHBOARDS"
+    },
+    {
+      "id": ${permissionId},
+      "name": "MODIFY_DASHBOARDS"
+    }
+  ]
+}
