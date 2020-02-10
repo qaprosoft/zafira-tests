@@ -14,7 +14,6 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
-import javax.validation.constraints.AssertFalse;
 import java.util.List;
 
 public class FilterTest extends ZafiraAPIBaseTest {

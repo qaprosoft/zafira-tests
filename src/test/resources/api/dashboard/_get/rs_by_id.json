@@ -1,0 +1,9 @@
+{
+  "id": "regex:[\\d]",
+  "title": "type:String",
+  "widgets": "type:JSONArray",
+  "hidden": "type:Boolean",
+  "position": "regex:[\\d]",
+  "editable": "type:Boolean",
+  "attributes": "type:JSONArray"
+}

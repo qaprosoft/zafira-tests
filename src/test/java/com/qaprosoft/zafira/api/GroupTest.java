@@ -33,15 +33,10 @@ public class GroupTest extends ZafiraAPIBaseTest {
                         if (allUserIds.contains(j)) {
                             new UserServiceAPIImpl().deleteUserFromGroup(i, j);
                         }
-                        continue;
                     }
                 }
-                DeleteGroupByIdMethod deleteGroupByIdMethod = new DeleteGroupByIdMethod(i);
-                apiExecutor.expectStatus(deleteGroupByIdMethod, HTTPStatusCodeType.OK);
-                apiExecutor.callApiMethod(deleteGroupByIdMethod);
-
+                groupService.deleteGroupById(i);
             }
-            continue;
         }
     }
 

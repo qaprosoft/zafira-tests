@@ -2,6 +2,7 @@ package com.qaprosoft.zafira.api;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
+import com.qaprosoft.carina.core.foundation.api.AbstractApiMethodV2;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.user.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
@@ -49,19 +50,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         String allGroupsRs = groupService.getAllGroupsString();
         Assert.assertTrue(allGroupsRs.contains(username), "User was not add to group!");
 
-        List<Integer> allGroupsIds = JsonPath.from(allGroupsRs).getList(JSONConstant.ID_KEY);
-        LOGGER.info(allGroupsIds);
-        for (int i = 1; i <= Collections.max(allGroupsIds); ++i) {
-            if (allGroupsIds.contains(i)) {
-                String rs = groupService.getGroupById(i);
-                if (rs.contains(username)) {
-                    DeleteUserFromGroupMethod deleteUserFromGroupMethod = new DeleteUserFromGroupMethod(i, userId);
-                    apiExecutor.expectStatus(deleteUserFromGroupMethod, HTTPStatusCodeType.OK);
-                    apiExecutor.callApiMethod(deleteUserFromGroupMethod);
-                }
-                continue;
-            }
-        }
+        checkUserExistAndDeleteFromGroup(allGroupsRs, username, userId);
         String groupAfterDel = groupService.getAllGroupsString();
         Assert.assertFalse(groupAfterDel.contains(username), "User was not delete from group");
     }
@@ -70,22 +59,8 @@ public class UserTest extends ZafiraAPIBaseTest {
     public void testAddUserToGroup() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         int userId = new UserServiceAPIImpl().getUserId(username);
-        GroupServiceImpl groupService = new GroupServiceImpl();
 
-        List<Integer> allGroupsIds = groupService.getAllGroupsIds();
-        LOGGER.info(allGroupsIds);
-        for (int i = 1; i <= Collections.max(allGroupsIds); ++i) {
-            if (allGroupsIds.contains(i)) {
-                String rs = groupService.getGroupById(i);
-                if (rs.contains(username)) {
-                    continue;
-                }
-                PutAddUserToGroupMethod putAddUserToGroupMethod = new PutAddUserToGroupMethod(i, userId);
-                apiExecutor.expectStatus(putAddUserToGroupMethod, HTTPStatusCodeType.OK);
-                apiExecutor.callApiMethod(putAddUserToGroupMethod);
-                apiExecutor.validateResponse(putAddUserToGroupMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-            }
-        }
+        checkUserExistAndAddToGroup(username, userId);
     }
 
     @Test
@@ -136,6 +111,38 @@ public class UserTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(putUserMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putUserMethod);
         apiExecutor.validateResponse(putUserMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    private void checkUserExistAndAddToGroup(String username, int userId) {
+        GroupServiceImpl groupService = new GroupServiceImpl();
+        List<Integer> allGroupsIds = groupService.getAllGroupsIds();
+        LOGGER.info(allGroupsIds);
+        for (int i = 1; i <= Collections.max(allGroupsIds); ++i) {
+            if (allGroupsIds.contains(i)) {
+                String rs = groupService.getGroupById(i);
+                if (!rs.contains(username)) {
+                    PutAddUserToGroupMethod putAddUserToGroupMethod = new PutAddUserToGroupMethod(i, userId);
+                    apiExecutor.expectStatus(putAddUserToGroupMethod, HTTPStatusCodeType.OK);
+                    apiExecutor.callApiMethod(putAddUserToGroupMethod);
+                    apiExecutor.validateResponse(putAddUserToGroupMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+                }
+            }
+        }
+    }
+
+    private void checkUserExistAndDeleteFromGroup(String allGroupsRs, String username, int userId) {
+        List<Integer> allGroupsIds = JsonPath.from(allGroupsRs).getList(JSONConstant.ID_KEY);
+        LOGGER.info(allGroupsIds);
+        for (int i = 1; i <= Collections.max(allGroupsIds); ++i) {
+            if (allGroupsIds.contains(i)) {
+                String rs = new GroupServiceImpl().getGroupById(i);
+                if (rs.contains(username)) {
+                    DeleteUserFromGroupMethod deleteUserFromGroupMethod = new DeleteUserFromGroupMethod(i, userId);
+                    apiExecutor.expectStatus(deleteUserFromGroupMethod, HTTPStatusCodeType.OK);
+                    apiExecutor.callApiMethod(deleteUserFromGroupMethod);
+                }
+            }
+        }
     }
 }
 
