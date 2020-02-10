@@ -11,7 +11,6 @@ public class JobTest extends ZafiraAPIBaseTest {
         PostJobMethod postJobMethod = new PostJobMethod();
         apiExecutor.expectStatus(postJobMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postJobMethod);
-        apiExecutor.validateResponse(postJobMethod, JSONCompareMode.STRICT,
-                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        apiExecutor.validateResponse(postJobMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }
