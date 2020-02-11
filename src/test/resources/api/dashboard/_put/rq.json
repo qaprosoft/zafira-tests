@@ -1,0 +1,7 @@
+{
+  "editable": true,
+  "hidden": false,
+  "id": ${id},
+  "position": 0,
+  "title": "${title}"
+}
