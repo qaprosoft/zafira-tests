@@ -87,19 +87,19 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testDeleteTestById() {
+        TestServiceImpl testServiseImpl = new TestServiceImpl();
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        int testId = testServiseImpl.create(testCaseId, testRunId);
 
-        TestServiceImpl testServiseImpl = new TestServiceImpl();
         String testRs = testServiseImpl.getAllTest(testRunId);
         int testIdRs = JsonPath.from(testRs).get(JSONConstant.ALL_ID_FROM_RESULTS_KEY);
         Assert.assertEquals(testId, testIdRs, "Test was not create!");
 
         DeleteTestByIdMethod deleteTestByIdMethod = new DeleteTestByIdMethod(testId);
-        apiExecutor.expectStatus(deleteTestByIdMethod, HTTPStatusCodeType.OK);
+        apiExecutor.expectStatus(deleteTestByIdMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(deleteTestByIdMethod);
         String testRsAfterDelete = testServiseImpl.getAllTest(testRunId);
         Assert.assertFalse(testRsAfterDelete.contains(String.valueOf(testIdRs)), "Test was not delete!");
@@ -179,19 +179,18 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         int jobId = new JobServiceImpl().create();
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        TestServiceImpl testServiсeImpl = new TestServiceImpl();
 
-        int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        int testId = testServiсeImpl.create(testCaseId, testRunId);
         String linkWorkItemRs = apiExecutor.callApiMethod(new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue,
                 testId, workItemType));
         int workItemId = JsonPath.from(linkWorkItemRs).get(JSONConstant.ID_KEY);
-
-        TestServiceImpl testServiseImpl = new TestServiceImpl();
-        String testRs = testServiseImpl.getAllTest(testRunId);
+        String testRs = testServiсeImpl.getAllTest(testRunId);
         int workItemIdRs = JsonPath.from(testRs).get(JSONConstant.WORK_ITEM_ID_CHECK_KEY);
         Assert.assertNotEquals(0, workItemIdRs, "Work item was not link!");
 
         apiExecutor.callApiMethod(new DeleteWorkItemMethod(testId, workItemId));
-        String testRsAfterDelete = testServiseImpl.getAllTest(testRunId);
+        String testRsAfterDelete = testServiсeImpl.getAllTest(testRunId);
         List<Integer> workItemsAfterDelete = JsonPath.from(testRsAfterDelete).getList(JSONConstant.WORK_ITEMS_ARRAY_KEY);
         Assert.assertTrue(workItemsAfterDelete.isEmpty(), "Work item was not deleted!");
     }
