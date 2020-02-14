@@ -1,0 +1,16 @@
+[
+  {
+    "id": "regex:[\\d]",
+    "title": "type:String",
+    "description": "type:String",
+    "paramsConfig": "type:String",
+    "legendConfig": null,
+    "refreshable": "type:Boolean",
+    "type": "type:String",
+    "size": null,
+    "position": null,
+    "location": null,
+    "sql": null,
+    "model": null
+  }
+]
