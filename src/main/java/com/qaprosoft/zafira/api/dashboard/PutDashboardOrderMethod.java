@@ -7,7 +7,7 @@ public class PutDashboardOrderMethod extends ZafiraBaseApiMethodWithAuth {
     public PutDashboardOrderMethod(int dashboardId, int positionNumber) {
         super("api/dashboard/_put/rq_for_order.json", null, "api/dashboard.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
-        addProperty("id", dashboardId);
+        addProperty("id", String.valueOf(dashboardId));
         addProperty("position", positionNumber);
     }
 }

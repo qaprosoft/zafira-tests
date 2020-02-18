@@ -36,4 +36,5 @@ public class JSONConstant {
     public static final String USERS_IDS_KEY = "users.id";
     public static final String FILTER_NAME_KEY = "name";
     public static final String DASHBOARD_TITLE_KEY = "title";
+    public static final String USERS_KEY = "users";
 }

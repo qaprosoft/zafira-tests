@@ -9,7 +9,7 @@ public class PostFinishTestMethod extends ZafiraBaseApiMethodWithAuth {
         super("api/test/_post/rq_to_finish.json", "api/test/_post/rs_to_finish.json", "api/test.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("id", String.valueOf(testId));
-        addProperty("testCaseId", testCaseId);
-        addProperty("testRunId", testRunId);
+        addProperty("testCaseId", String.valueOf(testCaseId));
+        addProperty("testRunId", String.valueOf(testRunId));
     }
 }

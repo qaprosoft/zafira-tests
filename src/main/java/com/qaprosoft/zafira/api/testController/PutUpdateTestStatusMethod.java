@@ -9,8 +9,8 @@ public class PutUpdateTestStatusMethod extends ZafiraBaseApiMethodWithAuth {
         super("api/test/_put/rq.json", "/api/test/_put/rs.json", "api/test.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         addProperty("id", String.valueOf(testId));
-        addProperty("testSuiteId", testSuiteId);
-        addProperty("jobId", jobId);
+        addProperty("testSuiteId", String.valueOf(testSuiteId));
+        addProperty("jobId", String.valueOf(jobId));
         addProperty("status", expectedTestStatusValue);
     }
 }
