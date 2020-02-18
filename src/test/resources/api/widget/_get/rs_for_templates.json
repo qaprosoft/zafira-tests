@@ -1,0 +1,12 @@
+[
+  {
+    "id": "regex:[\\d]",
+    "name": "type:String",
+    "description": "type:String",
+    "type": "type:String",
+    "chartConfig": "type:String",
+    "paramsConfig": "type:String",
+    "legendConfig": "type:String",
+    "hidden": "type:Boolean"
+  }
+]

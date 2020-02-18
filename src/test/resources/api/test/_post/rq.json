@@ -1,25 +1,21 @@
 {
-  "blocker": true,
-  "ciTestId": "${ciTestId}",
-  "configXML": "",
-  "dependsOnMethods": "string",
-  "finishTime": 0,
-  "id": 0,
-  "knownIssue": true,
-  "message": "string",
-  "messageHashCode": 0,
-  "name": "string",
-  "needRerun": true,
-  "retry": 0,
-  "startTime": 0,
-  "status": "UNKNOWN",
-  "testArgs": "string",
-  "testCaseId": ${
-  testCaseId
-},
+"blocker": true,
+"ciTestId": "${ciTestId}",
+"configXML": "",
+"dependsOnMethods": "string",
+"finishTime": 0,
+"id": 0,
+"knownIssue": true,
+"message": "string",
+"messageHashCode": 0,
+"name": "string",
+"needRerun": true,
+"retry": 0,
+"startTime": 0,
+"status": "UNKNOWN",
+"testArgs": "string",
+"testCaseId": ${testCaseId},
 "testClass": "string",
 "testGroup": "string",
-"testRunId": ${
-testRunId
-}
+"testRunId": ${testRunId}
 }

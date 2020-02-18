@@ -9,7 +9,7 @@ public class PostLinkWorkItemMethod extends ZafiraBaseApiMethodWithAuth {
         super("api/test/_post/rq_for_link.json", null, "api/test.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("id", String.valueOf(testId));
-        addProperty("testCaseId", testCaseId);
+        addProperty("testCaseId", String.valueOf(testCaseId));
         addProperty("jiraId", jiraId);
         addProperty("type", workItemType);
     }

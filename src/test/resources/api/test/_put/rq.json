@@ -1,7 +1,5 @@
 {
-  "id": ${
-  id
-},
+  "id": ${id},
 "ciRunId": "string",
 "testSuiteId": ${testSuiteId},
 "status": "${status}",
@@ -9,9 +7,7 @@
 "scmBranch": "string",
 "scmCommit": "string",
 "configXML": " ",
-"jobId": ${
-jobId
-},
+"jobId": ${jobId},
 "upstreamJobBuildNumber": 0,
 "buildNumber": 0,
 "startedBy": "HUMAN",

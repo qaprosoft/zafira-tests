@@ -9,7 +9,7 @@
       "repositoryName": "type:String",
       "repositoryURL": "type:String"
     },
-    "presets": null,
+    "presets": "type:JSONArray",
     "job": {
       "id": "regex:[\\d]",
       "name": "type:String",

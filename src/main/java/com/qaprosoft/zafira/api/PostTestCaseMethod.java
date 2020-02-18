@@ -8,6 +8,6 @@ public class PostTestCaseMethod extends ZafiraBaseApiMethodWithAuth {
         super("api/test_case/_post/rq.json", "api/test_case/_post/rs.json", "api/test_case.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         setHeaders("Project=UNKNOWN");
-        addProperty("testSuiteId", testSuiteId);
+        addProperty("testSuiteId", String.valueOf(testSuiteId));
     }
 }

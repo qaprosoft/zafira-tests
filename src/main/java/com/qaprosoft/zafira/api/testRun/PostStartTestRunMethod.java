@@ -11,8 +11,8 @@ public class PostStartTestRunMethod extends ZafiraBaseApiMethodWithAuth {
         super("api/test_run/_post/rq.json", "api/test_run/_post/rs.json", "api/test_run.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         setHeaders("Project=UNKNOWN");
-        addProperty("testSuiteId", testSuiteId);
-        addProperty("jobId", jobId);
+        addProperty("testSuiteId", String.valueOf(testSuiteId));
+        addProperty("jobId", String.valueOf(jobId));
         addProperty("ciRunId", UUID.randomUUID());
     }
 }

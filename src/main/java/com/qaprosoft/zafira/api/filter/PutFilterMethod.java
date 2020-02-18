@@ -8,7 +8,7 @@ public class PutFilterMethod extends ZafiraBaseApiMethodWithAuth {
     public PutFilterMethod(int filterId, String filterName) {
         super("api/filter/_put/rq.json", "api/filter/_put/rs.json", "api/filter.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
-        addProperty("id", filterId);
+        addProperty("id", String.valueOf(filterId));
         addProperty("name", filterName);
     }
 }

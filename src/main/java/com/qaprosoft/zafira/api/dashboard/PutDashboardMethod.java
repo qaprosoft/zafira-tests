@@ -8,7 +8,7 @@ public class PutDashboardMethod extends ZafiraBaseApiMethodWithAuth {
     public PutDashboardMethod(int dashboardId, String dashboardName) {
         super("api/dashboard/_put/rq.json", "api/dashboard/_put/rs.json", "api/dashboard.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
-        addProperty("id", dashboardId);
+        addProperty("id", String.valueOf(dashboardId));
         addProperty("title", dashboardName);
     }
 }

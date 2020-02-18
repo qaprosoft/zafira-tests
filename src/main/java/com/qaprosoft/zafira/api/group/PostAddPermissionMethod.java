@@ -8,7 +8,7 @@ public class PostAddPermissionMethod extends ZafiraBaseApiMethodWithAuth {
         super("api/group/_post/rq_for_add_permission.json", "api/group/_post/rs_for_add_permission.json",
                 "api/group.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
-        addProperty("id", groupId);
-        addProperty("permissionId", permissionId);
+        addProperty("id", String.valueOf(groupId));
+        addProperty("permissionId", String.valueOf(permissionId));
     }
 }

@@ -8,8 +8,8 @@ public class PutUpdateUserPermissionMethod extends ZafiraBaseApiMethodWithAuth {
         super("api/group/_post/rq_for_update.json", "api/group/_post/rs_for_update.json",
                 "api/group.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
-        addProperty("id", groupId);
+        addProperty("id", String.valueOf(groupId));
         addProperty("name", groupName);
-        addProperty("permissionId", permissionId);
+        addProperty("permissionId", String.valueOf(permissionId));
     }
 }

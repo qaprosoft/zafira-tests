@@ -27,15 +27,19 @@ public class GroupTest extends ZafiraAPIBaseTest {
         for (int i = 4; i <= Collections.max(allGroupsIds); ++i) {
             if (allGroupsIds.contains(i)) {
                 String response = groupService.getGroupById(i);
-                List<Integer> allUserIds = JsonPath.from(response).get(JSONConstant.USERS_IDS_KEY);
-                if (!allUserIds.isEmpty()) {
-                    for (int j = 0; j <= Collections.max(allUserIds); ++j) {
-                        if (allUserIds.contains(j)) {
-                            new UserServiceAPIImpl().deleteUserFromGroup(i, j);
+                if (response.contains("\"users\":null")) {
+                    groupService.deleteGroupById(i);
+                } else {
+                    List<Integer> allUserIds = JsonPath.from(response).get(JSONConstant.USERS_IDS_KEY);
+                    if (!allUserIds.isEmpty()) {
+                        for (int j = 0; j <= Collections.max(allUserIds); ++j) {
+                            if (allUserIds.contains(j)) {
+                                new UserServiceAPIImpl().deleteUserFromGroup(i, j);
+                            }
                         }
                     }
+                    groupService.deleteGroupById(i);
                 }
-                groupService.deleteGroupById(i);
             }
         }
     }
