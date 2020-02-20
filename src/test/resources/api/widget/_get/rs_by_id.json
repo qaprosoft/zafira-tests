@@ -1,0 +1,29 @@
+{
+  "id": "regex:[\\d]",
+  "modifiedAt": "regex:[\\d]",
+  "createdAt": "regex:[\\d]",
+  "title": "type:String",
+  "description": "type:String",
+  "paramsConfig": "type:String",
+  "legendConfig": "type:String",
+  "widgetTemplate": {
+    "id": "regex:[\\d]",
+    "modifiedAt": "regex:[\\d]",
+    "createdAt": "regex:[\\d]",
+    "name": "type:String",
+    "description": "type:String",
+    "type": "type:String",
+    "sql": "type:String",
+    "chartConfig": "type:String",
+    "paramsConfig": "type:String",
+    "legendConfig": "type:String",
+    "hidden": "type:Boolean"
+  },
+  "refreshable": "type:Boolean",
+  "type": "type:String",
+  "size": null,
+  "position": null,
+  "location": null,
+  "sql": null,
+  "model": null
+}
