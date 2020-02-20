@@ -1,5 +1,15 @@
 package com.qaprosoft.zafira.api;
 
+import java.util.Collections;
+import java.util.List;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.log4j.Logger;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.Test;
+
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
@@ -8,15 +18,6 @@ import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.DashboardServiceImpl;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.log4j.Logger;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.Test;
-
-import java.util.Collections;
-import java.util.List;
 
 public class DashboardTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(DashboardTest.class);
@@ -84,7 +85,7 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(putDashboardMethod, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(putDashboardMethod);
         apiExecutor.validateResponse(putDashboardMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        String actualDashboardName = JsonPath.from(response).get(JSONConstant.DASHBOARD_TITLE_KEY);
+        String actualDashboardName = JsonPath.from(response).get(JSONConstant.TITLE_KEY);
         Assert.assertEquals(expectedDashboardName, actualDashboardName, "Dashboard name was not update!");
     }
 

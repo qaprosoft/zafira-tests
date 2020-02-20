@@ -1,0 +1,12 @@
+{
+  "description": "testAPI_widget",
+  "id": ${id},
+  "legendConfig": "{}",
+  "model": "{}",
+  "paramsConfig": "{}",
+  "sql": "string",
+  "title": "${title}",
+  "widgetTemplate": {
+    "id": 1
+  }
+}

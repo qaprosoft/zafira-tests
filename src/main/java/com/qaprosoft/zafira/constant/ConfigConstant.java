@@ -31,4 +31,5 @@ public class ConfigConstant {
     public static final String SUBJECT_NAME_KEY = "subject_name";
     public static final String EXPECTED_FILTER_NAME_KEY = "expected_filter_name";
     public static final String EXPECTED_DASHBOARD_NAME_KEY = "expected_dashboard_name";
+    public static final String EXPECTED_WIDGET_NAME_KEY = "expected_widget_name";
 }
