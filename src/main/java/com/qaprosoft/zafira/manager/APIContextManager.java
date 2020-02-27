@@ -1,13 +1,13 @@
 package com.qaprosoft.zafira.manager;
 
+import org.apache.log4j.Logger;
+
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.RefreshTokenMethod;
-import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.service.impl.ExecutionServiceImpl;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
-import org.apache.log4j.Logger;
+import com.qaprosoft.zafira.service.impl.ExecutionServiceImpl;
 
 public class APIContextManager {
     private static final Logger LOGGER = Logger.getLogger(APIContextManager.class);

@@ -13,11 +13,7 @@
   "startTime": "regex:[\\d]",
   "finishTime": "regex:[\\d]",
   "retry": "regex:[\\d]",
-  "testConfig": {
-    "id": "regex:[\\d]",
-    "modifiedAt": "regex:[\\d]",
-    "createdAt": "regex:[\\d]"
-  },
+  "testConfig": "type:JSONObject",
   "workItems": [],
   "knownIssue": "type:Boolean",
   "blocker": "type:Boolean",

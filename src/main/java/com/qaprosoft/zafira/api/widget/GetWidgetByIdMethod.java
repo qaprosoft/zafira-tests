@@ -1,9 +1,9 @@
 package com.qaprosoft.zafira.api.widget;
 
+import java.util.Properties;
+
 import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
 import com.qaprosoft.zafira.manager.APIContextManager;
-
-import java.util.Properties;
 
 public class GetWidgetByIdMethod extends ZafiraBaseApiMethodWithAuth {
     public GetWidgetByIdMethod(int widgetId) {
