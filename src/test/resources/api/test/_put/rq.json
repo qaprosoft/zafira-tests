@@ -6,7 +6,7 @@
 "scmURL": "string",
 "scmBranch": "string",
 "scmCommit": "string",
-"configXML": " ",
+"configXML": "",
 "jobId": ${jobId},
 "upstreamJobBuildNumber": 0,
 "buildNumber": 0,
