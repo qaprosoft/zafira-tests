@@ -1,5 +1,15 @@
 package com.qaprosoft.zafira.api;
 
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.Test;
+
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.zafira.api.preset.GetLauncherWebHookMethod;
 import com.qaprosoft.zafira.api.preset.PostLauncherPresetMethod;
@@ -8,15 +18,6 @@ import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.service.impl.JobServiceImpl;
 import com.qaprosoft.zafira.service.impl.LauncherServiceImpl;
 import com.qaprosoft.zafira.service.impl.PresetServiceImpl;
-import org.apache.log4j.Logger;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.Test;
-
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LauncherPresetTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(LaunchersTest.class);
