@@ -103,9 +103,9 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         int jobId = new JobServiceImpl().create();
         int launcherId = new LauncherServiceImpl().create(jobId, accountTypeId);
         int presetId = presetServiceImpl.create(launcherId);
-        String ref = presetServiceImpl.getWebhookUrl(launcherId, presetId);
+        String webHookUrl = presetServiceImpl.getWebhookUrl(launcherId, presetId);
 
-        PostJobByWebHookMethod postJobByWebHookMethod = new PostJobByWebHookMethod(launcherId, ref);
+        GetJobByWebHookMethod postJobByWebHookMethod = new GetJobByWebHookMethod(webHookUrl);
         apiExecutor.expectStatus(postJobByWebHookMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postJobByWebHookMethod);
     }
