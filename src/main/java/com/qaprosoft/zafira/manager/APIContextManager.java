@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.carina.core.foundation.utils.R;
-import com.qaprosoft.zafira.api.RefreshTokenMethod;
+import com.qaprosoft.zafira.api.auth.PostRefreshTokenMethod;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.service.impl.ExecutionServiceImpl;
@@ -37,7 +37,7 @@ public class APIContextManager {
 
     public void setAccessToken() {
         ExecutionServiceImpl executor = new ExecutionServiceImpl();
-        String rsString = executor.callApiMethod(new RefreshTokenMethod());
+        String rsString = executor.callApiMethod(new PostRefreshTokenMethod());
         accessToken = JsonPath.from(rsString).get(JSONConstant.ACCESS_TOKEN_KEY);
         LOGGER.info("Zafira Access Token: ".concat(accessToken));
     }

@@ -1,5 +1,15 @@
 package com.qaprosoft.zafira.api;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.log4j.Logger;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
@@ -13,15 +23,7 @@ import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.AuthServiceAPIImpl;
 import com.qaprosoft.zafira.service.impl.InvitationServiceImpl;
 import com.qaprosoft.zafira.service.impl.UserServiceAPIImpl;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.log4j.Logger;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.qaprosoft.zafira.util.CryptoUtil;
 
 public class AuthTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(AuthTest.class);
@@ -34,8 +36,8 @@ public class AuthTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testGenerateAuthToken() {
-        String username = R.TESTDATA.get(ConfigConstant.AUTH_USERNAME_KEY);
-        String password = R.TESTDATA.get(ConfigConstant.AUTTH_PASSWORD_KEY);
+        String username = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AUTH_USERNAME_KEY));
+        String password = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AUTTH_PASSWORD_KEY));
         PostGenerateAuthTokenMethod postGenerateAuthTokenMethod = new PostGenerateAuthTokenMethod(username, password);
         apiExecutor.expectStatus(postGenerateAuthTokenMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postGenerateAuthTokenMethod);
@@ -45,7 +47,7 @@ public class AuthTest extends ZafiraAPIBaseTest {
 
     @Test(description = "invalid password")
     public void testGenerateAuthTokenNegative() {
-        String username = R.TESTDATA.get(ConfigConstant.AUTH_USERNAME_KEY);
+        String username = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AUTH_USERNAME_KEY));
         String InvalidPassword = "test";
         PostGenerateAuthTokenMethod postGenerateAuthTokenMethod = new PostGenerateAuthTokenMethod(username, InvalidPassword);
         apiExecutor.expectStatus(postGenerateAuthTokenMethod, HTTPStatusCodeType.UNAUTHORIZED);
