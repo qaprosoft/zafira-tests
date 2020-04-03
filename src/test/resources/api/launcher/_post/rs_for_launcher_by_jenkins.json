@@ -10,7 +10,6 @@
       "repositoryName": "type:String",
       "repositoryURL": "type:String"
     },
-    "presets": null,
     "job": {
       "id": "regex:[\\d]",
       "name": "type:String",
