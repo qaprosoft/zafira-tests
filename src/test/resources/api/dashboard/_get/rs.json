@@ -6,6 +6,7 @@
     "hidden": "type:Boolean",
     "position": "regex:[\\d]",
     "editable": "type:Boolean",
+    "system": "type:Boolean",
     "attributes": "type:JSONArray"
   }
 ]
