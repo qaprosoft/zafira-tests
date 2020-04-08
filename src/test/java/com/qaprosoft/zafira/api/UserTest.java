@@ -36,7 +36,7 @@ public class UserTest extends ZafiraAPIBaseTest {
     @Test
     public void testCreateUser() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
-        PutCreateUserMethod putCreateUserMethod = new PutCreateUserMethod(username);
+        PostUserMethod putCreateUserMethod = new PostUserMethod(username);
         apiExecutor.expectStatus(putCreateUserMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putCreateUserMethod);
         apiExecutor.validateResponse(putCreateUserMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
