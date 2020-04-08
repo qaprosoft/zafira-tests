@@ -3,7 +3,7 @@ package com.qaprosoft.zafira.service.impl;
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.user.DeleteUserFromGroupMethod;
 import com.qaprosoft.zafira.api.user.PostSearchUserByCriteriaMethod;
-import com.qaprosoft.zafira.api.user.PutCreateUserMethod;
+import com.qaprosoft.zafira.api.user.PostUserMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.UserServiceAPI;
@@ -20,7 +20,7 @@ public class UserServiceAPIImpl implements UserServiceAPI {
 
     @Override
     public int getUserId(String username) {
-        PutCreateUserMethod putCreateUserMethod = new PutCreateUserMethod(username);
+        PostUserMethod putCreateUserMethod = new PostUserMethod(username);
         apiExecutor.expectStatus(putCreateUserMethod, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(putCreateUserMethod);
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);

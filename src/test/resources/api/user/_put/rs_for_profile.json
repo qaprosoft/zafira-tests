@@ -1,13 +1,9 @@
 {
   "id": "regex:[\\d]",
   "username": "type:String",
-  "email": "type:String",
   "firstName": "type:String",
   "lastName": "type:String",
-  "password": "type:String",
   "roles": "type:JSONArray",
   "permissions": "type:JSONArray",
-  "preferences": "type:JSONArray",
-  "source": "type:String",
-  "status": "type:String"
+  "preferences": "type:JSONArray"
 }
