@@ -18,7 +18,7 @@
 "jobURL": "https://mockci.qaprosoft.farm/job/testJob/",
 "jenkinsHost": "https://mockci.qaprosoft.farm",
 "userId": 3,
-"automationServerId": 13
+"automationServerId": 21
 },
 "autoScan": false
 }
