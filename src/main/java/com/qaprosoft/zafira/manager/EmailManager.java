@@ -1,17 +1,18 @@
 package com.qaprosoft.zafira.manager;
 
-import com.qaprosoft.zafira.domain.EmailMsg;
+import javax.mail.*;
+import javax.mail.internet.MimeMultipart;
+import java.time.Duration;
+import java.util.Date;
+import java.util.Properties;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
-import javax.mail.*;
-import javax.mail.internet.MimeMultipart;
-import java.time.Duration;
-import java.util.Date;
-import java.util.Properties;
+import com.qaprosoft.zafira.domain.EmailMsg;
 
 public class EmailManager {
 
