@@ -1,5 +1,13 @@
 package com.qaprosoft.zafira.api;
 
+import java.util.Date;
+
+import org.apache.log4j.Logger;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
@@ -13,13 +21,6 @@ import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.*;
 import com.qaprosoft.zafira.util.CryptoUtil;
-import org.apache.log4j.Logger;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import java.util.Date;
 
 public class TestRunTest extends ZafiraAPIBaseTest {
 

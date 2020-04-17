@@ -2,7 +2,7 @@
   "autoScan": true,
   "id": 0,
   "job": {
-    "automationServerId": 0,
+    "automationServerId": 21,
     "id": ${jobId},
 "jenkinsHost": "https://mockci.qaprosoft.farm",
 "jobURL": "https://mockci.qaprosoft.farm/job/testJob/",
@@ -15,7 +15,7 @@
 {
 "id": 0,
 "name": "string",
-"params": "string"
+"params": "{}"
 }
 ],
 "scmAccountType": {
