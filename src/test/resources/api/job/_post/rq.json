@@ -2,7 +2,7 @@
   "automationServerId": 21,
   "id": 0,
   "jenkinsHost": "https://mockci.qaprosoft.farm",
-  "jobURL": "https://mockci.qaprosoft.farm/job/testJob/",
+  "jobURL": "https://mockci.qaprosoft.farm/job/launcher/",
   "name": "testJob",
   "userId": 2
 }
