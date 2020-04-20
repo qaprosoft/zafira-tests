@@ -15,7 +15,7 @@
 "job": {
 "id": 1,
 "name": "launcher",
-"jobURL": "https://mockci.qaprosoft.farm/job/testJob/",
+"jobURL": "https://mockci.qaprosoft.farm/job/launcher/",
 "jenkinsHost": "https://mockci.qaprosoft.farm",
 "userId": 3,
 "automationServerId": 21
