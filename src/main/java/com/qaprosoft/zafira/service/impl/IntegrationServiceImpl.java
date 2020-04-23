@@ -1,15 +1,16 @@
 package com.qaprosoft.zafira.service.impl;
 
+import org.apache.log4j.Logger;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.zafira.api.integrationInfo.GetIntegrationInfoByIdMethod;
 import com.qaprosoft.zafira.api.integration.PutIntegrationByIdMethod;
+import com.qaprosoft.zafira.api.integrationInfo.GetIntegrationInfoByIdMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.enums.IntegrationGroupType;
 import com.qaprosoft.zafira.service.IntegrationService;
-import org.apache.log4j.Logger;
-import org.skyscreamer.jsonassert.JSONCompareMode;
 
 public class IntegrationServiceImpl implements IntegrationService {
     private static final Logger LOGGER = Logger.getLogger(JobServiceImpl.class);
