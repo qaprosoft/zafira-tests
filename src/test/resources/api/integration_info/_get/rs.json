@@ -1,154 +1,35 @@
 {
   "STORAGE_PROVIDER": {
-    "AMAZON": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": null,
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      }
-    ]
+    "AMAZON": "type:JSONArray"
   },
   "MAIL": {
-    "EMAIL": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": null,
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      }
-    ]
+    "EMAIL": "type:JSONArray"
   },
   "AUTOMATION_SERVER": {
     "JENKINS": "type:JSONArray"
   },
-  "SLACK": {
-    "SLACK": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": null,
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      }
-    ]
-  },
   "ACCESS_MANAGEMENT": {
-    "LDAP": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": null,
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      }
-    ]
+    "LDAP": "type:JSONArray"
+  },
+  "NOTIFICATION_SERVICE": {
+    "SLACK": "type:JSONArray",
+    "MICROSOFT_TEAMS": "type:JSONArray"
   },
   "TEST_CASE_MANAGEMENT": {
-    "TESTRAIL": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": null,
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      }
-    ],
-    "JIRA": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": null,
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      }
-    ],
-    "QTEST": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": null,
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      }
-    ]
+    "JIRA": "type:JSONArray",
+    "TESTRAIL": "type:JSONArray",
+    "QTEST": "type:JSONArray"
   },
   "TEST_AUTOMATION_TOOL": {
-    "LAMBDATEST": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": "type:String",
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      }
-    ],
-    "MCLOUD": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": "type:String",
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      }
-    ],
-    "AEROKUBE": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": "type:String",
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      }
-    ],
-    "ZEBRUNNER": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": "type:String",
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      }
-    ],
-    "SAUCELABS": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": "type:String",
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      }
-    ],
-    "SELENIUM": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": null,
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      }
-    ],
-    "BROWSERSTACK": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": "type:String",
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      }
-    ]
+    "MCLOUD": "type:JSONArray",
+    "LAMBDATEST": "type:JSONArray",
+    "AEROKUBE": "type:JSONArray",
+    "ZEBRUNNER": "type:JSONArray",
+    "SAUCELABS": "type:JSONArray",
+    "SELENIUM": "type:JSONArray",
+    "BROWSERSTACK": "type:JSONArray"
   },
   "MESSAGE_BROKER": {
-    "RABBITMQ": [
-      {
-        "integrationId": "regex:[\\d]",
-        "integrationBackReferenceId": null,
-        "connected": "type:Boolean",
-        "enabled": "type:Boolean",
-        "default": "type:Boolean"
-      }
-    ]
+    "RABBITMQ": "type:JSONArray"
   }
 }
