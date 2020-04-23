@@ -26,7 +26,7 @@ public class JSONConstant {
     public static final String SAUCELABS_INTEGRATION_ID_KEY = "TEST_AUTOMATION_TOOL.SAUCELABS[0].integrationId";
     public static final String LAMBDATEST_INTEGRATION_ID_KEY = "TEST_AUTOMATION_TOOL.LAMBDATEST[0].integrationId";
     public static final String AMAZON_INTEGRATION_ID_KEY = "STORAGE_PROVIDER.AMAZON[0].integrationId";
-    public static final String SLACK_INTEGRATION_ID_KEY = "SLACK.SLACK[0].integrationId";
+    public static final String SLACK_INTEGRATION_ID_KEY = "NOTIFICATION_SERVICE.SLACK[0].integrationId";
     public static final String RABBITMQ_INTEGRATION_ID_KEY = "MESSAGE_BROKER.RABBITMQ[0].integrationId";
     public static final String EMAIL_INTEGRATION_ID_KEY = "MAIL.EMAIL[0].integrationId";
     public static final String INVITES_TOKEN_KEY = "[0].token";
