@@ -9,7 +9,7 @@ import com.qaprosoft.zafira.api.integration.PutIntegrationByIdMethod;
 import com.qaprosoft.zafira.api.integrationInfo.GetIntegrationInfoByIdMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.enums.IntegrationGroupType;
+import com.qaprosoft.zafira.enums.IntegrationType;
 import com.qaprosoft.zafira.service.IntegrationService;
 
 public class IntegrationServiceImpl implements IntegrationService {
@@ -17,7 +17,7 @@ public class IntegrationServiceImpl implements IntegrationService {
     private ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
     @Override
-    public boolean isIntegrationEnabled(int id, IntegrationGroupType integrationGroup) {
+    public boolean isIntegrationEnabled(int id, IntegrationType integrationGroup) {
         String rs = apiExecutor.callApiMethod(new GetIntegrationInfoByIdMethod(id, integrationGroup));
         return JsonPath.from(rs).getBoolean(JSONConstant.INTEGRATION_ENABLED_KEY);
     }

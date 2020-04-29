@@ -35,7 +35,7 @@
     },
     {
       "id":51,
-      "value":"udNEAjdOmYelUM63k4gNgQwwXTfauTqz2Hu2IXGDty1y63yzog",
+      "value":"${lambdatestToken}",
       "binaryData":null,
       "encrypted":false,
       "param":{
