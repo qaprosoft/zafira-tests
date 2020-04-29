@@ -16,7 +16,7 @@ import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.domain.EmailMsg;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.enums.IntegrationGroupType;
+import com.qaprosoft.zafira.enums.IntegrationType;
 import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.*;
@@ -89,7 +89,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testSendTestRunResultEmail() {
         Assert.assertTrue(
                 new IntegrationServiceImpl().isIntegrationEnabled(
-                        R.TESTDATA.getInt(ConfigConstant.EMAIL_INTEGRATION_ID_KEY), IntegrationGroupType.MAIL),
+                        R.TESTDATA.getInt(ConfigConstant.EMAIL_INTEGRATION_ID_KEY), IntegrationType.MAIL),
                 "Email integration disabled!");
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);

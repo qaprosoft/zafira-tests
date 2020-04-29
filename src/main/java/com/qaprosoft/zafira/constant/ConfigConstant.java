@@ -33,4 +33,5 @@ public class ConfigConstant {
     public static final String EXPECTED_DASHBOARD_NAME_KEY = "expected_dashboard_name";
     public static final String EXPECTED_WIDGET_NAME_KEY = "expected_widget_name";
     public static final String SLACK_WEBHOOK_KEY = "slackWebHook";
+    public static final String LAMBDATEST_TOKEN_KEY = "lambdatestToken";
 }
