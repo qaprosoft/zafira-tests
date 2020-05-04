@@ -32,6 +32,16 @@ public class ConfigConstant {
     public static final String EXPECTED_FILTER_NAME_KEY = "expected_filter_name";
     public static final String EXPECTED_DASHBOARD_NAME_KEY = "expected_dashboard_name";
     public static final String EXPECTED_WIDGET_NAME_KEY = "expected_widget_name";
-    public static final String SLACK_WEBHOOK_KEY = "slackWebHook";
-    public static final String LAMBDATEST_TOKEN_KEY = "lambdatestToken";
+
+    public static final String SLACK_WEBHOOK_KEY = "slack_webhook";
+    public static final String LAMBDATEST_TOKEN_KEY = "lambdatest_token";
+    public static final String AMAZON_ACCESS_KEY = "amazon_access_key";
+    public static final String AMAZON_SECTER_KEY = "amazon_secret_key";
+    public static final String BROWSERSTACK_ACCESS_KEY = "browserstack_access_key";
+    public static final String EMAIL_PASSWORD_KEY = "email_password";
+    public static final String JIRA_PASSWORD_KEY = "jira_password";
+    public static final String MCLOUD_PASSWORD_KEY = "mcloud_password";
+    public static final String RABBITMQ_PASSWORD_KEY = "rabbitmq_password";
+    public static final String SAUCELABS_PASSWORD_KEY = "saucelabs_password";
+    public static final String ZEBRUNNER_PASSWORD_KEY = "zebrunner_passwod";
 }

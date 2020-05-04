@@ -37,7 +37,7 @@
     },
     {
       "id": 29,
-      "value": "9Vn5LfeGXbb5dt9bJBr3",
+      "value": "${browserstackAccessKey}",
       "binaryData": null,
       "encrypted": false,
       "param": {

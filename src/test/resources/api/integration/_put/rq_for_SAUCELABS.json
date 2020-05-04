@@ -37,7 +37,7 @@
     },
     {
       "id": 35,
-      "value": "06332253-98af-4e7b-91b6-7a3eff1eca9e",
+      "value": "${saucelabsPassword}",
       "binaryData": null,
       "encrypted": false,
       "param": {

@@ -49,7 +49,7 @@
     },
     {
       "id": 4,
-      "value": "Bzo1Wbg8+6OIvJtnX6WZNIyOL9tN/SpYUacgeM+BmGA=",
+      "value": "${rabbitmqPassword}",
       "binaryData": null,
       "encrypted": false,
       "param": {

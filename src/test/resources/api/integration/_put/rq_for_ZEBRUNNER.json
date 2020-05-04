@@ -35,7 +35,7 @@
     },
     {
       "id": 26,
-      "value": "FxSysfEdao4RzFIl8TxMjhRFY3Am5ekHBXoQrZAyE24=",
+      "value": "${zebrunnerPassword}",
       "binaryData": null,
       "encrypted": false,
       "param": {

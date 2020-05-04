@@ -21,7 +21,7 @@
     },
     {
       "id": 13,
-      "value": "nS58TnWZF1SFko4jsjBjRvJqNeXTFhaCCujvUB1oZP0v2Q5aMUcvTe5oxz9WtJUezdS9/OISJ3s=",
+      "value": "${amazonSecretKey}",
       "binaryData": null,
       "encrypted": false,
       "param": {
