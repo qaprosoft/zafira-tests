@@ -35,7 +35,7 @@
     },
     {
       "id": 45,
-      "value": "qgKOR5kNbr9qKjeCMZAMC699",
+      "value": "${jiraPassword}",
       "binaryData": null,
       "encrypted": false,
       "param": {

@@ -49,7 +49,7 @@
     },
     {
       "id": 9,
-      "value": "yY4Rpm+bVK6Q+VlclZSndz/t1Q5P8KaxMzQgN75kjOY=",
+      "value": "${emailPassword}",
       "binaryData": null,
       "encrypted": false,
       "param": {

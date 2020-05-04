@@ -40,6 +40,38 @@ public class PutIntegrationByIdMethod extends ZafiraBaseApiMethodWithAuth {
         case IntegrationConstant.LAMBDATEST:
             addProperty("lambdatestToken", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.LAMBDATEST_TOKEN_KEY)));
             break;
+        case IntegrationConstant.AMAZON:
+            addProperty("amazonAccessKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AMAZON_ACCESS_KEY)));
+            addProperty("amazonSecretKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AMAZON_SECTER_KEY)));
+            break;
+        case IntegrationConstant.AMAZON_NEGATIVE:
+            addProperty("amazonSecretKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AMAZON_SECTER_KEY)));
+            break;
+        case IntegrationConstant.BROWSERSTACK:
+            addProperty("browserstackAccessKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.BROWSERSTACK_ACCESS_KEY)));
+            break;
+        case IntegrationConstant.EMAIL:
+        case IntegrationConstant.EMAIL_NEGATIVE:
+            addProperty("emailPassword", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.EMAIL_PASSWORD_KEY)));
+            break;
+        case IntegrationConstant.JIRA:
+            addProperty("jiraPassword", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.JIRA_PASSWORD_KEY)));
+            break;
+        case IntegrationConstant.MCOUD:
+        case IntegrationConstant.MCLOUD_NEGATIVE:
+            addProperty("mcloudPassword", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.MCLOUD_PASSWORD_KEY)));
+            break;
+        case IntegrationConstant.RABBITMQ:
+        case IntegrationConstant.RABBITMQ_NEGATIVE:
+            addProperty("rabbitmqPassword", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.RABBITMQ_PASSWORD_KEY)));
+            break;
+        case IntegrationConstant.SAUCELABS:
+            addProperty("saucelabsPassword", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.SAUCELABS_PASSWORD_KEY)));
+            break;
+        case IntegrationConstant.ZEBRUNNER:
+        case IntegrationConstant.ZEBRUNNER_NEGATIVE:
+            addProperty("zebrunnerPassword", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.ZEBRUNNER_PASSWORD_KEY)));
+            break;
         }
     }
 }

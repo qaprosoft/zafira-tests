@@ -37,7 +37,7 @@
     },
     {
       "id": 32,
-      "value": "DQx8NXfuEMhYuffSjT8E",
+      "value": "${mcloudPassword}",
       "binaryData": null,
       "encrypted": false,
       "param": {
