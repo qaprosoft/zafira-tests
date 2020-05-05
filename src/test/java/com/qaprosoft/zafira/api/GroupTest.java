@@ -20,30 +20,6 @@ import java.util.List;
 
 public class GroupTest extends ZafiraAPIBaseTest {
 
-    @AfterTest
-    public void deleteCreatedGroups() {
-        GroupServiceImpl groupService = new GroupServiceImpl();
-        List<Integer> allGroupsIds = groupService.getAllGroupsIds();
-        for (int i = 4; i <= Collections.max(allGroupsIds); ++i) {
-            if (allGroupsIds.contains(i)) {
-                String response = groupService.getGroupById(i);
-                if (response.contains("\"users\":null")) {
-                    groupService.deleteGroupById(i);
-                } else {
-                    List<Integer> allUserIds = JsonPath.from(response).get(JSONConstant.USERS_IDS_KEY);
-                    if (!allUserIds.isEmpty()) {
-                        for (int j = 0; j <= Collections.max(allUserIds); ++j) {
-                            if (allUserIds.contains(j)) {
-                                new UserServiceAPIImpl().deleteUserFromGroup(i, j);
-                            }
-                        }
-                    }
-                    groupService.deleteGroupById(i);
-                }
-            }
-        }
-    }
-
     @Test
     public void testGetAllGroups() {
         GetAllGroupsMethod getAllGroupsMethod = new GetAllGroupsMethod();
@@ -112,5 +88,29 @@ public class GroupTest extends ZafiraAPIBaseTest {
         List<Integer> allPermissionIds = JsonPath.from(response).getList(JSONConstant.PERMISSIONS_IDS_KEY);
         apiExecutor.validateResponse(postAddPermissionMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         Assert.assertTrue(allPermissionIds.contains(permissionId));
+    }
+
+    @AfterTest
+    public void deleteCreatedGroups() {
+        GroupServiceImpl groupService = new GroupServiceImpl();
+        List<Integer> allGroupsIds = groupService.getAllGroupsIds();
+        for (int i = 4; i <= Collections.max(allGroupsIds); ++i) {
+            if (allGroupsIds.contains(i)) {
+                String response = groupService.getGroupById(i);
+                if (response.contains("\"users\":null")) {
+                    groupService.deleteGroupById(i);
+                } else {
+                    List<Integer> allUserIds = JsonPath.from(response).get(JSONConstant.USERS_IDS_KEY);
+                    if (!allUserIds.isEmpty()) {
+                        for (int j = 0; j <= Collections.max(allUserIds); ++j) {
+                            if (allUserIds.contains(j)) {
+                                new UserServiceAPIImpl().deleteUserFromGroup(i, j);
+                            }
+                        }
+                    }
+                    groupService.deleteGroupById(i);
+                }
+            }
+        }
     }
 }

@@ -13,16 +13,6 @@ public class ZafiraAPIBaseTest extends AbstractTest {
     private static final Logger LOGGER = Logger.getLogger(ZafiraAPIBaseTest.class);
     protected ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
-    @AfterSuite
-    protected void deleteAllTestRuns() {
-        TestRunServiceAPIImpl testRunServiceAPIImpl = new TestRunServiceAPIImpl();
-        String searchCriteriaType = R.TESTDATA.get(ConfigConstant.SEARCH_CRITERIA_TYPE_KEY);
-        int testSuiteId = new TestSuiteServiceImpl().create();
-        List<Integer> ids = testRunServiceAPIImpl.getAll(searchCriteriaType, testSuiteId);
-        LOGGER.info(String.format("Test run IDs to delete: %s", ids.toString()));
-        ids.forEach(testRunServiceAPIImpl::deleteById);
-    }
-
     protected int createTestRun(int numOfTests) {
         TestRunServiceAPIImpl testRunServiceImpl = new TestRunServiceAPIImpl();
         int testSuiteId = new TestSuiteServiceImpl().create();
@@ -34,6 +24,16 @@ public class ZafiraAPIBaseTest extends AbstractTest {
             new TestServiceImpl().create(testCaseId, testRunId);
         }
         return testRunId;
+    }
+
+    @AfterSuite
+    protected void deleteAllTestRuns() {
+        TestRunServiceAPIImpl testRunServiceAPIImpl = new TestRunServiceAPIImpl();
+        String searchCriteriaType = R.TESTDATA.get(ConfigConstant.SEARCH_CRITERIA_TYPE_KEY);
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        List<Integer> ids = testRunServiceAPIImpl.getAll(searchCriteriaType, testSuiteId);
+        LOGGER.info(String.format("Test run IDs to delete: %s", ids.toString()));
+        ids.forEach(testRunServiceAPIImpl::deleteById);
     }
 
 }

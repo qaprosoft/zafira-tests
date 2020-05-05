@@ -22,17 +22,6 @@ import com.qaprosoft.zafira.service.impl.DashboardServiceImpl;
 public class DashboardTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(DashboardTest.class);
 
-    @AfterTest
-    public void DeleteCreatedDashboards() {
-        DashboardServiceImpl dashboardService = new DashboardServiceImpl();
-        List<Integer> allDashboardsIds = dashboardService.gelAllDashboardsIds();
-        for (int i = 6; i <= Collections.max(allDashboardsIds); ++i) {
-            if (allDashboardsIds.contains(i)) {
-                dashboardService.deleteDashboardById(i);
-            }
-        }
-    }
-
     @Test
     public void testGetAllDashboard() {
         GetAllDashboardMethod getAllDashboardMethod = new GetAllDashboardMethod();
@@ -104,5 +93,16 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         List<Integer> allDashboardsIdsAfterPut = dashboardService.gelAllDashboardsIds();
         LOGGER.info("Dashboards ids after update order: ".concat(String.valueOf(allDashboardsIdsAfterPut)));
         Assert.assertNotEquals(allDashboardsIds, allDashboardsIdsAfterPut, "Order was not update!");
+    }
+
+    @AfterTest
+    public void DeleteCreatedDashboards() {
+        DashboardServiceImpl dashboardService = new DashboardServiceImpl();
+        List<Integer> allDashboardsIds = dashboardService.gelAllDashboardsIds();
+        for (int i = 6; i <= Collections.max(allDashboardsIds); ++i) {
+            if (allDashboardsIds.contains(i)) {
+                dashboardService.deleteDashboardById(i);
+            }
+        }
     }
 }
