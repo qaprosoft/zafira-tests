@@ -18,13 +18,6 @@ import java.util.List;
 
 public class FilterTest extends ZafiraAPIBaseTest {
 
-    @AfterTest
-    public void deleteAllPublicFilters() {
-        FilterServiceImpl filterService = new FilterServiceImpl();
-        List<Integer> allFiltersIds = filterService.getAllPublicFiltersIds();
-        allFiltersIds.forEach(filterService::deleteFilterById);
-    }
-
     @Test
     public void testCreateFilter() {
         String filterName = "TestFilter_".concat(RandomStringUtils.randomAlphabetic(15));
@@ -81,5 +74,12 @@ public class FilterTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(putFilterMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         String actualFilterName = JsonPath.from(response).get(JSONConstant.FILTER_NAME_KEY);
         Assert.assertEquals(expectedFilterName, actualFilterName, "Filter name was not update!");
+    }
+
+    @AfterTest
+    public void deleteAllPublicFilters() {
+        FilterServiceImpl filterService = new FilterServiceImpl();
+        List<Integer> allFiltersIds = filterService.getAllPublicFiltersIds();
+        allFiltersIds.forEach(filterService::deleteFilterById);
     }
 }

@@ -22,14 +22,6 @@ import com.qaprosoft.zafira.service.impl.PresetServiceImpl;
 public class LauncherPresetTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(LaunchersTest.class);
 
-    @AfterTest
-    private void deleteAllLaunchers() {
-        LauncherServiceImpl launcherService = new LauncherServiceImpl();
-        List<Integer> ids = launcherService.getAll();
-        LOGGER.info(String.format("IDs to delete: %s", ids.toString()));
-        ids.forEach(launcherService::deleteById);
-    }
-
     @Test
     public void testCreateLauncherPreset() {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
@@ -55,5 +47,13 @@ public class LauncherPresetTest extends ZafiraAPIBaseTest {
         Pattern pattern = Pattern.compile("\\w{20}");
         Matcher matcher = pattern.matcher(response);
         Assert.assertTrue(matcher.find(), "Response was not validated!");
+    }
+
+    @AfterTest
+    private void deleteAllLaunchers() {
+        LauncherServiceImpl launcherService = new LauncherServiceImpl();
+        List<Integer> ids = launcherService.getAll();
+        LOGGER.info(String.format("IDs to delete: %s", ids.toString()));
+        ids.forEach(launcherService::deleteById);
     }
 }

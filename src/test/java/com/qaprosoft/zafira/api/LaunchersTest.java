@@ -24,14 +24,6 @@ import com.qaprosoft.zafira.service.impl.PresetServiceImpl;
 public class LaunchersTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(LaunchersTest.class);
 
-    @AfterTest
-    private void deleteAllLaunchers() {
-        LauncherServiceImpl launcherService = new LauncherServiceImpl();
-        List<Integer> ids = launcherService.getAll();
-        LOGGER.info(String.format("IDs to delete: %s", ids.toString()));
-        ids.forEach(launcherService::deleteById);
-    }
-
     @Test
     public void testGetAllLaunchers() {
         int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
@@ -156,5 +148,13 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         DeleteLauncherScannerMethod deleteLauncherScannerMethod = new DeleteLauncherScannerMethod(buildnumber, accountTypeId);
         apiExecutor.expectStatus(deleteLauncherScannerMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(deleteLauncherScannerMethod);
+    }
+
+    @AfterTest
+    private void deleteAllLaunchers() {
+        LauncherServiceImpl launcherService = new LauncherServiceImpl();
+        List<Integer> ids = launcherService.getAll();
+        LOGGER.info(String.format("IDs to delete: %s", ids.toString()));
+        ids.forEach(launcherService::deleteById);
     }
 }

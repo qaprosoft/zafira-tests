@@ -30,12 +30,6 @@ public class InvitationTest extends ZafiraAPIBaseTest {
         new InvitationServiceImpl().deleteInviteByEmail(email);
     }
 
-    @AfterMethod
-    public void deleteInvite() {
-        String email = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
-        new InvitationServiceImpl().deleteInviteByEmail(email);
-    }
-
     @Test
     public void testGetInvitationByKeyword() {
         String keyword = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
@@ -93,5 +87,11 @@ public class InvitationTest extends ZafiraAPIBaseTest {
         invitationServiceImpl.deleteInviteByEmail(email);
         apiExecutor.expectStatus(postResendInviteUserMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(postResendInviteUserMethod);
+    }
+
+    @AfterMethod
+    public void deleteInvite() {
+        String email = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
+        new InvitationServiceImpl().deleteInviteByEmail(email);
     }
 }
