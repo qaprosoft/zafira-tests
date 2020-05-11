@@ -17,5 +17,6 @@
     "userId": "regex:[\\d]",
     "automationServerId": "regex:[\\d]"
   },
-  "autoScan": "type:Boolean"
+  "autoScan": "type:Boolean",
+  "artifacts": "type:JSONArray"
 }
