@@ -1,0 +1,8 @@
+{
+  "mode": "type:String",
+  "nodeDescription": "type:String",
+  "nodeName": "type:String",
+  "numExecutors": "regex:[\\d]",
+  "description": null,
+  "jobs": "type:JSONArray"
+}
