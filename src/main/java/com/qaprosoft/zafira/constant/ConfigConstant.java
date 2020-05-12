@@ -44,4 +44,6 @@ public class ConfigConstant {
     public static final String RABBITMQ_PASSWORD_KEY = "rabbitmq_password";
     public static final String SAUCELABS_PASSWORD_KEY = "saucelabs_password";
     public static final String ZEBRUNNER_PASSWORD_KEY = "zebrunner_passwod";
+
+    public static final String JENKINS_MOCK_JOBNAME_KEY = "jenkins_mock_jobName";
 }

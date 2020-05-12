@@ -1,0 +1,10 @@
+{
+  "number": "regex:[\\d]",
+  "result": null,
+  "actions": "type:JSONArray",
+  "url": "type:String",
+  "timestamp": "regex:[\\d]",
+  "fullDisplayName": "type:String",
+  "id": "type:String",
+  "building": "type:Boolean"
+}
