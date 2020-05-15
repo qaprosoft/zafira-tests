@@ -9,8 +9,12 @@ import com.qaprosoft.zafira.api.invitation.PostInvitesUserMethod;
 import com.qaprosoft.zafira.api.invitation.PostResendInviteUserMethod;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
+import com.qaprosoft.zafira.domain.EmailMsg;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.InvitationServiceImpl;
+import com.qaprosoft.zafira.util.CryptoUtil;
+
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
@@ -23,6 +27,9 @@ import java.util.Date;
 
 public class InvitationTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(InvitationTest.class);
+    private final EmailManager EMAIL = new EmailManager(
+            CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY)),
+            CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY)));
 
     @BeforeTest
     public void deleteInviteBefore() {
@@ -41,14 +48,19 @@ public class InvitationTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testPostInvitesUser() {
+        Date startTestTime = new Date();
         String email = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        String time = parser.format(new Date());
+        String time = parser.format(startTestTime);
 
         PostInvitesUserMethod postInvitesUserMethod = new PostInvitesUserMethod(email, time);
         apiExecutor.expectStatus(postInvitesUserMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(postInvitesUserMethod);
+        String response = apiExecutor.callApiMethod(postInvitesUserMethod);
         apiExecutor.validateResponse(postInvitesUserMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        String token = JsonPath.from(response).getString(JSONConstant.INVITES_TOKEN_KEY);
+        LOGGER.info(String.format("Invite's token: %s", token));
+        Assert.assertTrue(verifyIfEmailWasDelivered(startTestTime, token), "Invite was not delivered!");
     }
 
     @Test
@@ -72,7 +84,7 @@ public class InvitationTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testResendInviteUser(){
+    public void testResendInviteUser() {
         String email = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         String time = parser.format(new Date());
@@ -86,7 +98,17 @@ public class InvitationTest extends ZafiraAPIBaseTest {
 
         invitationServiceImpl.deleteInviteByEmail(email);
         apiExecutor.expectStatus(postResendInviteUserMethod, HTTPStatusCodeType.NOT_FOUND);
-        apiExecutor.callApiMethod(postResendInviteUserMethod);
+        String response = apiExecutor.callApiMethod(postResendInviteUserMethod);
+        LOGGER.info(response);
+    }
+
+    private boolean verifyIfEmailWasDelivered(Date startTestTime, String token) {
+        final int lastEmailIndex = 0;
+        final int emailsCount = 1;
+        LOGGER.info("Will get last email from inbox.");
+        EMAIL.waitForEmailDelivered(startTestTime, token); // decency from connection, wait a little bit
+        EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
+        return email.getContent().contains(token);
     }
 
     @AfterMethod

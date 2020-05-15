@@ -18,9 +18,9 @@ public class EmailManager {
 
     private static final Logger LOGGER = Logger.getLogger(EmailManager.class);
 
-    private static final int DEFAULT_NOTIFICATION_TIMEOUT = 500;
+    private static final int DEFAULT_NOTIFICATION_TIMEOUT = 300;
     private static final int DEFAULT_EMAILS_COUNT_TO_RETRIEVE = 10;
-    private static final int FLUENT_WAIT_POLLING_INTERVAL = 5;
+    private static final int FLUENT_WAIT_POLLING_INTERVAL = 20;
 
     private String email;
     private String password;
