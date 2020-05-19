@@ -95,7 +95,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
         String expectedTestRunIdInMail = String.format("%s/%s/%s", APIContextManager.BASE_URL,
                 R.TESTDATA.get(ConfigConstant.TEST_RUN_URL_PREFIX_KEY), testRunId);
-        new TestRunServiceAPIImpl().finishTestRun(testRunId);
 
         PostTestRunResultEmailMethod postTestRunResultEmailMethod = new PostTestRunResultEmailMethod(testRunId);
         apiExecutor.expectStatus(postTestRunResultEmailMethod, HTTPStatusCodeType.OK);
