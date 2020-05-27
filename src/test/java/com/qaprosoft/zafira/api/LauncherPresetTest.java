@@ -20,7 +20,7 @@ import com.qaprosoft.zafira.service.impl.LauncherServiceImpl;
 import com.qaprosoft.zafira.service.impl.PresetServiceImpl;
 
 public class LauncherPresetTest extends ZafiraAPIBaseTest {
-    private static final Logger LOGGER = Logger.getLogger(LaunchersTest.class);
+    private static final Logger LOGGER = Logger.getLogger(LauncherPresetTest.class);
 
     @Test
     public void testCreateLauncherPreset() {

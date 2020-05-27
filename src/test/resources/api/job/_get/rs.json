@@ -1,0 +1,20 @@
+[
+  {
+    "id":"regex:[\\d]",
+    "modifiedAt":"regex:[\\d]",
+    "createdAt":"regex:[\\d]",
+    "name":"type:String",
+    "jobURL":"type:String",
+    "jenkinsHost":"type:String",
+    "automationServerId":"regex:[\\d]",
+    "user":{
+      "id":"regex:[\\d]",
+      "groups":"type:JSONArray",
+      "preferences":"type:JSONArray",
+      "permissions":"type:JSONArray"
+      ,
+      "roles":"type:JSONArray",
+      "grantedGroups":"type:JSONArray"
+    }
+  }
+]
