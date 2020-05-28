@@ -21,7 +21,6 @@ public class JenkinsMockTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getAllJobs, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-
     @Test
     public void testCreateJob(){
         GetCreateJob getCreateJob = new GetCreateJob(R.TESTDATA.get(ConfigConstant.JENKINS_MOCK_JOBNAME_KEY));
