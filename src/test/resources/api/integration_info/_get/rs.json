@@ -1,7 +1,4 @@
 {
-  "STORAGE_PROVIDER": {
-    "AMAZON": "type:JSONArray"
-  },
   "MAIL": {
     "EMAIL": "type:JSONArray"
   },

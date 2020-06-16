@@ -166,7 +166,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
                 "Integration is not connect!");
     }
 
-    @Test(dataProvider = "updateIntegration")
+    @Test(dataProvider = "updateIntegration",enabled=false)
     public void testUpdateAmazonIntegrationById(boolean enabledType) {
         String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.AMAZON_INTEGRATION_ID_KEY);
@@ -333,7 +333,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
         return new Object[][]{{IntegrationRqPathType.AMAZON_NEGATIVE.getPath(), false}, {IntegrationRqPathType.AMAZON.getPath(), true}};
     }
 
-    @Test(description = "invalid_access_key", dataProvider = "updateAmazonIntegrationNegative")
+    @Test(description = "invalid_access_key", dataProvider = "updateAmazonIntegrationNegative", enabled= false)
     public void testUpdateAmazonIntegrationByIdNegative(String rqPath, boolean enabledType) {
         String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.AMAZON_INTEGRATION_ID_KEY);
