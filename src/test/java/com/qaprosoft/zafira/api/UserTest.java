@@ -100,7 +100,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(expextedUserStatus, actualStatus, "Profile was not update!");
     }
 
-    @Test
+    @Test(enabled= false)
     public void testUpdateUser() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         int userId = new UserServiceAPIImpl().getUserId(username);
