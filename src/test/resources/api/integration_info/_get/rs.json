@@ -1,7 +1,4 @@
 {
-  "MAIL": {
-    "EMAIL": "type:JSONArray"
-  },
   "AUTOMATION_SERVER": {
     "JENKINS": "type:JSONArray"
   },

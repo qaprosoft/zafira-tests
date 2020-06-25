@@ -3,7 +3,7 @@
   "name": "string",
   "model": "string",
   "type": "string",
-  "scmAccountType": {
+  "scmAccountDTO": {
     "id": "regex:[\\d]",
     "repositoryName": "type:String",
     "repositoryURL": "type:String"

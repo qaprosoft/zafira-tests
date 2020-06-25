@@ -17,7 +17,7 @@
       "name": "string"
     }
   ],
-  "scmAccountType": {
+  "scmAccountDTO": {
     "apiVersion": "string",
     "avatarURL": "string",
     "defaultBranch": "string",
