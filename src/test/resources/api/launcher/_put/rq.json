@@ -3,7 +3,7 @@
 "name": "string",
 "model": "string",
 "type": "${type}",
-"scmAccountType": {
+"scmAccountDTO": {
 "id": 1,
 "apiVersion": "string",
 "organizationName": "string",

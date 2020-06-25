@@ -3,7 +3,7 @@
   "name": "type:String",
   "model": "type:String",
   "type": "type:String",
-  "scmAccountType": {
+  "scmAccountDTO": {
     "id": "regex:[\\d]",
     "apiVersion": "type:String",
     "organizationName": "type:String",
