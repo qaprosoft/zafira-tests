@@ -46,4 +46,7 @@ public class ConfigConstant {
     public static final String ZEBRUNNER_PASSWORD_KEY = "zebrunner_passwod";
 
     public static final String JENKINS_MOCK_JOBNAME_KEY = "jenkins_mock_jobName";
+
+    public static final String REFRESH_TOKEN_KEY = "refresh_token";
+    public static final String EXPECTED_PERMISSION_NAME = "expected_permission_name";
 }

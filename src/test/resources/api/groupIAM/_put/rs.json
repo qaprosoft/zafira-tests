@@ -1,0 +1,7 @@
+{
+  "id": "regex:[\\d]",
+  "name": "type:String",
+  "permissions": "type:JSONArray",
+  "invitable": "type:Boolean",
+  "isDefault": "type:Boolean"
+}

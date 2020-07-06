@@ -89,7 +89,7 @@
 
     <test name="Group controller tests">
         <classes>
-            <class name="com.qaprosoft.zafira.api.GroupTest"/>
+            <class name="com.qaprosoft.zafira.api.GroupTestIAM"/>
         </classes>
     </test>
 
@@ -107,7 +107,7 @@
 
     <test name="Permission controller tests">
         <classes>
-            <class name="com.qaprosoft.zafira.api.PermissionTest"/>
+            <class name="com.qaprosoft.zafira.api.PermissionTestIAM"/>
         </classes>
     </test>
 

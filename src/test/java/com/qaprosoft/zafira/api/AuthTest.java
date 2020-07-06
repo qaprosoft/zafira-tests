@@ -29,12 +29,12 @@ public class AuthTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(AuthTest.class);
     private final static String EMAIL = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
 
-    @BeforeTest
+    @BeforeTest (enabled= false)
     public void deleteInviteBefore() {
         new InvitationServiceImpl().deleteInviteByEmail(EMAIL);
     }
 
-    @Test
+    @Test (enabled= false)
     public void testGenerateAuthToken() {
         String username = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AUTH_USERNAME_KEY));
         String password = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AUTTH_PASSWORD_KEY));
@@ -45,7 +45,7 @@ public class AuthTest extends ZafiraAPIBaseTest {
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(description = "invalid password")
+    @Test(description = "invalid password",enabled= false)
     public void testGenerateAuthTokenNegative() {
         String username = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AUTH_USERNAME_KEY));
         String InvalidPassword = "test";
@@ -54,7 +54,7 @@ public class AuthTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postGenerateAuthTokenMethod);
     }
 
-    @Test
+    @Test(enabled= false)
     public void testGenerateApiToken() {
         GetApiTokenMethod getApiTokenMethod = new GetApiTokenMethod();
         apiExecutor.expectStatus(getApiTokenMethod, HTTPStatusCodeType.OK);
@@ -62,7 +62,7 @@ public class AuthTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getApiTokenMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test (enabled= false)
     public void testRegesterNewUser() {
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         String time = parser.format(new Date());
@@ -80,7 +80,7 @@ public class AuthTest extends ZafiraAPIBaseTest {
         Assert.assertTrue(newUserRs.contains(emailGenerate), "User was not register!");
     }
 
-    @Test
+    @Test (enabled= false)
     public void testSendResetPasswordEmail() {
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         String time = parser.format(new Date());

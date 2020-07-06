@@ -31,13 +31,13 @@ public class InvitationTest extends ZafiraAPIBaseTest {
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY)),
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY)));
 
-    @BeforeTest
+    @BeforeTest (enabled= false)
     public void deleteInviteBefore() {
         String email = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
         new InvitationServiceImpl().deleteInviteByEmail(email);
     }
 
-    @Test
+    @Test (enabled= false)
     public void testGetInvitationByKeyword() {
         String keyword = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
         GetInvitationByKeywordMethod getInvitationByKeywordMethod = new GetInvitationByKeywordMethod(keyword);
@@ -46,7 +46,7 @@ public class InvitationTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getInvitationByKeywordMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test (enabled= false)
     public void testPostInvitesUser() {
         Date startTestTime = new Date();
         String email = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
@@ -63,7 +63,7 @@ public class InvitationTest extends ZafiraAPIBaseTest {
         Assert.assertTrue(verifyIfEmailWasDelivered(startTestTime, token), "Invite was not delivered!");
     }
 
-    @Test
+    @Test (enabled= false)
     public void testDeleteInvitationByEmail() {
         String email = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -83,7 +83,7 @@ public class InvitationTest extends ZafiraAPIBaseTest {
         Assert.assertFalse(responseAfterDelete.contains(String.valueOf(invitationId)), "Invite was not delete!");
     }
 
-    @Test
+    @Test (enabled= false)
     public void testResendInviteUser() {
         String email = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");

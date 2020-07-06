@@ -166,7 +166,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
                 "Integration is not connect!");
     }
 
-    @Test(dataProvider = "updateIntegration",enabled=false)
+    @Test(dataProvider = "updateIntegration", enabled = false)
     public void testUpdateAmazonIntegrationById(boolean enabledType) {
         String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.AMAZON_INTEGRATION_ID_KEY);
@@ -186,21 +186,6 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
         String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.SLACK_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(IntegrationRqPathType.SLACK.getPath(),
-                integrationId, enabledType);
-        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
-        String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
-        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse).getBoolean(JSONConstant.INTEGRATION_ENABLED_KEY),
-                "Enabled was not update!");
-        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse).getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY),
-                "Integration is not connect!");
-    }
-
-    @Test(dataProvider = "updateIntegration")
-    public void testUpdateRabbitmqIntegrationById(boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
-        int integrationId = JsonPath.from(response).get(JSONConstant.RABBITMQ_INTEGRATION_ID_KEY);
-        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(IntegrationRqPathType.RABBITMQ.getPath(),
                 integrationId, enabledType);
         apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
         String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
@@ -318,27 +303,10 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
         return new Object[][]{{IntegrationRqPathType.AMAZON_NEGATIVE.getPath(), false}, {IntegrationRqPathType.AMAZON.getPath(), true}};
     }
 
-    @Test(description = "invalid_access_key", dataProvider = "updateAmazonIntegrationNegative", enabled= false)
+    @Test(description = "invalid_access_key", dataProvider = "updateAmazonIntegrationNegative", enabled = false)
     public void testUpdateAmazonIntegrationByIdNegative(String rqPath, boolean enabledType) {
         String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.AMAZON_INTEGRATION_ID_KEY);
-        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
-        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
-        String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);
-        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        Assert.assertEquals(enabledType, JsonPath.from(integrationResponse).getBoolean(JSONConstant.INTEGRATION_CONNECTED_KEY),
-                "Integration is not work correctly!");
-    }
-
-    @DataProvider(name = "updateRabbitmqIntegrationNegative")
-    public Object[][] getRabbitmqRqPath() {
-        return new Object[][]{{IntegrationRqPathType.RABBITMQ_NEGATIVE.getPath(), false}, {IntegrationRqPathType.RABBITMQ.getPath(), true}};
-    }
-
-    @Test(description = "invalid_port", dataProvider = "updateRabbitmqIntegrationNegative")
-    public void testUpdateRabbitmqIntegrationByIdNegative(String rqPath, boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
-        int integrationId = JsonPath.from(response).get(JSONConstant.RABBITMQ_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
         apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
         String integrationResponse = apiExecutor.callApiMethod(putIntegrationByIdMethod);

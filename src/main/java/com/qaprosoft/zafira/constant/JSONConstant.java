@@ -16,6 +16,7 @@ public class JSONConstant {
     public static final String WORK_ITEM_ID_CHECK_KEY = "results[0].workItems[0].id";
     public static final String WORK_ITEMS_ARRAY_KEY = "results[0].workItems";
     public static final String ALL_TEST_RUN_ID_BY_SEARCH_CRITERIA_KEY = "results.id";
+    public static final String ALL_GROUPS_ID = "results.id";
     public static final String JIRA_INTEGRATION_ID_KEY = "TEST_CASE_MANAGEMENT.JIRA[0].integrationId";
     public static final String TESTRAIL_INTEGRATION_ID_KEY = "TEST_CASE_MANAGEMENT.TESTRAIL[0].integrationId";
     public static final String QTEST_INTEGRATION_ID_KEY = "TEST_CASE_MANAGEMENT.QTEST[0].integrationId";
@@ -27,8 +28,6 @@ public class JSONConstant {
     public static final String LAMBDATEST_INTEGRATION_ID_KEY = "TEST_AUTOMATION_TOOL.LAMBDATEST[0].integrationId";
     public static final String AMAZON_INTEGRATION_ID_KEY = "STORAGE_PROVIDER.AMAZON[0].integrationId";
     public static final String SLACK_INTEGRATION_ID_KEY = "NOTIFICATION_SERVICE.SLACK[0].integrationId";
-    public static final String RABBITMQ_INTEGRATION_ID_KEY = "MESSAGE_BROKER.RABBITMQ[0].integrationId";
-    public static final String EMAIL_INTEGRATION_ID_KEY = "MAIL.EMAIL[0].integrationId";
     public static final String INVITES_TOKEN_KEY = "[0].token";
     public static final String LAST_NAME_KEY = "lastName";
     public static final String PERMISSIONS_IDS_KEY = "permissions.id";
@@ -37,4 +36,5 @@ public class JSONConstant {
     public static final String FILTER_NAME_KEY = "name";
     public static final String TITLE_KEY = "title";
     public static final String USERS_KEY = "users";
+    public static final String AUTH_TOKEN_KEY = "authToken";
 }
