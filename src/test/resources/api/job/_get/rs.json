@@ -9,12 +9,7 @@
     "automationServerId":"regex:[\\d]",
     "user":{
       "id":"regex:[\\d]",
-      "groups":"type:JSONArray",
-      "preferences":"type:JSONArray",
-      "permissions":"type:JSONArray"
-      ,
-      "roles":"type:JSONArray",
-      "grantedGroups":"type:JSONArray"
+      "preferences":"type:JSONArray"
     }
   }
 ]

@@ -24,7 +24,7 @@ import com.qaprosoft.zafira.service.impl.UserServiceAPIImpl;
 public class UserTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(UserTest.class);
 
-    @Test
+    @Test (enabled= false)
     public void testSeacrhUserByCriteria() {
         String query = "";
         PostSearchUserByCriteriaMethod postSearchUserByCriteriaMethod = new PostSearchUserByCriteriaMethod(query);
@@ -33,7 +33,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSearchUserByCriteriaMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test (enabled= false)
     public void testCreateUser() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         PostUserMethod putCreateUserMethod = new PostUserMethod(username);
@@ -42,7 +42,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(putCreateUserMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test (enabled= false)
     public void testDeleteUserFromGroup() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         int userId = new UserServiceAPIImpl().getUserId(username);
@@ -55,7 +55,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         Assert.assertFalse(groupAfterDel.contains(username), "User was not delete from group");
     }
 
-    @Test
+    @Test (enabled= false)
     public void testAddUserToGroup() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         int userId = new UserServiceAPIImpl().getUserId(username);
@@ -63,7 +63,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         checkUserExistAndAddToGroup(username, userId);
     }
 
-    @Test
+    @Test (enabled= false)
     public void testUpdateUserPassword() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         int userId = new UserServiceAPIImpl().getUserId(username);
@@ -72,7 +72,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(putUserPasswordMethod);
     }
 
-    @Test
+    @Test (enabled= false)
     public void testUpdateUserProfile() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         int userId = new UserServiceAPIImpl().getUserId(username);
@@ -86,7 +86,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(expextedLastName, lastName, "Profile was not update!");
     }
 
-    @Test
+    @Test (enabled= false)
     public void testUpdateUserStatus() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         int userId = new UserServiceAPIImpl().getUserId(username);

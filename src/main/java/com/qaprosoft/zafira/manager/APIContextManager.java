@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.manager;
 
+import com.qaprosoft.zafira.api.authIAM.PostRefreshTokenMethodIAM;
 import org.apache.log4j.Logger;
 
 import com.jayway.restassured.path.json.JsonPath;
@@ -37,8 +38,8 @@ public class APIContextManager {
 
     public void setAccessToken() {
         ExecutionServiceImpl executor = new ExecutionServiceImpl();
-        String rsString = executor.callApiMethod(new PostRefreshTokenMethod());
-        accessToken = JsonPath.from(rsString).get(JSONConstant.ACCESS_TOKEN_KEY);
+        String rsString = executor.callApiMethod(new PostRefreshTokenMethodIAM());
+        accessToken = JsonPath.from(rsString).get(JSONConstant.AUTH_TOKEN_KEY);
         LOGGER.info("Zafira Access Token: ".concat(accessToken));
     }
 }

@@ -85,12 +85,8 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(testRunStatus, expectedTestRunStatus, "TestRun was not finish!");
     }
 
-    @Test
+    @Test (enabled= false)
     public void testSendTestRunResultEmail() {
-        Assert.assertTrue(
-                new IntegrationServiceImpl().isIntegrationEnabled(
-                        R.TESTDATA.getInt(ConfigConstant.EMAIL_INTEGRATION_ID_KEY), IntegrationType.MAIL),
-                "Email integration disabled!");
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
         String expectedTestRunIdInMail = String.format("%s/%s/%s", APIContextManager.BASE_URL,

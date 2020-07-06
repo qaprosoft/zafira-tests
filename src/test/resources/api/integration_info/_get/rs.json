@@ -22,8 +22,5 @@
     "SAUCELABS": "type:JSONArray",
     "SELENIUM": "type:JSONArray",
     "BROWSERSTACK": "type:JSONArray"
-  },
-  "MESSAGE_BROKER": {
-    "RABBITMQ": "type:JSONArray"
   }
 }

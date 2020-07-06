@@ -20,7 +20,7 @@ import java.util.List;
 
 public class GroupTest extends ZafiraAPIBaseTest {
 
-    @Test
+    @Test (enabled= false)
     public void testGetAllGroups() {
         GetAllGroupsMethod getAllGroupsMethod = new GetAllGroupsMethod();
         apiExecutor.expectStatus(getAllGroupsMethod, HTTPStatusCodeType.OK);
@@ -28,7 +28,7 @@ public class GroupTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getAllGroupsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test (enabled= false)
     public void testGetGroupById() {
         String groupName = "TestGroup_".concat(RandomStringUtils.randomAlphabetic(10));
         int groupId = new GroupServiceImpl().createGroup(groupName);
@@ -39,7 +39,7 @@ public class GroupTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getGroupByIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(enabled= false)
     public void testCreateGroup() {
         String groupName = "TestGroup_".concat(RandomStringUtils.randomAlphabetic(10));
         PostGroupMethod postGroupMethod = new PostGroupMethod(groupName);
@@ -48,7 +48,7 @@ public class GroupTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postGroupMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(enabled= false)
     public void testDeleteGroupById() {
         String groupName = "TestGroup_".concat(RandomStringUtils.randomAlphabetic(10));
         GroupServiceImpl groupService = new GroupServiceImpl();
@@ -61,7 +61,7 @@ public class GroupTest extends ZafiraAPIBaseTest {
         Assert.assertFalse(allGroupsIds.contains(groupId), "Group was not delete!");
     }
 
-    @Test
+    @Test(enabled= false)
     public void testUpdateGroupPermission() {
         String groupName = "TestGroup_".concat(RandomStringUtils.randomAlphabetic(10));
         int groupId = new GroupServiceImpl().createGroup(groupName);
@@ -76,7 +76,7 @@ public class GroupTest extends ZafiraAPIBaseTest {
         Assert.assertTrue(allPermissionIds.contains(permissionId));
     }
 
-    @Test
+    @Test(enabled= false)
     public void testAddPermission() {
         String groupName = "TestGroup_".concat(RandomStringUtils.randomAlphabetic(10));
         int groupId = new GroupServiceImpl().createGroup(groupName);
@@ -90,7 +90,7 @@ public class GroupTest extends ZafiraAPIBaseTest {
         Assert.assertTrue(allPermissionIds.contains(permissionId));
     }
 
-    @AfterTest
+    @AfterTest (enabled= false)
     public void deleteCreatedGroups() {
         GroupServiceImpl groupService = new GroupServiceImpl();
         List<Integer> allGroupsIds = groupService.getAllGroupsIds();
