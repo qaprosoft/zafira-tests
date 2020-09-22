@@ -3,6 +3,7 @@ package com.qaprosoft.zafira.api;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.crypto.CryptoTool;
 import com.qaprosoft.carina.core.foundation.utils.R;
+import com.qaprosoft.zafira.api.authIAM.GetAccessTokenMethod;
 import com.qaprosoft.zafira.api.authIAM.PostGenerateAuthTokenMethodIAM;
 import com.qaprosoft.zafira.api.authIAM.PostRefreshTokenMethodIAM;
 import com.qaprosoft.zafira.constant.ConfigConstant;
@@ -52,14 +53,12 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postRefreshTokenMethodIAM, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
+    @Test
+    public void testGenerateApiToken() {
+        GetAccessTokenMethod getAccessTokenMethod = new GetAccessTokenMethod();
+        apiExecutor.expectStatus(getAccessTokenMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getAccessTokenMethod);
+        apiExecutor.validateResponse(getAccessTokenMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
 
-//    @Test
-//    public void enc() {
-//        CryptoTool c = new CryptoTool();
-//        String strToEncrypt = "bwUZz9mMhxRhbfbx";
-//        String cypherText = c.encrypt(strToEncrypt);
-//        System.out.println("cypherText" +"  " + cypherText);
-//        String strDecrypted = c.decrypt(cypherText);
-//        Assert.assertEquals(strDecrypted, strToEncrypt);
-//    }
 }
