@@ -20,7 +20,6 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(AuthIAMTest.class);
     private final static String EMAIL = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
 
-
     @Test
     public void testGenerateAuthToken() {
        String username = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AUTH_USERNAME_KEY));
@@ -33,7 +32,6 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-
     @Test(description = "invalid password")
     public void testGenerateAuthTokenNegative() {
         String username = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AUTH_USERNAME_KEY));
@@ -43,6 +41,7 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postGenerateAuthTokenMethodIAM, HTTPStatusCodeType.UNAUTHORIZED);
         apiExecutor.callApiMethod(postGenerateAuthTokenMethodIAM);
     }
+
     @Test
     public void testRefreshToken() {
 
@@ -53,6 +52,7 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postRefreshTokenMethodIAM, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
+
     @Test
     public void testGenerateApiToken() {
         GetAccessTokenMethod getAccessTokenMethod = new GetAccessTokenMethod();
