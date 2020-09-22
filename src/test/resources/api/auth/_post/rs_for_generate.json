@@ -1,7 +1,0 @@
-{
-  "type": "type:String",
-  "accessToken": "type:String",
-  "refreshToken": "type:String",
-  "expiresIn": "regex:[\\d]",
-  "tenant": "type:String"
-}

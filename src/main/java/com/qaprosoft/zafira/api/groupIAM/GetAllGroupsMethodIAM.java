@@ -1,10 +1,7 @@
 package com.qaprosoft.zafira.api.groupIAM;
 
-import com.qaprosoft.carina.core.foundation.api.AbstractApiMethodV2;
 import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
 import com.qaprosoft.zafira.manager.APIContextManager;
-import com.qaprosoft.zafira.service.impl.AuthServiceAPIImpl;
-import com.qaprosoft.zafira.service.impl.AuthServiceApiIamImpl;
 
 import java.util.Properties;
 

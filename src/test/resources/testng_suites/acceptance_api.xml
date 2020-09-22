@@ -75,12 +75,6 @@
         </classes>
     </test>
 
-    <test name="Auth controller tests">
-        <classes>
-            <class name="com.qaprosoft.zafira.api.AuthTest"/>
-        </classes>
-    </test>
-
     <test name="Invitation controller tests">
         <classes>
             <class name="com.qaprosoft.zafira.api.InvitationTest"/>
@@ -138,6 +132,12 @@
     <test name="Widget controller tests">
         <classes>
             <class name="com.qaprosoft.zafira.api.WidgetTest"/>
+        </classes>
+    </test>
+
+    <test name="Auth controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.AuthIAMTest"/>
         </classes>
     </test>
 
