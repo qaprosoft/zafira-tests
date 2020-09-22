@@ -8,8 +8,8 @@ import com.qaprosoft.zafira.util.CryptoUtil;
 
 public class PostRefreshTokenMethodIAM extends AbstractApiMethodV2 {
     public PostRefreshTokenMethodIAM() {
-        super("api/authIAM/_post/rq_for_refresh.json", null, "api/auth.properties");
-        replaceUrlPlaceholder("base_api_url_IAM", APIContextManager.BASE_URL);
+        super("api/authIAM/_post/rq_for_refresh.json", "api/authIAM/_post/rs_for_refresh.json", "api/auth.properties");
+        replaceUrlPlaceholder("base_api_url", APIContextManager.BASE_URL);
 
     }
 }

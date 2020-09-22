@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.carina.core.foundation.utils.R;
-import com.qaprosoft.zafira.api.auth.PostRefreshTokenMethod;
+
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.service.impl.ExecutionServiceImpl;

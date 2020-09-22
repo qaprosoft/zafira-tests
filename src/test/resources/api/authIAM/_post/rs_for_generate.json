@@ -1,0 +1,9 @@
+{
+  "authToken": "type:String",
+  "authTokenExpirationInSecs": "regex:[\\d]",
+  "authTokenType": "type:String",
+  "permissionsSuperset": "type:JSONArray",
+  "tenantName": "type:String",
+  "userId": "regex:[\\d]",
+  "refreshToken": "type:String"
+}
