@@ -8,8 +8,7 @@
     "jenkinsHost":"type:String",
     "automationServerId":"regex:[\\d]",
     "user":{
-      "id":"regex:[\\d]",
-      "preferences":"type:JSONArray"
+      "id":"regex:[\\d]"
     }
   }
 ]
