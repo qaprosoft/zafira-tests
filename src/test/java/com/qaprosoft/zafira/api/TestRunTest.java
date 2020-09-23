@@ -206,7 +206,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testAbortTestRunCi() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
-
         GetAbortTestRunCiMethod getAbortTestRunCiMethod = new GetAbortTestRunCiMethod(testRunId, ciRunId);
         apiExecutor.expectStatus(getAbortTestRunCiMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getAbortTestRunCiMethod);
