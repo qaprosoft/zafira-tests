@@ -6,6 +6,7 @@ import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.authIAM.GetAccessTokenMethod;
 import com.qaprosoft.zafira.api.authIAM.PostGenerateAuthTokenMethodIAM;
 import com.qaprosoft.zafira.api.authIAM.PostRefreshTokenMethodIAM;
+import com.qaprosoft.zafira.api.authIAM.PostVerifyPermissionsMethodIAM;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.InvitationServiceImpl;
@@ -55,10 +56,19 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testGenerateApiToken() {
+
         GetAccessTokenMethod getAccessTokenMethod = new GetAccessTokenMethod();
         apiExecutor.expectStatus(getAccessTokenMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getAccessTokenMethod);
         apiExecutor.validateResponse(getAccessTokenMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testVerifyPermissions() {
+        PostVerifyPermissionsMethodIAM postVerifyPermissionsMethodIAM
+                = new PostVerifyPermissionsMethodIAM();
+        apiExecutor.expectStatus(postVerifyPermissionsMethodIAM, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postVerifyPermissionsMethodIAM);
     }
 
 }

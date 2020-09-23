@@ -26,12 +26,10 @@ public class JobTest extends ZafiraAPIBaseTest {
     @Test
     public void testGetAllJobs() {
         int jobId = new JobServiceImpl().create();
-
         GetAllJobsMethod getAllJobsMethod = new GetAllJobsMethod();
         apiExecutor.expectStatus(getAllJobsMethod, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(getAllJobsMethod);
         apiExecutor.validateResponse(getAllJobsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-
         List<Integer> allJobsId = JsonPath.from(response).getList(JSONConstant.ID_KEY);
         LOGGER.info(allJobsId);
         Assert.assertTrue(allJobsId.contains(jobId), "JobId is not found");

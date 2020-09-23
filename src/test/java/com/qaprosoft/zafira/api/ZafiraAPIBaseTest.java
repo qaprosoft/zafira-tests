@@ -19,7 +19,7 @@ public class ZafiraAPIBaseTest extends AbstractTest {
     private static final Logger LOGGER = Logger.getLogger(ZafiraAPIBaseTest.class);
     protected ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
-    @BeforeSuite(enabled = false)
+    @BeforeSuite
     protected void createJenkinsMockJob() {
         String jenkinsMockJob = R.TESTDATA.get(ConfigConstant.JENKINS_MOCK_JOBNAME_KEY);
         GetAllJobs getAllJobs = new GetAllJobs();
