@@ -8,14 +8,16 @@
       "id": "regex:[\\d]",
       "organizationName": "type:String",
       "repositoryName": "type:String",
-      "repositoryURL": "type:String"
+      "repositoryURL": "type:String",
+      "userId": "regex:[\\d]",
+      "avatarURL": "type:String"
     },
     "job": {
       "id": "regex:[\\d]",
       "name": "type:String",
       "jobURL": "type:String",
       "jenkinsHost": "type:String",
-      "userId": "regex:[\\d]",
+      "userId": "regex:[\\d]"
     },
     "autoScan": "type:Boolean"
   }
