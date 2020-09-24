@@ -24,7 +24,7 @@ import com.qaprosoft.zafira.service.impl.PresetServiceImpl;
 public class LaunchersTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(LaunchersTest.class);
 
-    @Test
+    @Test(enabled = false)
     public void testGetAllLaunchers() {
         int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
@@ -36,7 +36,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getAllLaunchersMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(enabled = false)
     public void testCreateLauncher() {
         int jobId = new JobServiceImpl().create();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
@@ -47,7 +47,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postLauncherMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGetLauncherById() {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         int jobId = new JobServiceImpl().create();
@@ -59,7 +59,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getLauncherByIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(enabled = false)
     public void testUpdateLauncher() {
         String expectedTypeValue = R.TESTDATA.get(ConfigConstant.TYPE_KEY);
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
@@ -75,7 +75,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(type, expectedTypeValue, "Launcher was not updated!");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testDeleteNewLauncher() {
         LauncherServiceImpl launcherService = new LauncherServiceImpl();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
@@ -88,7 +88,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getLauncherByIdMethod);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testBuildJobByWebhook() {
         PresetServiceImpl presetServiceImpl = new PresetServiceImpl();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
@@ -102,7 +102,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postJobByWebHookMethod);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testBuildJobByLauncher() {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
 
