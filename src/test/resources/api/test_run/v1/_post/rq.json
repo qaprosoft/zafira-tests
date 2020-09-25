@@ -1,0 +1,11 @@
+
+
+{"id":1122,
+  "uuid":"${uuid}",
+  "name":"Pytest-Agent",
+  "startedAt":"2020-09-25T14:08:34.348094Z",
+  "framework":"pytest",
+  "config":{
+    "platform":"API"
+  }
+}

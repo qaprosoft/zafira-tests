@@ -2,21 +2,20 @@ package com.qaprosoft.zafira.api;
 
 import java.util.Date;
 
+import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestRunV1Method;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
-import com.qaprosoft.zafira.api.testRun.*;
+import com.qaprosoft.zafira.api.testRunController.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.domain.EmailMsg;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.enums.IntegrationType;
 import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.*;
@@ -35,7 +34,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testStartTestRun() {
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();
-
         PostStartTestRunMethod postStartTestRunMethod = new PostStartTestRunMethod(testSuiteId, jobId);
         apiExecutor.expectStatus(postStartTestRunMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postStartTestRunMethod);
@@ -48,7 +46,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         int jobId = new JobServiceImpl().create();
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         String expectedWorkItemValue = R.TESTDATA.get(ConfigConstant.WORK_ITEM_KEY);
-
         PutTestRunMethod putTestRunMethod = new PutTestRunMethod(testSuiteId, jobId, testRunId, expectedWorkItemValue);
         apiExecutor.expectStatus(putTestRunMethod, HTTPStatusCodeType.OK);
         String putTestRunRs = apiExecutor.callApiMethod(putTestRunMethod);
@@ -60,7 +57,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     @Test
     public void testGetTestRun() {
         int testRunId = createTestRun(TESTS_TO_ADD);
-
         GetTestRunMethod getTestRunMethod = new GetTestRunMethod(testRunId);
         apiExecutor.expectStatus(getTestRunMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getTestRunMethod);
@@ -71,7 +67,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testDeleteTestRun() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         apiExecutor.callApiMethod(new DeleteTestRunMethod(testRunId));
-
         GetTestRunMethod getTestRunMethod = new GetTestRunMethod(testRunId);
         apiExecutor.expectStatus(getTestRunMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(getTestRunMethod);
@@ -92,7 +87,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         String expectedTestRunIdInMail = String.format("%s/%s/%s", APIContextManager.BASE_URL,
                 R.TESTDATA.get(ConfigConstant.TEST_RUN_URL_PREFIX_KEY), testRunId);
         LOGGER.info("TestRun url to verify: ".concat(expectedTestRunIdInMail));
-
         PostTestRunResultEmailMethod postTestRunResultEmailMethod = new PostTestRunResultEmailMethod(testRunId);
         apiExecutor.expectStatus(postTestRunResultEmailMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postTestRunResultEmailMethod);
@@ -103,7 +97,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testGetTestRunResultHtmlText() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
-
         GetTestRunResultHtmlTextMethod getTestRunResultHtmlTextMethod = new GetTestRunResultHtmlTextMethod(testRunId);
         apiExecutor.expectStatus(getTestRunResultHtmlTextMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getTestRunResultHtmlTextMethod);
@@ -113,7 +106,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testMarkTestRunReviewed() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
-
         PostMarkTestRunReviewedMethod postMarkTestRunReviewedMethod = new PostMarkTestRunReviewedMethod(testRunId);
         apiExecutor.expectStatus(postMarkTestRunReviewedMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postMarkTestRunReviewedMethod);
@@ -128,7 +120,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         int testId = testServiceImpl.create(testCaseId, testRunId);
         testServiceImpl.finishTest(testCaseId, testRunId, testId);
-
         GetTestByTestRunIdMethod getTestByTestRunIdMethod = new GetTestByTestRunIdMethod(testRunId);
         apiExecutor.expectStatus(getTestByTestRunIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getTestByTestRunIdMethod);
@@ -139,7 +130,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testBuildTestRunJob() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
-
         PostTestRunByJobMethod postTestRunByJobMethod = new PostTestRunByJobMethod(testRunId);
         apiExecutor.expectStatus(postTestRunByJobMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postTestRunByJobMethod);
@@ -149,7 +139,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testDebugJob() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
-
         GetDebugJobMethod getDebugJobMethod = new GetDebugJobMethod(testRunId);
         apiExecutor.expectStatus(getDebugJobMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getDebugJobMethod);
@@ -159,7 +148,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testGetTestRunJobParameters() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
-
         GetTestRunJobParametersMethod getTestRunJobParametersMethod = new GetTestRunJobParametersMethod(testRunId);
         apiExecutor.expectStatus(getTestRunJobParametersMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getTestRunJobParametersMethod);
@@ -175,7 +163,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testGetTestRunJobById(boolean rerunFailures) {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
-
         GetRerunTestRunByIdMethod getRerunTestRunByIdMethod = new GetRerunTestRunByIdMethod(testRunId, rerunFailures);
         apiExecutor.expectStatus(getRerunTestRunByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getRerunTestRunByIdMethod);
@@ -186,7 +173,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testRerunTestRunJob(boolean rerunFailures) {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
-
         PostRerunTestRunJobsMethod postRerunTestRunJobsMethod = new PostRerunTestRunJobsMethod(rerunFailures);
         apiExecutor.expectStatus(postRerunTestRunJobsMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postRerunTestRunJobsMethod);
@@ -196,7 +182,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testAbortTestRun() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
-
         PostAbortTestRunMethod postAbortTestRunMethod = new PostAbortTestRunMethod(testRunId, ciRunId);
         apiExecutor.expectStatus(postAbortTestRunMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postAbortTestRunMethod);
@@ -235,7 +220,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();
         apiExecutor.callApiMethod(new PostStartTestRunMethod(testSuiteId, jobId));
-
         GetTestRunBySearchCriteriaMethod getTestRunBySearchCriteriaMethod = new GetTestRunBySearchCriteriaMethod(searchCriteriaType, testSuiteId);
         apiExecutor.expectStatus(getTestRunBySearchCriteriaMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getTestRunBySearchCriteriaMethod);
@@ -255,5 +239,12 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         EMAIL.waitForEmailDelivered(new Date(), testrunURL); // decency from connection, wait a little bit
         EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
         return email.getContent().contains(testrunURL);
+    }
+    @Test
+    public void testStartTestRunV1() {
+        PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method();
+        apiExecutor.expectStatus(postStartTestRunV1Method, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postStartTestRunV1Method);
+        apiExecutor.validateResponse(postStartTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }

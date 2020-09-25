@@ -2,7 +2,7 @@ package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.testController.PostRetrieveTestBySearchCriteriaMethod;
-import com.qaprosoft.zafira.api.testRun.GetTestByTestRunIdMethod;
+import com.qaprosoft.zafira.api.testRunController.GetTestByTestRunIdMethod;
 import com.qaprosoft.zafira.api.testController.PostFinishTestMethod;
 import com.qaprosoft.zafira.api.testController.PostStartTestMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;

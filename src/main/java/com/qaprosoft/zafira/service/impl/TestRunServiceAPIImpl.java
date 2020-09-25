@@ -1,7 +1,7 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
-import com.qaprosoft.zafira.api.testRun.*;
+import com.qaprosoft.zafira.api.testRunController.*;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.service.TestRunServiceAPI;
 import org.apache.log4j.Logger;

@@ -1,4 +1,4 @@
-package com.qaprosoft.zafira.api.testRun;
+package com.qaprosoft.zafira.api.testRunController;
 
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
