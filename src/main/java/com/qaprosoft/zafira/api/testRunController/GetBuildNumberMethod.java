@@ -1,4 +1,4 @@
-package com.qaprosoft.zafira.api.testRun;
+package com.qaprosoft.zafira.api.testRunController;
 
 import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
 import com.qaprosoft.zafira.manager.APIContextManager;

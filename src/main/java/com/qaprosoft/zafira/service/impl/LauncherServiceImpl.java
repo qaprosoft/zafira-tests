@@ -2,7 +2,7 @@ package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.launcher.*;
-import com.qaprosoft.zafira.api.testRun.GetBuildNumberMethod;
+import com.qaprosoft.zafira.api.testRunController.GetBuildNumberMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.service.LauncherService;
 import org.apache.log4j.Logger;

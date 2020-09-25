@@ -12,7 +12,7 @@ import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.launcher.*;
-import com.qaprosoft.zafira.api.testRun.GetBuildNumberMethod;
+import com.qaprosoft.zafira.api.testRunController.GetBuildNumberMethod;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
