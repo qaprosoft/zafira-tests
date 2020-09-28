@@ -2,6 +2,7 @@ package com.qaprosoft.zafira.api;
 
 import java.util.Date;
 
+import com.qaprosoft.zafira.api.testRunController.v1.GetTestsByByCiRunIdV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestRunV1Method;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -20,6 +21,11 @@ import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.*;
 import com.qaprosoft.zafira.util.CryptoUtil;
+
+/**
+ * Test Run Controller
+ *
+ */
 
 public class TestRunTest extends ZafiraAPIBaseTest {
 
@@ -240,6 +246,10 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
         return email.getContent().contains(testrunURL);
     }
+    /**
+     * Test Run Controller v1
+     *
+     */
     @Test
     public void testStartTestRunV1() {
         PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method();
@@ -247,4 +257,5 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postStartTestRunV1Method);
         apiExecutor.validateResponse(postStartTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
+
 }
