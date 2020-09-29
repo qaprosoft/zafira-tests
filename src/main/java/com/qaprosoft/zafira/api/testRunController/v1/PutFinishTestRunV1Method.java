@@ -7,10 +7,10 @@ import java.time.OffsetDateTime;
 
 
 public class PutFinishTestRunV1Method extends ZafiraBaseApiMethodWithAuth {
-        public PutFinishTestRunV1Method(int ciRunId) {
+        public PutFinishTestRunV1Method(int testRunId) {
         super("api/test_run/v1/_put/rq.json", null, "api/test_run.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.BASE_URL);
-        replaceUrlPlaceholder("testRunId", String.valueOf(ciRunId));
+        replaceUrlPlaceholder("testRunId", String.valueOf(testRunId));
         addProperty("endedAt", OffsetDateTime.now());
         }
 }
