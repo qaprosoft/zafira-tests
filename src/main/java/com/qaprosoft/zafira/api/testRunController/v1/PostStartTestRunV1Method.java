@@ -2,6 +2,8 @@ package com.qaprosoft.zafira.api.testRunController.v1;
 
 import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
 import com.qaprosoft.zafira.manager.APIContextManager;
+
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 
@@ -11,5 +13,8 @@ public class PostStartTestRunV1Method extends ZafiraBaseApiMethodWithAuth {
         replaceUrlPlaceholder("base_api_url", APIContextManager.BASE_URL);
         replaceUrlPlaceholder("project", APIContextManager.PROJECT_KEY);
         addProperty("uuid", UUID.randomUUID());
+        OffsetDateTime date =OffsetDateTime.now();
+        addProperty("startedAt",date);
+
     }
 }

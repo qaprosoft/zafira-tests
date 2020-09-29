@@ -1,9 +1,9 @@
 package com.qaprosoft.zafira.api;
 
 import java.util.Date;
-
-import com.qaprosoft.zafira.api.testRunController.v1.GetTestsByByCiRunIdV1Method;
+import com.qaprosoft.zafira.api.testRunController.v1.GetTestsByCiRunIdV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestRunV1Method;
+import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestRunV1Method;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
@@ -256,5 +256,24 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postStartTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postStartTestRunV1Method);
         apiExecutor.validateResponse(postStartTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test(enabled = false)
+    public void testGetTestsByCiRunIdV1() {
+        int testRunId = new TestRunServiceAPIImplV1().create();
+        String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
+        GetTestsByCiRunIdV1Method getTestsByCiRunIdV1Method = new GetTestsByCiRunIdV1Method(ciRunId);
+        apiExecutor.expectStatus(getTestsByCiRunIdV1Method, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getTestsByCiRunIdV1Method);
+        apiExecutor.validateResponse(getTestsByCiRunIdV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+    @Test
+    public void testFinishTests() {
+        int testRunId = new TestRunServiceAPIImplV1().create();
+        PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId);
+        apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putFinishTestRunV1Method);
+
+
     }
 }

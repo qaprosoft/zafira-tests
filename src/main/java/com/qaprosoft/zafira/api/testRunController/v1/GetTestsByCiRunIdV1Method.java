@@ -5,9 +5,9 @@ import com.qaprosoft.zafira.manager.APIContextManager;
 
 import java.util.Properties;
 
-public class GetTestsByByCiRunIdV1Method extends ZafiraBaseApiMethodWithAuth {
+public class GetTestsByCiRunIdV1Method extends ZafiraBaseApiMethodWithAuth {
 
-    public GetTestsByByCiRunIdV1Method(String ciRunId) {
+    public GetTestsByCiRunIdV1Method(String ciRunId) {
         super(null, "api/test_run/_get/rs_for_getTest.json", (Properties) null);
         replaceUrlPlaceholder("base_api_url", APIContextManager.BASE_URL);
         replaceUrlPlaceholder("ciRunId", String.valueOf(ciRunId));
