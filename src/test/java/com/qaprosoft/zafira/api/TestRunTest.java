@@ -1,8 +1,9 @@
 package com.qaprosoft.zafira.api;
 
 import java.util.Date;
-
+import com.qaprosoft.zafira.api.testRunController.v1.GetTestsByCiRunIdV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestRunV1Method;
+import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestRunV1Method;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
@@ -20,6 +21,11 @@ import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.*;
 import com.qaprosoft.zafira.util.CryptoUtil;
+
+/**
+ * Test Run Controller
+ *
+ */
 
 public class TestRunTest extends ZafiraAPIBaseTest {
 
@@ -240,11 +246,33 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
         return email.getContent().contains(testrunURL);
     }
+    /**
+     * Test Run Controller v1
+     *
+     */
     @Test
     public void testStartTestRunV1() {
         PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method();
         apiExecutor.expectStatus(postStartTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postStartTestRunV1Method);
         apiExecutor.validateResponse(postStartTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test(enabled = false)
+    public void testGetTestsByCiRunIdV1() {
+        int testRunId = new TestRunServiceAPIImplV1().create();
+        String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
+        GetTestsByCiRunIdV1Method getTestsByCiRunIdV1Method = new GetTestsByCiRunIdV1Method(ciRunId);
+        apiExecutor.expectStatus(getTestsByCiRunIdV1Method, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getTestsByCiRunIdV1Method);
+        apiExecutor.validateResponse(getTestsByCiRunIdV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testFinishTests() {
+        int testRunId = new TestRunServiceAPIImplV1().create();
+        PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId);
+        apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putFinishTestRunV1Method);
     }
 }
