@@ -30,4 +30,8 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
                 apiExecutor.callApiMethod(new GetTestRunMethod(testRunId)))
                 .getString(JSONConstant.CI_RUN_ID_KEY);
     }
+    @Override
+    public void finishTestRun(int testRunId) {
+        String response = apiExecutor.callApiMethod(new PutFinishTestRunV1Method(testRunId));
+    }
 }

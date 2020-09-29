@@ -1,0 +1,7 @@
+{"id":"regex:[\\d]",
+  "uuid":"type:String",
+  "name":"type:String",
+  "startedAt":"type:String",
+  "className": "string",
+  "methodName": "string"
+}
