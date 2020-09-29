@@ -1,11 +1,24 @@
-[
-  {
-    "id": "regex:[\\d]",
-    "name": "type:String",
-    "className": "type:String",
-    "maintainer": "type:String",
-    "methodName": "type:String",
-    "result": "type:String",
-    "uuid": "type:String"
-  }
+[{
+  "id": "regex:[\\d]",
+  "name": "type:String",
+  "status": "type:String",
+  "testArgs": "type:String",
+  "testRunId": "regex:[\\d]",
+  "testCaseId": "regex:[\\d]",
+  "testGroup": "type:String",
+  "message": "type:String",
+  "messageHashCode": "regex:[\\d]",
+  "startTime": "regex:[\\d]",
+  "finishTime": "regex:[\\d]",
+  "retry": "regex:[\\d]",
+  "knownIssue": "type:Boolean",
+  "blocker": "type:Boolean",
+  "needRerun": "type:Boolean",
+  "dependsOnMethods": "type:String",
+  "testClass": "type:String",
+  "artifacts": "type:JSONArray",
+  "ciTestId": "type:String",
+  "tags": [
+  ]
+}
 ]

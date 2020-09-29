@@ -1,0 +1,11 @@
+[
+  {
+    "id": "regex:[\\d]",
+    "name": "type:String",
+    "className": "type:String",
+    "maintainer": "type:String",
+    "methodName": "type:String",
+    "result": "type:String",
+    "uuid": "type:String"
+  }
+]
