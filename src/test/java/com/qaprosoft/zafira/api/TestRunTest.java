@@ -267,13 +267,12 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getTestsByCiRunIdV1Method);
         apiExecutor.validateResponse(getTestsByCiRunIdV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
+
     @Test
     public void testFinishTests() {
         int testRunId = new TestRunServiceAPIImplV1().create();
         PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId);
         apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putFinishTestRunV1Method);
-
-
     }
 }

@@ -1,9 +1,0 @@
-{"id":"regex:[\\d]",
-  "uuid":"type:String",
-  "name":"type:String",
-  "startedAt":"2020-09-25T14:08:34.348094Z",
-  "framework":"type:String",
-  "config":{
-    "platform":"type:String"
-  }
-}
