@@ -1,6 +1,6 @@
 [
   {
-    "id": "regex:[\\d]",
+    "id": "regex:\\d",
     "name": "type:String",
     "className": "type:String",
     "maintainer": "type:String",

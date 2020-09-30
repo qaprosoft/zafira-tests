@@ -1,10 +1,7 @@
 package com.qaprosoft.zafira.api;
 
 import java.util.Date;
-import com.qaprosoft.zafira.api.testRunController.v1.GetTestsByCiRunIdV1Method;
-import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestRunV1Method;
-import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestsInTestRunV1Method;
-import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestRunV1Method;
+import com.qaprosoft.zafira.api.testRunController.v1.*;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
@@ -252,21 +249,20 @@ public class TestRunTest extends ZafiraAPIBaseTest {
      *
      */
     @Test
-    public void testStartTestRunV1() {
+    public void testStartTestRunV1WithoutTests() {
         PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method();
         apiExecutor.expectStatus(postStartTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postStartTestRunV1Method);
         apiExecutor.validateResponse(postStartTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(enabled = false)
+    @Test
     public void testGetTestsByCiRunIdV1() {
         int testRunId = new TestRunServiceAPIImplV1().create();
         String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
         GetTestsByCiRunIdV1Method getTestsByCiRunIdV1Method = new GetTestsByCiRunIdV1Method(ciRunId);
         apiExecutor.expectStatus(getTestsByCiRunIdV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getTestsByCiRunIdV1Method);
-        apiExecutor.validateResponse(getTestsByCiRunIdV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
@@ -291,16 +287,60 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testGetTestsByCiRunIdV1WithTests() {
         int testRunId = new TestRunServiceAPIImplV1().create();
         String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
-
-        PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1Method(testRunId);
-        apiExecutor.expectStatus(postStartTestsInTestRunV1Method, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(postStartTestsInTestRunV1Method);
-        apiExecutor.validateResponse(postStartTestsInTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-
+        new TestRunServiceAPIImplV1().createTest(testRunId);
         GetTestsByCiRunIdV1Method getTestsByCiRunIdV1Method = new GetTestsByCiRunIdV1Method(ciRunId);
         apiExecutor.expectStatus(getTestsByCiRunIdV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getTestsByCiRunIdV1Method);
         apiExecutor.validateResponse(getTestsByCiRunIdV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+    }
+
+    @Test
+    public void testUpdateTestWithResultPassedInTestRunV1() {
+        String result = "PASSED";
+        int testRunId = new TestRunServiceAPIImplV1().create();
+        int testId = new TestRunServiceAPIImplV1().createTest(testRunId);
+        PutUpdateTestInTestRunV1Method putUpdateTestInTestRunV1Method = new PutUpdateTestInTestRunV1Method(testRunId,testId,result);
+        apiExecutor.expectStatus(putUpdateTestInTestRunV1Method, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
+        apiExecutor.validateResponse(putUpdateTestInTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        String response=apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
+        String actualResult = JsonPath.from(response).getString(JSONConstant.RESULT);
+
+        Assert.assertEquals(actualResult,result,"Result is not as expected!");
+        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+    }
+    @Test
+    public void testUpdateTestWithResultFailedInTestRunV1() {
+        String result ="FAILED";
+        int testRunId = new TestRunServiceAPIImplV1().create();
+        int testId = new TestRunServiceAPIImplV1().createTest(testRunId);
+        PutUpdateTestInTestRunV1Method putUpdateTestInTestRunV1Method = new PutUpdateTestInTestRunV1Method(testRunId,testId,result);
+        apiExecutor.expectStatus(putUpdateTestInTestRunV1Method, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
+        apiExecutor.validateResponse(putUpdateTestInTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        String response=apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
+        String actualResult = JsonPath.from(response).getString(JSONConstant.RESULT);
+
+        Assert.assertEquals(actualResult,result,"Result is not as expected!");
+        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+    }
+    @Test
+    public void testUpdateTestWithResultSkippedInTestRunV1() {
+        String result ="SKIPPED";
+        int testRunId = new TestRunServiceAPIImplV1().create();
+        int testId = new TestRunServiceAPIImplV1().createTest(testRunId);
+        PutUpdateTestInTestRunV1Method putUpdateTestInTestRunV1Method = new PutUpdateTestInTestRunV1Method(testRunId,testId,result);
+        apiExecutor.expectStatus(putUpdateTestInTestRunV1Method, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
+        apiExecutor.validateResponse(putUpdateTestInTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        String response=apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
+        String actualResult = JsonPath.from(response).getString(JSONConstant.RESULT);
+
+        Assert.assertEquals(actualResult,result,"Result is not as expected!");
         new TestRunServiceAPIImplV1().finishTestRun(testRunId);
     }
 }
