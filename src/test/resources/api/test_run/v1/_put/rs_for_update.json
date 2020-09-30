@@ -1,6 +1,5 @@
-
-
-{ "id": "regex:[\\d]",
-  "endedAt":"type:String",
-  "result":"type:String"
+{
+  "id": "regex:[\\d]",
+  "endedAt": "type:String",
+  "result": "type:String"
 }

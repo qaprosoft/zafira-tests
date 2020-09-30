@@ -39,13 +39,4 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
         apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putFinishTestRunV1Method);
     }
-
-    @Override
-    public int createTest(int testRunId) {
-        PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method= new PostStartTestsInTestRunV1Method(testRunId);
-        apiExecutor.expectStatus(postStartTestsInTestRunV1Method, HTTPStatusCodeType.OK);
-        String response = apiExecutor.callApiMethod(postStartTestsInTestRunV1Method);
-        return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
-    }
-
 }

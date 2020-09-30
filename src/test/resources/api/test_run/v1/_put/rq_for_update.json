@@ -1,7 +1,4 @@
-
-
 {
-  "endedAt":"${endedAt}",
-  "result":"${result}"
-
+  "endedAt": "${endedAt}",
+  "result": "${result}"
 }

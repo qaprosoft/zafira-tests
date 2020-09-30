@@ -1,6 +1,7 @@
 package com.qaprosoft.zafira.api;
 
 import java.util.Date;
+
 import com.qaprosoft.zafira.api.testRunController.v1.*;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -22,7 +23,6 @@ import com.qaprosoft.zafira.util.CryptoUtil;
 
 /**
  * Test Run Controller
- *
  */
 
 public class TestRunTest extends ZafiraAPIBaseTest {
@@ -30,7 +30,9 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     private final EmailManager EMAIL = new EmailManager(
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY)),
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY)));
-
+    private static final String result = "SKIPPED";
+    private static final String result1 = "FAILED";
+    private static final String result2 = "PASSED";
     private final static Logger LOGGER = Logger.getLogger(TestRunTest.class);
     private final int TESTS_TO_ADD = 1;
 
@@ -84,7 +86,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(testRunStatus, expectedTestRunStatus, "TestRun was not finish!");
     }
 
-    @Test (enabled= false)
+    @Test(enabled = false)
     public void testSendTestRunResultEmail() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
@@ -244,9 +246,9 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
         return email.getContent().contains(testrunURL);
     }
+
     /**
      * Test Run Controller v1
-     *
      */
     @Test
     public void testStartTestRunV1WithoutTests() {
@@ -287,7 +289,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testGetTestsByCiRunIdV1WithTests() {
         int testRunId = new TestRunServiceAPIImplV1().create();
         String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
-        new TestRunServiceAPIImplV1().createTest(testRunId);
+        new TestServiceAPIV1Impl().createTest(testRunId);
         GetTestsByCiRunIdV1Method getTestsByCiRunIdV1Method = new GetTestsByCiRunIdV1Method(ciRunId);
         apiExecutor.expectStatus(getTestsByCiRunIdV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getTestsByCiRunIdV1Method);
@@ -297,50 +299,43 @@ public class TestRunTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateTestWithResultPassedInTestRunV1() {
-        String result = "PASSED";
         int testRunId = new TestRunServiceAPIImplV1().create();
-        int testId = new TestRunServiceAPIImplV1().createTest(testRunId);
-        PutUpdateTestInTestRunV1Method putUpdateTestInTestRunV1Method = new PutUpdateTestInTestRunV1Method(testRunId,testId,result);
+        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        PutUpdateTestInTestRunV1Method putUpdateTestInTestRunV1Method = new PutUpdateTestInTestRunV1Method(testRunId, testId, result2);
         apiExecutor.expectStatus(putUpdateTestInTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
         apiExecutor.validateResponse(putUpdateTestInTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-
-        String response=apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
+        String response = apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
         String actualResult = JsonPath.from(response).getString(JSONConstant.RESULT);
-
-        Assert.assertEquals(actualResult,result,"Result is not as expected!");
+        Assert.assertEquals(actualResult, result2, "Result is not as expected!");
         new TestRunServiceAPIImplV1().finishTestRun(testRunId);
     }
+
     @Test
     public void testUpdateTestWithResultFailedInTestRunV1() {
-        String result ="FAILED";
         int testRunId = new TestRunServiceAPIImplV1().create();
-        int testId = new TestRunServiceAPIImplV1().createTest(testRunId);
-        PutUpdateTestInTestRunV1Method putUpdateTestInTestRunV1Method = new PutUpdateTestInTestRunV1Method(testRunId,testId,result);
+        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        PutUpdateTestInTestRunV1Method putUpdateTestInTestRunV1Method = new PutUpdateTestInTestRunV1Method(testRunId, testId, result1);
         apiExecutor.expectStatus(putUpdateTestInTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
         apiExecutor.validateResponse(putUpdateTestInTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-
-        String response=apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
+        String response = apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
         String actualResult = JsonPath.from(response).getString(JSONConstant.RESULT);
-
-        Assert.assertEquals(actualResult,result,"Result is not as expected!");
+        Assert.assertEquals(actualResult, result1, "Result is not as expected!");
         new TestRunServiceAPIImplV1().finishTestRun(testRunId);
     }
+
     @Test
     public void testUpdateTestWithResultSkippedInTestRunV1() {
-        String result ="SKIPPED";
         int testRunId = new TestRunServiceAPIImplV1().create();
-        int testId = new TestRunServiceAPIImplV1().createTest(testRunId);
-        PutUpdateTestInTestRunV1Method putUpdateTestInTestRunV1Method = new PutUpdateTestInTestRunV1Method(testRunId,testId,result);
+        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        PutUpdateTestInTestRunV1Method putUpdateTestInTestRunV1Method = new PutUpdateTestInTestRunV1Method(testRunId, testId, result);
         apiExecutor.expectStatus(putUpdateTestInTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
         apiExecutor.validateResponse(putUpdateTestInTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-
-        String response=apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
+        String response = apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
         String actualResult = JsonPath.from(response).getString(JSONConstant.RESULT);
-
-        Assert.assertEquals(actualResult,result,"Result is not as expected!");
+        Assert.assertEquals(actualResult, result, "Result is not as expected!");
         new TestRunServiceAPIImplV1().finishTestRun(testRunId);
     }
 }
