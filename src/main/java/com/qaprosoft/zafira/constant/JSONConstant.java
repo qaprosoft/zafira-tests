@@ -37,4 +37,5 @@ public class JSONConstant {
     public static final String TITLE_KEY = "title";
     public static final String USERS_KEY = "users";
     public static final String AUTH_TOKEN_KEY = "authToken";
+    public static final String RESULT = "result";
 }
