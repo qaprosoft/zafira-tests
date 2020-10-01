@@ -24,7 +24,7 @@ import com.qaprosoft.zafira.service.impl.PresetServiceImpl;
 public class LaunchersTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(LaunchersTest.class);
 
-    @Test(enabled = false)
+    @Test
     public void testGetAllLaunchers() {
         int autoServerId = APIContextManager.AUTHOMATION_SERVER_ID_VALUE;
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
@@ -36,7 +36,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getAllLaunchersMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(enabled = false)
+    @Test
     public void testCreateLauncher() {
         int jobId = new JobServiceImpl().create();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
@@ -47,7 +47,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postLauncherMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(enabled = false)
+    @Test
     public void testGetLauncherById() {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         int jobId = new JobServiceImpl().create();
@@ -75,7 +75,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(type, expectedTypeValue, "Launcher was not updated!");
     }
 
-    @Test(enabled = false)
+    @Test
     public void testDeleteNewLauncher() {
         LauncherServiceImpl launcherService = new LauncherServiceImpl();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
@@ -88,7 +88,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getLauncherByIdMethod);
     }
 
-    @Test(enabled = false)
+    @Test
     public void testBuildJobByWebhook() {
         PresetServiceImpl presetServiceImpl = new PresetServiceImpl();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
@@ -112,14 +112,14 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testCreateLauncherFromJenkiins() {
+    public void testCreateLauncherFromJenkins() {
         PostLauncherFromJenkinsMethod postLauncherFromJenkinsMethod = new PostLauncherFromJenkinsMethod();
         apiExecutor.expectStatus(postLauncherFromJenkinsMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postLauncherFromJenkinsMethod);
         apiExecutor.validateResponse(postLauncherFromJenkinsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up!
+    @Test
     public void testScanLauncher() {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
 
@@ -129,7 +129,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postScanLaucherMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test(enabled = false)
     public void testGetBuildNumber() {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         String queueItemUrl = new LauncherServiceImpl().getQueueItemUrl(accountTypeId);
@@ -139,7 +139,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getBuildNumberMethod);
     }
 
-    @Test(enabled = false) //TODO: enable this test when jenkins mock container will be up
+    @Test(enabled = false)
     public void testCancelLauncherScanner() {
         LauncherServiceImpl launcherServiceImpl = new LauncherServiceImpl();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;

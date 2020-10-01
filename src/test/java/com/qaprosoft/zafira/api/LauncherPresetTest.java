@@ -22,7 +22,7 @@ import com.qaprosoft.zafira.service.impl.PresetServiceImpl;
 public class LauncherPresetTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(LauncherPresetTest.class);
 
-    @Test(enabled = false)
+    @Test
     public void testCreateLauncherPreset() {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         int jobId = new JobServiceImpl().create();
@@ -34,7 +34,7 @@ public class LauncherPresetTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postLauncherPresetMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(enabled = false)
+    @Test
     public void testBuildWebHookUrl() {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         int jobId = new JobServiceImpl().create();

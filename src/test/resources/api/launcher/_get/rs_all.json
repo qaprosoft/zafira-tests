@@ -7,7 +7,9 @@
     "scmAccountDTO": {
       "id": "regex:[\\d]",
       "repositoryName": "type:String",
-      "repositoryURL": "type:String"
+      "avatarURL": "type:String",
+      "repositoryURL": "type:String",
+      "userId": "regex:[\\d]"
     },
     "presets": "type:JSONArray",
     "job": {
