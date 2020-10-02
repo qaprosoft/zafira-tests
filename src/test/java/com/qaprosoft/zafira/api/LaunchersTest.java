@@ -59,7 +59,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getLauncherByIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(enabled = false)
+    @Test
     public void testUpdateLauncher() {
         String expectedTypeValue = R.TESTDATA.get(ConfigConstant.TYPE_KEY);
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
