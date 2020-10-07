@@ -12,17 +12,17 @@ import static com.jayway.restassured.RestAssured.given;
 
 public class PostScreenshotsV1Method extends ZafiraBaseApiMethodWithAuth {
 
-    public PostScreenshotsV1Method(int testRunId , int testId, String filePath) throws IOException {
-
+    public PostScreenshotsV1Method(int testRunId , int testId, String filePath)  {
         super(null, null, new Properties());
-
         replaceUrlPlaceholder("base_api_url", APIContextManager.BASE_URL);
         replaceUrlPlaceholder("testRunId", String.valueOf(testRunId));
         replaceUrlPlaceholder("testId", String.valueOf(testId));
         setHeaders("Content-Type=image/png");
-        getRequest().body(FileUtils.readFileToByteArray(new File(filePath).getAbsoluteFile()));
-
-
+        try {
+            getRequest().body(FileUtils.readFileToByteArray(new File(filePath).getAbsoluteFile()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -39,7 +39,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
         int testRunId = new TestRunServiceAPIImplV1().create();
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         String filePath = R.TESTDATA.get(ConfigConstant.SCREENSHOT_PATH_KEY);
-        new ArtifactsControllerV1Impl().createScreenshots(testRunId, testId, filePath);
+        new ArtifactsControllerV1Impl().createScreenshot(testRunId, testId, filePath);
         GetScreenshotsV1Method getScreenshotsV1Method = new GetScreenshotsV1Method(testRunId, testId);
         apiExecutor.expectStatus(getScreenshotsV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getScreenshotsV1Method);
@@ -58,7 +58,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testSendingTestScreenshots() throws IOException {
+    public void testSendingTestScreenshots()  {
         int testRunId = new TestRunServiceAPIImplV1().create();
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         String filePath = R.TESTDATA.get(ConfigConstant.SCREENSHOT_PATH_KEY);
