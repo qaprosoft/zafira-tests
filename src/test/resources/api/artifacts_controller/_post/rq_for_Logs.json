@@ -1,0 +1,19 @@
+[{
+  "testId": ${testId},
+  "level": "INFO",
+  "timestamp": "1588866687",
+  "message": "log message 01"
+},
+  {
+    "testId": ${testId},
+    "level": "INFO",
+    "timestamp": "1588866687",
+    "message": "log message 02"
+  },
+  {
+    "testId": ${testId},
+    "level": "INFO",
+    "timestamp": "1588866687",
+    "message": "log message 03"
+  }
+]
