@@ -22,6 +22,7 @@ public class PostScreenshotsV1Method extends ZafiraBaseApiMethodWithAuth {
             getRequest().body(FileUtils.readFileToByteArray(new File(filePath).getAbsoluteFile()));
         } catch (IOException e) {
             e.printStackTrace();
+            throw new RuntimeException("Something went wrong while getting/reading file!");
         }
     }
 
