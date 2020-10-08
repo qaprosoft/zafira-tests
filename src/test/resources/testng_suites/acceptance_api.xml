@@ -140,6 +140,10 @@
             <class name="com.qaprosoft.zafira.api.AuthIAMTest"/>
         </classes>
     </test>
-
+    <test name="Artifacts Controller test">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.ArtifactsControllerTest"/>
+        </classes>
+    </test>
 
 </suite>
