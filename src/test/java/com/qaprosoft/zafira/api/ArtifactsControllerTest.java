@@ -23,13 +23,19 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     private final static Logger LOGGER = Logger.getLogger(ArtifactsControllerTest.class);
     int testRunId = new TestRunServiceAPIImplV1().create();
+    private final static int EXPECTED_COUNT_THREE = 3;
+
+    @AfterTest
+    public void testFinishTestRun() {
+        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+    }
 
     @Test
     public void testGetLogs() {
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         new ArtifactsControllerV1ServiceImpl().createLogRecord(testRunId, testId);
         GetLogsV1Method getLogsV1Method = new GetLogsV1Method(testRunId, testId);
-        Assert.assertTrue(WaitUtil.waitForLogFound(getLogsV1Method), "Log was not found!");
+        Assert.assertTrue(WaitUtil.waitForLogFound(getLogsV1Method, 1), "Log was not found!");
     }
 
     @Test
@@ -38,11 +44,11 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
         String filePath = R.TESTDATA.get(ConfigConstant.SCREENSHOT_PATH_KEY);
         new ArtifactsControllerV1ServiceImpl().createScreenshot(testRunId, testId, filePath);
         GetScreenshotsV1Method getScreenshotsV1Method = new GetScreenshotsV1Method(testRunId, testId);
-        Assert.assertTrue(WaitUtil.waitForScreenshotFound(getScreenshotsV1Method), "Screenshot was not found!");
+        Assert.assertTrue(WaitUtil.waitForScreenshotFound(getScreenshotsV1Method, 1), "Screenshot was not found!");
     }
 
     @Test
-    public void testSendingTestExecutionLogs() {
+    public void testSendTestExecutionLogRecord() {
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         PostLogsV1Method postLogsV1Method = new PostLogsV1Method(testRunId, testId);
         apiExecutor.expectStatus(postLogsV1Method, HTTPStatusCodeType.ACCEPTED);
@@ -58,8 +64,24 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postScreenshotsV1Method);
     }
 
-    @AfterTest
-    public void testFinishTestRun() {
-        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+    @Test
+    public void testGetLogsWithThreeRecords() {
+        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        new ArtifactsControllerV1ServiceImpl().createLogRecord(testRunId, testId);
+        new ArtifactsControllerV1ServiceImpl().createLogRecord(testRunId, testId);
+        new ArtifactsControllerV1ServiceImpl().createLogRecord(testRunId, testId);
+        GetLogsV1Method getLogsV1Method = new GetLogsV1Method(testRunId, testId);
+        Assert.assertTrue(WaitUtil.waitForLogFound(getLogsV1Method, EXPECTED_COUNT_THREE), "Log was not found!");
+    }
+
+    @Test
+    public void testGetScreenshotsWithThreeScreenshot() {
+        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        String filePath = R.TESTDATA.get(ConfigConstant.SCREENSHOT_PATH_KEY);
+        new ArtifactsControllerV1ServiceImpl().createScreenshot(testRunId, testId, filePath);
+        new ArtifactsControllerV1ServiceImpl().createScreenshot(testRunId, testId, filePath);
+        new ArtifactsControllerV1ServiceImpl().createScreenshot(testRunId, testId, filePath);
+        GetScreenshotsV1Method getScreenshotsV1Method = new GetScreenshotsV1Method(testRunId, testId);
+        Assert.assertTrue(WaitUtil.waitForScreenshotFound(getScreenshotsV1Method, EXPECTED_COUNT_THREE), "Screenshot was not found!");
     }
 }

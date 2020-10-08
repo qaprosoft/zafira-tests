@@ -14,7 +14,7 @@ import java.util.function.Function;
 
 public class WaitUtil {
 
-    public static Boolean waitForScreenshotFound(GetScreenshotsV1Method getScreenshotsV1Method) {
+    public static Boolean waitForScreenshotFound(GetScreenshotsV1Method getScreenshotsV1Method, int expectedCount) {
         ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
         Wait wait = new FluentWait<GetScreenshotsV1Method>(getScreenshotsV1Method)
@@ -23,8 +23,6 @@ public class WaitUtil {
 
         boolean found = (boolean) wait
                 .until(new Function<GetScreenshotsV1Method, Boolean>() {
-                           int expectedCount = 1;
-
                            public Boolean apply(GetScreenshotsV1Method getScreenshotsV1Method) {
                                JsonPath.from
                                        (apiExecutor.callApiMethod(getScreenshotsV1Method)).
@@ -38,7 +36,7 @@ public class WaitUtil {
         return found;
     }
 
-    public static Boolean waitForLogFound(GetLogsV1Method getLogsV1Method) {
+    public static Boolean waitForLogFound(GetLogsV1Method getLogsV1Method, int expectedCount) {
         ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
         Wait wait = new FluentWait<GetLogsV1Method>(getLogsV1Method)
@@ -47,7 +45,6 @@ public class WaitUtil {
 
         boolean found = (boolean) wait
                 .until(new Function<GetLogsV1Method, Boolean>() {
-                           int expectedCount = 1;
                            public Boolean apply(GetLogsV1Method getLogsV1Method) {
                                JsonPath.from
                                        (apiExecutor.callApiMethod(getLogsV1Method)).
