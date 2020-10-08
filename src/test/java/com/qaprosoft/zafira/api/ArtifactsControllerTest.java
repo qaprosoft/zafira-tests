@@ -1,6 +1,5 @@
 package com.qaprosoft.zafira.api;
 
-import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.artifactsController.GetLogsV1Method;
 import com.qaprosoft.zafira.api.artifactsController.GetScreenshotsV1Method;
@@ -13,7 +12,6 @@ import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceAPIV1Impl;
 import com.qaprosoft.zafira.util.WaitUtil;
 import org.apache.log4j.Logger;
-import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
@@ -24,6 +22,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(ArtifactsControllerTest.class);
     int testRunId = new TestRunServiceAPIImplV1().create();
     private final static int EXPECTED_COUNT_THREE = 3;
+    private final static int EXPECTED_COUNT_ONE = 1;
 
     @AfterTest
     public void testFinishTestRun() {
@@ -35,7 +34,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         new ArtifactsControllerV1ServiceImpl().createLogRecord(testRunId, testId);
         GetLogsV1Method getLogsV1Method = new GetLogsV1Method(testRunId, testId);
-        Assert.assertTrue(WaitUtil.waitForLogFound(getLogsV1Method, 1), "Log was not found!");
+        Assert.assertTrue(WaitUtil.waitForLogFound(getLogsV1Method, EXPECTED_COUNT_ONE), "Log was not found!");
     }
 
     @Test
@@ -44,7 +43,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
         String filePath = R.TESTDATA.get(ConfigConstant.SCREENSHOT_PATH_KEY);
         new ArtifactsControllerV1ServiceImpl().createScreenshot(testRunId, testId, filePath);
         GetScreenshotsV1Method getScreenshotsV1Method = new GetScreenshotsV1Method(testRunId, testId);
-        Assert.assertTrue(WaitUtil.waitForScreenshotFound(getScreenshotsV1Method, 1), "Screenshot was not found!");
+        Assert.assertTrue(WaitUtil.waitForScreenshotFound(getScreenshotsV1Method, EXPECTED_COUNT_ONE), "Screenshot was not found!");
     }
 
     @Test
