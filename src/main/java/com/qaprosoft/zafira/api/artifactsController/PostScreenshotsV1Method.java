@@ -25,5 +25,4 @@ public class PostScreenshotsV1Method extends ZafiraBaseApiMethodWithAuth {
             throw new RuntimeException("Something went wrong while getting/reading file!");
         }
     }
-
 }

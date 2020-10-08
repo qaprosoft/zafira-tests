@@ -8,14 +8,14 @@ import com.qaprosoft.zafira.api.artifactsController.PostLogsV1Method;
 import com.qaprosoft.zafira.api.artifactsController.PostScreenshotsV1Method;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.service.impl.ArtifactsControllerV1Impl;
+import com.qaprosoft.zafira.service.impl.ArtifactsControllerV1ServiceImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceAPIV1Impl;
+import com.qaprosoft.zafira.util.WaitUtil;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.io.IOException;
 
 
 public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
@@ -26,7 +26,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
     public void testGetLogs() {
         int testRunId = new TestRunServiceAPIImplV1().create();
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
-        new ArtifactsControllerV1Impl().createLogRecord(testRunId, testId);
+        new ArtifactsControllerV1ServiceImpl().createLogRecord(testRunId, testId);
         GetLogsV1Method getLogsV1Method = new GetLogsV1Method(testRunId, testId);
         apiExecutor.expectStatus(getLogsV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getLogsV1Method);
@@ -35,15 +35,13 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testGetScreenshots() throws IOException {
+    public void testGetScreenshots() {
         int testRunId = new TestRunServiceAPIImplV1().create();
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         String filePath = R.TESTDATA.get(ConfigConstant.SCREENSHOT_PATH_KEY);
-        new ArtifactsControllerV1Impl().createScreenshot(testRunId, testId, filePath);
+        new ArtifactsControllerV1ServiceImpl().createScreenshot(testRunId, testId, filePath);
         GetScreenshotsV1Method getScreenshotsV1Method = new GetScreenshotsV1Method(testRunId, testId);
-        apiExecutor.expectStatus(getScreenshotsV1Method, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getScreenshotsV1Method);
-        apiExecutor.validateResponse(getScreenshotsV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertTrue(WaitUtil.waitForScreenshotFound(getScreenshotsV1Method), "Screenshot was not found!");
         new TestRunServiceAPIImplV1().finishTestRun(testRunId);
     }
 
@@ -58,7 +56,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testSendingTestScreenshots()  {
+    public void testSendingTestScreenshots() {
         int testRunId = new TestRunServiceAPIImplV1().create();
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         String filePath = R.TESTDATA.get(ConfigConstant.SCREENSHOT_PATH_KEY);
