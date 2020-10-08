@@ -35,6 +35,5 @@ public class ArtifactsControllerV1ServiceImpl implements ArtifactsControllerV1Se
         return JsonPath.from
                 (apiExecutor.callApiMethod(new PostScreenshotsV1Method(testRunId, testId, filePath))).
                 getInt(JSONConstant.TOTAL_RESULTS_KEY);
-
     }
 }

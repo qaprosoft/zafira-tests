@@ -15,55 +15,51 @@ import com.qaprosoft.zafira.util.WaitUtil;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 
 public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     private final static Logger LOGGER = Logger.getLogger(ArtifactsControllerTest.class);
+    int testRunId = new TestRunServiceAPIImplV1().create();
 
     @Test
     public void testGetLogs() {
-        int testRunId = new TestRunServiceAPIImplV1().create();
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         new ArtifactsControllerV1ServiceImpl().createLogRecord(testRunId, testId);
         GetLogsV1Method getLogsV1Method = new GetLogsV1Method(testRunId, testId);
-        apiExecutor.expectStatus(getLogsV1Method, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getLogsV1Method);
-        apiExecutor.validateResponse(getLogsV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+        Assert.assertTrue(WaitUtil.waitForLogFound(getLogsV1Method), "Log was not found!");
     }
 
     @Test
     public void testGetScreenshots() {
-        int testRunId = new TestRunServiceAPIImplV1().create();
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         String filePath = R.TESTDATA.get(ConfigConstant.SCREENSHOT_PATH_KEY);
         new ArtifactsControllerV1ServiceImpl().createScreenshot(testRunId, testId, filePath);
         GetScreenshotsV1Method getScreenshotsV1Method = new GetScreenshotsV1Method(testRunId, testId);
         Assert.assertTrue(WaitUtil.waitForScreenshotFound(getScreenshotsV1Method), "Screenshot was not found!");
-        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
     }
 
     @Test
     public void testSendingTestExecutionLogs() {
-        int testRunId = new TestRunServiceAPIImplV1().create();
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         PostLogsV1Method postLogsV1Method = new PostLogsV1Method(testRunId, testId);
         apiExecutor.expectStatus(postLogsV1Method, HTTPStatusCodeType.ACCEPTED);
         apiExecutor.callApiMethod(postLogsV1Method);
-        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
     }
 
     @Test
-    public void testSendingTestScreenshots() {
-        int testRunId = new TestRunServiceAPIImplV1().create();
+    public void testSendOneScreenshot() {
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         String filePath = R.TESTDATA.get(ConfigConstant.SCREENSHOT_PATH_KEY);
         PostScreenshotsV1Method postScreenshotsV1Method = new PostScreenshotsV1Method(testRunId, testId, filePath);
         apiExecutor.expectStatus(postScreenshotsV1Method, HTTPStatusCodeType.CREATED);
         apiExecutor.callApiMethod(postScreenshotsV1Method);
-        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
     }
 
+    @AfterTest
+    public void testFinishTestRun() {
+        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+    }
 }
