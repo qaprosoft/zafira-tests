@@ -24,9 +24,6 @@ public class WaitUtil {
         boolean found = (boolean) wait
                 .until(new Function<GetScreenshotsV1Method, Boolean>() {
                            public Boolean apply(GetScreenshotsV1Method getScreenshotsV1Method) {
-                               JsonPath.from
-                                       (apiExecutor.callApiMethod(getScreenshotsV1Method)).
-                                       getInt(JSONConstant.TOTAL_RESULTS_KEY);
                                return JsonPath.from
                                        (apiExecutor.callApiMethod(getScreenshotsV1Method)).
                                        getInt(JSONConstant.TOTAL_RESULTS_KEY) == expectedCount;
@@ -46,9 +43,6 @@ public class WaitUtil {
         boolean found = (boolean) wait
                 .until(new Function<GetLogsV1Method, Boolean>() {
                            public Boolean apply(GetLogsV1Method getLogsV1Method) {
-                               JsonPath.from
-                                       (apiExecutor.callApiMethod(getLogsV1Method)).
-                                       getInt(JSONConstant.TOTAL_RESULTS_KEY);
                                return JsonPath.from
                                        (apiExecutor.callApiMethod(getLogsV1Method)).
                                        getInt(JSONConstant.TOTAL_RESULTS_KEY) == expectedCount;
