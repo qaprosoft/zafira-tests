@@ -13,9 +13,7 @@ import com.qaprosoft.zafira.service.impl.ExecutionServiceImpl;
 public class APIContextManager {
     private static final Logger LOGGER = Logger.getLogger(APIContextManager.class);
 
-
     private String accessToken;
-
     public static String ENV_VALUE = R.CONFIG.get(ConfigConstant.ENV_KEY);
     public static final String BASE_URL = R.CONFIG.get(String.format(ConfigConstant.BASE_URL_KEY, ENV_VALUE));
     public static final String API_URL = R.CONFIG.get(String.format(ConfigConstant.BASE_API_URL_KEY, ENV_VALUE));

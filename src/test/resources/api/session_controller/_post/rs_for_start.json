@@ -1,0 +1,8 @@
+{
+  "id":"regex:[\\d]",
+  "capabilities": "type:String",
+  "desiredCapabilities": "type:String",
+  "sessionId": "type:String",
+  "startedAt": "type:String",
+  "testRefs": "type:JSONArray"
+}
