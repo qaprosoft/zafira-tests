@@ -1,0 +1,6 @@
+{
+  "id":"regex:[\\d]",
+  "sessionId": "type:String",
+  "endedAt": "type:String",
+  "testRefs": "type:JSONArray"
+}

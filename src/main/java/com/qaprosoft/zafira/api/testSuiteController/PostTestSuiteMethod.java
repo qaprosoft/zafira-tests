@@ -1,5 +1,6 @@
-package com.qaprosoft.zafira.api;
+package com.qaprosoft.zafira.api.testSuiteController;
 
+import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
 import com.qaprosoft.zafira.manager.APIContextManager;
 
 public class PostTestSuiteMethod extends ZafiraBaseApiMethodWithAuth {

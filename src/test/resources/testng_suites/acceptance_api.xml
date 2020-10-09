@@ -145,5 +145,9 @@
             <class name="com.qaprosoft.zafira.api.ArtifactsControllerTest"/>
         </classes>
     </test>
-
+    <test name="Artifacts Controller test">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.TestSessionControllerTest"/>
+        </classes>
+    </test>
 </suite>
