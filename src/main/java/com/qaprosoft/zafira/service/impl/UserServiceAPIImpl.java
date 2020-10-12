@@ -19,9 +19,9 @@ public class UserServiceAPIImpl implements UserServiceAPI {
     }
 
     @Override
-    public int getUserId(String username) {
+    public int create(String username) {
         PostUserMethod putCreateUserMethod = new PostUserMethod(username);
-        apiExecutor.expectStatus(putCreateUserMethod, HTTPStatusCodeType.OK);
+        apiExecutor.expectStatus(putCreateUserMethod, HTTPStatusCodeType.CREATED);
         String response = apiExecutor.callApiMethod(putCreateUserMethod);
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }

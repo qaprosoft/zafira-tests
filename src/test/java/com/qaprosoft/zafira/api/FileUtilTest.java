@@ -11,11 +11,11 @@ import java.io.File;
 
 public class FileUtilTest extends ZafiraAPIBaseTest {
 
-    @Test (enabled= false)
+    @Test
     public void testUploadFile() {
         File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY));
         PostUploadFileMethod postUploadFileMethod = new PostUploadFileMethod(uploadFile);
-        apiExecutor.expectStatus(postUploadFileMethod, HTTPStatusCodeType.OK);
+        apiExecutor.expectStatus(postUploadFileMethod, HTTPStatusCodeType.CREATED);
         apiExecutor.callApiMethod(postUploadFileMethod);
         apiExecutor.validateResponse(postUploadFileMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
