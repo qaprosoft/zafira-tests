@@ -12,7 +12,7 @@ public class FileUtilServiceImpl implements FileUtilService {
     @Override
     public String getUrl(File uploadFile) {
         PostUploadFileMethod postUploadFileMethod = new PostUploadFileMethod(uploadFile);
-        apiExecutor.expectStatus(postUploadFileMethod, HTTPStatusCodeType.OK);
+        apiExecutor.expectStatus(postUploadFileMethod, HTTPStatusCodeType.CREATED);
         return apiExecutor.callApiMethod(postUploadFileMethod);
     }
 }

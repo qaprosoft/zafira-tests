@@ -1,0 +1,12 @@
+{
+  "id": "regex:[\\d]",
+  "username": "type:String",
+  "email": "type:String",
+  "firstName": "type:String",
+  "lastName": "type:String",
+  "groups": "type:JSONArray",
+  "permissions": "type:JSONArray",
+  "registrationDateTime": "type:String",
+  "source":"type:String",
+  "status":"type:String"
+}

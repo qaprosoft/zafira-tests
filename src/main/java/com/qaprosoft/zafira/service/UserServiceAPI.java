@@ -4,7 +4,7 @@ public interface UserServiceAPI {
 
     String getUserByCriteria(String query);
 
-    int getUserId(String username);
+    int create(String username);
 
     void deleteUserFromGroup(int groupId, int userId);
 }
