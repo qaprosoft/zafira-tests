@@ -1,11 +1,8 @@
 {
-  "query": null,
-  "orderBy": null,
+  "query": "type:String",
   "page": "regex:[\\d]",
   "pageSize": "regex:[\\d]",
-  "projects": null,
-  "sortOrder": "type:String",
-  "results": "type:JSONArray",
+   "results": "type:JSONArray",
   "totalResults": "regex:[\\d]",
-  "offset": "regex:[\\d]"
+  "totalPages": "regex:[\\d]"
 }

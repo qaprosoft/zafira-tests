@@ -40,4 +40,5 @@ public class JSONConstant {
     public static final String RESULT = "result";
     public static final String TOTAL_RESULTS_KEY = "totalResults";
     public static final String USERNAME_KEY = "username";
+    public static final String ALL_USERS_GROUPS_ID = "groups.id";
 }
