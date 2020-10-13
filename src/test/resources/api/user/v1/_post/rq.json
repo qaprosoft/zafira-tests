@@ -2,6 +2,6 @@
   "email": "${email}",
   "firstName": "API",
   "lastName": "TEST",
-  "password": "1111",
+  "password":  "${password}",
   "username": "${username}"
 }
