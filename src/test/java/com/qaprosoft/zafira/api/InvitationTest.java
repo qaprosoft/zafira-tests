@@ -20,7 +20,10 @@ import java.util.List;
 public class InvitationTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(InvitationTest.class);
     private final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
-
+    private final String INVALID_TOKEN = "INVALID_TOKEN";
+    private final String EMPTY_TOKEN = "";
+    private final String EMPTY_EMAIL = "";
+    private final String INVALID_EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15));
 
     @Test
     public void testGetInvitations() {
@@ -63,5 +66,33 @@ public class InvitationTest extends ZafiraAPIBaseTest {
         List<Integer> responseAfterDelete = invitationServiceV1Impl.getInvitations();
         LOGGER.info(String.format("Invite's token: %s", responseAfterDelete));
         Assert.assertFalse(responseAfterDelete.contains(String.valueOf(inviteId)), "Invite was not delete!");
+    }
+
+    @Test
+    public void testGetInvitationByIncorrectToken() {
+        GetInvitationByTokenV1Method getInvitationByTokenV1Method = new GetInvitationByTokenV1Method(INVALID_TOKEN);
+        apiExecutor.expectStatus(getInvitationByTokenV1Method, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(getInvitationByTokenV1Method);
+    }
+
+    @Test
+    public void testGetInvitationByEmptyToken() {
+        GetInvitationByTokenV1Method getInvitationByTokenV1Method = new GetInvitationByTokenV1Method(EMPTY_TOKEN);
+        apiExecutor.expectStatus(getInvitationByTokenV1Method, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(getInvitationByTokenV1Method);
+    }
+
+    @Test
+    public void testPostInvitesUserWithEmptyEmail() {
+        PostInviteUserV1Method postInviteUserV1Method = new PostInviteUserV1Method(EMPTY_EMAIL);
+        apiExecutor.expectStatus(postInviteUserV1Method, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(postInviteUserV1Method);
+    }
+
+    @Test
+    public void testPostInvitesUserWithInvalidEmail() {
+        PostInviteUserV1Method postInviteUserV1Method = new PostInviteUserV1Method(INVALID_EMAIL);
+        apiExecutor.expectStatus(postInviteUserV1Method, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(postInviteUserV1Method);
     }
 }
