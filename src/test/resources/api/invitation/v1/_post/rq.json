@@ -1,0 +1,7 @@
+[
+  {
+    "email": "${email}",
+    "groupId": 2,
+    "source": "INTERNAL"
+  }
+]

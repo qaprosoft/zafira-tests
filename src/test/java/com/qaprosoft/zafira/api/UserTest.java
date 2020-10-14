@@ -44,6 +44,19 @@ public class UserTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    public void testCreateUserByInvitationToken() {
+        String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        String password = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        String email = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
+        String invitationToken = new InvitationServiceV1Impl().getInvitationToken(email);
+        PostUserByInvitationTokenV1Method postUserByInvitationTokenV1Method =
+                new PostUserByInvitationTokenV1Method(username, password,invitationToken,email);
+        apiExecutor.expectStatus(postUserByInvitationTokenV1Method, HTTPStatusCodeType.CREATED);
+        apiExecutor.callApiMethod(postUserByInvitationTokenV1Method);
+        apiExecutor.validateResponse(postUserByInvitationTokenV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
     public void testGetUserByUsernameV1() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         String password = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));

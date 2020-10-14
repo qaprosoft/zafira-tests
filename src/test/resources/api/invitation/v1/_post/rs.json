@@ -1,0 +1,18 @@
+[
+  {
+    "id": "regex:[\\d]",
+    "email": "type:String",
+    "token": "type:String",
+    "invitor": {
+      "id": "regex:[\\d]",
+      "username": "type:String"
+    },
+    "group": {
+      "id": "regex:[\\d]",
+      "name": "type:String"
+    },
+    "source": "type:String",
+    "createdAt": "type:String",
+    "modifiedAt": "type:String"
+  }
+]
