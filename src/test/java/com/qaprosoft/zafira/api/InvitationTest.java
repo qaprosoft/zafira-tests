@@ -68,14 +68,14 @@ public class InvitationTest extends ZafiraAPIBaseTest {
         Assert.assertFalse(responseAfterDelete.contains(String.valueOf(inviteId)), "Invite was not delete!");
     }
 
-    @Test()
+    @Test
     public void testGetInvitationByIncorrectToken() {
         GetInvitationByTokenV1Method getInvitationByTokenV1Method = new GetInvitationByTokenV1Method(INVALID_TOKEN);
         apiExecutor.expectStatus(getInvitationByTokenV1Method, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(getInvitationByTokenV1Method);
     }
 
-    @Test()
+    @Test
     public void testGetInvitationByEmptyToken() {
         GetInvitationByTokenV1Method getInvitationByTokenV1Method = new GetInvitationByTokenV1Method(EMPTY_TOKEN);
         apiExecutor.expectStatus(getInvitationByTokenV1Method, HTTPStatusCodeType.BAD_REQUEST);
