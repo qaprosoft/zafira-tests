@@ -1,7 +1,7 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
-import com.qaprosoft.zafira.api.invitation.v1.DeleteInvitationByIdV1lMethod;
+import com.qaprosoft.zafira.api.invitation.v1.DeleteInvitationByIdV1Method;
 import com.qaprosoft.zafira.api.invitation.v1.GetInvitationByTokenV1Method;
 import com.qaprosoft.zafira.api.invitation.v1.GetInvitationsV1Method;
 import com.qaprosoft.zafira.api.invitation.v1.PostInviteUserV1Method;
@@ -32,7 +32,7 @@ public class InvitationServiceV1Impl implements InvitationServiceV1 {
 
     @Override
     public void deleteInviteById(int id) {
-        DeleteInvitationByIdV1lMethod deleteInvitationByIdMethod = new DeleteInvitationByIdV1lMethod(id);
+        DeleteInvitationByIdV1Method deleteInvitationByIdMethod = new DeleteInvitationByIdV1Method(id);
         apiExecutor.expectStatus(deleteInvitationByIdMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(deleteInvitationByIdMethod);
     }
@@ -54,7 +54,7 @@ public class InvitationServiceV1Impl implements InvitationServiceV1 {
                 return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
     @Override
-    public List<Integer> getInvitation() {
+    public List<Integer> getInvitations() {
         GetInvitationsV1Method getInvitationsV1Method = new GetInvitationsV1Method();
         apiExecutor.expectStatus(getInvitationsV1Method, HTTPStatusCodeType.OK);
         String response=apiExecutor.callApiMethod(getInvitationsV1Method);

@@ -14,5 +14,5 @@ public interface InvitationServiceV1 {
 
     int getIdByInvitationToken(String token);
 
-    List<Integer> getInvitation();
+    List<Integer> getInvitations();
 }

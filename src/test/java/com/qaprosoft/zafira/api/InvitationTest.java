@@ -2,7 +2,7 @@ package com.qaprosoft.zafira.api;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.zafira.api.invitation.v1.DeleteInvitationByIdV1lMethod;
+import com.qaprosoft.zafira.api.invitation.v1.DeleteInvitationByIdV1Method;
 import com.qaprosoft.zafira.api.invitation.v1.GetInvitationByTokenV1Method;
 import com.qaprosoft.zafira.api.invitation.v1.GetInvitationsV1Method;
 import com.qaprosoft.zafira.api.invitation.v1.PostInviteUserV1Method;
@@ -23,7 +23,7 @@ public class InvitationTest extends ZafiraAPIBaseTest {
 
 
     @Test
-    public void testGetInvitation() {
+    public void testGetInvitations() {
         GetInvitationsV1Method getInvitationsV1Method = new GetInvitationsV1Method();
         apiExecutor.expectStatus(getInvitationsV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getInvitationsV1Method);
@@ -57,10 +57,10 @@ public class InvitationTest extends ZafiraAPIBaseTest {
     public void testDeleteInvitationById() {
         InvitationServiceV1Impl invitationServiceV1Impl = new InvitationServiceV1Impl();
         int inviteId = invitationServiceV1Impl.getInviteId(EMAIL);
-        DeleteInvitationByIdV1lMethod deleteInvitationByIdV1lMethod = new DeleteInvitationByIdV1lMethod(inviteId);
-        apiExecutor.expectStatus(deleteInvitationByIdV1lMethod, HTTPStatusCodeType.NO_CONTENT);
-        apiExecutor.callApiMethod(deleteInvitationByIdV1lMethod);
-        List<Integer> responseAfterDelete = invitationServiceV1Impl.getInvitation();
+        DeleteInvitationByIdV1Method deleteInvitationByIdV1Method = new DeleteInvitationByIdV1Method(inviteId);
+        apiExecutor.expectStatus(deleteInvitationByIdV1Method, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(deleteInvitationByIdV1Method);
+        List<Integer> responseAfterDelete = invitationServiceV1Impl.getInvitations();
         LOGGER.info(String.format("Invite's token: %s", responseAfterDelete));
         Assert.assertFalse(responseAfterDelete.contains(String.valueOf(inviteId)), "Invite was not delete!");
     }
