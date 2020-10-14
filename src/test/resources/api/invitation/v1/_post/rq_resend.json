@@ -1,0 +1,7 @@
+{
+  "createdAt": "${createdAt}",
+  "email": "${email}",
+  "groupId": 2,
+  "modifiedAt": "${modifiedAt}",
+  "source": "INTERNAL"
+}

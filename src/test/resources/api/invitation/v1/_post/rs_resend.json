@@ -1,0 +1,28 @@
+{
+  "id": "regex:[\\d]",
+  "modifiedAt": "regex:[\\d]",
+  "createdAt": "regex:[\\d]",
+  "email": "type:String",
+  "token": "type:String",
+  "createdBy": {
+    "id": "regex:[\\d]",
+    "modifiedAt": "regex:[\\d]",
+    "createdAt": "regex:[\\d]",
+    "username": "type:String",
+    "password": "type:String",
+    "photoURL": "type:String",
+    "groups": "type:JSONArray",
+    "preferences": "type:JSONArray",
+    "lastLogin": "regex:[\\d]",
+    "source": "type:String",
+    "status": "type:String",
+    "grantedGroups": "type:JSONArray",
+    "roles": "type:JSONArray",
+    "permissions": "type:JSONArray"
+  },
+  "status": "type:String",
+  "source": "type:String",
+  "groupId": "regex:[\\d]",
+  "url": "type:String",
+  "valid": "type:Boolean"
+}

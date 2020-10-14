@@ -1,0 +1,7 @@
+{
+  "page": "regex:[\\d]",
+  "pageSize": "regex:[\\d]",
+  "totalPages": "regex:[\\d]",
+  "results": "type:JSONArray",
+  "totalResults": "regex:[\\d]"
+}
