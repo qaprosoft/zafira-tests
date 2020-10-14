@@ -4,8 +4,8 @@ import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.zafira.api.invitation.v1.DeleteInvitationByIdV1lMethod;
 import com.qaprosoft.zafira.api.invitation.v1.GetInvitationByTokenV1Method;
-import com.qaprosoft.zafira.api.invitation.v1.GetInvitationV1Method;
-import com.qaprosoft.zafira.api.invitation.v1.PostInvitesUserV1Method;
+import com.qaprosoft.zafira.api.invitation.v1.GetInvitationsV1Method;
+import com.qaprosoft.zafira.api.invitation.v1.PostInviteUserV1Method;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.InvitationServiceV1Impl;
@@ -24,10 +24,10 @@ public class InvitationTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetInvitation() {
-        GetInvitationV1Method getInvitationV1Method = new GetInvitationV1Method();
-        apiExecutor.expectStatus(getInvitationV1Method, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getInvitationV1Method);
-        apiExecutor.validateResponse(getInvitationV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        GetInvitationsV1Method getInvitationsV1Method = new GetInvitationsV1Method();
+        apiExecutor.expectStatus(getInvitationsV1Method, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getInvitationsV1Method);
+        apiExecutor.validateResponse(getInvitationsV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
@@ -41,10 +41,10 @@ public class InvitationTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testPostInvitesUser() {
-        PostInvitesUserV1Method postInvitesUserV1Method = new PostInvitesUserV1Method(EMAIL);
-        apiExecutor.expectStatus(postInvitesUserV1Method, HTTPStatusCodeType.ACCEPTED);
-        String response = apiExecutor.callApiMethod(postInvitesUserV1Method);
-        apiExecutor.validateResponse(postInvitesUserV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        PostInviteUserV1Method postInviteUserV1Method = new PostInviteUserV1Method(EMAIL);
+        apiExecutor.expectStatus(postInviteUserV1Method, HTTPStatusCodeType.ACCEPTED);
+        String response = apiExecutor.callApiMethod(postInviteUserV1Method);
+        apiExecutor.validateResponse(postInviteUserV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         String token = JsonPath.from(response).getString(JSONConstant.INVITES_TOKEN_KEY);
         int actualId = JsonPath.from(response).getInt(JSONConstant.INVITATION_ID_KEY);
         LOGGER.info(String.format("Invite's token: %s", token));
