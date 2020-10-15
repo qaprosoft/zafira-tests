@@ -24,5 +24,6 @@
   "artifacts": [],
   "ciTestId": "type:String",
   "tags": [],
-  "notNullTestGroup": "type:String"
+  "notNullTestGroup": "type:String",
+  "stacktraceLabels":[]
 }
