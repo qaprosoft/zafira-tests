@@ -26,8 +26,8 @@ public class UserV1ServiceAPIImpl implements UserV1ServiceAPI {
     }
 
     @Override
-    public String create(String username, String password) {
-        PostUserMethodV1 postUserMethodV1 = new PostUserMethodV1(username,password);
+    public String create(String username, String password, String email) {
+        PostUserMethodV1 postUserMethodV1 = new PostUserMethodV1(username,password,email);
         apiExecutor.expectStatus(postUserMethodV1, HTTPStatusCodeType.CREATED);
         String response = apiExecutor.callApiMethod(postUserMethodV1);
         return JsonPath.from(response).getString(JSONConstant.USERNAME_KEY);
@@ -46,6 +46,22 @@ public class UserV1ServiceAPIImpl implements UserV1ServiceAPI {
         apiExecutor.expectStatus(getUserByIdV1Method, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(getUserByIdV1Method);
         return JsonPath.from(response).getList(JSONConstant.ALL_USERS_GROUPS_ID);
+    }
+
+    @Override
+    public String getEmail(String username) {
+        GetUserByUsernameV1Method getUserByUsernameV1Method = new GetUserByUsernameV1Method(username);
+        apiExecutor.expectStatus(getUserByUsernameV1Method, HTTPStatusCodeType.OK);
+        String response = apiExecutor.callApiMethod(getUserByUsernameV1Method);
+        return JsonPath.from(response).getString(JSONConstant.EMAIL_KEY);
+    }
+
+    @Override
+    public String getStatus(String username) {
+        GetUserByUsernameV1Method getUserByUsernameV1Method = new GetUserByUsernameV1Method(username);
+        apiExecutor.expectStatus(getUserByUsernameV1Method, HTTPStatusCodeType.OK);
+        String response = apiExecutor.callApiMethod(getUserByUsernameV1Method);
+        return JsonPath.from(response).getString(JSONConstant.STATUS_KEY);
     }
 
 }

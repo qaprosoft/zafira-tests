@@ -43,4 +43,5 @@ public class JSONConstant {
     public static final String ALL_USERS_GROUPS_ID = "groups.id";
     public static final String INVITATION_ID_KEY = "[0].id";
     public static final String ALL_ID_FROM_RESULTS_V1_KEY = "results.id";
+    public static final String EMAIL_KEY = "email";
 }

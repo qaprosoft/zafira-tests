@@ -6,9 +6,13 @@ public interface UserV1ServiceAPI {
 
     int getUserId(String username);
 
-    String create(String username, String password);
+    String create(String username, String password, String email);
 
     void deleteUserFromGroup(int groupId, int userId);
 
-    public List<Integer> getAllUserGroupIds( int userId);
+    List<Integer> getAllUserGroupIds( int userId);
+
+    String getEmail(String username);
+
+    String getStatus(String username);
 }
