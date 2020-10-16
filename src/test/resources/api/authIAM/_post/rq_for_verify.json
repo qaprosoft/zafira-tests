@@ -1,8 +1,7 @@
-
 {
   "tenantName": "${tenantName}",
-  "authToken":"${authToken}" ,
-  "permissions" :[
+  "authToken": "${authToken}",
+  "permissions": [
     "INVITE_USERS",
     "INVOICES",
     "MODIFY_DASHBOARDS",
@@ -53,5 +52,4 @@
     "reporting:widgets:delete",
     "reporting:widgets:update"
   ]
-
-  }
+}

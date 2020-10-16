@@ -8,6 +8,8 @@ public interface TestRunServiceAPIV1 {
 
     String getCiRunId(int testSuiteId);
 
+    String getTestRunResult(int testRunId);
+
     void finishTestRun(int testRunId);
 
 }
