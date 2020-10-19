@@ -311,7 +311,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         int userId = userV1ServiceAPIImpl.getUserId(username);
         String newEmail = INVALID_EMAIL;
         PatchUserV1Method patchUserV1Method = new PatchUserV1Method(userId, EMAIL_KEY_FOR_UPDATE, newEmail);
-        apiExecutor.expectStatus(patchUserV1Method, HTTPStatusCodeType.FORBIDDEN);
+        apiExecutor.expectStatus(patchUserV1Method, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(patchUserV1Method);
     }
 

@@ -6,6 +6,6 @@
   "startedAt":"${startedAt}",
   "framework":"pytest",
   "config":{
-    "platform":"API"
+
   }
 }
