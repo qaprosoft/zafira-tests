@@ -1,11 +1,12 @@
-package com.qaprosoft.zafira.api;
+package com.qaprosoft.zafira.api.assets;
 
 import java.io.File;
 
+import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
 import com.qaprosoft.zafira.manager.APIContextManager;
 
-public class PostUploadFileMethod extends ZafiraBaseApiMethodWithAuth {
-    public PostUploadFileMethod(File uploadFile) {
+public class PostAssetMethod extends ZafiraBaseApiMethodWithAuth {
+    public PostAssetMethod(File uploadFile) {
         super(null, "api/file_util/_post/rs.json", "api/file_util.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         setHeaders("FileType=USERS");
