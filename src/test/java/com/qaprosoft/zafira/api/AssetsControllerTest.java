@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 
-public class FileUtilTest extends ZafiraAPIBaseTest {
+public class AssetsControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testUploadFile() {

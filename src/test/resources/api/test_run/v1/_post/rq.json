@@ -1,11 +1,18 @@
-
-
-{"id":1122,
-  "uuid":"${uuid}",
-  "name":"Pytest-Agent",
-  "startedAt":"${startedAt}",
-  "framework":"pytest",
-  "config":{
-
+{
+  "uuid": "${uuid}",
+  "name": "Pytest-Agent",
+  "startedAt": "${startedAt}",
+  "framework": "pytest",
+  "config": {
+    "url": "https://automation.qaprosoft.farm",
+    "env": "STAG",
+    "platform": "WEB",
+    "platformVersion": 1,
+    "browser": "Chrome",
+    "browserVersion": 1,
+    "appVersion": 1,
+    "locale": "US",
+    "language": "EN",
+    "device": "Samsung"
   }
 }

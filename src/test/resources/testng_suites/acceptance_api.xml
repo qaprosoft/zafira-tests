@@ -95,7 +95,7 @@
 
     <test name="FileUtil controller tests">
         <classes>
-            <class name="com.qaprosoft.zafira.api.FileUtilTest"/>
+            <class name="com.qaprosoft.zafira.api.AssetsControllerTest"/>
         </classes>
     </test>
 
