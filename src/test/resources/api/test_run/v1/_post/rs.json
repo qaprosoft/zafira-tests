@@ -5,15 +5,7 @@
   "startedAt": "type:String",
   "framework": "type:String",
   "config": {
-    "url": "type:String",
-    "env": "type:String",
-    "platform": "type:String",
-    "platformVersion": "type:String",
-    "browser": "type:String",
-    "browserVersion": "type:String",
-    "appVersion": "type:String",
-    "locale": "type:String",
-    "language": "type:String",
-    "device": "type:String"
+    "build": "type:String",
+    "environment": "type:String"
   }
 }
