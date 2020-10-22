@@ -1,10 +1,18 @@
 package com.qaprosoft.zafira.api;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import com.qaprosoft.carina.core.foundation.utils.common.CommonUtils;
+import com.qaprosoft.zafira.api.dashboard.widget.PostWidgetToDashboardMethod;
+import com.qaprosoft.zafira.service.impl.WidgetServiceImpl;
+import com.qaprosoft.zafira.util.FileUtil;
+import com.qaprosoft.zafira.util.WaitUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.support.ui.Wait;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
@@ -21,6 +29,7 @@ import com.qaprosoft.zafira.service.impl.DashboardServiceImpl;
 
 public class DashboardTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(DashboardTest.class);
+    private final static String PATH_FOR_NEW_REQUEST ="src/test/resources/api/dashboard/widget/_post/rqNew.json";
 
     @Test
     public void testGetAllDashboard() {
@@ -85,13 +94,15 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         int dashboardId = dashboardService.createDashboard(dashboardName);
         List<Integer> allDashboardsIds = dashboardService.gelAllDashboardsIds();
         LOGGER.info("Dashboards ids before update order: ".concat(String.valueOf(allDashboardsIds)));
-        int positionNumber = (allDashboardsIds.size() - 1);
+        int positionNumber = (allDashboardsIds.size() - 2);
 
         PutDashboardOrderMethod putDashboardOrderMethod = new PutDashboardOrderMethod(dashboardId, positionNumber);
         apiExecutor.expectStatus(putDashboardOrderMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putDashboardOrderMethod);
         List<Integer> allDashboardsIdsAfterPut = dashboardService.gelAllDashboardsIds();
         LOGGER.info("Dashboards ids after update order: ".concat(String.valueOf(allDashboardsIdsAfterPut)));
+        LOGGER.info("allDashboardsIds: ".concat(String.valueOf(allDashboardsIds)));
+        LOGGER.info("positionNumber: ".concat(String.valueOf(positionNumber)));
         Assert.assertNotEquals(allDashboardsIds, allDashboardsIdsAfterPut, "Order was not update!");
     }
 
@@ -104,5 +115,31 @@ public class DashboardTest extends ZafiraAPIBaseTest {
                 dashboardService.deleteDashboardById(i);
             }
         }
+    }
+
+    @Test
+    public void testCreateWidgetToDashboard() {
+        String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
+        int dashboardId =  new DashboardServiceImpl().createDashboard(dashboardName);
+        String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
+        WidgetServiceImpl widgetService = new WidgetServiceImpl();
+        String response = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
+       // FileUtil.createNewRequest(response,PATH_FOR_NEW_REQUEST);
+        try (FileWriter writer = new FileWriter(PATH_FOR_NEW_REQUEST)) {
+            {
+                writer.write(response);
+                writer.flush();
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        pause(5);
+        PostWidgetToDashboardMethod postWidgetToDashboardMethod= new PostWidgetToDashboardMethod(widgetName,dashboardId);
+        apiExecutor.expectStatus(postWidgetToDashboardMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postWidgetToDashboardMethod);
+        apiExecutor.validateResponse(postWidgetToDashboardMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        int widgetId = JsonPath.from(response).get(JSONConstant.ID_KEY);
+        widgetService.deleteWidget(widgetId);
     }
 }

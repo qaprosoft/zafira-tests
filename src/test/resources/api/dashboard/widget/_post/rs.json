@@ -1,0 +1,25 @@
+{
+  "id": "regex:[\\d]",
+  "title": "type:String",
+  "description": "type:String",
+  "paramsConfig": "type:String",
+  "legendConfig": "type:String",
+  "widgetTemplate": {
+    "id": "regex:[\\d]",
+    "name": "type:String",
+    "description": "type:String",
+    "type": "type:String",
+    "chartConfig": "type:String",
+    "paramsConfig": "type:String",
+    "legendConfig": "type:String",
+    "hidden": "type:Boolean"
+  },
+  "refreshable": "type:Boolean",
+  "type": "type:String",
+  "size": null,
+  "position": null,
+  "location": "type:String",
+  "sql": "type:String",
+  "model": "type:String"
+
+}

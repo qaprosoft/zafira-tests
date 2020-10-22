@@ -35,4 +35,11 @@ public class WidgetServiceImpl implements WidgetService {
         String response = apiExecutor.callApiMethod(postWidgetMethod);
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
+
+    @Override
+    public String createWidgetToDashboard(String widgetName) {
+        PostWidgetMethod postWidgetMethod = new PostWidgetMethod(widgetName);
+        apiExecutor.expectStatus(postWidgetMethod, HTTPStatusCodeType.OK);
+       return apiExecutor.callApiMethod(postWidgetMethod);
+    }
 }
