@@ -12,7 +12,7 @@ import static com.jayway.restassured.RestAssured.given;
 
 public class PostScreenshotsV1Method extends ZafiraBaseApiMethodWithAuth {
 
-    public PostScreenshotsV1Method(int testRunId , int testId, String filePath)  {
+    public PostScreenshotsV1Method(int testRunId, int testId, String filePath) {
         super(null, null, new Properties());
         replaceUrlPlaceholder("base_api_url", APIContextManager.BASE_URL);
         replaceUrlPlaceholder("testRunId", String.valueOf(testRunId));

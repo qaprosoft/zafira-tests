@@ -1,35 +1,39 @@
 package com.qaprosoft.zafira.api;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
-import com.qaprosoft.carina.core.foundation.utils.common.CommonUtils;
+import com.jayway.restassured.path.json.JsonPath;
+import com.qaprosoft.apitools.validation.JsonCompareKeywords;
+import com.qaprosoft.carina.core.foundation.utils.R;
+import com.qaprosoft.zafira.api.dashboard.*;
+import com.qaprosoft.zafira.api.dashboard.widget.DeleteWidgetFromDashboardMethod;
 import com.qaprosoft.zafira.api.dashboard.widget.PostWidgetToDashboardMethod;
+import com.qaprosoft.zafira.constant.ConfigConstant;
+import com.qaprosoft.zafira.constant.JSONConstant;
+import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.service.impl.DashboardServiceImpl;
 import com.qaprosoft.zafira.service.impl.WidgetServiceImpl;
-import com.qaprosoft.zafira.util.FileUtil;
-import com.qaprosoft.zafira.util.WaitUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.support.ui.Wait;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
-import com.jayway.restassured.path.json.JsonPath;
-import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.carina.core.foundation.utils.R;
-import com.qaprosoft.zafira.api.dashboard.*;
-import com.qaprosoft.zafira.constant.ConfigConstant;
-import com.qaprosoft.zafira.constant.JSONConstant;
-import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.service.impl.DashboardServiceImpl;
+import java.util.Collections;
+import java.util.List;
 
 public class DashboardTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(DashboardTest.class);
-    private final static String PATH_FOR_NEW_REQUEST ="src/test/resources/api/dashboard/widget/_post/rqNew.json";
+
+    @AfterTest
+    public void DeleteCreatedDashboards() {
+        DashboardServiceImpl dashboardService = new DashboardServiceImpl();
+        List<Integer> allDashboardsIds = dashboardService.gelAllDashboardsIds();
+        for (int i = 6; i <= Collections.max(allDashboardsIds); ++i) {
+            if (allDashboardsIds.contains(i)) {
+                dashboardService.deleteDashboardById(i);
+            }
+        }
+    }
 
     @Test
     public void testGetAllDashboard() {
@@ -53,7 +57,6 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
         DashboardServiceImpl dashboardService = new DashboardServiceImpl();
         int dashboardId = dashboardService.createDashboard(dashboardName);
-
         DeleteDashboardByIdMethod deleteDashboardByIdMethod = new DeleteDashboardByIdMethod(dashboardId);
         apiExecutor.expectStatus(deleteDashboardByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(deleteDashboardByIdMethod);
@@ -65,7 +68,6 @@ public class DashboardTest extends ZafiraAPIBaseTest {
     public void testGetDashboardById() {
         String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
-
         GetDashboardByIdMethod getDashboardByIdMethod = new GetDashboardByIdMethod(dashboardId);
         apiExecutor.expectStatus(getDashboardByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getDashboardByIdMethod);
@@ -78,7 +80,6 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         DashboardServiceImpl dashboardService = new DashboardServiceImpl();
         int dashboardId = dashboardService.createDashboard(dashboardName);
         String expectedDashboardName = R.TESTDATA.get(ConfigConstant.EXPECTED_DASHBOARD_NAME_KEY);
-
         PutDashboardMethod putDashboardMethod = new PutDashboardMethod(dashboardId, expectedDashboardName);
         apiExecutor.expectStatus(putDashboardMethod, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(putDashboardMethod);
@@ -94,8 +95,7 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         int dashboardId = dashboardService.createDashboard(dashboardName);
         List<Integer> allDashboardsIds = dashboardService.gelAllDashboardsIds();
         LOGGER.info("Dashboards ids before update order: ".concat(String.valueOf(allDashboardsIds)));
-        int positionNumber = (allDashboardsIds.size() - 2);
-
+        int positionNumber = (allDashboardsIds.size() - 3);
         PutDashboardOrderMethod putDashboardOrderMethod = new PutDashboardOrderMethod(dashboardId, positionNumber);
         apiExecutor.expectStatus(putDashboardOrderMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putDashboardOrderMethod);
@@ -106,40 +106,32 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         Assert.assertNotEquals(allDashboardsIds, allDashboardsIdsAfterPut, "Order was not update!");
     }
 
-    @AfterTest
-    public void DeleteCreatedDashboards() {
-        DashboardServiceImpl dashboardService = new DashboardServiceImpl();
-        List<Integer> allDashboardsIds = dashboardService.gelAllDashboardsIds();
-        for (int i = 6; i <= Collections.max(allDashboardsIds); ++i) {
-            if (allDashboardsIds.contains(i)) {
-                dashboardService.deleteDashboardById(i);
-            }
-        }
-    }
-
     @Test
     public void testCreateWidgetToDashboard() {
         String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
-        int dashboardId =  new DashboardServiceImpl().createDashboard(dashboardName);
+        int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
         String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
-        String response = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
-       // FileUtil.createNewRequest(response,PATH_FOR_NEW_REQUEST);
-        try (FileWriter writer = new FileWriter(PATH_FOR_NEW_REQUEST)) {
-            {
-                writer.write(response);
-                writer.flush();
-            }
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
-
-        pause(5);
-        PostWidgetToDashboardMethod postWidgetToDashboardMethod= new PostWidgetToDashboardMethod(widgetName,dashboardId);
+        String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
+        PostWidgetToDashboardMethod postWidgetToDashboardMethod = new PostWidgetToDashboardMethod(rs, dashboardId);
         apiExecutor.expectStatus(postWidgetToDashboardMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postWidgetToDashboardMethod);
         apiExecutor.validateResponse(postWidgetToDashboardMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        int widgetId = JsonPath.from(response).get(JSONConstant.ID_KEY);
+        int widgetId = JsonPath.from(rs).get(JSONConstant.ID_KEY);
+        widgetService.deleteWidget(widgetId);
+    }
+
+    @Test
+    public void testDeleteWidgetFromDashboardMethod() {
+        String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
+        int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
+        String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
+        WidgetServiceImpl widgetService = new WidgetServiceImpl();
+        String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
+        int widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
+        DeleteWidgetFromDashboardMethod deleteWidgetFromDashboardMethod = new DeleteWidgetFromDashboardMethod(dashboardId, widgetId);
+        apiExecutor.expectStatus(deleteWidgetFromDashboardMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(deleteWidgetFromDashboardMethod);
         widgetService.deleteWidget(widgetId);
     }
 }
