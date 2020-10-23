@@ -9,7 +9,6 @@
     "name": "type:String",
     "description": "type:String",
     "type": "type:String",
-    "sql": "type:String",
     "chartConfig": "type:String",
     "paramsConfig": "type:String",
     "legendConfig": "type:String",
@@ -17,6 +16,10 @@
   },
   "refreshable": "type:Boolean",
   "type": "type:String",
+  "size": null,
+  "position": null,
+  "location": "type:String",
   "sql": "type:String",
-  "model": "{}"
+  "model": "type:String"
+
 }

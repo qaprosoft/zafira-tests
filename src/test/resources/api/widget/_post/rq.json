@@ -4,6 +4,8 @@
   "model": "{}",
   "paramsConfig": "{}",
   "sql": "string",
+
+  "location": "gggg",
   "title": "${title}",
   "widgetTemplate": {
     "id": 1

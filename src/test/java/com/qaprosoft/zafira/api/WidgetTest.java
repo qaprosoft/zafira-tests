@@ -1,7 +1,11 @@
 package com.qaprosoft.zafira.api;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
+import net.minidev.json.JSONObject;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
@@ -62,9 +66,9 @@ public class WidgetTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetWidgetById() {
-        String widgetdName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
+        String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
-        int widgetId = widgetService.createWidget(widgetdName);
+        int widgetId = widgetService.createWidget(widgetName);
         GetWidgetByIdMethod getWidgetByIdMethod = new GetWidgetByIdMethod(widgetId);
         apiExecutor.expectStatus(getWidgetByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getWidgetByIdMethod);
@@ -78,7 +82,6 @@ public class WidgetTest extends ZafiraAPIBaseTest {
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
         int widgetId = widgetService.createWidget(widgetdName);
         String expectedWidgetName = R.TESTDATA.get(ConfigConstant.EXPECTED_WIDGET_NAME_KEY);
-
         PutWidgetMethod putWidgetMethod = new PutWidgetMethod(widgetId, expectedWidgetName);
         apiExecutor.expectStatus(putWidgetMethod, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(putWidgetMethod);

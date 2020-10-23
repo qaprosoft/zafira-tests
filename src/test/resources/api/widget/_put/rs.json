@@ -1,15 +1,11 @@
 {
   "id": "regex:[\\d]",
-  "modifiedAt": null,
-  "createdAt": null,
   "title": "type:String",
   "description": "type:String",
   "paramsConfig": "type:String",
   "legendConfig": "type:String",
   "widgetTemplate": {
     "id": "regex:[\\d]",
-    "modifiedAt": "regex:[\\d]",
-    "createdAt": "regex:[\\d]",
     "name": "type:String",
     "description": "type:String",
     "type": "type:String",
@@ -21,9 +17,6 @@
   },
   "refreshable": "type:Boolean",
   "type": null,
-  "size": null,
-  "position": null,
-  "location": null,
   "sql": "type:String",
   "model": "type:String"
 }

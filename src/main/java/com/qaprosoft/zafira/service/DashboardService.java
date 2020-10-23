@@ -9,4 +9,6 @@ public interface DashboardService {
     void deleteDashboardById(int dashboardId);
 
     List<Integer> gelAllDashboardsIds();
+
+    int createWidgetToDashboard(String body, int dashboardId);
 }

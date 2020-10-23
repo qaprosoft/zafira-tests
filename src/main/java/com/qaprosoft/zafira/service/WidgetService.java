@@ -9,4 +9,6 @@ public interface WidgetService {
     void deleteWidget(int widgetId);
 
     int createWidget(String widgetName);
+
+    String createWidgetToDashboard(String widgetName);
 }
