@@ -151,7 +151,7 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(getDashboardByTitleMethod, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(getDashboardByTitleMethod);
         apiExecutor.validateResponse(getDashboardByTitleMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        Assert.assertTrue(JsonPath.from(response).getString(JSONConstant.TITLE_KEY).equals(TITLE_GENERAL));
+        Assert.assertEquals(JsonPath.from(response).getString(JSONConstant.TITLE_KEY),TITLE_GENERAL,"Title is not as expected" );
     }
 }
 

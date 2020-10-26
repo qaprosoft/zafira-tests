@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class GetDashboardByTitleMethod extends ZafiraBaseApiMethodWithAuth {
     public GetDashboardByTitleMethod(String title) {
-        super(null, "api/dashboard/_get/rs_by_title.json", (Properties) null);
+        super(null, "api/dashboard/_get/rs_by_title.json", new  Properties());
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("title", title);
     }
