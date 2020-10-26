@@ -42,7 +42,15 @@ public class TestRunServiceAPIImpl implements TestRunServiceAPI {
     }
 
     @Override
-    public void deleteById( int testRunId) {
+    public void deleteById(int testRunId) {
         apiExecutor.callApiMethod(new DeleteTestRunMethod(testRunId));
     }
+
+    @Override
+    public String getTestRunStatus(int testSuiteId) {
+        return JsonPath.from(
+                apiExecutor.callApiMethod(new GetTestRunMethod(testSuiteId)))
+                .getString(JSONConstant.STATUS_KEY);
+    }
+
 }

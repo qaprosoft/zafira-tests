@@ -2,9 +2,11 @@ package com.qaprosoft.zafira.api;
 
 import java.util.Date;
 
+import com.qaprosoft.carina.core.foundation.crypto.CryptoTool;
 import com.qaprosoft.zafira.api.testRunController.v1.*;
 import com.qaprosoft.zafira.service.TestServiceAPIV1;
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.formula.functions.Now;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -88,9 +90,11 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(testRunStatus, expectedTestRunStatus, "TestRun was not finish!");
     }
 
-    @Test(enabled = false)
+    @Test
     public void testSendTestRunResultEmail() {
         int testRunId = createTestRun(TESTS_TO_ADD);
+        String expStatus = new TestRunServiceAPIImpl().finishTestRun(testRunId);
+        LOGGER.info("TestRun status to verify: ".concat(expStatus));
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
         String expectedTestRunIdInMail = String.format("%s/%s/%s", APIContextManager.BASE_URL,
                 R.TESTDATA.get(ConfigConstant.TEST_RUN_URL_PREFIX_KEY), testRunId);
@@ -98,7 +102,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         PostTestRunResultEmailMethod postTestRunResultEmailMethod = new PostTestRunResultEmailMethod(testRunId);
         apiExecutor.expectStatus(postTestRunResultEmailMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postTestRunResultEmailMethod);
-        Assert.assertTrue(verifyIfEmailWasDelivered(expectedTestRunIdInMail), "Email was not delivered!");
+        verifyIfEmailWasDelivered(expStatus);
     }
 
     @Test
@@ -237,16 +241,16 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     /**
      * Checks the expected testrun url contains in the last email
      *
-     * @param testrunURL expected testrun URL to get from email
+     * @param expStatus expected testrun URL to get from email
      * @return
      */
-    private boolean verifyIfEmailWasDelivered(String testrunURL) {
+    private boolean verifyIfEmailWasDelivered(String expStatus) {
         final int lastEmailIndex = 0;
         final int emailsCount = 1;
         LOGGER.info("Will get last email from inbox.");
-        EMAIL.waitForEmailDelivered(new Date(), testrunURL); // decency from connection, wait a little bit
+        EMAIL.waitForEmailDelivered(new Date(),expStatus); // decency from connection, wait a little bit
         EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
-        return email.getContent().contains(testrunURL);
+        return email.getContent().contains(expStatus);
     }
 
     /**
