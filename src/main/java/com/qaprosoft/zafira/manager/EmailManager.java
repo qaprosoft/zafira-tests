@@ -99,7 +99,7 @@ public class EmailManager {
     }
 
     // help method to verify INBOX email contains new mail
-    public void waitForEmailDelivered(final Date startTestTime, final String testRunUrl) {
+    public void waitForEmailDelivered(final Date startTestTime, final String expStatus) {
         Wait<Boolean> waiter = new FluentWait<>(false).withTimeout(Duration.ofSeconds(DEFAULT_NOTIFICATION_TIMEOUT))
                 .pollingEvery(Duration.ofSeconds(FLUENT_WAIT_POLLING_INTERVAL));
         try {
@@ -111,7 +111,7 @@ public class EmailManager {
                     LOGGER.info("MessageTime msg: " + msg.getTime());
                     LOGGER.info("TestTime : " + startTestTime);
                     LOGGER.info("MessageTime- TestTime: " + (msg.getTime().getTime() - startTestTime.getTime()) + "<3000000");
-                    if (msg.getSubject().contains(testRunUrl)
+                    if (msg.getSubject().contains(expStatus)
                             && (msg.getTime().getTime() - startTestTime.getTime() < FIVE_MINUTES_TO_MILLISEKUNDS_PERIOD)) {
                         return true;
                     }
@@ -119,10 +119,10 @@ public class EmailManager {
                 return false;
             });
         } catch (TimeoutException e) {
-            throw new RuntimeException(String.format("Email with '%s' not delivered after %d sec waiting", testRunUrl,
+            throw new RuntimeException(String.format("Email with '%s' not delivered after %d sec waiting", expStatus,
                     DEFAULT_NOTIFICATION_TIMEOUT));
         }
-        LOGGER.info("Email with '" + testRunUrl + "' with proper delivery date found in Inbox");
+        LOGGER.info("Email with '" + expStatus + "' with proper delivery date found in Inbox");
     }
 
     public EmailMsg readEmail(final Date startTestTime, final String testRunUrl) {
@@ -137,7 +137,7 @@ public class EmailManager {
         throw new RuntimeException("Expected email with '" + testRunUrl + "' not found in Inbox");
     }
 
-    public void waitForEmailDeliveredResetPassword(final String passwordResetMessage) {
+    public void waitForEmailDeliveredResetPassword(final Date startTestTime, final String passwordResetMessage) {
         Wait<Boolean> waiter = new FluentWait<>(false).withTimeout(Duration.ofSeconds(DEFAULT_NOTIFICATION_TIMEOUT))
                 .pollingEvery(Duration.ofSeconds(FLUENT_WAIT_POLLING_INTERVAL));
         try {
@@ -148,7 +148,8 @@ public class EmailManager {
                     LOGGER.info("Retrieved msg: " + msg.toString());
                     LOGGER.info("Retrieved msg: " + msg.getSubject());
                     LOGGER.info("getTime msg: " + msg.getTime().getTime());
-                    if (msg.getSubject().contains(passwordResetMessage)) {
+                    if (msg.getSubject().contains(passwordResetMessage)
+                            && (msg.getTime().getTime() - startTestTime.getTime() < FIVE_MINUTES_TO_MILLISEKUNDS_PERIOD)) {
                         return true;
                     }
                 }

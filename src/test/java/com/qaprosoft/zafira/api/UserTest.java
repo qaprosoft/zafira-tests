@@ -2,10 +2,17 @@ package com.qaprosoft.zafira.api;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
+import com.qaprosoft.zafira.api.authIAM.PostGenerateAuthTokenMethodIAM;
+import com.qaprosoft.zafira.api.testRunController.PostTestRunResultEmailMethod;
 import com.qaprosoft.zafira.api.user.v1.*;
+import com.qaprosoft.zafira.domain.EmailMsg;
+import com.qaprosoft.zafira.manager.APIContextManager;
+import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.*;
+import com.qaprosoft.zafira.util.CryptoUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -30,6 +37,11 @@ public class UserTest extends ZafiraAPIBaseTest {
     private final static String INVALID_EMAIL = ";".concat(RandomStringUtils.randomAlphabetic(3)).concat("@gmail.com");
     private final static String EMAIL_KEY_FOR_UPDATE = "/email";
     private final static String STATUS_KEY_FOR_UPDATE = "/status";
+    private final EmailManager EMAIL = new EmailManager(
+            CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY)),
+            CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY)));
+    private final static String GMAIL_EMAIL = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY));
+    private final static String EXPECTED_MESSAGE = "Password reset";
 
     @Test
     public void testSearchUserByCriteria() {
@@ -329,6 +341,23 @@ public class UserTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(patchUserV1Method);
         String actualStatus = userV1ServiceAPIImpl.getStatus(username);
         Assert.assertEquals(actualStatus, newStatus, "Status is not change!");
+    }
+
+    private boolean verifyIfEmailWasDelivered(String expStatus) {
+        final int lastEmailIndex = 0;
+        final int emailsCount = 1;
+        LOGGER.info("Will get last email from inbox.");
+        EMAIL.waitForEmailDeliveredResetPassword(new Date(), expStatus); // decency from connection, wait a little bit
+        EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
+        return email.getContent().contains(expStatus);
+    }
+
+    @Test
+    public void testSendPasswordReset() {
+        PostPasswordResetMethodV1 postPasswordResetMethodV1 = new PostPasswordResetMethodV1(GMAIL_EMAIL);
+        apiExecutor.expectStatus(postPasswordResetMethodV1, HTTPStatusCodeType.ACCEPTED);
+        apiExecutor.callApiMethod(postPasswordResetMethodV1);
+        verifyIfEmailWasDelivered(EXPECTED_MESSAGE);
     }
 }
 
