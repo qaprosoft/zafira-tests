@@ -110,7 +110,7 @@ public class EmailManager {
                     LOGGER.info("Retrieved msg: " + msg);
                     LOGGER.info("MessageTime msg: " + msg.getTime());
                     LOGGER.info("TestTime : " + startTestTime);
-                    LOGGER.info("MessageTime- TestTime: " + (msg.getTime().getTime() - startTestTime.getTime()) + "<3000000");
+                    LOGGER.info("MessageTime- TestTime: " + (msg.getTime().getTime() - startTestTime.getTime()) + FIVE_MINUTES_TO_MILLISEKUNDS_PERIOD+"ms");
                     if (msg.getSubject().contains(expStatus)
                             && (msg.getTime().getTime() - startTestTime.getTime() < FIVE_MINUTES_TO_MILLISEKUNDS_PERIOD)) {
                         return true;
@@ -145,9 +145,10 @@ public class EmailManager {
                 LOGGER.info("----------------------New round of emails retrieving--------------------------");
                 EmailMsg[] messages = getInbox(DEFAULT_EMAILS_COUNT_TO_RETRIEVE);
                 for (EmailMsg msg : messages) {
-                    LOGGER.info("Retrieved msg: " + msg.toString());
-                    LOGGER.info("Retrieved msg: " + msg.getSubject());
-                    LOGGER.info("getTime msg: " + msg.getTime().getTime());
+                    LOGGER.info("Retrieved msg: " + msg);
+                    LOGGER.info("MessageTime msg: " + msg.getTime());
+                    LOGGER.info("TestTime : " + startTestTime);
+                    LOGGER.info("MessageTime- TestTime: " + (msg.getTime().getTime() - startTestTime.getTime()) + FIVE_MINUTES_TO_MILLISEKUNDS_PERIOD+"ms");
                     if (msg.getSubject().contains(passwordResetMessage)
                             && (msg.getTime().getTime() - startTestTime.getTime() < FIVE_MINUTES_TO_MILLISEKUNDS_PERIOD)) {
                         return true;
