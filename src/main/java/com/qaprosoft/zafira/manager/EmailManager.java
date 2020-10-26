@@ -1,18 +1,17 @@
 package com.qaprosoft.zafira.manager;
 
-import javax.mail.*;
-import javax.mail.internet.MimeMultipart;
-import java.time.Duration;
-import java.util.Date;
-import java.util.Properties;
-
+import com.qaprosoft.zafira.domain.EmailMsg;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
-import com.qaprosoft.zafira.domain.EmailMsg;
+import javax.mail.*;
+import javax.mail.internet.MimeMultipart;
+import java.time.Duration;
+import java.util.Date;
+import java.util.Properties;
 
 public class EmailManager {
 
@@ -21,6 +20,8 @@ public class EmailManager {
     private static final int DEFAULT_NOTIFICATION_TIMEOUT = 300;
     private static final int DEFAULT_EMAILS_COUNT_TO_RETRIEVE = 10;
     private static final int FLUENT_WAIT_POLLING_INTERVAL = 20;
+    private static final int FIVE_MINUTES_TO_MILLISEKUNDS_PERIOD = 300000;
+
 
     private String email;
     private String password;
@@ -106,9 +107,12 @@ public class EmailManager {
                 LOGGER.info("----------------------New round of emails retrieving--------------------------");
                 EmailMsg[] messages = getInbox(DEFAULT_EMAILS_COUNT_TO_RETRIEVE);
                 for (EmailMsg msg : messages) {
-                    LOGGER.info("Retrieved msg: " + msg.toString());
-                    if ((msg.getTime().compareTo(startTestTime) > 0)
-                            && (msg.getContent().contains(testRunUrl))) {
+                    LOGGER.info("Retrieved msg: " + msg);
+                    LOGGER.info("MessageTime msg: " + msg.getTime());
+                    LOGGER.info("TestTime : " + startTestTime);
+                    LOGGER.info("MessageTime- TestTime: " + (msg.getTime().getTime() - startTestTime.getTime()) + "<3000000");
+                    if (msg.getSubject().contains(testRunUrl)
+                            && (msg.getTime().getTime() - startTestTime.getTime() < FIVE_MINUTES_TO_MILLISEKUNDS_PERIOD)) {
                         return true;
                     }
                 }
@@ -126,11 +130,35 @@ public class EmailManager {
         EmailMsg[] messages = getInbox(DEFAULT_EMAILS_COUNT_TO_RETRIEVE);
         for (EmailMsg msg : messages) {
             if ((msg.getTime().compareTo(startTestTime) > 0)
-                     && (msg.getContent().contains(testRunUrl))) {
+                    && (msg.getContent().contains(testRunUrl))) {
                 return msg;
             }
         }
         throw new RuntimeException("Expected email with '" + testRunUrl + "' not found in Inbox");
+    }
+
+    public void waitForEmailDeliveredResetPassword(final String passwordResetMessage) {
+        Wait<Boolean> waiter = new FluentWait<>(false).withTimeout(Duration.ofSeconds(DEFAULT_NOTIFICATION_TIMEOUT))
+                .pollingEvery(Duration.ofSeconds(FLUENT_WAIT_POLLING_INTERVAL));
+        try {
+            waiter.until(t -> {
+                LOGGER.info("----------------------New round of emails retrieving--------------------------");
+                EmailMsg[] messages = getInbox(DEFAULT_EMAILS_COUNT_TO_RETRIEVE);
+                for (EmailMsg msg : messages) {
+                    LOGGER.info("Retrieved msg: " + msg.toString());
+                    LOGGER.info("Retrieved msg: " + msg.getSubject());
+                    LOGGER.info("getTime msg: " + msg.getTime().getTime());
+                    if (msg.getSubject().contains(passwordResetMessage)) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+        } catch (TimeoutException e) {
+            throw new RuntimeException(String.format("Email with '%s' not delivered after %d sec waiting",
+                    passwordResetMessage, DEFAULT_NOTIFICATION_TIMEOUT));
+        }
+        LOGGER.info("Email with '" + passwordResetMessage + "' with proper delivery date found in Inbox");
     }
 
 }
