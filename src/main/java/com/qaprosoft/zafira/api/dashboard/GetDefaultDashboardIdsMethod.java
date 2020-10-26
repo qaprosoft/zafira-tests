@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class GetDefaultDashboardIdsMethod extends ZafiraBaseApiMethodWithAuth {
     public GetDefaultDashboardIdsMethod() {
-        super(null, "api/dashboard/_get/rs_default_dashboards.json", (Properties) null);
+        super(null, "api/dashboard/_get/rs_default_dashboards.json", new  Properties());
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
     }
 }
