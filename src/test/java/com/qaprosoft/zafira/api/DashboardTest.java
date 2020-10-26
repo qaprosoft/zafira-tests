@@ -8,6 +8,7 @@ import com.qaprosoft.zafira.api.dashboard.widget.DeleteWidgetFromDashboardMethod
 import com.qaprosoft.zafira.api.dashboard.widget.PostWidgetToDashboardMethod;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
+import com.qaprosoft.zafira.domain.EmailMsg;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.DashboardServiceImpl;
 import com.qaprosoft.zafira.service.impl.WidgetServiceImpl;
@@ -23,6 +24,7 @@ import java.util.List;
 
 public class DashboardTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(DashboardTest.class);
+    private final static String TITLE_GENERAL = "User Performance";
 
     @AfterTest
     public void DeleteCreatedDashboards() {
@@ -134,4 +136,23 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(deleteWidgetFromDashboardMethod);
         widgetService.deleteWidget(widgetId);
     }
+
+    @Test
+    public void testGetDefaultDashboardIds() {
+        GetDefaultDashboardIdsMethod getDefaultDashboardIdsMethod = new GetDefaultDashboardIdsMethod();
+        apiExecutor.expectStatus(getDefaultDashboardIdsMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getDefaultDashboardIdsMethod);
+        apiExecutor.validateResponse(getDefaultDashboardIdsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testGetDashboardByTitleGENERAL() {
+        GetDashboardByTitleMethod getDashboardByTitleMethod = new GetDashboardByTitleMethod(TITLE_GENERAL);
+        apiExecutor.expectStatus(getDashboardByTitleMethod, HTTPStatusCodeType.OK);
+        String response = apiExecutor.callApiMethod(getDashboardByTitleMethod);
+        apiExecutor.validateResponse(getDashboardByTitleMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertEquals(JsonPath.from(response).getString(JSONConstant.TITLE_KEY),TITLE_GENERAL,"Title is not as expected" );
+    }
 }
+
+

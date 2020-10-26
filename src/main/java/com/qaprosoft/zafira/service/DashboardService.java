@@ -11,4 +11,5 @@ public interface DashboardService {
     List<Integer> gelAllDashboardsIds();
 
     int createWidgetToDashboard(String body, int dashboardId);
+
 }
