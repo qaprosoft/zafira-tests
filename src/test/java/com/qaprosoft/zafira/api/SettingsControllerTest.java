@@ -31,7 +31,6 @@ public class SettingsControllerTest extends ZafiraAPIBaseTest {
     @Test
     public void testUpdateSettings() {
         String newName = "TEST_NAME".concat(RandomStringUtils.randomAlphabetic(10));
-        ;
         PutUpdateSettingsMethod putUpdateSettingsMethod = new PutUpdateSettingsMethod(newName);
         apiExecutor.expectStatus(putUpdateSettingsMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putUpdateSettingsMethod);

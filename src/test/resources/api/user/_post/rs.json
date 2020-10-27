@@ -2,7 +2,7 @@
   "query": "type:String",
   "page": "regex:[\\d]",
   "pageSize": "regex:[\\d]",
-   "results": "type:JSONArray",
+  "results": "type:JSONArray",
   "totalResults": "regex:[\\d]",
   "totalPages": "regex:[\\d]"
 }
