@@ -1,0 +1,4 @@
+{
+  "id": "regex:[\\d]",
+  "name": "type:String"
+}

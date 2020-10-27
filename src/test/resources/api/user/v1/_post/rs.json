@@ -1,4 +1,5 @@
 {
+  "id": "regex:[\\d]",
    "username": "type:String",
   "email": "type:String",
   "firstName": "type:String",
