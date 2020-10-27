@@ -1,0 +1,11 @@
+{
+  "testInfo": "type:JSONArray",
+  "testRunName": "type:String",
+  "testRunId":"type:String",
+  "env": "type:String",
+  "createdAfter": "regex:[\\d]",
+  "startedAt": "regex:[\\d]",
+  "finishedAt": "regex:[\\d]",
+  "customParams": {},
+  "zafiraServiceUrl": "type:String"
+}

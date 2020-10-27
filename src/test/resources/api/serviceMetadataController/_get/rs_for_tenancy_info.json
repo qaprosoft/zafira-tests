@@ -1,0 +1,6 @@
+{
+  "serviceUrl": "type:String",
+  "tenant": "type:String",
+  "useArtifactsProxy": "type:Boolean",
+  "multitenant": "type:String"
+}

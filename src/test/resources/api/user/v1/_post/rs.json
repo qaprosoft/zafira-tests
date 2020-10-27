@@ -1,7 +1,8 @@
 {
-   "username": "type:String",
+  "id": "regex:[\\d]",
+  "username": "type:String",
   "email": "type:String",
   "firstName": "type:String",
   "lastName": "type:String",
-  "source":"type:String"
+  "source": "type:String"
 }

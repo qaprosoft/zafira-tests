@@ -150,4 +150,24 @@
             <class name="com.qaprosoft.zafira.api.TestSessionControllerTest"/>
         </classes>
     </test>
+    <test name="Service Metadata Controller Test">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.ServiceMetadataControllerTest"/>
+        </classes>
+    </test>
+    <test name="Social Controller Test ">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.SocialControllerTest"/>
+        </classes>
+    </test>
+    <test name="Settings Controller Test ">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.SettingsControllerTest"/>
+        </classes>
+    </test>
+    <test name="Tag Controller Test">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.TagControllerTest"/>
+        </classes>
+    </test>
 </suite>
