@@ -7,7 +7,6 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.Test;
 
 public class SocialControllerTest extends ZafiraAPIBaseTest {
-    private static final String EXPECTED_STATUS = "UP";
 
     @Test
     public void testGetTenancyInfo() {
