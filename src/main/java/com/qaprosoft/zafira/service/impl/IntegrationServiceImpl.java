@@ -1,35 +1,24 @@
 package com.qaprosoft.zafira.service.impl;
 
-import org.apache.log4j.Logger;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-
 import com.jayway.restassured.path.json.JsonPath;
-import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.zafira.api.integration.PutIntegrationByIdMethod;
-import com.qaprosoft.zafira.api.integrationInfo.GetIntegrationInfoByIdMethod;
+import com.qaprosoft.zafira.api.GetAllIntegrationGroupsMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
-import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.enums.IntegrationType;
 import com.qaprosoft.zafira.service.IntegrationService;
+import org.apache.log4j.Logger;
 
 public class IntegrationServiceImpl implements IntegrationService {
     private static final Logger LOGGER = Logger.getLogger(JobServiceImpl.class);
     private ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
     @Override
-    public boolean isIntegrationEnabled(int id, IntegrationType integrationGroup) {
-        String rs = apiExecutor.callApiMethod(new GetIntegrationInfoByIdMethod(id, integrationGroup));
-        return JsonPath.from(rs).getBoolean(JSONConstant.INTEGRATION_ENABLED_KEY);
+    public String getIntegrationGroupName() {
+        String rs = apiExecutor.callApiMethod(new GetAllIntegrationGroupsMethod());
+        return JsonPath.from(rs).getString(JSONConstant.INTEGRATION_GROUP_NAME);
     }
 
     @Override
-    public String updateIntegrationInfoById(String rqPath, int integrationId, Boolean enabledType) {
-        PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId,
-                enabledType);
-        apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
-        String response = apiExecutor.callApiMethod(putIntegrationByIdMethod);
-        apiExecutor.validateResponse(putIntegrationByIdMethod, JSONCompareMode.STRICT,
-                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        return response;
+    public int getIntegrationGroupId() {
+        String rs = apiExecutor.callApiMethod(new GetAllIntegrationGroupsMethod());
+        return JsonPath.from(rs).getInt(JSONConstant.INTEGRATION_GROUP_ID);
     }
 }

@@ -5,10 +5,10 @@ import com.qaprosoft.zafira.manager.APIContextManager;
 
 import java.util.Properties;
 
-public class GetIntegrationInfoMethod extends ZafiraBaseApiMethodWithAuth {
+public class GetPublicIntegrationInfoMethod extends ZafiraBaseApiMethodWithAuth {
 
-    public GetIntegrationInfoMethod() {
-        super(null, "api/integration_info/_get/rs.json", new Properties());
+    public GetPublicIntegrationInfoMethod() {
+        super(null, "api/integration_info/_get/rs_for_public_integration.json", new Properties());
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
     }
 }
