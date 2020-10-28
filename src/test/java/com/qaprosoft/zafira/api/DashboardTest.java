@@ -97,7 +97,7 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         int dashboardId = dashboardService.createDashboard(dashboardName);
         List<Integer> allDashboardsIds = dashboardService.gelAllDashboardsIds();
         LOGGER.info("Dashboards ids before update order: ".concat(String.valueOf(allDashboardsIds)));
-        int expectedPositionNumber = (allDashboardsIds.size() - 3);
+        int expectedPositionNumber = (allDashboardsIds.size() - 1);
         PutDashboardOrderMethod putDashboardOrderMethod = new PutDashboardOrderMethod(dashboardId, expectedPositionNumber);
         apiExecutor.expectStatus(putDashboardOrderMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(putDashboardOrderMethod);
