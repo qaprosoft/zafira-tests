@@ -6,5 +6,5 @@
   "position": "regex:[\\d]",
   "editable": "type:Boolean",
   "system":"type:Boolean",
-  "attributes": null
+  "attributes": "type:JSONArray"
 }
