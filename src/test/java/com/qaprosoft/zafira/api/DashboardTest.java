@@ -97,15 +97,12 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         int dashboardId = dashboardService.createDashboard(dashboardName);
         List<Integer> allDashboardsIds = dashboardService.gelAllDashboardsIds();
         LOGGER.info("Dashboards ids before update order: ".concat(String.valueOf(allDashboardsIds)));
-        int positionNumber = (allDashboardsIds.size() - 3);
-        PutDashboardOrderMethod putDashboardOrderMethod = new PutDashboardOrderMethod(dashboardId, positionNumber);
+        int expectedPositionNumber = (allDashboardsIds.size() - 1);
+        PutDashboardOrderMethod putDashboardOrderMethod = new PutDashboardOrderMethod(dashboardId, expectedPositionNumber);
         apiExecutor.expectStatus(putDashboardOrderMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(putDashboardOrderMethod);
-        List<Integer> allDashboardsIdsAfterPut = dashboardService.gelAllDashboardsIds();
-        LOGGER.info("Dashboards ids after update order: ".concat(String.valueOf(allDashboardsIdsAfterPut)));
-        LOGGER.info("allDashboardsIds: ".concat(String.valueOf(allDashboardsIds)));
-        LOGGER.info("positionNumber: ".concat(String.valueOf(positionNumber)));
-        Assert.assertNotEquals(allDashboardsIds, allDashboardsIdsAfterPut, "Order was not update!");
+        String rs = apiExecutor.callApiMethod(putDashboardOrderMethod);
+        int actualPositionNumber = JsonPath.from(rs).getInt(String.valueOf(dashboardId));
+        Assert.assertEquals(expectedPositionNumber, actualPositionNumber, "Order was not update!");
     }
 
     @Test
