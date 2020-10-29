@@ -4,7 +4,7 @@
   "model": "{}",
   "paramsConfig": "{}",
   "sql": "string",
-
+  "refreshable": true,
   "location": "gggg",
   "title": "${title}",
   "widgetTemplate": {

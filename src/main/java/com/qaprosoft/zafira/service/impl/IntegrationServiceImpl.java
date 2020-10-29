@@ -1,7 +1,7 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
-import com.qaprosoft.zafira.api.GetAllIntegrationGroupsMethod;
+import com.qaprosoft.zafira.api.integrationGroups.GetAllIntegrationGroupsMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.service.IntegrationService;
 import org.apache.log4j.Logger;

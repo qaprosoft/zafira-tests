@@ -4,6 +4,7 @@
   "legendConfig": "{}",
   "model": "{}",
   "paramsConfig": "{}",
+ "refreshable": true,
   "sql": "string",
   "title": "${title}",
   "widgetTemplate": {

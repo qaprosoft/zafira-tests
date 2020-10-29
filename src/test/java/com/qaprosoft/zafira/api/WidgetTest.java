@@ -1,16 +1,5 @@
 package com.qaprosoft.zafira.api;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.List;
-
-import net.minidev.json.JSONObject;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
@@ -19,6 +8,12 @@ import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.WidgetServiceImpl;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.List;
 
 public class WidgetTest extends ZafiraAPIBaseTest {
 
@@ -81,12 +76,21 @@ public class WidgetTest extends ZafiraAPIBaseTest {
         String widgetdName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
         int widgetId = widgetService.createWidget(widgetdName);
-        String expectedWidgetName = R.TESTDATA.get(ConfigConstant.EXPECTED_WIDGET_NAME_KEY);
+        String expectedWidgetName = R.TESTDATA.get(ConfigConstant.EXPECTED_WIDGET_NAME_KEY) + widgetdName;
         PutWidgetMethod putWidgetMethod = new PutWidgetMethod(widgetId, expectedWidgetName);
         apiExecutor.expectStatus(putWidgetMethod, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(putWidgetMethod);
         apiExecutor.validateResponse(putWidgetMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         widgetService.deleteWidget(widgetId);
         Assert.assertEquals(expectedWidgetName, JsonPath.from(response).get(JSONConstant.TITLE_KEY), "Widget was not update!");
+    }
+
+    @Test
+    public void testGetWidgetTemplateByID() {
+        int templateId = new WidgetServiceImpl().getWidgetTemplateId();
+        GetWidgetTemplateByIdMethod getWidgetTemplateByIdMethod = new GetWidgetTemplateByIdMethod(templateId);
+        apiExecutor.expectStatus(getWidgetTemplateByIdMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getWidgetTemplateByIdMethod);
+        apiExecutor.validateResponse(getWidgetTemplateByIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }
