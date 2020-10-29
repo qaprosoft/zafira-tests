@@ -2,6 +2,9 @@ package com.qaprosoft.zafira.api;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
+import com.qaprosoft.zafira.api.jobController.GetAllJobsMethod;
+import com.qaprosoft.zafira.api.jobController.PostJobByJenkinsJobURLMethod;
+import com.qaprosoft.zafira.api.jobController.PostJobMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.JobServiceImpl;
@@ -33,5 +36,13 @@ public class JobTest extends ZafiraAPIBaseTest {
         List<Integer> allJobsId = JsonPath.from(response).getList(JSONConstant.ID_KEY);
         LOGGER.info(allJobsId);
         Assert.assertTrue(allJobsId.contains(jobId), "JobId is not found");
+    }
+
+    @Test
+    public void testCreateJobByJenkinsJobURL() {
+        PostJobByJenkinsJobURLMethod postJobByJenkinsJobURLMethod = new PostJobByJenkinsJobURLMethod();
+        apiExecutor.expectStatus(postJobByJenkinsJobURLMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postJobByJenkinsJobURLMethod);
+        apiExecutor.validateResponse(postJobByJenkinsJobURLMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }

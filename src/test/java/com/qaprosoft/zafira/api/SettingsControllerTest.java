@@ -5,12 +5,12 @@ import com.qaprosoft.zafira.api.settingsController.GetCompanyLogoURLMethod;
 import com.qaprosoft.zafira.api.settingsController.GetSettingsByToolMethod;
 import com.qaprosoft.zafira.api.settingsController.PutUpdateSettingsMethod;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.Test;
 
 public class SettingsControllerTest extends ZafiraAPIBaseTest {
     private static final String TOOL = "ZEBRUNNER";
+    private static final String SETTING_NAME_KEY = "KEY";
 
     @Test
     public void testGetCompanyLogoURL() {
@@ -30,8 +30,8 @@ public class SettingsControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateSettings() {
-        String newName = "TEST_NAME".concat(RandomStringUtils.randomAlphabetic(10));
-        PutUpdateSettingsMethod putUpdateSettingsMethod = new PutUpdateSettingsMethod(newName);
+        String settingName = SETTING_NAME_KEY;
+        PutUpdateSettingsMethod putUpdateSettingsMethod = new PutUpdateSettingsMethod(settingName);
         apiExecutor.expectStatus(putUpdateSettingsMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putUpdateSettingsMethod);
         apiExecutor.validateResponse(putUpdateSettingsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());

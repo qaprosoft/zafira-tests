@@ -16,7 +16,7 @@
     "hidden": "type:Boolean"
   },
   "refreshable": "type:Boolean",
-  "type": null,
+  "type": "type:String",
   "sql": "type:String",
   "model": "type:String"
 }

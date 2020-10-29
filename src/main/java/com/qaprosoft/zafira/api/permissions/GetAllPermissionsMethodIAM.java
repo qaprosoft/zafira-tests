@@ -1,6 +1,7 @@
-package com.qaprosoft.zafira.api;
+package com.qaprosoft.zafira.api.permissions;
 
 import com.qaprosoft.carina.core.foundation.api.AbstractApiMethodV2;
+import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
 import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.service.impl.AuthServiceApiIamImpl;
 
