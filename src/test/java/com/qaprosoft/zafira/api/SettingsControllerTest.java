@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 public class SettingsControllerTest extends ZafiraAPIBaseTest {
     private static final String TOOL = "ZEBRUNNER";
-    private static final String SETTING_NAME_KEY = "KEY";
+    private static final String SETTING_NAME = "string";
 
     @Test
     public void testGetCompanyLogoURL() {
@@ -30,7 +30,7 @@ public class SettingsControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateSettings() {
-        String settingName = SETTING_NAME_KEY;
+        String settingName = SETTING_NAME;
         PutUpdateSettingsMethod putUpdateSettingsMethod = new PutUpdateSettingsMethod(settingName);
         apiExecutor.expectStatus(putUpdateSettingsMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putUpdateSettingsMethod);

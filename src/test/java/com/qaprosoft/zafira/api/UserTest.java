@@ -1,15 +1,16 @@
 package com.qaprosoft.zafira.api;
 
-import java.io.File;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import com.qaprosoft.zafira.api.authIAM.PostGenerateAuthTokenMethodIAM;
-import com.qaprosoft.zafira.api.testRunController.PostTestRunResultEmailMethod;
+import com.jayway.restassured.path.json.JsonPath;
+import com.qaprosoft.apitools.validation.JsonCompareKeywords;
+import com.qaprosoft.carina.core.foundation.utils.R;
+import com.qaprosoft.zafira.api.user.PutUserMethod;
+import com.qaprosoft.zafira.api.user.PutUserProfileMethod;
+import com.qaprosoft.zafira.api.user.PutUserStatusMethod;
 import com.qaprosoft.zafira.api.user.v1.*;
+import com.qaprosoft.zafira.constant.ConfigConstant;
+import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.domain.EmailMsg;
-import com.qaprosoft.zafira.manager.APIContextManager;
+import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.*;
 import com.qaprosoft.zafira.util.CryptoUtil;
@@ -19,13 +20,10 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.jayway.restassured.path.json.JsonPath;
-import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.carina.core.foundation.utils.R;
-import com.qaprosoft.zafira.api.user.*;
-import com.qaprosoft.zafira.constant.ConfigConstant;
-import com.qaprosoft.zafira.constant.JSONConstant;
-import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import java.io.File;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 public class UserTest extends ZafiraAPIBaseTest {
     private final static Logger LOGGER = Logger.getLogger(UserTest.class);
