@@ -170,4 +170,9 @@
             <class name="com.qaprosoft.zafira.api.TagControllerTest"/>
         </classes>
     </test>
+    <test name="Scm Account Controller Test">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.ScmAccountControllerTest"/>
+        </classes>
+    </test>
 </suite>

@@ -1,0 +1,4 @@
+{
+  "clientId": "type:String",
+  "host": "type:String"
+}

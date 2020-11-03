@@ -1,0 +1,10 @@
+[
+  {
+    "id": "regex:[\\d]",
+    "organizationName": "type:String",
+    "repositoryName": "type:String",
+    "avatarURL": "type:String",
+    "repositoryURL": "type:String",
+    "userId": "regex:[\\d]"
+  }
+]
