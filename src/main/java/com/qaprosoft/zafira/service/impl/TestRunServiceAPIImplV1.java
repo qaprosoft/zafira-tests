@@ -1,10 +1,8 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
-import com.qaprosoft.zafira.api.testRunController.*;
-import com.qaprosoft.zafira.api.testRunController.v1.GetTestsByCiRunIdV1Method;
+import com.qaprosoft.zafira.api.testRunController.GetTestRunMethod;
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestRunV1Method;
-import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestsInTestRunV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestRunV1Method;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
