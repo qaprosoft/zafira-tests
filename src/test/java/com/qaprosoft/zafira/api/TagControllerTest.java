@@ -3,6 +3,7 @@ package com.qaprosoft.zafira.api;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.zafira.api.tagController.GetIntegrationInformationByTagMethod;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceAPIV1Impl;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -15,7 +16,7 @@ public class TagControllerTest extends ZafiraAPIBaseTest {
 
     @AfterTest
     public void finishTestRun() {
-        new TestRunServiceAPIImplV1().finishTestRun(TEST_RUN_ID);
+        new TestRunServiceAPIImpl().deleteById(TEST_RUN_ID);
     }
 
     @Test

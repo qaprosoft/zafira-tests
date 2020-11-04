@@ -57,6 +57,12 @@
         </classes>
     </test>
 
+    <test name="TestRunV1 controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.TestRunV1Test"/>
+        </classes>
+    </test>
+
     <test name="TestSuite controller tests">
         <classes>
             <class name="com.qaprosoft.zafira.api.TestSuiteTest"/>
