@@ -8,6 +8,7 @@ import com.qaprosoft.zafira.api.artifactsController.PostScreenshotsV1Method;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.ArtifactsControllerV1ServiceImpl;
+import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceAPIV1Impl;
 import com.qaprosoft.zafira.util.WaitUtil;
@@ -26,7 +27,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     @AfterTest
     public void testFinishTestRun() {
-        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test

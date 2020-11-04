@@ -1,20 +1,10 @@
 package com.qaprosoft.zafira.api;
 
-import java.util.Date;
-
-import com.qaprosoft.carina.core.foundation.crypto.CryptoTool;
-import com.qaprosoft.zafira.api.testRunController.v1.*;
-import com.qaprosoft.zafira.service.TestServiceAPIV1;
-import org.apache.log4j.Logger;
-import org.apache.poi.ss.formula.functions.Now;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.testRunController.*;
+import com.qaprosoft.zafira.api.testRunController.v1.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.domain.EmailMsg;
@@ -23,6 +13,13 @@ import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.*;
 import com.qaprosoft.zafira.util.CryptoUtil;
+import org.apache.log4j.Logger;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import java.util.Date;
 
 /**
  * Test Run Controller
@@ -248,7 +245,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         final int lastEmailIndex = 0;
         final int emailsCount = 1;
         LOGGER.info("Will get last email from inbox.");
-        EMAIL.waitForEmailDelivered(new Date(),expStatus); // decency from connection, wait a little bit
+        EMAIL.waitForEmailDelivered(new Date(), expStatus); // decency from connection, wait a little bit
         EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
         return email.getContent().contains(expStatus);
     }
@@ -260,8 +257,10 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testStartTestRunV1WithoutTests() {
         PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method();
         apiExecutor.expectStatus(postStartTestRunV1Method, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(postStartTestRunV1Method);
+        String response = apiExecutor.callApiMethod(postStartTestRunV1Method);
         apiExecutor.validateResponse(postStartTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        int testRunId = JsonPath.from(response).getInt(JSONConstant.ID_KEY);
+        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -271,6 +270,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         GetTestsByCiRunIdV1Method getTestsByCiRunIdV1Method = new GetTestsByCiRunIdV1Method(ciRunId);
         apiExecutor.expectStatus(getTestsByCiRunIdV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getTestsByCiRunIdV1Method);
+        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -279,6 +279,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId);
         apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putFinishTestRunV1Method);
+        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -288,8 +289,9 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postStartTestsInTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postStartTestsInTestRunV1Method);
         apiExecutor.validateResponse(postStartTestsInTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
+
     @Test
     public void testGetTestsByCiRunIdV1WithTests() {
         int testRunId = new TestRunServiceAPIImplV1().create();
@@ -299,7 +301,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(getTestsByCiRunIdV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getTestsByCiRunIdV1Method);
         apiExecutor.validateResponse(getTestsByCiRunIdV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -313,7 +315,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         String response = apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
         String actualResult = JsonPath.from(response).getString(JSONConstant.RESULT);
         Assert.assertEquals(actualResult, RESULT_PASSED, "Result is not as expected!");
-        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -327,7 +329,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         String response = apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
         String actualResult = JsonPath.from(response).getString(JSONConstant.RESULT);
         Assert.assertEquals(actualResult, RESULT_FAILED, "Result is not as expected!");
-        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -341,7 +343,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         String response = apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
         String actualResult = JsonPath.from(response).getString(JSONConstant.RESULT);
         Assert.assertEquals(actualResult, RESULT_SKIPPED, "Result is not as expected!");
-        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -354,6 +356,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         new TestRunServiceAPIImplV1().finishTestRun(testRunId);
         String actualResult = new TestRunServiceAPIImplV1().getTestRunResult(testRunId);
         Assert.assertEquals(actualResult, RESULT_FAILED, "Result is not as expected!");
+        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -366,6 +369,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         new TestRunServiceAPIImplV1().finishTestRun(testRunId);
         String actualResult = new TestRunServiceAPIImplV1().getTestRunResult(testRunId);
         Assert.assertEquals(actualResult, RESULT_PASSED, "Result is not as expected!");
+        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -378,6 +382,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         new TestRunServiceAPIImplV1().finishTestRun(testRunId);
         String actualResult = new TestRunServiceAPIImplV1().getTestRunResult(testRunId);
         Assert.assertEquals(actualResult, RESULT_FAILED, "Result is not as expected!");
+        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -386,6 +391,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         int testId1 = new TestServiceAPIV1Impl().createTest(testRunId);
         String actualResult = new TestRunServiceAPIImplV1().getTestRunResult(testRunId);
         Assert.assertEquals(actualResult, RESULT_IN_PROGRESS, "Result is not as expected!");
-        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 }
