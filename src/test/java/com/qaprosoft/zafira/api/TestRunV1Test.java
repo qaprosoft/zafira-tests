@@ -37,9 +37,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postStartTestRunV1Method, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(postStartTestRunV1Method);
         apiExecutor.validateResponse(postStartTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        int testRunId = JsonPath.from(response).getInt(JSONConstant.ID_KEY);
-        new TestRunServiceAPIImpl().deleteById(testRunId);
-
+        testRunId = JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
 
     @Test
