@@ -1,7 +1,7 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
-import com.qaprosoft.zafira.api.testRunController.GetTestRunMethod;
+import com.qaprosoft.zafira.api.testRunController.GetTestRunByIdMethod;
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestRunV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestRunV1Method;
 import com.qaprosoft.zafira.constant.JSONConstant;
@@ -27,14 +27,14 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
     @Override
     public String getCiRunId(int testRunId) {
         return JsonPath.from(
-                apiExecutor.callApiMethod(new GetTestRunMethod(testRunId)))
+                apiExecutor.callApiMethod(new GetTestRunByIdMethod(testRunId)))
                 .getString(JSONConstant.CI_RUN_ID_KEY);
     }
 
     @Override
     public String getTestRunResult(int testRunId) {
         return JsonPath.from(
-                apiExecutor.callApiMethod(new GetTestRunMethod(testRunId)))
+                apiExecutor.callApiMethod(new GetTestRunByIdMethod(testRunId)))
                 .getString(JSONConstant.STATUS_KEY);
     }
 

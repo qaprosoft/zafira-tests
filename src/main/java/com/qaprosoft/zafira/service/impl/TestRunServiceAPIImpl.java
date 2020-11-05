@@ -25,7 +25,7 @@ public class TestRunServiceAPIImpl implements TestRunServiceAPI {
     @Override
     public String getCiRunId(int testSuiteId) {
         return JsonPath.from(
-                apiExecutor.callApiMethod(new GetTestRunMethod(testSuiteId)))
+                apiExecutor.callApiMethod(new GetTestRunByIdMethod(testSuiteId)))
                 .getString(JSONConstant.CI_RUN_ID_KEY);
     }
 
@@ -49,8 +49,13 @@ public class TestRunServiceAPIImpl implements TestRunServiceAPI {
     @Override
     public String getTestRunStatus(int testSuiteId) {
         return JsonPath.from(
-                apiExecutor.callApiMethod(new GetTestRunMethod(testSuiteId)))
+                apiExecutor.callApiMethod(new GetTestRunByIdMethod(testSuiteId)))
                 .getString(JSONConstant.STATUS_KEY);
     }
 
+    @Override
+    public String createTestRunAndReturnSiRunId(int testSuiteId, int jobId) {
+        String response = apiExecutor.callApiMethod(new PostStartTestRunMethod(testSuiteId, jobId));
+        return JsonPath.from(response).getString(JSONConstant.SI_RUN_ID_KEY);
+    }
 }

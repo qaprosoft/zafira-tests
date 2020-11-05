@@ -1,0 +1,22 @@
+{
+  "id": "regex:[\\d]",
+  "ciRunId": "type:String",
+  "testSuiteId": "regex:[\\d]",
+  "status": "type:String",
+  "scmURL": "type:String",
+  "scmBranch": "type:String",
+  "scmCommit": "type:String",
+  "configXML": "type:String",
+  "jobId": "regex:[\\d]",
+  "buildNumber": "regex:[\\d]",
+  "startedBy": "type:String",
+  "project": {
+    "id": "regex:[\\d]",
+    "name": "type:String",
+    "description": "type:String"
+  },
+  "knownIssue": "type:Boolean",
+  "blocker": "type:Boolean",
+  "reviewed": "type:Boolean",
+  "artifacts": "type:JSONArray"
+}
