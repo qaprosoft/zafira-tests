@@ -57,21 +57,32 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testGetTestRun() {
+    public void testGetTestRunById() {
         int testRunId = createTestRun(TESTS_TO_ADD);
-        GetTestRunMethod getTestRunMethod = new GetTestRunMethod(testRunId);
-        apiExecutor.expectStatus(getTestRunMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getTestRunMethod);
-        apiExecutor.validateResponse(getTestRunMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        GetTestRunByIdMethod getTestRunByIdMethod = new GetTestRunByIdMethod(testRunId);
+        apiExecutor.expectStatus(getTestRunByIdMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getTestRunByIdMethod);
+        apiExecutor.validateResponse(getTestRunByIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testGetTestRunByCiRunId() {
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        String ciRunId = new TestRunServiceAPIImpl().createTestRunAndReturnCiRunId(testSuiteId, jobId);
+        GetTestRunByCiRunIdMethod getTestRunByCiRunIdMethod = new GetTestRunByCiRunIdMethod(ciRunId);
+        apiExecutor.expectStatus(getTestRunByCiRunIdMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getTestRunByCiRunIdMethod);
+        apiExecutor.validateResponse(getTestRunByCiRunIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
     public void testDeleteTestRun() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         apiExecutor.callApiMethod(new DeleteTestRunMethod(testRunId));
-        GetTestRunMethod getTestRunMethod = new GetTestRunMethod(testRunId);
-        apiExecutor.expectStatus(getTestRunMethod, HTTPStatusCodeType.NOT_FOUND);
-        apiExecutor.callApiMethod(getTestRunMethod);
+        GetTestRunByIdMethod getTestRunByIdMethod = new GetTestRunByIdMethod(testRunId);
+        apiExecutor.expectStatus(getTestRunByIdMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(getTestRunByIdMethod);
     }
 
     @Test
@@ -243,5 +254,37 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         EMAIL.waitForEmailDelivered(new Date(), expStatus); // decency from connection, wait a little bit
         EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
         return email.getContent().contains(expStatus);
+    }
+
+    @Test
+    public void testGetAllTestRunConfigBrowsers() {
+        GetAllTestRunConfigBrowsersMethod getAllTestRunConfigBrowsersMethod = new GetAllTestRunConfigBrowsersMethod();
+        apiExecutor.expectStatus(getAllTestRunConfigBrowsersMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getAllTestRunConfigBrowsersMethod);
+        apiExecutor.validateResponse(getAllTestRunConfigBrowsersMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testGetAllTestRunEnvironments() {
+        GetAllTestRunEnvironmentsMethod getAllTestRunEnvironmentsMethod = new GetAllTestRunEnvironmentsMethod();
+        apiExecutor.expectStatus(getAllTestRunEnvironmentsMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getAllTestRunEnvironmentsMethod);
+        apiExecutor.validateResponse(getAllTestRunEnvironmentsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testGetAllTestRunConfigLocales() {
+        GetAllTestRunConfigLocalesMethod getAllTestRunConfigLocalesMethod = new GetAllTestRunConfigLocalesMethod();
+        apiExecutor.expectStatus(getAllTestRunConfigLocalesMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getAllTestRunConfigLocalesMethod);
+        apiExecutor.validateResponse(getAllTestRunConfigLocalesMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testGetAllTestRunConfigPlatforms() {
+        GetAllTestRunConfigPlatformsMethod getAllTestRunConfigPlatformsMethod = new GetAllTestRunConfigPlatformsMethod();
+        apiExecutor.expectStatus(getAllTestRunConfigPlatformsMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getAllTestRunConfigPlatformsMethod);
+        apiExecutor.validateResponse(getAllTestRunConfigPlatformsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }

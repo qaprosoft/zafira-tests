@@ -15,4 +15,6 @@ public interface TestRunServiceAPI {
     List<Integer> getAll(String searchCriteriaType, int searchCriteriaId);
 
     String getTestRunStatus(int testSuiteId);
+
+    String createTestRunAndReturnCiRunId(int testSuiteId, int jobId);
 }
