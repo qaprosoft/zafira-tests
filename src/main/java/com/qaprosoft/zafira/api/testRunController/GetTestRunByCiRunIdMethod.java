@@ -8,7 +8,7 @@ import java.util.Properties;
 public class GetTestRunByCiRunIdMethod extends ZafiraBaseApiMethodWithAuth {
 
     public GetTestRunByCiRunIdMethod(String ciRunId) {
-        super(null, "api/test_run/_get/rs_by_siRunId.json", new Properties());
+        super(null, "api/test_run/_get/rs_by_ciRunId.json", new Properties());
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("ciRunId", ciRunId);
     }
