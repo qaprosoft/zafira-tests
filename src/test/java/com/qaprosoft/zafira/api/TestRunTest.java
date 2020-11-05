@@ -69,7 +69,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testGetTestRunByCiRunId() {
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();
-        String ciRunId = new TestRunServiceAPIImpl().createTestRunAndReturnSiRunId(testSuiteId, jobId);
+        String ciRunId = new TestRunServiceAPIImpl().createTestRunAndReturnCiRunId(testSuiteId, jobId);
         GetTestRunByCiRunIdMethod getTestRunByCiRunIdMethod = new GetTestRunByCiRunIdMethod(ciRunId);
         apiExecutor.expectStatus(getTestRunByCiRunIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getTestRunByCiRunIdMethod);

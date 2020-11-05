@@ -48,5 +48,5 @@ public class JSONConstant {
     public static final String INTEGRATION_GROUP_NAME = "[0].name";
     public static final String INTEGRATION_GROUP_ID = "[0].id";
     public static final String WIDGET_ID_KEY = "[0].id";
-    public static final String SI_RUN_ID_KEY = "ciRunId";
+    public static final String CI_RUN_ID_KEY = "ciRunId";
 }

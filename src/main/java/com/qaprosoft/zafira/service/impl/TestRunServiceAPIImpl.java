@@ -54,8 +54,8 @@ public class TestRunServiceAPIImpl implements TestRunServiceAPI {
     }
 
     @Override
-    public String createTestRunAndReturnSiRunId(int testSuiteId, int jobId) {
+    public String createTestRunAndReturnCiRunId(int testSuiteId, int jobId) {
         String response = apiExecutor.callApiMethod(new PostStartTestRunMethod(testSuiteId, jobId));
-        return JsonPath.from(response).getString(JSONConstant.SI_RUN_ID_KEY);
+        return JsonPath.from(response).getString(JSONConstant.CI_RUN_ID_KEY);
     }
 }
