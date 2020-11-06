@@ -19,7 +19,7 @@
     "testClass": "type:String",
     "artifacts": "type:JSONArray",
     "ciTestId": "type:String",
-    "tags": [],
+    "labels": [],
     "stacktraceLabels": []
   }
 ]

@@ -23,7 +23,7 @@
   "testClass": "type:String",
   "artifacts": [],
   "ciTestId": "type:String",
-  "tags": [],
+  "labels": [],
   "notNullTestGroup": "type:String",
   "stacktraceLabels":[]
 }
