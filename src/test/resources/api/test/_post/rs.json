@@ -18,5 +18,5 @@
   "testClass": "type:String",
   "artifacts": [],
   "ciTestId": "type:String",
-  "tags": []
+  "labels": []
 }
