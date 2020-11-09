@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
@@ -7,6 +8,7 @@ import com.qaprosoft.zafira.api.user.PutUserMethod;
 import com.qaprosoft.zafira.api.user.PutUserProfileMethod;
 import com.qaprosoft.zafira.api.user.PutUserStatusMethod;
 import com.qaprosoft.zafira.api.user.v1.*;
+import com.qaprosoft.zafira.bo.User;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.domain.EmailMsg;
@@ -21,6 +23,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -50,14 +53,17 @@ public class UserTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testCreateUser() {
+    public void testCreateUser() throws IOException {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         String password = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         String email = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
         PostUserMethodV1 postCreateUserV1Method = new PostUserMethodV1(username, password, email);
         apiExecutor.expectStatus(postCreateUserV1Method, HTTPStatusCodeType.CREATED);
-        apiExecutor.callApiMethod(postCreateUserV1Method);
-        apiExecutor.validateResponse(postCreateUserV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String rs = apiExecutor.callApiMethod(postCreateUserV1Method);
+        ObjectMapper mapper = new ObjectMapper();
+        User user = mapper.readValue(rs, User.class);
+        Assert.assertEquals(email, user.getEmail(), "Email is not as expected!");
+        LOGGER.info(user.getEmail());
     }
 
     @Test
