@@ -1,0 +1,6 @@
+{
+  "id":"${id}",
+  "key": "${key}",
+  "value": "${value}",
+  "dashboardId":"${dashboardId}"
+}

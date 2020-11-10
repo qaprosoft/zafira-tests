@@ -1,0 +1,8 @@
+[
+  {
+    "id": "regex:[\\d]",
+    "key": "type:String",
+    "value": "type:String",
+    "dashboardId": "regex:[\\d]"
+  }
+]

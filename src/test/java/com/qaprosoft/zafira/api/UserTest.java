@@ -43,6 +43,7 @@ public class UserTest extends ZafiraAPIBaseTest {
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY)));
     private final static String GMAIL_EMAIL = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY));
     private final static String EXPECTED_MESSAGE = "Password reset";
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Test
     public void testSearchUserByCriteria() {
@@ -60,8 +61,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         PostUserMethodV1 postCreateUserV1Method = new PostUserMethodV1(username, password, email);
         apiExecutor.expectStatus(postCreateUserV1Method, HTTPStatusCodeType.CREATED);
         String rs = apiExecutor.callApiMethod(postCreateUserV1Method);
-        ObjectMapper mapper = new ObjectMapper();
-        User user = mapper.readValue(rs, User.class);
+        User user = MAPPER.readValue(rs, User.class);
         Assert.assertEquals(email, user.getEmail(), "Email is not as expected!");
         LOGGER.info(user.getEmail());
     }
@@ -80,14 +80,16 @@ public class UserTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testGetUserByUsernameV1() {
+    public void testGetUserByUsernameV1() throws IOException {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         String password = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
         new UserV1ServiceAPIImpl().create(username, password, EMAIL);
         GetUserByUsernameV1Method getUserByUsernameV1Method = new GetUserByUsernameV1Method(username);
         apiExecutor.expectStatus(getUserByUsernameV1Method, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getUserByUsernameV1Method);
+        String rs = apiExecutor.callApiMethod(getUserByUsernameV1Method);
+        User user = MAPPER.readValue(rs, User.class);
+        Assert.assertEquals(EMAIL, user.getEmail(), "Email is not as expected!");
         apiExecutor.validateResponse(getUserByUsernameV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
@@ -126,7 +128,6 @@ public class UserTest extends ZafiraAPIBaseTest {
         String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
         new UserV1ServiceAPIImpl().create(username, password, EMAIL);
         int userId = new UserV1ServiceAPIImpl().getUserId(username);
-
         checkUserExistAndAddToGroupV1(username, userId);
     }
 

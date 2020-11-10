@@ -1,6 +1,9 @@
 package com.qaprosoft.zafira.bo;
 
+
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -8,7 +11,7 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class User {
 
-    int id;
+    Integer id;
 
     String username;
 
@@ -20,5 +23,12 @@ public class User {
 
     String source;
 
+    String status;
+
+    List groups;
+
+    List permissions;
+
+    String registrationDateTime;
 }
 
