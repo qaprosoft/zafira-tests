@@ -5,14 +5,13 @@ import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.dashboard.*;
 import com.qaprosoft.zafira.api.dashboard.attributes.DeleteDashboardAttributeMethod;
-import com.qaprosoft.zafira.api.dashboard.attributes.PostABatchOfDashboardAttributeMethod;
+import com.qaprosoft.zafira.api.dashboard.attributes.PostABatchOfDashboardAttributesMethod;
 import com.qaprosoft.zafira.api.dashboard.attributes.PostDashboardAttributeMethod;
 import com.qaprosoft.zafira.api.dashboard.attributes.UpdateDashboardAttributeMethod;
 import com.qaprosoft.zafira.api.dashboard.widget.DeleteWidgetFromDashboardMethod;
 import com.qaprosoft.zafira.api.dashboard.widget.PostWidgetToDashboardMethod;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
-import com.qaprosoft.zafira.domain.EmailMsg;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.DashboardServiceImpl;
 import com.qaprosoft.zafira.service.impl.WidgetServiceImpl;
@@ -201,10 +200,10 @@ public class DashboardTest extends ZafiraAPIBaseTest {
     public void testCreateABatchDashboardAttribute() {
         String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
-        PostABatchOfDashboardAttributeMethod postDashboardAttributeMethod = new PostABatchOfDashboardAttributeMethod(dashboardId);
-        apiExecutor.expectStatus(postDashboardAttributeMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(postDashboardAttributeMethod);
-        apiExecutor.validateResponse(postDashboardAttributeMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        PostABatchOfDashboardAttributesMethod ostABatchOfDashboardAttributesMethod = new PostABatchOfDashboardAttributesMethod(dashboardId);
+        apiExecutor.expectStatus(ostABatchOfDashboardAttributesMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(ostABatchOfDashboardAttributesMethod);
+        apiExecutor.validateResponse(ostABatchOfDashboardAttributesMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }
 
