@@ -5,6 +5,7 @@ import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.dashboard.*;
 import com.qaprosoft.zafira.api.dashboard.attributes.DeleteDashboardAttributeMethod;
+import com.qaprosoft.zafira.api.dashboard.attributes.PostABatchOfDashboardAttributeMethod;
 import com.qaprosoft.zafira.api.dashboard.attributes.PostDashboardAttributeMethod;
 import com.qaprosoft.zafira.api.dashboard.attributes.UpdateDashboardAttributeMethod;
 import com.qaprosoft.zafira.api.dashboard.widget.DeleteWidgetFromDashboardMethod;
@@ -151,7 +152,7 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(getDashboardByTitleMethod, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(getDashboardByTitleMethod);
         apiExecutor.validateResponse(getDashboardByTitleMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        Assert.assertEquals(JsonPath.from(response).getString(JSONConstant.TITLE_KEY),TITLE_GENERAL,"Title is not as expected" );
+        Assert.assertEquals(JsonPath.from(response).getString(JSONConstant.TITLE_KEY), TITLE_GENERAL, "Title is not as expected");
     }
 
     @Test
@@ -160,7 +161,7 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
         String value = "TestValue_".concat(RandomStringUtils.randomAlphabetic(15));
         String key = "TestKey_".concat(RandomStringUtils.randomAlphabetic(15));
-        PostDashboardAttributeMethod postDashboardAttributeMethod = new PostDashboardAttributeMethod(dashboardId,key,value);
+        PostDashboardAttributeMethod postDashboardAttributeMethod = new PostDashboardAttributeMethod(dashboardId, key, value);
         apiExecutor.expectStatus(postDashboardAttributeMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postDashboardAttributeMethod);
         apiExecutor.validateResponse(postDashboardAttributeMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
@@ -172,11 +173,11 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
         String value = "TestValue_".concat(RandomStringUtils.randomAlphabetic(15));
         String key = "TestKey_".concat(RandomStringUtils.randomAlphabetic(15));
-        int id = new DashboardServiceImpl().createDashboardAttribute(dashboardId,key,value);
-        DeleteDashboardAttributeMethod deleteDashboardAttributeMethod = new DeleteDashboardAttributeMethod(dashboardId,id);
+        int id = new DashboardServiceImpl().createDashboardAttribute(dashboardId, key, value);
+        DeleteDashboardAttributeMethod deleteDashboardAttributeMethod = new DeleteDashboardAttributeMethod(dashboardId, id);
         apiExecutor.expectStatus(deleteDashboardAttributeMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(deleteDashboardAttributeMethod);
-        Assert.assertFalse(rs.contains(String.valueOf(id)),"Attribute is not deleted!");
+        Assert.assertFalse(rs.contains(String.valueOf(id)), "Attribute is not deleted!");
     }
 
     @Test
@@ -185,15 +186,25 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
         String value = "TestValue_".concat(RandomStringUtils.randomAlphabetic(15));
         String key = "TestKey_".concat(RandomStringUtils.randomAlphabetic(15));
-        int id = new DashboardServiceImpl().createDashboardAttribute(dashboardId,key,value);
-        String newValue = "Update"+value;
-        String newKey = "Update"+key;
-        UpdateDashboardAttributeMethod updateDashboardAttributeMethod = new UpdateDashboardAttributeMethod(dashboardId,id,newKey,newValue);
+        int id = new DashboardServiceImpl().createDashboardAttribute(dashboardId, key, value);
+        String newValue = "Update" + value;
+        String newKey = "Update" + key;
+        UpdateDashboardAttributeMethod updateDashboardAttributeMethod = new UpdateDashboardAttributeMethod(dashboardId, id, newKey, newValue);
         apiExecutor.expectStatus(updateDashboardAttributeMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(updateDashboardAttributeMethod);
         apiExecutor.validateResponse(updateDashboardAttributeMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        Assert.assertTrue(rs.contains(newKey),"Attribute is not updated!");
-        Assert.assertTrue(rs.contains(newValue),"Attribute is not updated!");
+        Assert.assertTrue(rs.contains(newKey), "Attribute is not updated!");
+        Assert.assertTrue(rs.contains(newValue), "Attribute is not updated!");
+    }
+
+    @Test
+    public void testCreateABatchDashboardAttribute() {
+        String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
+        int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
+        PostABatchOfDashboardAttributeMethod postDashboardAttributeMethod = new PostABatchOfDashboardAttributeMethod(dashboardId);
+        apiExecutor.expectStatus(postDashboardAttributeMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postDashboardAttributeMethod);
+        apiExecutor.validateResponse(postDashboardAttributeMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }
 

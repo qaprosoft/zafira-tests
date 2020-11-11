@@ -12,23 +12,14 @@ import java.util.List;
 public class User {
 
     Integer id;
-
     String username;
-
     String email;
-
     String firstName;
-
     String lastName;
-
     String source;
-
     String status;
-
-    List groups;
-
-    List permissions;
-
+    List<Group> groups;
+    List<Permission> permissions;
     String registrationDateTime;
 }
 
