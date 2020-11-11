@@ -23,5 +23,4 @@ public class ExecutionServiceImpl implements ExecutionService {
     public void validateResponse(AbstractApiMethodV2 method, JSONCompareMode mode, String... validationFlags) {
         method.validateResponse(mode, validationFlags);
     }
-
 }
