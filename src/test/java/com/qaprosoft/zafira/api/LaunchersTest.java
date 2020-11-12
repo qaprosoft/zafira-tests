@@ -87,7 +87,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getLauncherByIdMethod);
     }
 
-    @Test(enabled = false)
+    @Test
     public void testBuildJobByWebhook() {
         PresetServiceImpl presetServiceImpl = new PresetServiceImpl();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
@@ -101,7 +101,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postJobByWebHookMethod);
     }
 
-    @Test(enabled = false)
+    @Test
     public void testBuildJobByLauncher() {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
 
@@ -118,7 +118,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postLauncherFromJenkinsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(enabled = false)
+    @Test
     public void testScanLauncher() {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
 
