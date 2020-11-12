@@ -9,7 +9,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.Test;
 
 public class ScmAccountControllerTest extends ZafiraAPIBaseTest {
-    private static final int EXISTING_ACCOUNT_ID = 37;
+    private static final int EXISTING_ACCOUNT_ID = 86;
 
     @Test
     public void testGetAllSCMAccounts() {
