@@ -22,8 +22,6 @@
     "VIEW_INTEGRATIONS",
     "VIEW_LAUNCHERS",
     "VIEW_USERS",
-    "billing:invoices:read",
-    "billing:payment-methods:read",
     "configuration:sso:saml",
     "iam:groups:delete",
     "iam:groups:read",
