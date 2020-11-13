@@ -18,6 +18,7 @@
     }
   ],
   "scmAccountDTO": {
+    "accessToken":"string",
     "apiVersion": "string",
     "avatarURL": "string",
     "defaultBranch": "string",
@@ -26,7 +27,7 @@
   "organizationName": "string",
   "repositoryName": "string",
   "repositoryURL": "string",
-  "userId": 0
+  "userId": 2
   },
   "type": "string"
 }

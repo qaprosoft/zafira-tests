@@ -19,6 +19,7 @@
 }
 ],
 "scmAccountDTO": {
+"accessToken":"string",
 "apiVersion": "string",
 "avatarURL": "string",
 "defaultBranch": "string",
@@ -26,8 +27,7 @@
 "name": "GITHUB",
 "organizationName": "string",
 "repositoryName": "string",
-"repositoryURL": "string",
-"userId": 0
+"repositoryURL": "string"
 },
 "type": "string"
 }

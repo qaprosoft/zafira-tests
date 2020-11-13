@@ -4,8 +4,10 @@
   "model": "string",
   "type": "strong",
   "scmAccountDTO": {
+    "accessToken": "string",
     "id": 1,
     "apiVersion": "string",
+    "name": "GITHUB",
     "organizationName": "string",
     "repositoryName": "selenideex",
     "avatarURL": "https://avatars1.githubusercontent.com/u/43011516?v=4",
