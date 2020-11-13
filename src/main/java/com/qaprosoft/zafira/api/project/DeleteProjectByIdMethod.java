@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class DeleteProjectByIdMethod extends ZafiraBaseApiMethodWithAuth {
     public DeleteProjectByIdMethod(int projectId) {
-        super(null, null, (Properties) null);
+        super(null, null, new Properties());
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("id", String.valueOf(projectId));
     }

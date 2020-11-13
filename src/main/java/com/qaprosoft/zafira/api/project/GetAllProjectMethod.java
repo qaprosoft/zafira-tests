@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class GetAllProjectMethod extends ZafiraBaseApiMethodWithAuth {
     public GetAllProjectMethod() {
-        super(null, "api/project/_get/rs.json", (Properties) null);
+        super(null, "api/project/_get/rs.json", new Properties());
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
     }
 }
