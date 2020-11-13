@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ProjectService {
 
-    String createProject(String projectName);
+    int createProject(String projectName);
 
     List<Integer> getAllProjectsIds();
 

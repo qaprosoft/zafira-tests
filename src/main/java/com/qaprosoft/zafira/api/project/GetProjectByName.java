@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class GetProjectByName extends ZafiraBaseApiMethodWithAuth {
     public GetProjectByName(String projectName) {
-        super(null, "api/project/_get/rs_for_get_by_name.json", (Properties) null);
+        super(null, "api/project/_get/rs_for_get_by_name.json", new Properties());
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("name", projectName);
     }

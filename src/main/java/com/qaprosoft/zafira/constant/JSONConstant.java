@@ -49,4 +49,5 @@ public class JSONConstant {
     public static final String INTEGRATION_GROUP_ID = "[0].id";
     public static final String WIDGET_ID_KEY = "[0].id";
     public static final String ATTRIBUTE_ID_KEY = "[0].id";
+    public static final String PROJECT_NAME_KEY = "name";
 }

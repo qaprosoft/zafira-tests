@@ -2,10 +2,7 @@ package com.qaprosoft.zafira.api;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.zafira.api.project.DeleteProjectByIdMethod;
-import com.qaprosoft.zafira.api.project.GetAllProjectMethod;
-import com.qaprosoft.zafira.api.project.GetProjectByName;
-import com.qaprosoft.zafira.api.project.PostProjectMethod;
+import com.qaprosoft.zafira.api.project.*;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.ProjectServiceImpl;
@@ -13,6 +10,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -20,6 +18,13 @@ import java.util.List;
 
 public class ProjectTest extends ZafiraAPIBaseTest {
     private static Logger LOGGER = Logger.getLogger(ProjectTest.class);
+    private static int projectId;
+
+
+    @AfterMethod
+    public void testDeleteProject() {
+        new ProjectServiceImpl().deleteProjectById(projectId);
+    }
 
     @Test
     public void testGetAllProjects() {
@@ -35,17 +40,15 @@ public class ProjectTest extends ZafiraAPIBaseTest {
         PostProjectMethod postProjectMethod = new PostProjectMethod(projectName);
         apiExecutor.expectStatus(postProjectMethod, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(postProjectMethod);
-        new ProjectServiceImpl().deleteProjectById(JsonPath.from(response).getInt(JSONConstant.ID_KEY));
         apiExecutor.validateResponse(postProjectMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        projectId = JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
 
     @Test
     public void testDeleteProjectById() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(10));
         ProjectServiceImpl projectService = new ProjectServiceImpl();
-        String response = projectService.createProject(projectName);
-        int projectId = JsonPath.from(response).getInt(JSONConstant.ID_KEY);
-
+        projectId = projectService.createProject(projectName);
         DeleteProjectByIdMethod deleteProjectByIdMethod = new DeleteProjectByIdMethod(projectId);
         apiExecutor.expectStatus(deleteProjectByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(deleteProjectByIdMethod);
@@ -58,13 +61,25 @@ public class ProjectTest extends ZafiraAPIBaseTest {
     public void testGetProjectByName() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(10));
         ProjectServiceImpl projectService = new ProjectServiceImpl();
-        String response = projectService.createProject(projectName);
-
+        projectId = projectService.createProject(projectName);
         GetProjectByName getProjectByName = new GetProjectByName(projectName);
         apiExecutor.expectStatus(getProjectByName, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getProjectByName);
-        projectService.deleteProjectById(JsonPath.from(response).getInt(JSONConstant.ID_KEY));
         apiExecutor.validateResponse(getProjectByName, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testUpdateProject() {
+        String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(10));
+        ProjectServiceImpl projectService = new ProjectServiceImpl();
+        projectId = projectService.createProject(projectName);
+        String newName = "New" + projectName;
+        PutProjectMethod putProjectMethod = new PutProjectMethod(newName, projectId);
+        apiExecutor.expectStatus(putProjectMethod, HTTPStatusCodeType.OK);
+        String response = apiExecutor.callApiMethod(putProjectMethod);
+        String expectedName = JsonPath.from(response).getString(JSONConstant.PROJECT_NAME_KEY);
+        apiExecutor.validateResponse(putProjectMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Assert.assertEquals(expectedName, newName, "Name is not updated!");
     }
 }
 

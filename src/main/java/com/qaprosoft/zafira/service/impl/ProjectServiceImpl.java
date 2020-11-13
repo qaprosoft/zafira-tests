@@ -14,13 +14,6 @@ public class ProjectServiceImpl implements ProjectService {
     private ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
     @Override
-    public String createProject(String projectName) {
-        PostProjectMethod postProjectMethod = new PostProjectMethod(projectName);
-        apiExecutor.expectStatus(postProjectMethod, HTTPStatusCodeType.OK);
-        return apiExecutor.callApiMethod(postProjectMethod);
-    }
-
-    @Override
     public List<Integer> getAllProjectsIds() {
         GetAllProjectMethod getAllProjectMethod = new GetAllProjectMethod();
         apiExecutor.expectStatus(getAllProjectMethod, HTTPStatusCodeType.OK);
@@ -31,7 +24,14 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void deleteProjectById(int projectId) {
         DeleteProjectByIdMethod deleteProjectByIdMethod = new DeleteProjectByIdMethod(projectId);
-        apiExecutor.expectStatus(deleteProjectByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(deleteProjectByIdMethod);
+    }
+
+    @Override
+    public int createProject(String projectName) {
+        PostProjectMethod postProjectMethod = new PostProjectMethod(projectName);
+        apiExecutor.expectStatus(postProjectMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postProjectMethod);
+        return JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
     }
 }
