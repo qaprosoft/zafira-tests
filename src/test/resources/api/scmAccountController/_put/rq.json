@@ -1,0 +1,9 @@
+{
+  "id": "${id}",
+  "apiVersion": "TestApiVersion",
+  "avatarURL": "TestAvatarURL",
+  "organizationName": "UpdatedOrganization",
+  "repositoryName": "TestRepository",
+  "repositoryURL": "TestRepositoryURL",
+  "userId": 2
+}

@@ -1,0 +1,10 @@
+{
+  "accessToken": "token",
+  "apiVersion": "TestApiVersion",
+  "avatarURL": "TestAvatarURL",
+  "name": "GITHUB",
+  "organizationName": "TestOrganization",
+  "repositoryName": "TestRepository",
+  "repositoryURL": "TestRepositoryURL",
+  "userId": 2
+}
