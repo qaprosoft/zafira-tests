@@ -20,7 +20,7 @@ public class ScmAccountControllerTest extends ZafiraAPIBaseTest {
     private static int SCMAccountId;
 
     @AfterMethod
-    public void testDeleteProject() {
+    public void testDeleteSCMAccount() {
         new SCMAccountServiceImpl().deleteSCMAccount(SCMAccountId);
     }
 
