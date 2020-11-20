@@ -14,12 +14,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
-/**
- * Test Run
- *
- */
+
 public class TestControllerTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(TestControllerTest.class);
+    private static final String EXISTING_ISSUE = "ZEB-1871";
 
     @Test
     public void testStartTest() {
@@ -195,5 +193,38 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         List<Integer> workItemsAfterDelete = JsonPath.from(testRsAfterDelete).getList(JSONConstant.WORK_ITEMS_ARRAY_KEY);
         Assert.assertTrue(workItemsAfterDelete.isEmpty(), "Work item was not deleted!");
         new TestRunServiceAPIImpl().deleteById(testRunId);
+    }
+
+    @Test
+    public void testGetsAvailableStacktraceLabels() {
+        GetStacktraceLabelsMethod getStacktraceLabelsMethod = new GetStacktraceLabelsMethod();
+        String rs = apiExecutor.callApiMethod(getStacktraceLabelsMethod);
+        apiExecutor.expectStatus(getStacktraceLabelsMethod, HTTPStatusCodeType.OK);
+        List<String> listOfStacktraceLabels = JsonPath.from(rs).get();
+        Assert.assertFalse(listOfStacktraceLabels.isEmpty());
+    }
+
+    @Test
+    public void testGetJiraIssueByItsId() {
+        GetJiraIssueByItsIdMethod getJiraIssueByItsIdMethod = new GetJiraIssueByItsIdMethod(EXISTING_ISSUE);
+        apiExecutor.callApiMethod(getJiraIssueByItsIdMethod);
+        apiExecutor.expectStatus(getJiraIssueByItsIdMethod, HTTPStatusCodeType.OK);
+        apiExecutor.validateResponse(getJiraIssueByItsIdMethod, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testGetTestResultsHistoryById() {
+        TestServiceImpl testServiceImpl = new TestServiceImpl();
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = testServiceImpl.create(testCaseId, testRunId);
+        GetTestResultsHistoryByIdMethod getTestResultsHistoryByIdMethod = new GetTestResultsHistoryByIdMethod(testId);
+        apiExecutor.callApiMethod(getTestResultsHistoryByIdMethod);
+        apiExecutor.expectStatus(getTestResultsHistoryByIdMethod, HTTPStatusCodeType.OK);
+        apiExecutor.validateResponse(getTestResultsHistoryByIdMethod, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 }

@@ -1,0 +1,10 @@
+[
+  {
+    "testId": "regex:[\\d]",
+    "testRunId": "regex:[\\d]",
+    "status": "type:String",
+    "startTime": "regex:[\\d]",
+    "elapsed": "regex:[\\d]",
+    "workItems": "type:JSONArray"
+  }
+]
