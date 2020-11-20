@@ -2,6 +2,7 @@ package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.testController.PostRetrieveTestBySearchCriteriaMethod;
+import com.qaprosoft.zafira.api.testController.PutUpdateTestStatusMethod;
 import com.qaprosoft.zafira.api.testRunController.GetTestByTestRunIdMethod;
 import com.qaprosoft.zafira.api.testController.PostFinishTestMethod;
 import com.qaprosoft.zafira.api.testController.PostStartTestMethod;
@@ -42,5 +43,13 @@ public class TestServiceImpl implements TestService {
         PostRetrieveTestBySearchCriteriaMethod postRetrieveTestBySearchCriteriaMethod = new PostRetrieveTestBySearchCriteriaMethod(testRunId);
         apiExecutor.expectStatus(postRetrieveTestBySearchCriteriaMethod, HTTPStatusCodeType.OK);
         return apiExecutor.callApiMethod(postRetrieveTestBySearchCriteriaMethod);
+    }
+
+    @Override
+    public void updateTestStatus(int testId,int testSuiteId,int
+                                 jobId,String expectedTestStatusValue) {
+        PutUpdateTestStatusMethod putUpdateTestStatusMethod = new PutUpdateTestStatusMethod(testId, testSuiteId,
+                jobId, expectedTestStatusValue);
+        apiExecutor.expectStatus(putUpdateTestStatusMethod, HTTPStatusCodeType.OK);
     }
 }

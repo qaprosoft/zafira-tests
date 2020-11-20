@@ -1,26 +1,31 @@
 package com.qaprosoft.zafira.api;
 
+import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
-import com.qaprosoft.zafira.api.group.DeleteGroupByIdMethod;
 import com.qaprosoft.zafira.api.groupIAM.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
+import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.service.impl.AuthServiceApiIamImpl;
 import com.qaprosoft.zafira.service.impl.GroupServiceIamImpl;
-import com.qaprosoft.zafira.service.impl.GroupServiceImpl;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
-
-import com.qaprosoft.zafira.api.groupIAM.PostGroupMethodIAM;
 
 import java.util.List;
 
 public class GroupTestIAM extends ZafiraAPIBaseTest {
     private static Logger LOGGER = Logger.getLogger(GroupTestIAM.class);
+    private int groupId;
+
+
+    @AfterMethod
+    public void testDeleteGroup() {
+        new GroupServiceIamImpl().deleteGroupById(groupId);
+    }
 
     @Test
     public void testGetAllGroups() {
@@ -35,15 +40,15 @@ public class GroupTestIAM extends ZafiraAPIBaseTest {
         String groupName = "TestGroup_".concat(RandomStringUtils.randomAlphabetic(10));
         PostGroupMethodIAM postGroupMethod = new PostGroupMethodIAM(groupName);
         apiExecutor.expectStatus(postGroupMethod, HTTPStatusCodeType.CREATED);
-        apiExecutor.callApiMethod(postGroupMethod);
+        String rs = apiExecutor.callApiMethod(postGroupMethod);
         apiExecutor.validateResponse(postGroupMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        groupId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
     }
 
     @Test
     public void testGetGroupById() {
         String groupName = "TestGroup_".concat(RandomStringUtils.randomAlphabetic(10));
-        int groupId = new GroupServiceIamImpl().getGroupId(groupName);
-
+        groupId = new GroupServiceIamImpl().getGroupId(groupName);
         GetGroupByIdMethodIAM getGroupByIdMethod = new GetGroupByIdMethodIAM(groupId);
         apiExecutor.expectStatus(getGroupByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getGroupByIdMethod);
@@ -53,9 +58,8 @@ public class GroupTestIAM extends ZafiraAPIBaseTest {
     @Test
     public void testUpdateGroupPermission() {
         String groupName = "TestGroup_".concat(RandomStringUtils.randomAlphabetic(10));
-        int groupId = new GroupServiceIamImpl().getGroupId(groupName);
+        groupId = new GroupServiceIamImpl().getGroupId(groupName);
         String permissionName = R.TESTDATA.get(ConfigConstant.EXPECTED_PERMISSION_NAME);
-
         PutUpdateUserPermissionMethodIAM postUpdateUserPermissionMethod = new PutUpdateUserPermissionMethodIAM
                 (groupId, permissionName, groupName);
         apiExecutor.expectStatus(postUpdateUserPermissionMethod, HTTPStatusCodeType.OK);
@@ -69,7 +73,6 @@ public class GroupTestIAM extends ZafiraAPIBaseTest {
         String groupName = "TestGroup_".concat(RandomStringUtils.randomAlphabetic(10));
         GroupServiceIamImpl groupService = new GroupServiceIamImpl();
         int groupId = groupService.getGroupId(groupName);
-
         DeleteGroupByIdMethodIAM deleteGroupByIdMethod = new DeleteGroupByIdMethodIAM(groupId);
         apiExecutor.expectStatus(deleteGroupByIdMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(deleteGroupByIdMethod);
