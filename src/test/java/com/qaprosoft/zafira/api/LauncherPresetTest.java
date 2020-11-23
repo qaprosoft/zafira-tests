@@ -24,7 +24,6 @@ public class LauncherPresetTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testCreateLauncherPreset() {
-      //  int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         int jobId = new JobServiceImpl().create();
         int launcherId = new LauncherServiceImpl().create(jobId, ACCOUNT_TYPE_ID);
         PostLauncherPresetMethod postLauncherPresetMethod = new PostLauncherPresetMethod(launcherId);
@@ -35,7 +34,6 @@ public class LauncherPresetTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateLauncherPreset() {
-       // int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         int jobId = new JobServiceImpl().create();
         int launcherId = new LauncherServiceImpl().create(jobId, ACCOUNT_TYPE_ID);
         int presetId = new PresetServiceImpl().create(launcherId);
@@ -47,7 +45,6 @@ public class LauncherPresetTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testDeleteLauncherPreset() {
-       // int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         int jobId = new JobServiceImpl().create();
         int launcherId = new LauncherServiceImpl().create(jobId, ACCOUNT_TYPE_ID);
         int presetId = new PresetServiceImpl().create(launcherId);
@@ -58,7 +55,6 @@ public class LauncherPresetTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testBuildWebHookUrl() {
-     //   int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         int jobId = new JobServiceImpl().create();
         int launcherId = new LauncherServiceImpl().create(jobId, ACCOUNT_TYPE_ID);
         int presetId = new PresetServiceImpl().create(launcherId);
@@ -73,7 +69,6 @@ public class LauncherPresetTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testDeleteWebhookUrlInLauncherPreset() {
-
         int jobId = new JobServiceImpl().create();
         int launcherId = new LauncherServiceImpl().create(jobId, ACCOUNT_TYPE_ID);
         int presetId = new PresetServiceImpl().create(launcherId);
