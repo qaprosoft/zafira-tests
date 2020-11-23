@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.preset.*;
-import com.qaprosoft.zafira.constant.JSONConstant;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
@@ -22,12 +20,13 @@ import com.qaprosoft.zafira.service.impl.PresetServiceImpl;
 
 public class LauncherPresetTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(LauncherPresetTest.class);
+    private static final int ACCOUNT_TYPE_ID = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
 
     @Test
     public void testCreateLauncherPreset() {
-        int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
+      //  int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         int jobId = new JobServiceImpl().create();
-        int launcherId = new LauncherServiceImpl().create(jobId, accountTypeId);
+        int launcherId = new LauncherServiceImpl().create(jobId, ACCOUNT_TYPE_ID);
         PostLauncherPresetMethod postLauncherPresetMethod = new PostLauncherPresetMethod(launcherId);
         apiExecutor.expectStatus(postLauncherPresetMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postLauncherPresetMethod);
@@ -36,9 +35,9 @@ public class LauncherPresetTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateLauncherPreset() {
-        int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
+       // int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         int jobId = new JobServiceImpl().create();
-        int launcherId = new LauncherServiceImpl().create(jobId, accountTypeId);
+        int launcherId = new LauncherServiceImpl().create(jobId, ACCOUNT_TYPE_ID);
         int presetId = new PresetServiceImpl().create(launcherId);
         PutLauncherPresetMethod putLauncherPresetMethod = new PutLauncherPresetMethod(launcherId, presetId);
         apiExecutor.expectStatus(putLauncherPresetMethod, HTTPStatusCodeType.OK);
@@ -48,9 +47,9 @@ public class LauncherPresetTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testDeleteLauncherPreset() {
-        int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
+       // int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         int jobId = new JobServiceImpl().create();
-        int launcherId = new LauncherServiceImpl().create(jobId, accountTypeId);
+        int launcherId = new LauncherServiceImpl().create(jobId, ACCOUNT_TYPE_ID);
         int presetId = new PresetServiceImpl().create(launcherId);
         DeleteLauncherPresetMethod deleteLauncherPresetMethod = new DeleteLauncherPresetMethod(launcherId, presetId);
         apiExecutor.expectStatus(deleteLauncherPresetMethod, HTTPStatusCodeType.OK);
@@ -59,9 +58,9 @@ public class LauncherPresetTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testBuildWebHookUrl() {
-        int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
+     //   int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
         int jobId = new JobServiceImpl().create();
-        int launcherId = new LauncherServiceImpl().create(jobId, accountTypeId);
+        int launcherId = new LauncherServiceImpl().create(jobId, ACCOUNT_TYPE_ID);
         int presetId = new PresetServiceImpl().create(launcherId);
 
         GetLauncherWebHookMethod getLauncherWebhookMethod = new GetLauncherWebHookMethod(launcherId, presetId);
@@ -74,15 +73,15 @@ public class LauncherPresetTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testDeleteWebhookUrlInLauncherPreset() {
-        int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
+
         int jobId = new JobServiceImpl().create();
-        int launcherId = new LauncherServiceImpl().create(jobId, accountTypeId);
+        int launcherId = new LauncherServiceImpl().create(jobId, ACCOUNT_TYPE_ID);
         int presetId = new PresetServiceImpl().create(launcherId);
         String hook = new PresetServiceImpl().getWebhookUrl(launcherId, presetId)
                 .replace("https://automation.qaprosoft.farm/reporting-service/api/launchers/hooks/", "");
-        DeleteWebhookUrlInLauncherPresetMethod deleteWebhookUrlInLauncherPresetMethod = new DeleteWebhookUrlInLauncherPresetMethod(launcherId, presetId, hook);
-        apiExecutor.expectStatus(deleteWebhookUrlInLauncherPresetMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(deleteWebhookUrlInLauncherPresetMethod);
+        DeleteWebhookUrlLauncherPresetMethod deleteWebhookUrlLauncherPresetMethod = new DeleteWebhookUrlLauncherPresetMethod(launcherId, presetId, hook);
+        apiExecutor.expectStatus(deleteWebhookUrlLauncherPresetMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(deleteWebhookUrlLauncherPresetMethod);
     }
 
     @AfterTest
