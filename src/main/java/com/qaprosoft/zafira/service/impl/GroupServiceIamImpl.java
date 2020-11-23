@@ -50,7 +50,6 @@ public class GroupServiceIamImpl implements GroupServiceIAM {
     @Override
     public void deleteGroupById(int groupId) {
         DeleteGroupByIdMethodIAM deleteGroupByIdMethod = new DeleteGroupByIdMethodIAM(groupId);
-        apiExecutor.expectStatus(deleteGroupByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(deleteGroupByIdMethod);
     }
 

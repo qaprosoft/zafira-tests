@@ -1,0 +1,10 @@
+{
+  "blocker": true,
+  "description": "string",
+  "jiraId": "${jiraId}",
+  "testCaseId": ${
+  testCaseId
+},
+"type": "${type}",
+"hashCode": 0
+}

@@ -1,0 +1,8 @@
+{
+  "jiraId": "type:String",
+  "description": "type:String",
+  "blocker": "type:Boolean",
+  "hashCode": "regex:[\\d]",
+  "testCaseId": "regex:[\\d]",
+  "type": "type:String"
+}

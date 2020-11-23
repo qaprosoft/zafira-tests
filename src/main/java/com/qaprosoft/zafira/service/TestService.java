@@ -12,4 +12,6 @@ public interface TestService {
 
     String getAllTest(int testRunId);
 
+    void updateTestStatus(int testId, int testSuiteId, int
+            jobId, String expectedTestStatusValue);
 }
