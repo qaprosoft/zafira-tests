@@ -234,34 +234,13 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
     public void testUpdatesTestWorkItemWithTestStatusFailed() {
         String expectedJiraId = EXISTING_ISSUE;
         String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
-               int testSuiteId = new TestSuiteServiceImpl().create();
-        int jobId = new JobServiceImpl().create();
-        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(testCaseId, testRunId);
-        new TestServiceImpl().updateTestStatus(testId, testSuiteId,
-                jobId, TEST_STATUS_FAILED);
-        PutWorkItemMethod postLinkWorkItemMethod = new PutWorkItemMethod(testCaseId, expectedJiraId,
-                testId, workItemType);
-        apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.OK);
-        String rs = apiExecutor.callApiMethod(postLinkWorkItemMethod);
-        apiExecutor.validateResponse(postLinkWorkItemMethod, JSONCompareMode.STRICT,
-                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        String jiraId = JsonPath.from(rs).get(JSONConstant.JIRA_ID_KEY);
-        Assert.assertEquals(jiraId, jiraId, "Work item was not updated in test!");
-    }
-
-    @Test(enabled = false)
-    public void testUpdatesTestWorkItemWithTestStatusPassed() {
-        String expectedJiraId = EXISTING_ISSUE;
-        String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testId = new TestServiceImpl().create(testCaseId, testRunId);
         new TestServiceImpl().updateTestStatus(testId, testSuiteId,
-                jobId, TEST_STATUS_PASSED);
+                jobId, TEST_STATUS_FAILED);
         PutWorkItemMethod postLinkWorkItemMethod = new PutWorkItemMethod(testCaseId, expectedJiraId,
                 testId, workItemType);
         apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.OK);
