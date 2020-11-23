@@ -1,6 +1,5 @@
 package com.qaprosoft.zafira.api;
 
-import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.assets.DeleteAssetByKeyMethod;
@@ -16,7 +15,7 @@ import java.io.File;
 public class AssetsControllerTest extends ZafiraAPIBaseTest {
 
     @Test
-    public void testUploadFile() {
+    public void testUploadImageAssetSucceed() {
         File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY));
         PostAssetMethod postAssetMethod = new PostAssetMethod(uploadFile);
         apiExecutor.expectStatus(postAssetMethod, HTTPStatusCodeType.CREATED);
@@ -25,7 +24,7 @@ public class AssetsControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testDeleteFile() {
+    public void testDeleteImageAssetSucceed() {
         File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY));
         String key = new AssetServiceImpl().create(uploadFile);
         DeleteAssetByKeyMethod deleteAssetByKeyMethod = new DeleteAssetByKeyMethod(key);

@@ -10,6 +10,8 @@ import com.qaprosoft.zafira.api.dashboard.attributes.PostDashboardAttributeMetho
 import com.qaprosoft.zafira.api.dashboard.attributes.UpdateDashboardAttributeMethod;
 import com.qaprosoft.zafira.api.dashboard.widget.DeleteWidgetFromDashboardMethod;
 import com.qaprosoft.zafira.api.dashboard.widget.PostWidgetToDashboardMethod;
+import com.qaprosoft.zafira.api.dashboard.widget.PutABatchOfWidgetsInDashboardMethod;
+import com.qaprosoft.zafira.api.dashboard.widget.PutWidgetInDashboardMethod;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
@@ -120,6 +122,36 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postWidgetToDashboardMethod);
         apiExecutor.validateResponse(postWidgetToDashboardMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int widgetId = JsonPath.from(rs).get(JSONConstant.ID_KEY);
+        widgetService.deleteWidget(widgetId);
+    }
+
+    @Test
+    public void testUpdateWidgetInDashboard() {
+        String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
+        int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
+        String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
+        WidgetServiceImpl widgetService = new WidgetServiceImpl();
+        String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
+        int widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
+        PutWidgetInDashboardMethod putWidgetInDashboardMethod = new PutWidgetInDashboardMethod(dashboardId, widgetId);
+        apiExecutor.expectStatus(putWidgetInDashboardMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putWidgetInDashboardMethod);
+        apiExecutor.validateResponse(putWidgetInDashboardMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        widgetService.deleteWidget(widgetId);
+    }
+
+    @Test
+    public void testUpdateABatchOfWidgetInDashboard() {
+        String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
+        int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
+        String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
+        WidgetServiceImpl widgetService = new WidgetServiceImpl();
+        String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
+        int widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
+        PutABatchOfWidgetsInDashboardMethod putABatchOfWidgetsInDashboardMethod = new PutABatchOfWidgetsInDashboardMethod(dashboardId, widgetId);
+        apiExecutor.expectStatus(putABatchOfWidgetsInDashboardMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putABatchOfWidgetsInDashboardMethod);
+        apiExecutor.validateResponse(putABatchOfWidgetsInDashboardMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         widgetService.deleteWidget(widgetId);
     }
 
