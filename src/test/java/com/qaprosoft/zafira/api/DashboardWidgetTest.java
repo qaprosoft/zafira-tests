@@ -113,7 +113,7 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testSendDashboardByEmail() {
+    public void testSendDashboardByEmailSmallPic() {
         String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
         String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
@@ -121,6 +121,22 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
         widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
         File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG));
+        String email = R.TESTDATA.get(ConfigConstant.EMAIL_KEY).replace("dashboardName", dashboardName);
+        PostDashboardByEmailMethod postAssetMethod = new PostDashboardByEmailMethod(uploadFile, email);
+        apiExecutor.expectStatus(postAssetMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postAssetMethod);
+        verifyIfEmailWasDelivered(dashboardName);
+    }
+
+    @Test(enabled = false)
+    public void testSendDashboardByEmailLargePic() {
+        String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
+        int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
+        String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
+        WidgetServiceImpl widgetService = new WidgetServiceImpl();
+        String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
+        widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
+        File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG_LARGE));
         String email = R.TESTDATA.get(ConfigConstant.EMAIL_KEY).replace("dashboardName", dashboardName);
         PostDashboardByEmailMethod postAssetMethod = new PostDashboardByEmailMethod(uploadFile, email);
         apiExecutor.expectStatus(postAssetMethod, HTTPStatusCodeType.OK);
