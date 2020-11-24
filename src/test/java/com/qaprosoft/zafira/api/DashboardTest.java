@@ -8,10 +8,7 @@ import com.qaprosoft.zafira.api.dashboard.attributes.DeleteDashboardAttributeMet
 import com.qaprosoft.zafira.api.dashboard.attributes.PostABatchOfDashboardAttributesMethod;
 import com.qaprosoft.zafira.api.dashboard.attributes.PostDashboardAttributeMethod;
 import com.qaprosoft.zafira.api.dashboard.attributes.UpdateDashboardAttributeMethod;
-import com.qaprosoft.zafira.api.dashboard.widget.DeleteWidgetFromDashboardMethod;
-import com.qaprosoft.zafira.api.dashboard.widget.PostWidgetToDashboardMethod;
-import com.qaprosoft.zafira.api.dashboard.widget.PutBatchOfWidgetsDashboardMethod;
-import com.qaprosoft.zafira.api.dashboard.widget.PutWidgetDashboardMethod;
+import com.qaprosoft.zafira.api.dashboard.widget.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
@@ -24,6 +21,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
