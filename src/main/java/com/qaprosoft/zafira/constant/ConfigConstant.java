@@ -32,7 +32,6 @@ public class ConfigConstant {
     public static final String EXPECTED_FILTER_NAME_KEY = "expected_filter_name";
     public static final String EXPECTED_DASHBOARD_NAME_KEY = "expected_dashboard_name";
     public static final String EXPECTED_WIDGET_NAME_KEY = "expected_widget_name";
-
     public static final String SLACK_WEBHOOK_KEY = "slack_webhook";
     public static final String LAMBDATEST_TOKEN_KEY = "lambdatest_token";
     public static final String AMAZON_ACCESS_KEY = "amazon_access_key";
@@ -44,11 +43,12 @@ public class ConfigConstant {
     public static final String RABBITMQ_PASSWORD_KEY = "rabbitmq_password";
     public static final String SAUCELABS_PASSWORD_KEY = "saucelabs_password";
     public static final String ZEBRUNNER_PASSWORD_KEY = "zebrunner_passwod";
-
     public static final String JENKINS_MOCK_JOBNAME_KEY = "jenkins_mock_jobName";
-
     public static final String REFRESH_TOKEN_KEY = "refresh_token";
     public static final String EXPECTED_PERMISSION_NAME = "expected_permission_name";
     public static final String PROJECT_KEY = "projectKey";
     public static final String SCREENSHOT_PATH_KEY = "screenshot_path_key";
+    public static final String IMAGE_PATH_KEY_PNG = "image_path_key_png";
+    public static final String IMAGE_PATH_KEY_PNG_LARGE = "image_path_key_png_large";
+    public static final String EMAIL_KEY = "email_key";
 }
