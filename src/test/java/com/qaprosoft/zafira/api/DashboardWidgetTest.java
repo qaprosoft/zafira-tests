@@ -128,7 +128,7 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         verifyIfEmailWasDelivered(dashboardName);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testSendDashboardByEmailLargePic() {
         String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
