@@ -19,6 +19,7 @@ import java.util.List;
 public class ProjectTest extends ZafiraAPIBaseTest {
     private static Logger LOGGER = Logger.getLogger(ProjectTest.class);
     private static int projectId;
+    private static final  int NON_EXISTING_ID = 11111111;
 
 
     @AfterMethod
@@ -80,6 +81,16 @@ public class ProjectTest extends ZafiraAPIBaseTest {
         String expectedName = JsonPath.from(response).getString(JSONConstant.PROJECT_NAME_KEY);
         apiExecutor.validateResponse(putProjectMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         Assert.assertEquals(expectedName, newName, "Name is not updated!");
+    }
+
+    @Test(enabled = false)
+    public void testUpdateProjectWithNonExistingId() {
+        String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(10));
+        ProjectServiceImpl projectService = new ProjectServiceImpl();
+        projectId = projectService.createProject(projectName);
+        PutProjectMethod putProjectMethod = new PutProjectMethod(projectName, NON_EXISTING_ID);
+        apiExecutor.expectStatus(putProjectMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(putProjectMethod);
     }
 }
 
