@@ -1,0 +1,7 @@
+{
+  "ids": [
+    "${id}"
+  ],
+  "operation": "STATUS_UPDATE",
+  "value": "${status}"
+}

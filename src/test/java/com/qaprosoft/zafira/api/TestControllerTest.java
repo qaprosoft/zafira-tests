@@ -163,7 +163,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         new TestServiceImpl().create(testCaseId, testRunId);
-
         PostRetrieveTestBySearchCriteriaMethod postRetrieveTestBySearchCriteriaMethod = new PostRetrieveTestBySearchCriteriaMethod(testRunId);
         apiExecutor.expectStatus(postRetrieveTestBySearchCriteriaMethod, HTTPStatusCodeType.OK);
         String testRs = apiExecutor.callApiMethod(postRetrieveTestBySearchCriteriaMethod);
@@ -249,5 +248,24 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         String jiraId = JsonPath.from(rs).get(JSONConstant.JIRA_ID_KEY);
         Assert.assertEquals(jiraId, jiraId, "Work item was not updated in test!");
+    }
+
+    @Test
+    public void testUpdateBatchPatchesOfTestStatus() {
+        String expectedTestStatusValue = R.TESTDATA.get(ConfigConstant.TEST_STATUS_EXPECTED_UPDATE_KEY);
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        PatchUpdateBatchPatchesOfTestStatusMethod patchUpdateBatchPatchesOfTestStatusMethod
+                = new PatchUpdateBatchPatchesOfTestStatusMethod(testId, testRunId,expectedTestStatusValue);
+        apiExecutor.expectStatus(patchUpdateBatchPatchesOfTestStatusMethod, HTTPStatusCodeType.OK);
+        String putTestRs = apiExecutor.callApiMethod(patchUpdateBatchPatchesOfTestStatusMethod);
+        apiExecutor.validateResponse(patchUpdateBatchPatchesOfTestStatusMethod,
+                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String testStatus = JsonPath.from(putTestRs).get(JSONConstant.ARRAY_STATUS_KEY);
+        Assert.assertEquals(testStatus, expectedTestStatusValue, "Test status was not updated!");
+        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 }

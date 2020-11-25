@@ -1,14 +1,8 @@
 package com.qaprosoft.zafira.api;
 
-import com.google.common.io.Files;
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
-import com.qaprosoft.zafira.api.dashboard.*;
-import com.qaprosoft.zafira.api.dashboard.attributes.DeleteDashboardAttributeMethod;
-import com.qaprosoft.zafira.api.dashboard.attributes.PostABatchOfDashboardAttributesMethod;
-import com.qaprosoft.zafira.api.dashboard.attributes.PostDashboardAttributeMethod;
-import com.qaprosoft.zafira.api.dashboard.attributes.UpdateDashboardAttributeMethod;
 import com.qaprosoft.zafira.api.dashboard.widget.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
@@ -21,13 +15,11 @@ import com.qaprosoft.zafira.util.CryptoUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -128,7 +120,7 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         verifyIfEmailWasDelivered(dashboardName);
     }
 
-    @Test(enabled = false)
+    @Test
     public void testSendDashboardByEmailLargePic() {
         String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
