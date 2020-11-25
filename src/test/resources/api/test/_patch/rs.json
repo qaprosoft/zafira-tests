@@ -1,0 +1,31 @@
+[
+  {
+    "id": "regex:[\\d]",
+    "modifiedAt": "regex:[\\d]",
+    "createdAt": "regex:[\\d]",
+    "name": "type:String",
+    "status":  "type:String",
+    "testArgs": "type:String",
+    "testRunId": "regex:[\\d]",
+    "testCaseId": "regex:[\\d]",
+    "testGroup": "type:String",
+    "message": "type:String",
+    "messageHashCode": "regex:[\\d]",
+    "startTime": "regex:[\\d]",
+    "finishTime": "regex:[\\d]",
+    "retry": "regex:[\\d]",
+    "testConfig": "type:JSONObject",
+    "workItems": [],
+    "knownIssue": "type:Boolean",
+    "blocker": "type:Boolean",
+    "needRerun": "type:Boolean",
+    "owner": "type:String",
+    "dependsOnMethods": "type:String",
+    "testClass": "type:String",
+    "artifacts": [],
+    "ciTestId": "type:String",
+    "labels": [],
+    "notNullTestGroup": "type:String",
+    "stacktraceLabels": []
+  }
+]

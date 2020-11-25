@@ -32,7 +32,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postStartTestMethod);
         apiExecutor.validateResponse(postStartTestMethod,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -47,7 +46,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postFinishTestMethod);
         apiExecutor.validateResponse(postFinishTestMethod,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -66,7 +64,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         String testStatus = JsonPath.from(putTestRs).get(JSONConstant.STATUS_KEY);
         Assert.assertEquals(testStatus, expectedTestStatusValue, "Test status was not updated!");
-        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -84,7 +81,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         List<Integer> artifactId = testServiceImpl.getAllArtifacts(testRunId);
         LOGGER.info(String.format("Artifact ID: %s", artifactId.toString()));
         Assert.assertNotEquals(0, artifactId.get(0), "Test's artifact was not attached to test!");
-        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -120,7 +116,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         String linkWorkItemRs = apiExecutor.callApiMethod(postLinkWorkItemMethod);
         String jiraId = JsonPath.from(linkWorkItemRs).get(JSONConstant.JIRA_ID_KEY);
         Assert.assertEquals(jiraId, expectedJiraIdValue, "Work item was not linked to test!");
-        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -138,7 +133,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         LOGGER.info(workItemId);
         Assert.assertFalse(workItemId.isEmpty());
         Assert.assertNotEquals(0, workItemId.get(0), "Work item was not created!");
-        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -153,7 +147,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postCreateWorkItemMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postCreateWorkItemMethod);
         apiExecutor.validateResponse(postCreateWorkItemMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -163,7 +156,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         new TestServiceImpl().create(testCaseId, testRunId);
-
         PostRetrieveTestBySearchCriteriaMethod postRetrieveTestBySearchCriteriaMethod = new PostRetrieveTestBySearchCriteriaMethod(testRunId);
         apiExecutor.expectStatus(postRetrieveTestBySearchCriteriaMethod, HTTPStatusCodeType.OK);
         String testRs = apiExecutor.callApiMethod(postRetrieveTestBySearchCriteriaMethod);
@@ -171,7 +163,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int allTestId = JsonPath.from(testRs).get(JSONConstant.ALL_ID_FROM_RESULTS_KEY);
         LOGGER.info(String.format("Test Ids: %s", allTestId));
-        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -194,7 +185,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         String testRsAfterDelete = testServiсeImpl.getAllTest(testRunId);
         List<Integer> workItemsAfterDelete = JsonPath.from(testRsAfterDelete).getList(JSONConstant.WORK_ITEMS_ARRAY_KEY);
         Assert.assertTrue(workItemsAfterDelete.isEmpty(), "Work item was not deleted!");
-        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 
     @Test
@@ -249,5 +239,23 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         String jiraId = JsonPath.from(rs).get(JSONConstant.JIRA_ID_KEY);
         Assert.assertEquals(jiraId, jiraId, "Work item was not updated in test!");
+    }
+
+    @Test
+    public void testUpdateBatchPatchesOfTestStatus() {
+        String expectedTestStatusValue = R.TESTDATA.get(ConfigConstant.TEST_STATUS_EXPECTED_UPDATE_KEY);
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        PatchUpdateBatchPatchesOfTestStatusMethod patchUpdateBatchPatchesOfTestStatusMethod
+                = new PatchUpdateBatchPatchesOfTestStatusMethod(testId, testRunId,expectedTestStatusValue);
+        apiExecutor.expectStatus(patchUpdateBatchPatchesOfTestStatusMethod, HTTPStatusCodeType.OK);
+        String putTestRs = apiExecutor.callApiMethod(patchUpdateBatchPatchesOfTestStatusMethod);
+        apiExecutor.validateResponse(patchUpdateBatchPatchesOfTestStatusMethod,
+                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String testStatus = JsonPath.from(putTestRs).get(JSONConstant.ARRAY_STATUS_KEY);
+        Assert.assertEquals(testStatus, expectedTestStatusValue, "Test status was not updated!");
     }
 }

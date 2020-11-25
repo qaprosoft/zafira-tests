@@ -50,4 +50,5 @@ public class JSONConstant {
     public static final String WIDGET_ID_KEY = "[0].id";
     public static final String ATTRIBUTE_ID_KEY = "[0].id";
     public static final String PROJECT_NAME_KEY = "name";
+    public static final String ARRAY_STATUS_KEY = "[0].status";
 }
