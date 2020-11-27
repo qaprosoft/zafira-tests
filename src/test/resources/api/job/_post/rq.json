@@ -1,5 +1,5 @@
 {
-  "automationServerId": 21,
+  "automationServerId": ${automationServerId},
   "id": 0,
   "jenkinsHost": "https://mockci.qaprosoft.farm",
   "jobURL": "https://mockci.qaprosoft.farm/job/launcher/",
