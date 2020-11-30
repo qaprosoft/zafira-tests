@@ -1,0 +1,4 @@
+{
+  "operation": "SAVE_FAVORITE",
+  "value": "${value}"
+}

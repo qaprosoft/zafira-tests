@@ -10,5 +10,6 @@ public class PutLauncherMethod extends ZafiraBaseApiMethodWithAuth {
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         addProperty("id", String.valueOf(launcherId));
         addProperty("type", valueToUpdate);
+        addProperty("automationServerId", APIContextManager.AUTHOMATION_SERVER_ID_VALUE);
     }
 }

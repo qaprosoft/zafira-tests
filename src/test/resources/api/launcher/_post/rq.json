@@ -2,12 +2,12 @@
   "autoScan": true,
   "id": 0,
   "job": {
-    "automationServerId": 21,
+    "automationServerId": ${automationServerId},
     "id": ${jobId},
 "jenkinsHost": "https://mockci.qaprosoft.farm",
 "jobURL": "https://mockci.qaprosoft.farm/job/launcher/",
 "name": "string",
-"userId": 0
+"userId": 2
 },
 "model": "string",
 "name": "string",

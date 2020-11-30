@@ -12,5 +12,6 @@ public class PostLauncherMethod extends ZafiraBaseApiMethodWithAuth {
         replaceUrlPlaceholder("automationServerId", String.valueOf(R.TESTDATA.get(ConfigConstant.AUTHOMATION_SERVER_KEY)));
         addProperty("id", String.valueOf(scmAccountId));
         addProperty("jobId", String.valueOf(jobId));
+        addProperty("automationServerId", APIContextManager.AUTHOMATION_SERVER_ID_VALUE);
     }
 }

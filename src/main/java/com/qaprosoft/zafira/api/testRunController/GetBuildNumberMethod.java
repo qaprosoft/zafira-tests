@@ -8,8 +8,9 @@ import java.util.Properties;
 public class GetBuildNumberMethod extends ZafiraBaseApiMethodWithAuth {
 
     public GetBuildNumberMethod(String queueItemUrl) {
-        super(null, null, (Properties) null);
+        super(null, null, new Properties());
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("queueItemUrl", queueItemUrl);
+        replaceUrlPlaceholder("automationServerId", String.valueOf(APIContextManager.AUTHOMATION_SERVER_ID_VALUE));
     }
 }
