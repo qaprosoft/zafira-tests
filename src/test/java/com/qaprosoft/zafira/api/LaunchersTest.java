@@ -22,6 +22,7 @@ import java.util.List;
 
 public class LaunchersTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(LaunchersTest.class);
+    private static final Boolean FAVORITE_VALUE_OF_PATCH = true;
 
     @Test
     public void testGetAllLaunchers() {
@@ -72,6 +73,19 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
 
         String type = JsonPath.from(putLauncherRs).get(JSONConstant.TYPE_RS_KEY);
         Assert.assertEquals(type, expectedTypeValue, "Launcher was not updated!");
+    }
+
+    @Test
+    public void testUpdatePatchUserLauncher() {
+        int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
+        int jobId = new JobServiceImpl().create();
+        int launcherId = new LauncherServiceImpl().create(jobId, accountTypeId);
+        PatchLauncherMethod patchLauncherMethod = new PatchLauncherMethod(launcherId, FAVORITE_VALUE_OF_PATCH);
+        apiExecutor.expectStatus(patchLauncherMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(patchLauncherMethod);
+        apiExecutor.validateResponse(patchLauncherMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        Boolean actualValue = JsonPath.from(rs).get(JSONConstant.FAVORITE_VALUE_KEY);
+        Assert.assertEquals(actualValue, FAVORITE_VALUE_OF_PATCH, "Launcher was not updated!");
     }
 
     @Test
