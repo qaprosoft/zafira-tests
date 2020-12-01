@@ -1,0 +1,8 @@
+[
+  {
+    "name": "type:String",
+    "url": "type:String",
+    "defaultBranch": "type:String",
+    "private": "type:Boolean"
+  }
+]

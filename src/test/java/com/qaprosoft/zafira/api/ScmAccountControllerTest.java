@@ -82,4 +82,29 @@ public class ScmAccountControllerTest extends ZafiraAPIBaseTest {
         Assert.assertFalse(allSCMAccounts.contains(scmAccountId));
     }
 
+    @Test
+    public void testGetAllOrganizations() {
+        GetAllOrganizationsMethod getAllOrganizationsMethod = new GetAllOrganizationsMethod();
+        apiExecutor.expectStatus(getAllOrganizationsMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getAllOrganizationsMethod);
+        apiExecutor.validateResponse(getAllOrganizationsMethod, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testGetAllRepositories() {
+        GetAllRepositoriesMethod getAllRepositoriesMethod = new GetAllRepositoriesMethod();
+        apiExecutor.expectStatus(getAllRepositoriesMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getAllRepositoriesMethod);
+        apiExecutor.validateResponse(getAllRepositoriesMethod, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testGetDefaultBranch() {
+        GetDefaultBranchMethod getDefaultBranchMethod = new GetDefaultBranchMethod();
+        apiExecutor.expectStatus(getDefaultBranchMethod, HTTPStatusCodeType.OK);
+        String brunch = apiExecutor.callApiMethod(getDefaultBranchMethod);
+        Assert.assertNotNull(brunch, "The default branch was not received!");
+    }
 }
