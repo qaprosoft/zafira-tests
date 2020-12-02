@@ -11,5 +11,6 @@ public class DeleteLauncherScannerMethod extends ZafiraBaseApiMethodWithAuth {
         super(null, null, (Properties) null);
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("scmAccountId", String.valueOf(scmAccountId));
+        replaceUrlPlaceholder("automationServerId", String.valueOf(APIContextManager.AUTHOMATION_SERVER_ID_VALUE));
     }
 }
