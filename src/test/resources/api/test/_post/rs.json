@@ -10,13 +10,10 @@
   "messageHashCode": "regex:[\\d]",
   "startTime": "regex:[\\d]",
   "finishTime": "regex:[\\d]",
-  "retry": "regex:[\\d]",
   "knownIssue": "type:Boolean",
   "blocker": "type:Boolean",
   "needRerun": "type:Boolean",
   "dependsOnMethods": "type:String",
   "testClass": "type:String",
-  "artifacts": [],
-  "ciTestId": "type:String",
-  "labels": []
+  "artifacts": []
 }

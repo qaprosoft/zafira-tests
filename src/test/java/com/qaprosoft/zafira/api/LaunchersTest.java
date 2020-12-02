@@ -156,9 +156,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
     public void testCancelLauncherScanner() {
         LauncherServiceImpl launcherServiceImpl = new LauncherServiceImpl();
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
-        String buildnumber = launcherServiceImpl.getBuildNumber(launcherServiceImpl.getQueueItemUrl(accountTypeId));
-
-        DeleteLauncherScannerMethod deleteLauncherScannerMethod = new DeleteLauncherScannerMethod(buildnumber, accountTypeId);
+        DeleteLauncherScannerMethod deleteLauncherScannerMethod = new DeleteLauncherScannerMethod( accountTypeId);
         apiExecutor.expectStatus(deleteLauncherScannerMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(deleteLauncherScannerMethod);
     }

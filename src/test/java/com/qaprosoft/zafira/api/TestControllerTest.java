@@ -95,7 +95,7 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         int testIdRs = JsonPath.from(testRs).get(JSONConstant.ALL_ID_FROM_RESULTS_KEY);
         Assert.assertEquals(testId, testIdRs, "Test was not create!");
         DeleteTestByIdMethod deleteTestByIdMethod = new DeleteTestByIdMethod(testId);
-        apiExecutor.expectStatus(deleteTestByIdMethod, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.expectStatus(deleteTestByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(deleteTestByIdMethod);
         String testRsAfterDelete = testServiseImpl.getAllTest(testRunId);
         Assert.assertFalse(testRsAfterDelete.contains(String.valueOf(testIdRs)), "Test was not deleted!");
