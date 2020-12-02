@@ -12,7 +12,6 @@
   "messageHashCode": "regex:[\\d]",
   "startTime": "regex:[\\d]",
   "finishTime": "regex:[\\d]",
-  "retry": "regex:[\\d]",
   "testConfig": "type:JSONObject",
   "workItems": [],
   "knownIssue": "type:Boolean",
@@ -22,8 +21,7 @@
   "dependsOnMethods": "type:String",
   "testClass": "type:String",
   "artifacts": [],
-  "ciTestId": "type:String",
-  "labels": [],
   "notNullTestGroup": "type:String",
+  "labels": [],
   "stacktraceLabels":[]
 }

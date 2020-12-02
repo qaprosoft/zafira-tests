@@ -151,15 +151,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testDebugJob() {
-        int testRunId = createTestRun(TESTS_TO_ADD);
-        new TestRunServiceAPIImpl().finishTestRun(testRunId);
-        GetDebugJobMethod getDebugJobMethod = new GetDebugJobMethod(testRunId);
-        apiExecutor.expectStatus(getDebugJobMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getDebugJobMethod);
-    }
-
-    @Test
     public void testGetTestRunJobParameters() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
@@ -209,15 +200,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         GetAbortTestRunCiMethod getAbortTestRunCiMethod = new GetAbortTestRunCiMethod(testRunId, ciRunId);
         apiExecutor.expectStatus(getAbortTestRunCiMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getAbortTestRunCiMethod);
-    }
-
-    @Test
-    public void testAbortTestRunDebug() {
-        int testRunId = createTestRun(TESTS_TO_ADD);
-        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
-        GetAbortDebugTestRunMethod getAbortDebugTestRunMethod = new GetAbortDebugTestRunMethod(testRunId, ciRunId);
-        apiExecutor.expectStatus(getAbortDebugTestRunMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getAbortDebugTestRunMethod);
     }
 
     @Test(enabled = false)
