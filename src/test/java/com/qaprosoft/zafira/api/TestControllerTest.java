@@ -290,6 +290,8 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         PutStacktraceLabelsMethod putStacktraceLabelsMethod = new PutStacktraceLabelsMethod(testId, STACKTRACE_LABELS_NAME);
         apiExecutor.expectStatus(putStacktraceLabelsMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putStacktraceLabelsMethod);
+        apiExecutor.validateResponse(putStacktraceLabelsMethod,
+                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
@@ -304,8 +306,8 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         new TestRunServiceAPIImpl().createAIAnalysis(testRunId);
         new TestServiceImpl().updateTestStacktraceLabel(testId,
                 STACKTRACE_LABELS_NAME);
-        DeleteStacktraceLabelsMethod putStacktraceLabelsMethod = new DeleteStacktraceLabelsMethod(testId);
-        apiExecutor.expectStatus(putStacktraceLabelsMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(putStacktraceLabelsMethod);
+        DeleteStacktraceLabelsMethod deleteStacktraceLabelsMethod = new DeleteStacktraceLabelsMethod(testId);
+        apiExecutor.expectStatus(deleteStacktraceLabelsMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(deleteStacktraceLabelsMethod);
     }
 }

@@ -285,5 +285,4 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postAIAnalysisMethod, HTTPStatusCodeType.ACCEPTED);
         apiExecutor.callApiMethod(postAIAnalysisMethod);
     }
-
 }
