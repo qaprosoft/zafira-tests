@@ -3,6 +3,7 @@ package com.qaprosoft.zafira.api;
 import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
+import com.qaprosoft.zafira.api.testController.PutWorkItemMethod;
 import com.qaprosoft.zafira.api.testRunController.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
@@ -31,6 +32,8 @@ public class TestRunTest extends ZafiraAPIBaseTest {
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY)));
     private final static Logger LOGGER = Logger.getLogger(TestRunTest.class);
     private final int TESTS_TO_ADD = 1;
+    private final String TEST_STATUS_FAILED = "FAILED";
+    private final String TEST_STATUS_ABORTED = "ABORTED";
 
     @Test
     public void testStartTestRun() {
@@ -47,13 +50,12 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
-        String expectedWorkItemValue = R.TESTDATA.get(ConfigConstant.WORK_ITEM_KEY);
-        PutTestRunMethod putTestRunMethod = new PutTestRunMethod(testSuiteId, jobId, testRunId, expectedWorkItemValue);
+        PutTestRunMethod putTestRunMethod = new PutTestRunMethod(testSuiteId, jobId, testRunId, TEST_STATUS_ABORTED);
         apiExecutor.expectStatus(putTestRunMethod, HTTPStatusCodeType.OK);
         String putTestRunRs = apiExecutor.callApiMethod(putTestRunMethod);
         apiExecutor.validateResponse(putTestRunMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        String workItem = JsonPath.from(putTestRunRs).get(JSONConstant.WORK_ITEM_RS_KEY);
-        Assert.assertEquals(workItem, expectedWorkItemValue, "Launcher was not updated!");
+        String actualStatus = JsonPath.from(putTestRunRs).get(JSONConstant.STATUS_KEY);
+        Assert.assertEquals(actualStatus, TEST_STATUS_ABORTED, "TestRun was not updated!");
     }
 
     @Test
@@ -268,5 +270,19 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(getAllTestRunConfigPlatformsMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getAllTestRunConfigPlatformsMethod);
         apiExecutor.validateResponse(getAllTestRunConfigPlatformsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testPostAIAnalysis() {
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        new TestServiceImpl().updateTestStatus(testId, testSuiteId,
+                jobId, TEST_STATUS_FAILED);
+        PostAIAnalysisMethod postAIAnalysisMethod = new PostAIAnalysisMethod(testRunId);
+        apiExecutor.expectStatus(postAIAnalysisMethod, HTTPStatusCodeType.ACCEPTED);
+        apiExecutor.callApiMethod(postAIAnalysisMethod);
     }
 }

@@ -52,4 +52,5 @@ public class JSONConstant {
     public static final String PROJECT_NAME_KEY = "name";
     public static final String ARRAY_STATUS_KEY = "[0].status";
     public static final String FAVORITE_VALUE_KEY = "favorite";
+    public static final String ITEMS_TEST_ID_KEY = "items[0].id";
 }

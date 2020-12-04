@@ -14,4 +14,6 @@ public interface TestService {
 
     void updateTestStatus(int testId, int testSuiteId, int
             jobId, String expectedTestStatusValue);
+
+    void updateTestStacktraceLabel(int testId, String stacktraceLabelsName);
 }

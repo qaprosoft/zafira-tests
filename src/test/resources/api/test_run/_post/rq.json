@@ -10,11 +10,9 @@
 "knownIssue": true,
 "reviewed": true,
 "scmBranch": "string",
-"scmCommit": "string",
 "scmURL": "string",
 "startedBy": "HUMAN",
 "status": "UNKNOWN",
 "testSuiteId": ${testSuiteId},
-"upstreamJobBuildNumber": null,
-"workItem": "string"
+"upstreamJobBuildNumber": null
 }

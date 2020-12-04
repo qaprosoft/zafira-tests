@@ -159,4 +159,23 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
         String actualResult = new TestRunServiceAPIImplV1().getTestRunResult(testRunId);
         Assert.assertEquals(actualResult, RESULT_IN_PROGRESS, "Result is not as expected!");
     }
+
+    @Test(enabled = false)
+    public void testGetListTestRuns() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        new TestServiceAPIV1Impl().createTest(testRunId);
+        GetListTestRunsV1Method getListTestRunsV1Method = new GetListTestRunsV1Method();
+        apiExecutor.expectStatus(getListTestRunsV1Method, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getListTestRunsV1Method);
+        apiExecutor.validateResponse(getListTestRunsV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test(enabled = false)
+    public void testDeleteTestRun() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        new TestServiceAPIV1Impl().createTest(testRunId);
+        DeleteTestRunByIdV1Method deleteTestRunByIdV1Method = new DeleteTestRunByIdV1Method(testRunId);
+        apiExecutor.expectStatus(deleteTestRunByIdV1Method, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(deleteTestRunByIdV1Method);
+    }
 }
