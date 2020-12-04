@@ -11,6 +11,6 @@ public class PutTestRunMethod extends ZafiraBaseApiMethodWithAuth {
         addProperty("testSuiteId", String.valueOf(testSuiteId));
         addProperty("jobId", String.valueOf(jobId));
         addProperty("id", String.valueOf(testRunId));
-        addProperty("workItem", valueToUpdate);
+        addProperty("status", valueToUpdate);
     }
 }

@@ -1,0 +1,26 @@
+{
+  "items": [
+    {
+      "id": "regex:[\\d]",
+      "name": "type:String",
+      "reason": "type:String",
+      "startedAt": "regex:[\\d]",
+      "endedAt": "regex:[\\d]",
+      "status": "type:String",
+      "labels": "type:JSONArray",
+      "artifactReferences": "type:JSONArray",
+      "testRun": {
+        "id": "regex:[\\d]",
+        "ciRunId": "type:String",
+        "activeProject": null,
+        "startedAt": "regex:[\\d]",
+        "endedAt": "regex:[\\d]",
+        "status": "type:String",
+        "labels": "type:JSONArray",
+        "artifactReferences": "type:JSONArray"
+      }
+    }
+  ]
+}
+
+

@@ -1,11 +1,8 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.jayway.restassured.path.json.JsonPath;
-import com.qaprosoft.zafira.api.testController.PostRetrieveTestBySearchCriteriaMethod;
-import com.qaprosoft.zafira.api.testController.PutUpdateTestStatusMethod;
+import com.qaprosoft.zafira.api.testController.*;
 import com.qaprosoft.zafira.api.testRunController.GetTestByTestRunIdMethod;
-import com.qaprosoft.zafira.api.testController.PostFinishTestMethod;
-import com.qaprosoft.zafira.api.testController.PostStartTestMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.TestService;
@@ -46,10 +43,16 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public void updateTestStatus(int testId,int testSuiteId,int
-                                 jobId,String expectedTestStatusValue) {
+    public void updateTestStatus(int testId, int testSuiteId, int
+            jobId, String expectedTestStatusValue) {
         PutUpdateTestStatusMethod putUpdateTestStatusMethod = new PutUpdateTestStatusMethod(testId, testSuiteId,
                 jobId, expectedTestStatusValue);
         apiExecutor.expectStatus(putUpdateTestStatusMethod, HTTPStatusCodeType.OK);
+    }
+
+    @Override
+    public void updateTestStacktraceLabel(int testId, String stacktraceLabelsName) {
+        PutStacktraceLabelsMethod putStacktraceLabelsMethod = new PutStacktraceLabelsMethod(testId, stacktraceLabelsName);
+        apiExecutor.expectStatus(putStacktraceLabelsMethod, HTTPStatusCodeType.OK);
     }
 }

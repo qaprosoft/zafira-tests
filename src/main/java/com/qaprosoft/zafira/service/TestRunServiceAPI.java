@@ -17,4 +17,6 @@ public interface TestRunServiceAPI {
     String getTestRunStatus(int testSuiteId);
 
     String createTestRunAndReturnCiRunId(int testSuiteId, int jobId);
+
+    void createAIAnalysis(int testRunId);
 }

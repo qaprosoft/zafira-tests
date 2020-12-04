@@ -4,6 +4,8 @@ import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.testController.*;
+import com.qaprosoft.zafira.api.testController.v1.GetTestsV1Method;
+import com.qaprosoft.zafira.api.testRunController.PostAIAnalysisMethod;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
@@ -18,8 +20,8 @@ import java.util.List;
 public class TestControllerTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(TestControllerTest.class);
     private static final String EXISTING_ISSUE = "ZEB-1871";
-    private static final String TEST_STATUS_PASSED = "PASSED";
     private static final String TEST_STATUS_FAILED = "FAILED";
+    private static final String STACKTRACE_LABELS_NAME = "BUSINESS_ISSUE";
 
     @Test
     public void testStartTest() {
@@ -250,12 +252,60 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testId = new TestServiceImpl().create(testCaseId, testRunId);
         PatchUpdateBatchPatchesOfTestStatusMethod patchUpdateBatchPatchesOfTestStatusMethod
-                = new PatchUpdateBatchPatchesOfTestStatusMethod(testId, testRunId,expectedTestStatusValue);
+                = new PatchUpdateBatchPatchesOfTestStatusMethod(testId, testRunId, expectedTestStatusValue);
         apiExecutor.expectStatus(patchUpdateBatchPatchesOfTestStatusMethod, HTTPStatusCodeType.OK);
         String putTestRs = apiExecutor.callApiMethod(patchUpdateBatchPatchesOfTestStatusMethod);
         apiExecutor.validateResponse(patchUpdateBatchPatchesOfTestStatusMethod,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         String testStatus = JsonPath.from(putTestRs).get(JSONConstant.ARRAY_STATUS_KEY);
         Assert.assertEquals(testStatus, expectedTestStatusValue, "Test status was not updated!");
+    }
+
+    @Test(enabled = false)
+    public void testGetTests() {
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        GetTestsV1Method getTestsV1Method = new GetTestsV1Method(testRunId);
+        apiExecutor.expectStatus(getTestsV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getTestsV1Method);
+        apiExecutor.validateResponse(getTestsV1Method,
+                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        int actualId = JsonPath.from(rs).getInt(JSONConstant.ITEMS_TEST_ID_KEY);
+        Assert.assertEquals(testId, actualId, "Tests was not got!");
+    }
+
+    @Test
+    public void testPutStacktraceLabel() {
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        new TestServiceImpl().updateTestStatus(testId, testSuiteId,
+                jobId, TEST_STATUS_FAILED);
+        new TestRunServiceAPIImpl().createAIAnalysis(testRunId);
+        PutStacktraceLabelsMethod putStacktraceLabelsMethod = new PutStacktraceLabelsMethod(testId, STACKTRACE_LABELS_NAME);
+        apiExecutor.expectStatus(putStacktraceLabelsMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putStacktraceLabelsMethod);
+    }
+
+    @Test
+    public void testDeleteStacktraceLabel() {
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        new TestServiceImpl().updateTestStatus(testId, testSuiteId,
+                jobId, TEST_STATUS_FAILED);
+        new TestRunServiceAPIImpl().createAIAnalysis(testRunId);
+        new TestServiceImpl().updateTestStacktraceLabel(testId,
+                STACKTRACE_LABELS_NAME);
+        DeleteStacktraceLabelsMethod putStacktraceLabelsMethod = new DeleteStacktraceLabelsMethod(testId);
+        apiExecutor.expectStatus(putStacktraceLabelsMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putStacktraceLabelsMethod);
     }
 }
