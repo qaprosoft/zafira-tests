@@ -19,7 +19,7 @@ public class TagControllerTest extends ZafiraAPIBaseTest {
         new TestRunServiceAPIImpl().deleteById(TEST_RUN_ID);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGetIntegrationInformationByTag() {
         String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(TEST_RUN_ID);
         new TestServiceAPIV1Impl().createTest(TEST_RUN_ID);
