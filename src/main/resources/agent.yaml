@@ -7,4 +7,4 @@ reporting:
   run:
     display-name: api-acceptance-tests
     build: 1.12.1.96-SNAPSHOT
-    environment: TEST-1
+    environment: STAG
