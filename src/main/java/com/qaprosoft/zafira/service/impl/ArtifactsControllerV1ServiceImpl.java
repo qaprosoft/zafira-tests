@@ -1,6 +1,6 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.jayway.restassured.path.json.JsonPath;
+import io.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.artifactsController.PostLogsV1Method;
 import com.qaprosoft.zafira.api.artifactsController.PostScreenshotsV1Method;
 import com.qaprosoft.zafira.constant.JSONConstant;

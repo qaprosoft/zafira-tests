@@ -1,11 +1,12 @@
 package com.qaprosoft.zafira.util;
 
-import com.jayway.restassured.path.json.JsonPath;
+
 import com.qaprosoft.zafira.api.artifactsController.GetLogsV1Method;
 import com.qaprosoft.zafira.api.artifactsController.GetScreenshotsV1Method;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.constant.TimeConstant;
 import com.qaprosoft.zafira.service.impl.ExecutionServiceImpl;
+import io.restassured.path.json.JsonPath;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 

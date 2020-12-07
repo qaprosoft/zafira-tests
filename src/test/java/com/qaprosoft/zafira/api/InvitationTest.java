@@ -1,6 +1,5 @@
 package com.qaprosoft.zafira.api;
 
-import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.zafira.api.invitation.v1.DeleteInvitationByIdV1Method;
 import com.qaprosoft.zafira.api.invitation.v1.GetInvitationByTokenV1Method;
@@ -9,6 +8,7 @@ import com.qaprosoft.zafira.api.invitation.v1.PostInviteUserV1Method;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.InvitationServiceV1Impl;
+import io.restassured.path.json.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;

@@ -1,10 +1,5 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.jayway.restassured.path.json.JsonPath;
-import com.qaprosoft.zafira.api.group.DeleteGroupByIdMethod;
-import com.qaprosoft.zafira.api.group.GetAllGroupsMethod;
-import com.qaprosoft.zafira.api.group.GetGroupByIdMethod;
-import com.qaprosoft.zafira.api.group.PostGroupMethod;
 import com.qaprosoft.zafira.api.groupIAM.DeleteGroupByIdMethodIAM;
 import com.qaprosoft.zafira.api.groupIAM.GetAllGroupsMethodIAM;
 import com.qaprosoft.zafira.api.groupIAM.GetGroupByIdMethodIAM;
@@ -12,6 +7,7 @@ import com.qaprosoft.zafira.api.groupIAM.PostGroupMethodIAM;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.GroupServiceIAM;
+import io.restassured.path.json.JsonPath;
 
 import java.util.List;
 

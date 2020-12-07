@@ -1,6 +1,6 @@
 package com.qaprosoft.zafira.api;
 
-import com.jayway.restassured.path.json.JsonPath;
+
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.zafira.api.testRunController.v1.*;
 import com.qaprosoft.zafira.constant.JSONConstant;
@@ -8,6 +8,7 @@ import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceAPIV1Impl;
+import io.restassured.path.json.JsonPath;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;

@@ -1,8 +1,9 @@
 package com.qaprosoft.zafira.service.impl;
 
+import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;
 
-import com.jayway.restassured.path.json.JsonPath;
+
 import com.qaprosoft.zafira.api.preset.GetLauncherWebHookMethod;
 import com.qaprosoft.zafira.api.preset.PostLauncherPresetMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;

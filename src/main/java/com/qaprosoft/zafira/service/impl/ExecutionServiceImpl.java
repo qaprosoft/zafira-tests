@@ -1,9 +1,10 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.jayway.restassured.response.Response;
+
 import com.qaprosoft.carina.core.foundation.api.AbstractApiMethodV2;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.ExecutionService;
+import io.restassured.response.Response;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
 public class ExecutionServiceImpl implements ExecutionService {

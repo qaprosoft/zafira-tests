@@ -1,11 +1,12 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.jayway.restassured.path.json.JsonPath;
+
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestsInTestRunV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PutUpdateTestInTestRunV1Method;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.TestServiceAPIV1;
+import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;
 
 public class TestServiceAPIV1Impl implements TestServiceAPIV1 {

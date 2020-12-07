@@ -1,9 +1,10 @@
 package com.qaprosoft.zafira.manager;
 
 import com.qaprosoft.zafira.api.authIAM.PostRefreshTokenMethodIAM;
+import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;
 
-import com.jayway.restassured.path.json.JsonPath;
+
 import com.qaprosoft.carina.core.foundation.utils.R;
 
 import com.qaprosoft.zafira.constant.ConfigConstant;
