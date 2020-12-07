@@ -13,19 +13,21 @@ import com.qaprosoft.zafira.service.impl.DashboardServiceImpl;
 import com.qaprosoft.zafira.service.impl.WidgetServiceImpl;
 import com.qaprosoft.zafira.util.CryptoUtil;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.lang.invoke.MethodHandles;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 public class DashboardWidgetTest extends ZafiraAPIBaseTest {
-    private final static Logger LOGGER = Logger.getLogger(DashboardWidgetTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final EmailManager EMAIL = new EmailManager(
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY)),
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY)));
@@ -61,6 +63,7 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postWidgetToDashboardMethod);
         apiExecutor.validateResponse(postWidgetToDashboardMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         widgetId = JsonPath.from(rs).get(JSONConstant.ID_KEY);
+        LOGGER.info(widgetName);
     }
 
     @Test

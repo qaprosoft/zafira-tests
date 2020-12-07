@@ -8,15 +8,17 @@ import com.qaprosoft.zafira.api.mock.GetCreateJobBuild;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.service.impl.*;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 public class ZafiraAPIBaseTest extends AbstractTest {
-    private static final Logger LOGGER = Logger.getLogger(ZafiraAPIBaseTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     protected ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
 
