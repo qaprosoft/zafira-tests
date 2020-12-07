@@ -22,7 +22,6 @@
             <artifactId>lombok</artifactId>
             <version>1.18.16</version>
         </dependency>
-
         <dependency>
             <groupId>com.qaprosoft</groupId>
             <artifactId>carina-core</artifactId>
@@ -38,7 +37,6 @@
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
-
         <dependency>
             <groupId>org.everit.json</groupId>
             <artifactId>org.everit.json.schema</artifactId>
@@ -80,7 +78,6 @@
             <artifactId>logback-core</artifactId>
             <version>1.2.3</version>
         </dependency>
-
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
