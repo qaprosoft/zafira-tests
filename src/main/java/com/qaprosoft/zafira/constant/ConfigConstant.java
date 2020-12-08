@@ -50,6 +50,7 @@ public class ConfigConstant {
     public static final String SCREENSHOT_PATH_KEY = "screenshot_path_key";
     public static final String IMAGE_PATH_KEY_PNG = "image_path_key_png";
     public static final String IMAGE_PATH_KEY_PNG_LARGE = "image_path_key_png_large";
+    public static final String IMAGE_PATH_KEY_EMAIL ="image_path_key_email";
     public static final String EMAIL_KEY = "email_key";
     public static final String EXISTING_SCM_ID = "scm_id";
 }

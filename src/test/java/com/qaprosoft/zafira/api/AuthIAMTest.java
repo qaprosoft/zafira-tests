@@ -34,7 +34,6 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postGenerateAuthTokenMethodIAM);
         apiExecutor.validateResponse(postGenerateAuthTokenMethodIAM, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        LOGGER.info("DDDD");
     }
 
     @Test

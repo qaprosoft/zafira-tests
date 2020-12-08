@@ -21,6 +21,9 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.Collections;
 import java.util.Date;
@@ -106,25 +109,25 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(deleteWidgetFromDashboardMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(deleteWidgetFromDashboardMethod);
     }
+//
+//    @Test
+//    public void testSendDashboardByEmailSmallPic() {
+//        String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
+//        int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
+//        String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
+//        WidgetServiceImpl widgetService = new WidgetServiceImpl();
+//        String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
+//        widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
+//        File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG));
+//        String email = R.TESTDATA.get(ConfigConstant.EMAIL_KEY).replace("dashboardName", dashboardName);
+//        PostDashboardByEmailMethod postAssetMethod = new PostDashboardByEmailMethod(uploadFile, email);
+//        apiExecutor.expectStatus(postAssetMethod, HTTPStatusCodeType.OK);
+//        apiExecutor.callApiMethod(postAssetMethod);
+//        verifyIfEmailWasDelivered(dashboardName);
+//    }
 
     @Test
-    public void testSendDashboardByEmailSmallPic() {
-        String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
-        int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
-        String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
-        WidgetServiceImpl widgetService = new WidgetServiceImpl();
-        String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
-        widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
-        File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG));
-        String email = R.TESTDATA.get(ConfigConstant.EMAIL_KEY).replace("dashboardName", dashboardName);
-        PostDashboardByEmailMethod postAssetMethod = new PostDashboardByEmailMethod(uploadFile, email);
-        apiExecutor.expectStatus(postAssetMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(postAssetMethod);
-        verifyIfEmailWasDelivered(dashboardName);
-    }
-
-    @Test
-    public void testSendDashboardByEmailLargePic() {
+    public void testSendDashboardByEmailLargePic() throws IOException {
         String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
         String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
@@ -132,8 +135,12 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
         widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
         File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG_LARGE));
-        String email = R.TESTDATA.get(ConfigConstant.EMAIL_KEY).replace("dashboardName", dashboardName);
-        PostDashboardByEmailMethod postAssetMethod = new PostDashboardByEmailMethod(uploadFile, email);
+        File emailFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_EMAIL));
+        String text = R.TESTDATA.get(ConfigConstant.EMAIL_KEY).replace("dashboardName", dashboardName);
+        FileOutputStream fos=new FileOutputStream(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_EMAIL));
+        byte[] buffer = text.getBytes();
+        fos.write(buffer, 0, buffer.length);
+        PostDashboardByEmailMethod postAssetMethod = new PostDashboardByEmailMethod(uploadFile, emailFile);
         apiExecutor.expectStatus(postAssetMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postAssetMethod);
         verifyIfEmailWasDelivered(dashboardName);

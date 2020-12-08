@@ -1,9 +1,10 @@
+
 {
-  "capabilities": "string",
-  "desiredCapabilities": "string",
-  "sessionId": " ",
+  "capabilities": {},
+  "desiredCapabilities": {},
+  "sessionId": "string",
   "startedAt": "${startedAt}",
-  "testRefs": [
+  "testIds": [
     0
   ]
 }

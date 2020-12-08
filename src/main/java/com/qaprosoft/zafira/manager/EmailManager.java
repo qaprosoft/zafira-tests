@@ -2,20 +2,22 @@ package com.qaprosoft.zafira.manager;
 
 import com.qaprosoft.zafira.domain.EmailMsg;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.log4j.Logger;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.mail.*;
 import javax.mail.internet.MimeMultipart;
+import java.lang.invoke.MethodHandles;
 import java.time.Duration;
 import java.util.Date;
 import java.util.Properties;
 
 public class EmailManager {
 
-    private static final Logger LOGGER = Logger.getLogger(EmailManager.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static final int DEFAULT_NOTIFICATION_TIMEOUT = 300;
     private static final int DEFAULT_EMAILS_COUNT_TO_RETRIEVE = 10;
