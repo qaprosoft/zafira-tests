@@ -34,6 +34,7 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postGenerateAuthTokenMethodIAM);
         apiExecutor.validateResponse(postGenerateAuthTokenMethodIAM, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        LOGGER.info("DDDD");
     }
 
     @Test
@@ -62,6 +63,7 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getAccessTokenMethod);
         apiExecutor.validateResponse(getAccessTokenMethod, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        LOGGER.info("4441111DDDD");
     }
 
     @Test
