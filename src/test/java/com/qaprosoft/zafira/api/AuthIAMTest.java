@@ -10,12 +10,13 @@ import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.util.CryptoUtil;
-import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 public class AuthIAMTest extends ZafiraAPIBaseTest {
-    private final static Logger LOGGER = Logger.getLogger(AuthIAMTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger((ZafiraAPIBaseTest.class));
     private final static String EMAIL = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
     private final static String INVALID_PASSWORD = "test";
     private final static String EMPTY_AUTHTOKEN = "";

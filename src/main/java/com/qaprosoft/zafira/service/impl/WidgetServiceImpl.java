@@ -1,6 +1,6 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.jayway.restassured.path.json.JsonPath;
+import io.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.widget.DeleteWidgetMethod;
 import com.qaprosoft.zafira.api.widget.GetAllWidgetMethod;
 import com.qaprosoft.zafira.api.widget.GetAllWidgetTemplatesMethod;

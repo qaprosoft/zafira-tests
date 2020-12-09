@@ -1,6 +1,6 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.jayway.restassured.path.json.JsonPath;
+import io.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.testSessionController.PostSessionV1Method;
 import com.qaprosoft.zafira.api.testSessionController.PutSessionV1Method;
 import com.qaprosoft.zafira.constant.JSONConstant;
@@ -17,8 +17,8 @@ public class TestSessionControllerServiceImpl implements TestSessionControllerSe
     }
 
     @Override
-    public int create() {
-        PostSessionV1Method postSessionV1Method = new PostSessionV1Method();
+    public int create(int id) {
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(id);
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(postSessionV1Method);
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);

@@ -1,6 +1,5 @@
 package com.qaprosoft.zafira.api;
 
-import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.dashboard.*;
@@ -8,12 +7,11 @@ import com.qaprosoft.zafira.api.dashboard.attributes.DeleteDashboardAttributeMet
 import com.qaprosoft.zafira.api.dashboard.attributes.PostABatchOfDashboardAttributesMethod;
 import com.qaprosoft.zafira.api.dashboard.attributes.PostDashboardAttributeMethod;
 import com.qaprosoft.zafira.api.dashboard.attributes.UpdateDashboardAttributeMethod;
-import com.qaprosoft.zafira.api.dashboard.widget.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.DashboardServiceImpl;
-import com.qaprosoft.zafira.service.impl.WidgetServiceImpl;
+import io.restassured.path.json.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -21,7 +19,6 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.List;
 

@@ -2,15 +2,17 @@ package com.qaprosoft.zafira.manager;
 
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.constant.ConfigConstant;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.invoke.MethodHandles;
 
 public class BashExecutorManager {
-    private static final Logger LOGGER = Logger.getLogger(BashExecutorManager.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static BashExecutorManager instance;
 
@@ -50,12 +52,12 @@ public class BashExecutorManager {
             p = Runtime.getRuntime().exec(cmd);
             getProcessOutput(p);
         } catch (IOException e) {
-            LOGGER.info(e);
+            LOGGER.info(String.valueOf(e));
         }
         try {
             p.waitFor();
         } catch (InterruptedException e) {
-            LOGGER.info(e);
+            LOGGER.info(String.valueOf(e));
         }
     }
 

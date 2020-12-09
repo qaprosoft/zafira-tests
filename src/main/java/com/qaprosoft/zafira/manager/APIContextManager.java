@@ -1,17 +1,21 @@
 package com.qaprosoft.zafira.manager;
 
 import com.qaprosoft.zafira.api.authIAM.PostRefreshTokenMethodIAM;
-import org.apache.log4j.Logger;
+import io.restassured.path.json.JsonPath;
 
-import com.jayway.restassured.path.json.JsonPath;
+
 import com.qaprosoft.carina.core.foundation.utils.R;
 
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.service.impl.ExecutionServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.invoke.MethodHandles;
 
 public class APIContextManager {
-    private static final Logger LOGGER = Logger.getLogger(APIContextManager.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private String accessToken;
     public static String ENV_VALUE = R.CONFIG.get(ConfigConstant.ENV_KEY);

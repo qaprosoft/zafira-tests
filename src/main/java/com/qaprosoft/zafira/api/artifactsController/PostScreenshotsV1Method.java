@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-import static com.jayway.restassured.RestAssured.given;
 
 public class PostScreenshotsV1Method extends ZafiraBaseApiMethodWithAuth {
 

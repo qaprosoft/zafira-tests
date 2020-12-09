@@ -1,6 +1,6 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.jayway.restassured.path.json.JsonPath;
+import io.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.project.DeleteProjectByIdMethod;
 import com.qaprosoft.zafira.api.project.GetAllProjectMethod;
 import com.qaprosoft.zafira.api.project.PostProjectMethod;

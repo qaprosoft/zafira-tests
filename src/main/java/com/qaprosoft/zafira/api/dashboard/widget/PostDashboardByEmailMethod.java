@@ -6,7 +6,7 @@ import com.qaprosoft.zafira.manager.APIContextManager;
 import java.io.File;
 
 public class PostDashboardByEmailMethod extends ZafiraBaseApiMethodWithAuth {
-    public PostDashboardByEmailMethod(File file, String email) {
+    public PostDashboardByEmailMethod(File file, File email) {
         super(null, null, "api/file_util.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         setHeaders("Content-Type=multipart/form-data");

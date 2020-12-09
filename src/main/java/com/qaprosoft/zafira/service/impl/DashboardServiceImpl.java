@@ -1,6 +1,6 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.jayway.restassured.path.json.JsonPath;
+import io.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.dashboard.DeleteDashboardByIdMethod;
 import com.qaprosoft.zafira.api.dashboard.GetAllDashboardMethod;
 import com.qaprosoft.zafira.api.dashboard.PostDashboardMethod;

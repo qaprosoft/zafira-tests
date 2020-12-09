@@ -1,6 +1,5 @@
 package com.qaprosoft.zafira.api;
 
-import com.jayway.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.dashboard.widget.*;
@@ -12,20 +11,24 @@ import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.DashboardServiceImpl;
 import com.qaprosoft.zafira.service.impl.WidgetServiceImpl;
 import com.qaprosoft.zafira.util.CryptoUtil;
+import com.qaprosoft.zafira.util.FileUtil;
+import io.restassured.path.json.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 public class DashboardWidgetTest extends ZafiraAPIBaseTest {
-    private final static Logger LOGGER = Logger.getLogger(DashboardWidgetTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger((ZafiraAPIBaseTest.class));
     private final EmailManager EMAIL = new EmailManager(
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY)),
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY)));
@@ -61,6 +64,7 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postWidgetToDashboardMethod);
         apiExecutor.validateResponse(postWidgetToDashboardMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         widgetId = JsonPath.from(rs).get(JSONConstant.ID_KEY);
+        LOGGER.info(widgetName);
     }
 
     @Test
@@ -105,32 +109,36 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testSendDashboardByEmailSmallPic() {
+    public void testSendDashboardByEmailSmallPic() throws IOException {
         String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
         String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
         String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
         widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
-        File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG));
-        String email = R.TESTDATA.get(ConfigConstant.EMAIL_KEY).replace("dashboardName", dashboardName);
-        PostDashboardByEmailMethod postAssetMethod = new PostDashboardByEmailMethod(uploadFile, email);
+        File uploadFile = new FileUtil().getFile(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG));
+        String text = R.TESTDATA.get(ConfigConstant.EMAIL_KEY).replace("dashboardName", dashboardName);
+        File emailFile = new FileUtil().getFile(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_EMAIL));
+        new FileUtil().createEmailFile(text);
+        PostDashboardByEmailMethod postAssetMethod = new PostDashboardByEmailMethod(uploadFile, emailFile);
         apiExecutor.expectStatus(postAssetMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postAssetMethod);
         verifyIfEmailWasDelivered(dashboardName);
     }
 
     @Test
-    public void testSendDashboardByEmailLargePic() {
+    public void testSendDashboardByEmailLargePic() throws IOException {
         String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
         String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
         String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
         widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
-        File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG_LARGE));
-        String email = R.TESTDATA.get(ConfigConstant.EMAIL_KEY).replace("dashboardName", dashboardName);
-        PostDashboardByEmailMethod postAssetMethod = new PostDashboardByEmailMethod(uploadFile, email);
+        File uploadFile =  new FileUtil().getFile(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG_LARGE));
+        File emailFile = new FileUtil().getFile(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_EMAIL));
+        String text = R.TESTDATA.get(ConfigConstant.EMAIL_KEY).replace("dashboardName", dashboardName);
+        new FileUtil().createEmailFile(text);
+        PostDashboardByEmailMethod postAssetMethod = new PostDashboardByEmailMethod(uploadFile, emailFile);
         apiExecutor.expectStatus(postAssetMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postAssetMethod);
         verifyIfEmailWasDelivered(dashboardName);

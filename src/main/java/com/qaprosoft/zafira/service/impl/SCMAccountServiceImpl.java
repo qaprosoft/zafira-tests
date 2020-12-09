@@ -1,6 +1,5 @@
 package com.qaprosoft.zafira.service.impl;
-
-import com.jayway.restassured.path.json.JsonPath;
+import io.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.scmAccountController.DeleteSCMAccountMethod;
 import com.qaprosoft.zafira.api.scmAccountController.GetAllSCMAccountsMethod;
 import com.qaprosoft.zafira.api.scmAccountController.PostSCMAccountMethod;

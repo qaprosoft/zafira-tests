@@ -1,7 +1,7 @@
 package com.qaprosoft.zafira.util;
 
 import com.qaprosoft.zafira.domain.ConfigXml;
-import com.qaprosoft.zafira.service.builder.TestRunBuilder;
+//mport com.qaprosoft.zafira.service.builder.TestRunBuilder;
 import org.apache.log4j.Logger;
 
 import javax.xml.bind.JAXBContext;

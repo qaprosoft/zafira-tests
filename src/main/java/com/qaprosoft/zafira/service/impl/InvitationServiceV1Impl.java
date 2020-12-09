@@ -1,6 +1,6 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.jayway.restassured.path.json.JsonPath;
+import io.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.invitation.v1.DeleteInvitationByIdV1Method;
 import com.qaprosoft.zafira.api.invitation.v1.GetInvitationByTokenV1Method;
 import com.qaprosoft.zafira.api.invitation.v1.GetInvitationsV1Method;

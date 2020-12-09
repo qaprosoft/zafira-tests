@@ -1,7 +1,7 @@
 package com.qaprosoft.zafira.util;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.qaprosoft.zafira.gui.component.Modal;
+//import com.qaprosoft.zafira.gui.component.Modal;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
@@ -185,11 +185,11 @@ public class CommonUtils {
         return formatter.format(date);
     }
 
-    public static void waitUntilModalIsOpened(WebDriver driver, Modal modal) {
-        Wait<WebDriver> wait = new WebDriverWait(driver, 2);
-        //wait.until(ExpectedConditions.visibilityOf(modal.getTitle().getElement()));
-        modal.pause(0.5);
-    }
+//    public static void waitUntilModalIsOpened(WebDriver driver, Modal modal) {
+//        Wait<WebDriver> wait = new WebDriverWait(driver, 2);
+//        //wait.until(ExpectedConditions.visibilityOf(modal.getTitle().getElement()));
+//        modal.pause(0.5);
+//    }
 
     public static void waitUntilAlertIsOpened(WebDriver driver) {
         Wait<WebDriver> wait = new WebDriverWait(driver, 2, 100);

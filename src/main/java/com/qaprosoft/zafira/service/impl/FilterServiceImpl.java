@@ -1,6 +1,6 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.jayway.restassured.path.json.JsonPath;
+import io.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.filter.DeleteFilterMethod;
 import com.qaprosoft.zafira.api.filter.GetAllPublicFiltersMethods;
 import com.qaprosoft.zafira.api.filter.PostFilterMethod;
