@@ -1,7 +1,5 @@
 package com.qaprosoft.zafira.api;
 
-import com.qaprosoft.zafira.util.FileUtil;
-import io.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.dashboard.widget.*;
@@ -13,6 +11,8 @@ import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.DashboardServiceImpl;
 import com.qaprosoft.zafira.service.impl.WidgetServiceImpl;
 import com.qaprosoft.zafira.util.CryptoUtil;
+import com.qaprosoft.zafira.util.FileUtil;
+import io.restassured.path.json.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
@@ -22,16 +22,13 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.invoke.MethodHandles;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 public class DashboardWidgetTest extends ZafiraAPIBaseTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger((ZafiraAPIBaseTest.class));
     private final EmailManager EMAIL = new EmailManager(
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY)),
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY)));
@@ -119,9 +116,9 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
         String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
         widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
-        File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG));
+        File uploadFile = new FileUtil().getFile(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG));
         String text = R.TESTDATA.get(ConfigConstant.EMAIL_KEY).replace("dashboardName", dashboardName);
-        File emailFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_EMAIL));
+        File emailFile = new FileUtil().getFile(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_EMAIL));
         new FileUtil().createEmailFile(text);
         PostDashboardByEmailMethod postAssetMethod = new PostDashboardByEmailMethod(uploadFile, emailFile);
         apiExecutor.expectStatus(postAssetMethod, HTTPStatusCodeType.OK);
@@ -137,8 +134,8 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
         String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
         widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
-        File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG_LARGE));
-        File emailFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_EMAIL));
+        File uploadFile =  new FileUtil().getFile(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG_LARGE));
+        File emailFile = new FileUtil().getFile(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_EMAIL));
         String text = R.TESTDATA.get(ConfigConstant.EMAIL_KEY).replace("dashboardName", dashboardName);
         new FileUtil().createEmailFile(text);
         PostDashboardByEmailMethod postAssetMethod = new PostDashboardByEmailMethod(uploadFile, emailFile);
