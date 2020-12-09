@@ -7,7 +7,7 @@
   "settings": [
     {
       "id": 24,
-      "value": "https://hub.test.com/wd/hub",
+      "value": "https://hub.invalid_URLtest.com/wd/hub",
       "binaryData": null,
       "encrypted": false,
       "param": {
