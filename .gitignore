@@ -10,3 +10,4 @@ reports
 *.log
 *.iml
 *.DS_Store
+email.json

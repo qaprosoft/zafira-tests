@@ -179,7 +179,7 @@
     </test>
     <test name="Tag Controller Test">
         <classes>
-            <class name="com.qaprosoft.zafira.api.TagControllerTest"/>
+            <class name="com.qaprosoft.zafira.api.TcmDataExportControllerTest"/>
         </classes>
     </test>
     <test name="Scm Account Controller Test">
