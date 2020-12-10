@@ -11,15 +11,12 @@ import org.testng.annotations.Test;
 
 public class TcmDataExportControllerTest extends ZafiraAPIBaseTest {
     private static final String TOOL = "testrail";
+    private final int TESTS_TO_ADD = 1;
 
     @Test(enabled = false)
     public void testGetIntegrationInformationByTag() {
-        int testSuiteId = new TestSuiteServiceImpl().create();
-        int jobId = new JobServiceImpl().create();
-        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
-        new TestServiceImpl().create(testCaseId, testRunId);
         GetIntegrationInformationByTagMethod getIntegrationInformationByTagMethod = new GetIntegrationInformationByTagMethod(ciRunId, TOOL);
         apiExecutor.expectStatus(getIntegrationInformationByTagMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getIntegrationInformationByTagMethod);
