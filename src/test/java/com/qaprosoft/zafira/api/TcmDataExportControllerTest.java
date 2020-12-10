@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 public class TcmDataExportControllerTest extends ZafiraAPIBaseTest {
     private static final String TOOL = "testrail";
 
-    @Test
+    @Test(enabled = false)
     public void testGetIntegrationInformationByTag() {
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();
