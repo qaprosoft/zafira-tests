@@ -1,11 +1,20 @@
 {
-  "testInfo": "type:JSONArray",
-  "testRunName": "type:String",
-  "testRunId":"type:String",
-  "env": "type:String",
   "createdAfter": "regex:[\\d]",
-  "startedAt": "regex:[\\d]",
+  "customParams": {
+  },
+  "env": "type:String",
   "finishedAt": "regex:[\\d]",
-  "customParams": {},
-  "zafiraServiceUrl": "type:String"
+  "reportingServiceUrl": "type:String",
+  "startedAt": "regex:[\\d]",
+  "testInfo": [
+    {
+      "defectId": null,
+      "id": "regex:[\\d]",
+      "labelValue": "type:String",
+      "message": "type:String",
+      "status": "type:String"
+    }
+  ],
+  "testRunId": "type:String",
+  "testRunName": "type:String"
 }
