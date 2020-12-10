@@ -21,6 +21,5 @@ public class TcmDataExportControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(getIntegrationInformationByTagMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getIntegrationInformationByTagMethod);
         apiExecutor.validateResponse(getIntegrationInformationByTagMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        new TestRunServiceAPIImpl().deleteById(testRunId);
     }
 }
