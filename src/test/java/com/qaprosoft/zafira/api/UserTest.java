@@ -14,8 +14,9 @@ import com.qaprosoft.zafira.service.impl.InvitationServiceV1Impl;
 import com.qaprosoft.zafira.service.impl.UserV1ServiceAPIImpl;
 import com.qaprosoft.zafira.util.CryptoUtil;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -25,7 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 public class UserTest extends ZafiraAPIBaseTest {
-    private final static Logger LOGGER = Logger.getLogger(UserTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger((UserTest.class));
     private final static String QUERY = "anon";
     private final static String STATUS = "INACTIVE";
     private final static String EMPTY_USERNAME = "";
@@ -144,7 +145,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         GroupServiceIamImpl groupService = new GroupServiceIamImpl();
         List<Integer> allGroupsIds = groupService.getAllGroupsIds();
         List<Integer> allUserGroupIds = new UserV1ServiceAPIImpl().getAllUserGroupIds(userId);
-        LOGGER.info(allGroupsIds);
+        LOGGER.info(String.valueOf(allGroupsIds));
         for (int i = 1; i <= Collections.max(allGroupsIds); ++i) {
             if (allGroupsIds.contains(i)) {
                 String rs = groupService.getGroupById(i);
@@ -162,8 +163,8 @@ public class UserTest extends ZafiraAPIBaseTest {
         GroupServiceIamImpl groupService = new GroupServiceIamImpl();
         List<Integer> allGroupsIds = groupService.getAllGroupsIds();
         List<Integer> allUserGroupIds = new UserV1ServiceAPIImpl().getAllUserGroupIds(userId);
-        LOGGER.info(allGroupsIds);
-        LOGGER.info(allUserGroupIds);
+        LOGGER.info(String.valueOf(allGroupsIds));
+        LOGGER.info(String.valueOf(allUserGroupIds));
         for (int i = 1; i <= Collections.max(allGroupsIds); ++i) {
             if ((allGroupsIds.contains(i)) & (allUserGroupIds.contains(i))) {
                 DeleteUserFromGroupV1Method deleteUserFromGroupV1Method = new DeleteUserFromGroupV1Method(i, userId);
