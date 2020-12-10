@@ -60,7 +60,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         String rs = apiExecutor.callApiMethod(postCreateUserV1Method);
         User user = MAPPER.readValue(rs, User.class);
         Assert.assertEquals(EMAIL, user.getEmail(), "Email is not as expected!");
-        LOGGER.info(user.getEmail());
+        LOGGER.info("Email is" + user.getEmail());
     }
 
     @Test
@@ -145,7 +145,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         GroupServiceIamImpl groupService = new GroupServiceIamImpl();
         List<Integer> allGroupsIds = groupService.getAllGroupsIds();
         List<Integer> allUserGroupIds = new UserV1ServiceAPIImpl().getAllUserGroupIds(userId);
-        LOGGER.info(String.valueOf(allGroupsIds));
+       LOGGER.info("All userGroup ids: " + allUserGroupIds);
         for (int i = 1; i <= Collections.max(allGroupsIds); ++i) {
             if (allGroupsIds.contains(i)) {
                 String rs = groupService.getGroupById(i);
@@ -163,8 +163,8 @@ public class UserTest extends ZafiraAPIBaseTest {
         GroupServiceIamImpl groupService = new GroupServiceIamImpl();
         List<Integer> allGroupsIds = groupService.getAllGroupsIds();
         List<Integer> allUserGroupIds = new UserV1ServiceAPIImpl().getAllUserGroupIds(userId);
-        LOGGER.info(String.valueOf(allGroupsIds));
-        LOGGER.info(String.valueOf(allUserGroupIds));
+       LOGGER.info("All group ids: " + allGroupsIds);
+       LOGGER.info("All userGroup ids: " + allUserGroupIds);
         for (int i = 1; i <= Collections.max(allGroupsIds); ++i) {
             if ((allGroupsIds.contains(i)) & (allUserGroupIds.contains(i))) {
                 DeleteUserFromGroupV1Method deleteUserFromGroupV1Method = new DeleteUserFromGroupV1Method(i, userId);
