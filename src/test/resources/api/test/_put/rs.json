@@ -13,15 +13,15 @@
   "startTime": "regex:[\\d]",
   "finishTime": "regex:[\\d]",
   "testConfig": "type:JSONObject",
-  "workItems": [],
+  "workItems": "type:JSONArray",
   "knownIssue": "type:Boolean",
   "blocker": "type:Boolean",
   "needRerun": "type:Boolean",
   "owner": "type:String",
   "dependsOnMethods": "type:String",
   "testClass": "type:String",
-  "artifacts": [],
   "notNullTestGroup": "type:String",
-  "labels": [],
-  "stacktraceLabels":[]
+  "artifacts": "type:JSONArray",
+  "labels": "type:JSONArray",
+  "stacktraceLabels" : "type:JSONArray"
 }

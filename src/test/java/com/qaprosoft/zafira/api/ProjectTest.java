@@ -83,7 +83,7 @@ public class ProjectTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(expectedName, newName, "Name is not updated!");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testUpdateProjectWithNonExistingId() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(10));
         ProjectServiceImpl projectService = new ProjectServiceImpl();

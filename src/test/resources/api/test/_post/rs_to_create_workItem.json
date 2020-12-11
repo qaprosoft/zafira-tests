@@ -15,7 +15,7 @@
   "needRerun": "type:Boolean",
   "dependsOnMethods": "type:String",
   "testClass": "type:String",
-  "artifacts": [],
-  "labels": [],
-  "stacktraceLabels":[]
+  "artifacts": "type:JSONArray",
+  "labels": "type:JSONArray",
+  "stacktraceLabels" : "type:JSONArray"
 }

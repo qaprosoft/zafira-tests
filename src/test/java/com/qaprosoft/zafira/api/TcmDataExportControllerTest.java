@@ -13,7 +13,7 @@ public class TcmDataExportControllerTest extends ZafiraAPIBaseTest {
     private static final String TOOL = "testrail";
     private final int TESTS_TO_ADD = 1;
 
-    @Test(enabled = false)
+    @Test
     public void testGetIntegrationInformationByTag() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
