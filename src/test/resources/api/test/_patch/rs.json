@@ -14,16 +14,16 @@
     "startTime": "regex:[\\d]",
     "finishTime": "regex:[\\d]",
     "testConfig": "type:JSONObject",
-    "workItems": [],
+    "workItems": "type:JSONArray",
     "knownIssue": "type:Boolean",
     "blocker": "type:Boolean",
     "needRerun": "type:Boolean",
     "owner": "type:String",
     "dependsOnMethods": "type:String",
     "testClass": "type:String",
-    "artifacts": [],
-    "labels": [],
     "notNullTestGroup": "type:String",
-    "stacktraceLabels": []
+    "artifacts": "type:JSONArray",
+    "labels": "type:JSONArray",
+    "stacktraceLabels" : "type:JSONArray"
   }
 ]

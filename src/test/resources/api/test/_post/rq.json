@@ -28,9 +28,15 @@
   ],
   "labels": [
     {
-      "id": 0,
-      "key": "string",
-      "value": "string"
+
+      "key": "TESTRAIL_TESTCASE_UUID",
+      "value": "328763-32-23",
+      "tool": "testrail"
+    }, {
+
+      "key": "QTEST_TESTCASE_UUID",
+      "value": "2323-23",
+      "tool": "qtest"
     }
   ],
   "testMetrics": {

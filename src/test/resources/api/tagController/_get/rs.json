@@ -8,7 +8,7 @@
   "startedAt": "regex:[\\d]",
   "testInfo": [
     {
-      "defectId": null,
+      "defectId": "type:String",
       "id": "regex:[\\d]",
       "labelValue": "type:String",
       "message": "type:String",

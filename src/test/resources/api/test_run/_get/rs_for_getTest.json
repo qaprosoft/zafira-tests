@@ -17,7 +17,7 @@
     "dependsOnMethods": "type:String",
     "testClass": "type:String",
     "artifacts": "type:JSONArray",
-    "labels": [],
-    "stacktraceLabels": []
+    "labels": "type:JSONArray",
+    "stacktraceLabels": "type:JSONArray"
   }
 ]
