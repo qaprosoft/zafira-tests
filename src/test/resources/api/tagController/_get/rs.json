@@ -1,7 +1,6 @@
 {
   "createdAfter": "regex:[\\d]",
-  "customParams": {
-  },
+  "customParams": "type:JSONObject",
   "env": "type:String",
   "finishedAt": "regex:[\\d]",
   "reportingServiceUrl": "type:String",
