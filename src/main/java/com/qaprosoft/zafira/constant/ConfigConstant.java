@@ -53,4 +53,6 @@ public class ConfigConstant {
     public static final String IMAGE_PATH_KEY_EMAIL ="image_path_key_email";
     public static final String EMAIL_KEY = "email_key";
     public static final String EXISTING_SCM_ID = "scm_id";
+    public static final String TESTRAIL_KEY = "testrail";
+    public static final String QTEST_KEY = "qtest";
 }
