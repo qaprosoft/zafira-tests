@@ -187,4 +187,9 @@
             <class name="com.qaprosoft.zafira.api.ScmAccountControllerTest"/>
         </classes>
     </test>
+    <test name="Notification Controller Test">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.NotificationControllerTest"/>
+        </classes>
+    </test>
 </suite>

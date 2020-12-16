@@ -10,4 +10,5 @@ public interface TestRunServiceAPIV1 {
 
     void finishTestRun(int testRunId);
 
+    void deleteTestRun(int testRunId);
 }

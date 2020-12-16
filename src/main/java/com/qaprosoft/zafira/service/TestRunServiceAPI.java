@@ -12,6 +12,8 @@ public interface TestRunServiceAPI {
 
     void deleteById(int testRunId);
 
+    void reviewTestRun(int testRunId);
+
     List<Integer> getAll(String searchCriteriaType, int searchCriteriaId);
 
     String getTestRunStatus(int testSuiteId);

@@ -5,6 +5,7 @@
     "className": "type:String",
     "maintainer": "type:String",
     "methodName": "type:String",
+    "testCase": "type:String",
     "result": "type:String"
   }
 ]

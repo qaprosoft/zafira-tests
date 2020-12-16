@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.service.impl;
 
+import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestRunV1Method;
 import io.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.testRunController.*;
 import com.qaprosoft.zafira.constant.JSONConstant;
@@ -34,6 +35,14 @@ public class TestRunServiceAPIImpl implements TestRunServiceAPI {
     public String finishTestRun(int testRunId) {
         String response = apiExecutor.callApiMethod(new PostFinishTestRunMethod(testRunId));
         return JsonPath.from(response).getString(JSONConstant.STATUS_KEY);
+    }
+
+    @Override
+    public void reviewTestRun(int testRunId) {
+        PostMarkTestRunReviewedMethod postMarkTestRunReviewedMethod = new PostMarkTestRunReviewedMethod(testRunId);
+        apiExecutor.expectStatus(postMarkTestRunReviewedMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postMarkTestRunReviewedMethod);
+
     }
 
     @Override
