@@ -182,9 +182,14 @@
             <class name="com.qaprosoft.zafira.api.TcmDataExportControllerTest"/>
         </classes>
     </test>
-    <test name="Scm Account Controller Test">
+    <test name="Tag Controller Test">
         <classes>
-            <class name="com.qaprosoft.zafira.api.ScmAccountControllerTest"/>
+            <class name="com.qaprosoft.zafira.api.TcmDataExportControllerTest"/>
+        </classes>
+    </test>
+    <test name="Notification ControllerTest">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.NotificationControllerTest"/>
         </classes>
     </test>
 </suite>
