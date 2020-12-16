@@ -28,8 +28,8 @@ public class NotificationControllerTest extends ZafiraAPIBaseTest {
     private int testRunId;
 
     @AfterMethod
-    public void testFinishTestRun() {
-        new TestRunServiceAPIImpl().deleteById(testRunId);
+    public void testDeleteTestRun() {
+        new TestRunServiceAPIImplV1().deleteTestRun(testRunId);
     }
 
     @Test
@@ -79,7 +79,6 @@ public class NotificationControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(getNotificationReviewedTestRun, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getNotificationReviewedTestRun);
     }
-
 
 }
 

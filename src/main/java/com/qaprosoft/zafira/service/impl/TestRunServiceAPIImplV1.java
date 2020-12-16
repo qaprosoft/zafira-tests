@@ -2,6 +2,7 @@ package com.qaprosoft.zafira.service.impl;
 
 
 import com.qaprosoft.zafira.api.testRunController.GetTestRunByIdMethod;
+import com.qaprosoft.zafira.api.testRunController.v1.DeleteTestRunByIdV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestRunV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestRunV1Method;
 import com.qaprosoft.zafira.constant.JSONConstant;
@@ -44,5 +45,12 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
         PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId);
         apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putFinishTestRunV1Method);
+    }
+
+    @Override
+    public void deleteTestRun(int testRunId) {
+        DeleteTestRunByIdV1Method deleteTestRunByIdV1Method = new DeleteTestRunByIdV1Method(testRunId);
+        apiExecutor.expectStatus(deleteTestRunByIdV1Method, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(deleteTestRunByIdV1Method);
     }
 }
