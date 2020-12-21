@@ -2,12 +2,12 @@ package com.qaprosoft.zafira.api;
 
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
+import com.qaprosoft.zafira.api.testRunController.PostAIAnalysisMethod;
+import com.qaprosoft.zafira.api.testRunController.PostMarkTestRunReviewedMethod;
 import com.qaprosoft.zafira.api.testRunController.v1.*;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImpl;
-import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
-import com.qaprosoft.zafira.service.impl.TestServiceAPIV1Impl;
+import com.qaprosoft.zafira.service.impl.*;
 import io.restassured.path.json.JsonPath;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
@@ -28,8 +28,8 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
 
     @AfterMethod
-    public void testFinishTestRun() {
-        new TestRunServiceAPIImpl().deleteById(testRunId);
+    public void deleteTestRun() {
+        new TestRunServiceAPIImplV1().deleteTestRun(testRunId);
     }
 
     @Test()
@@ -178,5 +178,23 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
         DeleteTestRunByIdV1Method deleteTestRunByIdV1Method = new DeleteTestRunByIdV1Method(testRunId);
         apiExecutor.expectStatus(deleteTestRunByIdV1Method, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(deleteTestRunByIdV1Method);
+    }
+
+    @Test
+    public void testMarkTestRunV1Reviewed() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        new TestRunServiceAPIImpl().finishTestRun(testRunId);
+        PostMarkTestRunReviewedMethod postMarkTestRunReviewedMethod = new PostMarkTestRunReviewedMethod(testRunId);
+        apiExecutor.expectStatus(postMarkTestRunReviewedMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postMarkTestRunReviewedMethod);
+    }
+
+    @Test
+    public void testPostAIAnalysis() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        new TestServiceAPIV1Impl().createTest(testRunId);
+        PostAIAnalysisMethod postAIAnalysisMethod = new PostAIAnalysisMethod(testRunId);
+        apiExecutor.expectStatus(postAIAnalysisMethod, HTTPStatusCodeType.ACCEPTED);
+        apiExecutor.callApiMethod(postAIAnalysisMethod);
     }
 }
