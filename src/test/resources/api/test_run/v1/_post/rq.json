@@ -1,10 +1,10 @@
 {
   "uuid": "${uuid}",
-  "name": "Pytest-Agent",
+  "name": "TestRunV1",
   "startedAt": "${startedAt}",
-  "framework": "pytest",
+  "framework": "testng",
   "config": {
-    "build": "string",
+    "build": "1.2.3-SNAPSHOT",
     "environment": "STAG"
   }
 }
