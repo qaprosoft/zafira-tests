@@ -28,7 +28,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
 
     @AfterMethod
-    public void testDeletedTestRun() {
+    public void deleteTestRun() {
         new TestRunServiceAPIImplV1().deleteTestRun(testRunId);
     }
 
