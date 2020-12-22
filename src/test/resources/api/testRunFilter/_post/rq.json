@@ -1,0 +1,15 @@
+{
+  "isPrivate": true,
+  "items": {
+    "additionalProp1": [
+      "string"
+    ],
+    "additionalProp2": [
+      "string"
+    ],
+    "additionalProp3": [
+      "string"
+    ]
+  },
+  "name": "${name}"
+}

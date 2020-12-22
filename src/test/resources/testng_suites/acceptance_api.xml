@@ -192,4 +192,9 @@
             <class name="com.qaprosoft.zafira.api.NotificationControllerTest"/>
         </classes>
     </test>
+    <test name="Test Run Filter Controller">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.TestRunFilterControllerTest"/>
+        </classes>
+    </test>
 </suite>
