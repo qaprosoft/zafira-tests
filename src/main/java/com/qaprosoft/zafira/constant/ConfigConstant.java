@@ -56,4 +56,5 @@ public class ConfigConstant {
     public static final String TESTRAIL_KEY = "testrail";
     public static final String QTEST_KEY = "qtest";
     public static final String SLACK_CHANNEL_KEY = "automation-tenant-test";
+    public static final String VALUE_FOR_UPDATE_FILTER = "update_filter";
 }

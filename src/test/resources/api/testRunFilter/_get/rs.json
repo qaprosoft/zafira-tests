@@ -1,0 +1,14 @@
+[
+  {
+    "createdAt": "regex:[\\d]",
+    "id": "regex:[\\d]",
+    "isFavorite": "type:Boolean",
+    "isPrivate": "type:Boolean",
+    "items": {
+      "additionalProp1": "type:JSONArray",
+      "additionalProp2": "type:JSONArray",
+      "additionalProp3": "type:JSONArray"},
+    "name": "type:String",
+    "owner": "type:String"
+  }
+]
