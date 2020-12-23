@@ -24,6 +24,7 @@ import java.util.List;
 public class TestRunFilterControllerTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(TestRunFilterControllerTest.class);
     private static int id;
+    private static final String EMPTY_NAME = "";
 
     @AfterMethod
     public void deleteTestRunFilter() {
@@ -39,6 +40,24 @@ public class TestRunFilterControllerTest extends ZafiraAPIBaseTest {
         String rs = apiExecutor.callApiMethod(postTestRunFilterMethod);
         apiExecutor.validateResponse(postTestRunFilterMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         id = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        List<Integer> allFiltersIds = new TestRunFilterV1ServiceImpl().getAllFiltersIds();
+        Assert.assertTrue(allFiltersIds.contains(id), "Filter was not created!");
+    }
+
+    @Test(enabled = false)
+    public void testCreateTestRunFilterWithEmptyName() {
+        PostTestRunFilterMethod postTestRunFilterMethod = new PostTestRunFilterMethod(EMPTY_NAME);
+        apiExecutor.expectStatus(postTestRunFilterMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(postTestRunFilterMethod);
+    }
+
+    @Test
+    public void testCreateTestRunFilterWithTheSameParametersAndName() {
+        String filterName = "TestFilter_".concat(RandomStringUtils.randomAlphabetic(7));
+        id = new TestRunFilterV1ServiceImpl().createFilter(filterName);
+        PostTestRunFilterMethod postTestRunFilterMethod = new PostTestRunFilterMethod(filterName);
+        apiExecutor.expectStatus(postTestRunFilterMethod, HTTPStatusCodeType.FORBIDDEN);
+        apiExecutor.callApiMethod(postTestRunFilterMethod);
     }
 
     @Test
@@ -76,5 +95,4 @@ public class TestRunFilterControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(patchTestRunFilterMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(patchTestRunFilterMethod);
     }
-
 }
