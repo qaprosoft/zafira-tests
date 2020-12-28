@@ -1,0 +1,6 @@
+{
+  "browsers": "type:JSONArray",
+  "locales": "type:JSONArray",
+  "platforms": "type:JSONArray",
+  "environments": "type:JSONArray"
+}
