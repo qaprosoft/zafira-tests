@@ -10,7 +10,6 @@ public class PostAssetMethod extends ZafiraBaseApiMethodWithAuth {
         super(null, "api/file_util/_post/rs.json", "api/file_util.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("type", type);
-        setHeaders("FileType=USERS");
         setHeaders("Content-Type=multipart/form-data");
         request.multiPart("file", uploadFile, "image/jpeg");
     }
