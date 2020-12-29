@@ -4,5 +4,7 @@ import java.io.File;
 
 public interface AssetService {
 
-    String create(File uploadFile);
+    String create(String type, File uploadFile);
+
+    void delete(String key);
 }

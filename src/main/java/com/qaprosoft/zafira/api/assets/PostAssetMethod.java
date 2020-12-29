@@ -6,10 +6,10 @@ import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
 import com.qaprosoft.zafira.manager.APIContextManager;
 
 public class PostAssetMethod extends ZafiraBaseApiMethodWithAuth {
-    public PostAssetMethod(File uploadFile) {
+    public PostAssetMethod(String type, File uploadFile) {
         super(null, "api/file_util/_post/rs.json", "api/file_util.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
-        setHeaders("FileType=USERS");
+        replaceUrlPlaceholder("type", type);
         setHeaders("Content-Type=multipart/form-data");
         request.multiPart("file", uploadFile, "image/jpeg");
     }

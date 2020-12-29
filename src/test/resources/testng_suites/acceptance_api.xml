@@ -99,7 +99,7 @@
         </classes>
     </test>
 
-    <test name="FileUtil controller tests">
+    <test name="Assets controller tests">
         <classes>
             <class name="com.qaprosoft.zafira.api.AssetsControllerTest"/>
         </classes>
@@ -195,6 +195,11 @@
     <test name="Test Run Filter Controller">
         <classes>
             <class name="com.qaprosoft.zafira.api.TestRunFilterControllerTest"/>
+        </classes>
+    </test>
+    <test name="Test Run Search Attributes Controller">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.TestRunSearchAttributesControllerTest"/>
         </classes>
     </test>
 </suite>
