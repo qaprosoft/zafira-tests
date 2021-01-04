@@ -5,6 +5,7 @@ import com.qaprosoft.zafira.api.testSessionController.PostSessionV1Method;
 import com.qaprosoft.zafira.api.testSessionController.PutSessionForLinkingV1Method;
 import com.qaprosoft.zafira.api.testSessionController.PutSessionV1Method;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestSessionControllerServiceImpl;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -12,7 +13,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 public class TestSessionControllerTest extends ZafiraAPIBaseTest {
-    int testRunid = new TestRunServiceAPIImplV1().create();
+    int testRunid = new TestRunServiceAPIImplV1().create(APIContextManager.PROJECT_NAME_KEY);
     int id = new TestSessionControllerServiceImpl().create(testRunid);
 
     @AfterTest

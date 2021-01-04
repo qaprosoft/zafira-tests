@@ -1,0 +1,9 @@
+{
+  "uuid": "${uuid}",
+  "startedAt": "${startedAt}",
+  "framework": "testng",
+  "config": {
+    "build": "1.2.3-SNAPSHOT",
+    "environment": "STAG"
+  }
+}

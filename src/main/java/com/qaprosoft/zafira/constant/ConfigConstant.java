@@ -47,6 +47,7 @@ public class ConfigConstant {
     public static final String REFRESH_TOKEN_KEY = "refresh_token";
     public static final String EXPECTED_PERMISSION_NAME = "expected_permission_name";
     public static final String PROJECT_KEY = "projectKey";
+    public static final String PROJECT_NAME_KEY = "projectNameKey";
     public static final String SCREENSHOT_PATH_KEY = "screenshot_path_key";
     public static final String IMAGE_PATH_KEY_PNG = "image_path_key_png";
     public static final String IMAGE_PATH_KEY_PNG_LARGE = "image_path_key_png_large";

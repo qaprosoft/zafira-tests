@@ -11,6 +11,8 @@ import com.qaprosoft.zafira.service.TestRunServiceAPIV1;
 import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;
 
+import java.time.OffsetDateTime;
+
 
 public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
     private static final Logger LOGGER = Logger.getLogger(TestRunServiceAPIImplV1.class);
@@ -21,8 +23,9 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
     }
 
     @Override
-    public int create() {
-        String response = apiExecutor.callApiMethod(new PostStartTestRunV1Method());
+    public int create(String projectName) {
+        String rqPathFlag = "full";
+        String response = apiExecutor.callApiMethod(new PostStartTestRunV1Method(rqPathFlag, projectName, OffsetDateTime.now().toString()));
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
 
@@ -50,7 +53,6 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
     @Override
     public void deleteTestRun(int testRunId) {
         DeleteTestRunByIdV1Method deleteTestRunByIdV1Method = new DeleteTestRunByIdV1Method(testRunId);
-        apiExecutor.expectStatus(deleteTestRunByIdV1Method, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(deleteTestRunByIdV1Method);
     }
 }

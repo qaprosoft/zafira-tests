@@ -7,6 +7,7 @@ import com.qaprosoft.zafira.api.artifactsController.PostLogsV1Method;
 import com.qaprosoft.zafira.api.artifactsController.PostScreenshotsV1Method;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.service.impl.ArtifactsControllerV1ServiceImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
@@ -21,7 +22,7 @@ import org.testng.annotations.Test;
 public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     private final static Logger LOGGER = Logger.getLogger(ArtifactsControllerTest.class);
-    int testRunId = new TestRunServiceAPIImplV1().create();
+    int testRunId = new TestRunServiceAPIImplV1().create(APIContextManager.PROJECT_NAME_KEY);
     private final static int EXPECTED_COUNT_THREE = 3;
     private final static int EXPECTED_COUNT_ONE = 1;
 

@@ -8,6 +8,7 @@ import com.qaprosoft.zafira.api.notificationController.GetSlackNotificationRevie
 import com.qaprosoft.zafira.api.project.*;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.service.impl.ProjectServiceImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
@@ -34,7 +35,7 @@ public class NotificationControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testSendSlackNotificationFinishTestRun() {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().create(APIContextManager.PROJECT_NAME_KEY);
         String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
         new TestServiceAPIV1Impl().createTest(testRunId);
         new TestRunServiceAPIImplV1().finishTestRun(testRunId);
@@ -47,7 +48,7 @@ public class NotificationControllerTest extends ZafiraAPIBaseTest {
     @Test
     public void testSendSlackNotificationReviewedTestRun() {
         TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
-        testRunId = testRunServiceAPIImplV1.create();
+        testRunId = testRunServiceAPIImplV1.create(APIContextManager.PROJECT_NAME_KEY);
         new TestServiceAPIV1Impl().createTest(testRunId);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
         new TestRunServiceAPIImpl().reviewTestRun(testRunId);
@@ -59,7 +60,7 @@ public class NotificationControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testSendNotificationFinishTestRun() {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().create(APIContextManager.PROJECT_NAME_KEY);
         String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
         new TestServiceAPIV1Impl().createTest(testRunId);
         new TestRunServiceAPIImplV1().finishTestRun(testRunId);
@@ -71,7 +72,7 @@ public class NotificationControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testSendNotificationReviewedTestRun() {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().create(APIContextManager.PROJECT_NAME_KEY);
         new TestServiceAPIV1Impl().createTest(testRunId);
         new TestRunServiceAPIImpl().reviewTestRun(testRunId);
         GetNotificationReviewedByTestRunIdMethod getNotificationReviewedTestRun

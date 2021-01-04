@@ -25,6 +25,7 @@ public class APIContextManager {
     public static final int SCM_ACCOUNT_TYPE_ID_VALUE = R.TESTDATA.getInt(ConfigConstant.SCM_ACCOUNT_TYPE_KEY);
     public static final String PROJECT_KEY = R.TESTDATA.get(ConfigConstant.PROJECT_KEY);
     public static final int EXISTING_SCM_ID = R.TESTDATA.getInt(ConfigConstant.EXISTING_SCM_ID);
+    public static final String PROJECT_NAME_KEY = R.TESTDATA.get(ConfigConstant.PROJECT_NAME_KEY);
 
 
     public APIContextManager() {

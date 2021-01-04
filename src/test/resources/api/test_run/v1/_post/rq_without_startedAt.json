@@ -1,0 +1,9 @@
+{
+  "uuid": "${uuid}",
+  "name": "TestRunV1",
+  "framework": "testng",
+  "config": {
+    "build": "1.2.3-SNAPSHOT",
+    "environment": "STAG"
+  }
+}

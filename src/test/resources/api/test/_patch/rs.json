@@ -13,7 +13,6 @@
     "messageHashCode": "regex:[\\d]",
     "startTime": "regex:[\\d]",
     "finishTime": "regex:[\\d]",
-    "testConfig": "type:JSONObject",
     "workItems": "type:JSONArray",
     "knownIssue": "type:Boolean",
     "blocker": "type:Boolean",
