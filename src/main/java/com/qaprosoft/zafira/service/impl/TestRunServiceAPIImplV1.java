@@ -7,6 +7,7 @@ import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestRunV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestRunV1Method;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.service.TestRunServiceAPIV1;
 import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;
@@ -23,9 +24,8 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
     }
 
     @Override
-    public int create(String projectName) {
-        String rqPathFlag = "full";
-        String response = apiExecutor.callApiMethod(new PostStartTestRunV1Method(rqPathFlag, projectName, OffsetDateTime.now().toString()));
+    public int create() {
+        String response = apiExecutor.callApiMethod(new PostStartTestRunV1Method(APIContextManager.PROJECT_NAME_KEY, OffsetDateTime.now().toString()));
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
 

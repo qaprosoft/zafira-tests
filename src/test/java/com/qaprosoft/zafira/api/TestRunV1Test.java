@@ -29,14 +29,13 @@ import java.util.UUID;
  */
 
 public class TestRunV1Test extends ZafiraAPIBaseTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestRunV1Test.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ZafiraAPIBaseTest.class);
     private int testRunId;
     private static final String RESULT_SKIPPED = "SKIPPED";
     private static final String RESULT_FAILED = "FAILED";
     private static final String RESULT_PASSED = "PASSED";
     private static final String RESULT_IN_PROGRESS = "IN_PROGRESS";
     private static final String PROJECT_UNKNOWN = APIContextManager.PROJECT_NAME_KEY;
-    private static final String rqPathFlag = "full";
     private static final String EMPTY_PROJECT = "";
 
 
@@ -45,19 +44,19 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
         new TestRunServiceAPIImplV1().deleteTestRun(testRunId);
     }
 
-    @DataProvider(name = "rqDataProvider")
-    public Object[][] getStartTestRunV1RqPath() {
-        return new Object[][]{{"without_UUID", HTTPStatusCodeType.OK},
-                {"full", HTTPStatusCodeType.OK},
-                {"without_name", HTTPStatusCodeType.BAD_REQUEST},
-                {"without_startedAt", HTTPStatusCodeType.BAD_REQUEST},
-                {"without_framework", HTTPStatusCodeType.BAD_REQUEST}};
+    @DataProvider(name = "rqFieldsAndHttpStatusDataProvider")
+    public Object[][] getMandatoryFieldsAndHttpStatus() {
+        return new Object[][]{{"uuid", HTTPStatusCodeType.OK},
+                {"name", HTTPStatusCodeType.BAD_REQUEST},
+                {"startedAt", HTTPStatusCodeType.BAD_REQUEST},
+                {"framework", HTTPStatusCodeType.BAD_REQUEST}};
     }
 
-    @Test(dataProvider = "rqDataProvider")
-    public void testStartTestRunV1WithoutTests(String rqByDataProvider, HTTPStatusCodeType statusCode) {
-        PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method(rqByDataProvider, PROJECT_UNKNOWN, OffsetDateTime.now().toString());
+    @Test(dataProvider = "rqFieldsAndHttpStatusDataProvider")
+    public void testStartTestRunV1WithoutField(String field, HTTPStatusCodeType statusCode) {
+        PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method(PROJECT_UNKNOWN, OffsetDateTime.now().toString());
         apiExecutor.expectStatus(postStartTestRunV1Method, statusCode);
+        postStartTestRunV1Method.removeProperty(field);
         String rs = apiExecutor.callApiMethod(postStartTestRunV1Method);
         testRunId = validateResponse(postStartTestRunV1Method, statusCode, rs);
     }
@@ -72,7 +71,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test()
     public void testStartTestRunV1WithoutQuery() {
-        PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method(rqPathFlag, PROJECT_UNKNOWN,OffsetDateTime.now().toString());
+        PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method(PROJECT_UNKNOWN,OffsetDateTime.now().toString());
         String newMethodPath = postStartTestRunV1Method.getMethodPath().substring(0, postStartTestRunV1Method.getMethodPath().lastIndexOf("?"));
         postStartTestRunV1Method.setMethodPath(newMethodPath);
         apiExecutor.expectStatus(postStartTestRunV1Method, HTTPStatusCodeType.BAD_REQUEST);
@@ -81,28 +80,40 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test()
     public void testStartTestRunV1WithEmptyProjectKey() {
-        PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method(rqPathFlag, EMPTY_PROJECT,OffsetDateTime.now().toString());
+        PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method(EMPTY_PROJECT,OffsetDateTime.now().toString());
         apiExecutor.expectStatus(postStartTestRunV1Method, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(postStartTestRunV1Method);
+    }
+
+    @DataProvider(name = "rqMandatoryFieldsDataProvider")
+    public Object[][] getRqMandatoryFields() {
+        return new Object[][]{{"name"},{"startedAt"},{"framework"}};
+    }
+
+     @Test(dataProvider = "rqMandatoryFieldsDataProvider")
+    public void testStartTestRunV1WithEmptyField(String field) {
+        PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method( PROJECT_UNKNOWN,OffsetDateTime.now().toString());
+         postStartTestRunV1Method.addProperty(field,"");
+        apiExecutor.expectStatus(postStartTestRunV1Method, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(postStartTestRunV1Method);
     }
 
     @DataProvider(name = "startedAtDataProvider")
     public Object[][] getStartedAt() {
-        return new Object[][]{{"empty",""},
-                {"invalid","!"},
+        return new Object[][]{{"invalid","!"},
                 {"in future",OffsetDateTime.now().plusDays(5).toString()}};
     }
 
     @Test(dataProvider = "startedAtDataProvider")
     public void testTestRunV1WithDifferentStartedAt(String description, String date) {
-        PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method(rqPathFlag, PROJECT_UNKNOWN,date);
+        PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method(PROJECT_UNKNOWN,date);
         apiExecutor.expectStatus(postStartTestRunV1Method, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(postStartTestRunV1Method);
     }
 
     @Test
     public void testGetTestsByCiRunIdV1() {
-        testRunId = new TestRunServiceAPIImplV1().create(PROJECT_UNKNOWN);
+        testRunId = new TestRunServiceAPIImplV1().create();
         String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
         GetTestsByCiRunIdV1Method getTestsByCiRunIdV1Method = new GetTestsByCiRunIdV1Method(ciRunId);
         apiExecutor.expectStatus(getTestsByCiRunIdV1Method, HTTPStatusCodeType.OK);
@@ -111,7 +122,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testFinishTests() {
-        testRunId = new TestRunServiceAPIImplV1().create(PROJECT_UNKNOWN);
+        testRunId = new TestRunServiceAPIImplV1().create();
         PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId);
         apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putFinishTestRunV1Method);
@@ -119,7 +130,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testStartTestsInTestRunV1() {
-        testRunId = new TestRunServiceAPIImplV1().create(PROJECT_UNKNOWN);
+        testRunId = new TestRunServiceAPIImplV1().create();
         PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1Method(testRunId);
         apiExecutor.expectStatus(postStartTestsInTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postStartTestsInTestRunV1Method);
@@ -128,7 +139,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetTestsByCiRunIdV1WithTests() {
-        testRunId = new TestRunServiceAPIImplV1().create(PROJECT_UNKNOWN);
+        testRunId = new TestRunServiceAPIImplV1().create();
         String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
         new TestServiceAPIV1Impl().createTest(testRunId);
         GetTestsByCiRunIdV1Method getTestsByCiRunIdV1Method = new GetTestsByCiRunIdV1Method(ciRunId);
@@ -139,7 +150,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateTestWithResultPassedInTestRunV1() {
-        testRunId = new TestRunServiceAPIImplV1().create(PROJECT_UNKNOWN);
+        testRunId = new TestRunServiceAPIImplV1().create();
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         PutUpdateTestInTestRunV1Method putUpdateTestInTestRunV1Method = new PutUpdateTestInTestRunV1Method(testRunId, testId, RESULT_PASSED);
         apiExecutor.expectStatus(putUpdateTestInTestRunV1Method, HTTPStatusCodeType.OK);
@@ -152,7 +163,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateTestWithResultFailedInTestRunV1() {
-        testRunId = new TestRunServiceAPIImplV1().create(PROJECT_UNKNOWN);
+        testRunId = new TestRunServiceAPIImplV1().create();
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         PutUpdateTestInTestRunV1Method putUpdateTestInTestRunV1Method = new PutUpdateTestInTestRunV1Method(testRunId, testId, RESULT_FAILED);
         apiExecutor.expectStatus(putUpdateTestInTestRunV1Method, HTTPStatusCodeType.OK);
@@ -165,7 +176,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateTestWithResultSkippedInTestRunV1() {
-        testRunId = new TestRunServiceAPIImplV1().create(PROJECT_UNKNOWN);
+        testRunId = new TestRunServiceAPIImplV1().create();
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         PutUpdateTestInTestRunV1Method putUpdateTestInTestRunV1Method = new PutUpdateTestInTestRunV1Method(testRunId, testId, RESULT_SKIPPED);
         apiExecutor.expectStatus(putUpdateTestInTestRunV1Method, HTTPStatusCodeType.OK);
@@ -178,7 +189,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetTestRunStatusV1WithTestResultsFAILEDAndPASSED() {
-        testRunId = new TestRunServiceAPIImplV1().create(PROJECT_UNKNOWN);
+        testRunId = new TestRunServiceAPIImplV1().create();
         int testId1 = new TestServiceAPIV1Impl().createTest(testRunId);
         int testId2 = new TestServiceAPIV1Impl().createTest(testRunId);
         new TestServiceAPIV1Impl().updateResultInTest(testRunId, testId1, RESULT_FAILED);
@@ -190,7 +201,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetTestRunStatusV1WithTestResultsPASSED() {
-        testRunId = new TestRunServiceAPIImplV1().create(PROJECT_UNKNOWN);
+        testRunId = new TestRunServiceAPIImplV1().create();
         int testId1 = new TestServiceAPIV1Impl().createTest(testRunId);
         int testId2 = new TestServiceAPIV1Impl().createTest(testRunId);
         new TestServiceAPIV1Impl().updateResultInTest(testRunId, testId1, RESULT_PASSED);
@@ -202,7 +213,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetTestRunStatusV1WithTestResultsSKIPPEDAndPASSED() {
-        testRunId = new TestRunServiceAPIImplV1().create(PROJECT_UNKNOWN);
+        testRunId = new TestRunServiceAPIImplV1().create();
         int testId1 = new TestServiceAPIV1Impl().createTest(testRunId);
         int testId2 = new TestServiceAPIV1Impl().createTest(testRunId);
         new TestServiceAPIV1Impl().updateResultInTest(testRunId, testId1, RESULT_SKIPPED);
@@ -214,7 +225,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetTestRunStatusV1WithUnfinishedProcess() {
-        testRunId = new TestRunServiceAPIImplV1().create(PROJECT_UNKNOWN);
+        testRunId = new TestRunServiceAPIImplV1().create();
         new TestServiceAPIV1Impl().createTest(testRunId);
         String actualResult = new TestRunServiceAPIImplV1().getTestRunResult(testRunId);
         Assert.assertEquals(actualResult, RESULT_IN_PROGRESS, "Result is not as expected!");
@@ -222,7 +233,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetListTestRuns() {
-        testRunId = new TestRunServiceAPIImplV1().create(PROJECT_UNKNOWN);
+        testRunId = new TestRunServiceAPIImplV1().create();
         new TestServiceAPIV1Impl().createTest(testRunId);
         GetListTestRunsV1Method getListTestRunsV1Method = new GetListTestRunsV1Method();
         apiExecutor.expectStatus(getListTestRunsV1Method, HTTPStatusCodeType.OK);
@@ -230,9 +241,9 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getListTestRunsV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(enabled = false)
+    @Test
     public void testDeleteTestRun() {
-        testRunId = new TestRunServiceAPIImplV1().create(PROJECT_UNKNOWN);
+        testRunId = new TestRunServiceAPIImplV1().create();
         new TestServiceAPIV1Impl().createTest(testRunId);
         DeleteTestRunByIdV1Method deleteTestRunByIdV1Method = new DeleteTestRunByIdV1Method(testRunId);
         apiExecutor.expectStatus(deleteTestRunByIdV1Method, HTTPStatusCodeType.NO_CONTENT);
@@ -241,7 +252,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testMarkTestRunV1Reviewed() {
-        testRunId = new TestRunServiceAPIImplV1().create(PROJECT_UNKNOWN);
+        testRunId = new TestRunServiceAPIImplV1().create();
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
         PostMarkTestRunReviewedMethod postMarkTestRunReviewedMethod = new PostMarkTestRunReviewedMethod(testRunId);
         apiExecutor.expectStatus(postMarkTestRunReviewedMethod, HTTPStatusCodeType.OK);
@@ -250,7 +261,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testPostAIAnalysis() {
-        testRunId = new TestRunServiceAPIImplV1().create(PROJECT_UNKNOWN);
+        testRunId = new TestRunServiceAPIImplV1().create();
         new TestServiceAPIV1Impl().createTest(testRunId);
         PostAIAnalysisMethod postAIAnalysisMethod = new PostAIAnalysisMethod(testRunId);
         apiExecutor.expectStatus(postAIAnalysisMethod, HTTPStatusCodeType.ACCEPTED);

@@ -13,7 +13,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 public class TestSessionControllerTest extends ZafiraAPIBaseTest {
-    int testRunid = new TestRunServiceAPIImplV1().create(APIContextManager.PROJECT_NAME_KEY);
+    int testRunid = new TestRunServiceAPIImplV1().create();
     int id = new TestSessionControllerServiceImpl().create(testRunid);
 
     @AfterTest

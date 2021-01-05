@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     private final static Logger LOGGER = Logger.getLogger(ArtifactsControllerTest.class);
-    int testRunId = new TestRunServiceAPIImplV1().create(APIContextManager.PROJECT_NAME_KEY);
+    int testRunId = new TestRunServiceAPIImplV1().create();
     private final static int EXPECTED_COUNT_THREE = 3;
     private final static int EXPECTED_COUNT_ONE = 1;
 

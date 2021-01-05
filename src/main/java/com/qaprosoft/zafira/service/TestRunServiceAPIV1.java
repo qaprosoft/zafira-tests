@@ -2,7 +2,7 @@ package com.qaprosoft.zafira.service;
 
 public interface TestRunServiceAPIV1 {
 
-    int create(String projectName);
+    int create();
 
     String getCiRunId(int testSuiteId);
 
