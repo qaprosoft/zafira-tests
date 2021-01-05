@@ -7,9 +7,12 @@ import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestRunV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestRunV1Method;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.service.TestRunServiceAPIV1;
 import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;
+
+import java.time.OffsetDateTime;
 
 
 public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
@@ -22,7 +25,7 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
 
     @Override
     public int create() {
-        String response = apiExecutor.callApiMethod(new PostStartTestRunV1Method());
+        String response = apiExecutor.callApiMethod(new PostStartTestRunV1Method(APIContextManager.PROJECT_NAME_KEY, OffsetDateTime.now().toString()));
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
 
@@ -50,7 +53,6 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
     @Override
     public void deleteTestRun(int testRunId) {
         DeleteTestRunByIdV1Method deleteTestRunByIdV1Method = new DeleteTestRunByIdV1Method(testRunId);
-        apiExecutor.expectStatus(deleteTestRunByIdV1Method, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(deleteTestRunByIdV1Method);
     }
 }
