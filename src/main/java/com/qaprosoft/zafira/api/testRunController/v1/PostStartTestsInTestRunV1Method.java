@@ -10,7 +10,7 @@ import java.util.UUID;
 public class PostStartTestsInTestRunV1Method extends ZafiraBaseApiMethodWithAuth {
         public PostStartTestsInTestRunV1Method(int testRunId) {
         super("api/test_run/v1/_post/for_tests_rq.json", "api/test_run/v1/_post/for_tests_rs.json",
-                "api/test_run.properties");
+                "api/test_runV1_test.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.BASE_URL);
         replaceUrlPlaceholder("testRunId", String.valueOf(testRunId));
         addProperty("uuid", UUID.randomUUID());

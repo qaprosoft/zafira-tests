@@ -2,6 +2,9 @@
   "id": "regex:[\\d]",
   "name": "type:String",
   "startedAt": "type:String",
-  "className": "string",
-  "methodName": "string"
+  "className":  "type:String",
+  "methodName":  "type:String",
+  "labels": "type:JSONArray",
+  "maintainer":  "type:String",
+  "testCase":  "type:String"
 }
