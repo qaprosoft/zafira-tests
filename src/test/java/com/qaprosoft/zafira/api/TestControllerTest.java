@@ -79,26 +79,27 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         PostCreateTestArtifactMethod postCreateTestArtifactMethod = new PostCreateTestArtifactMethod(link, testId);
         apiExecutor.expectStatus(postCreateTestArtifactMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postCreateTestArtifactMethod);
-        List<Integer> artifactId = testServiceImpl.getAllArtifacts(testRunId);
-        LOGGER.info(String.format("Artifact ID: %s", artifactId.toString()));
-        Assert.assertNotEquals(0, artifactId.get(0), "Test's artifact was not attached to test!");
+        String testRs = testServiceImpl.getAllTest(testRunId);
+        List<String> artifactsList = JsonPath.from(testRs).getList(JSONConstant.ARTIFACT_ID_KEY);
+        LOGGER.info(String.format("Artifact ID: %s", artifactsList.toString()));
+        Assert.assertTrue(artifactsList.toString().contains(link),"Test's artifact was not attached to test!");
     }
 
     @Test
     public void testDeleteTestById() {
-        TestServiceImpl testServiseImpl = new TestServiceImpl();
+        TestServiceImpl testService = new TestServiceImpl();
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
-        int testId = testServiseImpl.create(testCaseId, testRunId);
-        String testRs = testServiseImpl.getAllTest(testRunId);
+        int testId = testService.create(testCaseId, testRunId);
+        String testRs = testService.getAllTest(testRunId);
         int testIdRs = JsonPath.from(testRs).get(JSONConstant.ALL_ID_FROM_RESULTS_KEY);
         Assert.assertEquals(testId, testIdRs, "Test was not create!");
         DeleteTestByIdMethod deleteTestByIdMethod = new DeleteTestByIdMethod(testId);
         apiExecutor.expectStatus(deleteTestByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(deleteTestByIdMethod);
-        String testRsAfterDelete = testServiseImpl.getAllTest(testRunId);
+        String testRsAfterDelete = testService.getAllTest(testRunId);
         Assert.assertFalse(testRsAfterDelete.contains(String.valueOf(testIdRs)), "Test was not deleted!");
     }
 

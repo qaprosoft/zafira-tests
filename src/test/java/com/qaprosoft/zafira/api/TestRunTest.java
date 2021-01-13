@@ -131,7 +131,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postMarkTestRunReviewedMethod);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGetTestByTestRunId() {
         TestServiceImpl testServiceImpl = new TestServiceImpl();
         int testSuiteId = new TestSuiteServiceImpl().create();

@@ -15,8 +15,5 @@
     "legendConfig": "type:String",
     "hidden": "type:Boolean"
   },
-  "refreshable": "type:Boolean",
-  "type": "type:String",
-  "sql": "type:String",
-  "model": "{}"
-}
+  "type": "type:String"
+  }

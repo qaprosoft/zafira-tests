@@ -2,12 +2,10 @@
   "description": "testAPI_widget",
   "id": ${id},
   "legendConfig": "{}",
-  "model": "{}",
   "paramsConfig": "{}",
- "refreshable": true,
-  "sql": "string",
   "title": "${title}",
   "widgetTemplate": {
-    "id": 1
-  }
+    "id": 4,
+    "type":"TABLE"
+}
 }

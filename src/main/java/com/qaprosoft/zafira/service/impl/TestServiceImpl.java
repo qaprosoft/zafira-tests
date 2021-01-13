@@ -30,12 +30,6 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public List<Integer> getAllArtifacts(int testRunId) {
-        String response = apiExecutor.callApiMethod(new GetTestByTestRunIdMethod(testRunId));
-        return JsonPath.from(response).getList(JSONConstant.ARTIFACT_ID_KEY);
-    }
-
-    @Override
     public String getAllTest(int testRunId) {
         PostRetrieveTestBySearchCriteriaMethod postRetrieveTestBySearchCriteriaMethod = new PostRetrieveTestBySearchCriteriaMethod(testRunId);
         apiExecutor.expectStatus(postRetrieveTestBySearchCriteriaMethod, HTTPStatusCodeType.OK);

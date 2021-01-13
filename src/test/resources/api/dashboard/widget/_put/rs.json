@@ -14,12 +14,6 @@
     "legendConfig": "type:String",
     "hidden": "type:Boolean"
   },
-  "refreshable": "type:Boolean",
   "type": "type:String",
-  "size": "regex:[\\d]",
-  "position": "regex:[\\d]",
-  "location": "type:String",
-  "sql": "type:String",
-  "model": "type:String"
-
+  "location": "type:String"
 }
