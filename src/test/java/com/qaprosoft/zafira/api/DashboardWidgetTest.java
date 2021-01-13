@@ -64,7 +64,6 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postWidgetToDashboardMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postWidgetToDashboardMethod);
         apiExecutor.validateResponse(postWidgetToDashboardMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-
         LOGGER.info(widgetName);
     }
 
