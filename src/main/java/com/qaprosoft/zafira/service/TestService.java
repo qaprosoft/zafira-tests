@@ -8,8 +8,6 @@ public interface TestService {
 
     void finishTest(int testCaseId, int testRunId, int testId);
 
-    List<Integer> getAllArtifacts(int testRunId);
-
     String getAllTest(int testRunId);
 
     void updateTestStatus(int testId, int testSuiteId, int

@@ -105,7 +105,7 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(expectedPositionNumber, actualPositionNumber, "Order was not update!");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGetDefaultDashboardIds() {
         GetDefaultDashboardIdsMethod getDefaultDashboardIdsMethod = new GetDefaultDashboardIdsMethod();
         apiExecutor.expectStatus(getDefaultDashboardIdsMethod, HTTPStatusCodeType.OK);
@@ -113,7 +113,7 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getDefaultDashboardIdsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGetDashboardByTitleGENERAL() {
         GetDashboardByTitleMethod getDashboardByTitleMethod = new GetDashboardByTitleMethod(TITLE_GENERAL);
         apiExecutor.expectStatus(getDashboardByTitleMethod, HTTPStatusCodeType.OK);
@@ -122,7 +122,7 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(JsonPath.from(response).getString(JSONConstant.TITLE_KEY), TITLE_GENERAL, "Title is not as expected");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testCreateDashboardAttribute() {
         String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
@@ -134,7 +134,7 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postDashboardAttributeMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(enabled = false)
     public void testDeleteDashboardAttribute() {
         String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
@@ -147,7 +147,7 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         Assert.assertFalse(rs.contains(String.valueOf(id)), "Attribute is not deleted!");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testUpdateDashboardAttribute() {
         String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
@@ -164,7 +164,7 @@ public class DashboardTest extends ZafiraAPIBaseTest {
         Assert.assertTrue(rs.contains(newValue), "Attribute is not updated!");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testCreateABatchDashboardAttribute() {
         String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);

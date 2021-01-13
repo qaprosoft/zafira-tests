@@ -5,6 +5,5 @@
   "hidden": "type:Boolean",
   "position": "regex:[\\d]",
   "editable": "type:Boolean",
-  "system":"type:Boolean",
-  "attributes": null
+  "projectId":"regex:[\\d]"
 }

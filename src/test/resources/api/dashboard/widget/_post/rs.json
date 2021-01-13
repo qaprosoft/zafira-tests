@@ -14,12 +14,10 @@
     "legendConfig": "type:String",
     "hidden": "type:Boolean"
   },
-  "refreshable": "type:Boolean",
+
   "type": "type:String",
-  "size": null,
-  "position": null,
-  "location": "type:String",
-  "sql": "type:String",
-  "model": "type:String"
+    "location": "type:String"
+
+
 
 }
