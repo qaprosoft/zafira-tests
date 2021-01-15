@@ -67,20 +67,6 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         LOGGER.info(widgetName);
     }
 
-    @Test(enabled = false)
-    public void testUpdateWidgetDashboard() {
-        String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));
-        int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
-        String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
-        WidgetServiceImpl widgetService = new WidgetServiceImpl();
-        String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
-        widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
-        PutWidgetDashboardMethod putWidgetDashboardMethod = new PutWidgetDashboardMethod(dashboardId, widgetId);
-        apiExecutor.expectStatus(putWidgetDashboardMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(putWidgetDashboardMethod);
-        apiExecutor.validateResponse(putWidgetDashboardMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-    }
-
     @Test
     public void testUpdateBatchOfWidgetDashboard() {
         String dashboardName = "TestDashboard_".concat(RandomStringUtils.randomAlphabetic(15));

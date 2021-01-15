@@ -1,6 +1,0 @@
-{
-  "defaultDashboardId": "regex:[\\d]",
-  "performanceDashboardId": "regex:[\\d]",
-  "personalDashboardId": "regex:[\\d]",
-  "stabilityDashboardId": "regex:[\\d]"
-}

@@ -1,14 +1,13 @@
 package com.qaprosoft.zafira.service.impl;
 
-import io.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.dashboard.DeleteDashboardByIdMethod;
 import com.qaprosoft.zafira.api.dashboard.GetAllDashboardMethod;
 import com.qaprosoft.zafira.api.dashboard.PostDashboardMethod;
-import com.qaprosoft.zafira.api.dashboard.attributes.PostDashboardAttributeMethod;
 import com.qaprosoft.zafira.api.dashboard.widget.PostWidgetToDashboardMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.DashboardService;
+import io.restassured.path.json.JsonPath;
 
 import java.util.List;
 
@@ -46,11 +45,4 @@ public class DashboardServiceImpl implements DashboardService {
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
 
-    @Override
-    public int createDashboardAttribute(int dashboardId, String key, String value) {
-        PostDashboardAttributeMethod postDashboardAttributeMethod = new PostDashboardAttributeMethod(dashboardId,key,value);
-        apiExecutor.expectStatus(postDashboardAttributeMethod, HTTPStatusCodeType.OK);
-        String response = apiExecutor.callApiMethod(postDashboardAttributeMethod);
-        return JsonPath.from(response).getInt(JSONConstant.ATTRIBUTE_ID_KEY);
-    }
 }
