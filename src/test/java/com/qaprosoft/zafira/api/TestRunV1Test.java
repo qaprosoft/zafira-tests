@@ -22,6 +22,7 @@ import org.testng.annotations.Test;
 
 import java.time.OffsetDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -182,12 +183,15 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testGetTestsByCiRunIdV1() {
-        testRunId = new TestRunServiceAPIImplV1().create();
-        String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
+    public void testGetTestsByTestRunIdV1() {
+        TestRunServiceAPIImplV1 testRunServiceAPIImplV1= new TestRunServiceAPIImplV1();
+        testRunId = testRunServiceAPIImplV1.create();
+        String ciRunId = testRunServiceAPIImplV1.getCiRunId(testRunId);
+        new TestServiceAPIV1Impl().createTest(testRunId);
         GetTestsByCiRunIdV1Method getTestsByCiRunIdV1Method = new GetTestsByCiRunIdV1Method(ciRunId);
         apiExecutor.expectStatus(getTestsByCiRunIdV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getTestsByCiRunIdV1Method);
+        apiExecutor.validateResponse(getTestsByCiRunIdV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test

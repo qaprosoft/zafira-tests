@@ -12,5 +12,4 @@ public interface DashboardService {
 
     int createWidgetToDashboard(String body, int dashboardId);
 
-    int createDashboardAttribute(int dashboardId, String key, String value);
 }
