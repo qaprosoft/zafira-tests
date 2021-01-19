@@ -3,10 +3,6 @@
   "ciRunId": "type:String",
   "testSuiteId": "regex:[\\d]",
   "status": "type:String",
-  "scmURL": "type:String",
-  "scmBranch": "type:String",
-  "scmCommit": "type:String",
-  "configXML": "type:String",
   "jobId": "regex:[\\d]",
   "buildNumber": "regex:[\\d]",
   "startedBy": "type:String",
@@ -18,5 +14,26 @@
   "knownIssue": "type:Boolean",
   "blocker": "type:Boolean",
   "reviewed": "type:Boolean",
-  "artifacts": "type:JSONArray"
+  "artifacts": "type:JSONArray",
+  "labels": [
+    {
+      "id":"regex:[\\d]",
+      "modifiedAt": null,
+      "createdAt": null,
+      "key": "type:String",
+      "value": "type:String"
+    },{
+      "id":"regex:[\\d]",
+      "modifiedAt": null,
+      "createdAt": null,
+      "key": "type:String",
+      "value": "type:String"
+    },{
+      "id":"regex:[\\d]",
+      "modifiedAt": null,
+      "createdAt": null,
+      "key": "type:String",
+      "value": "type:String"
+    }
+  ]
 }

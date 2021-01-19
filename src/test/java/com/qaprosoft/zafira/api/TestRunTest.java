@@ -3,10 +3,6 @@ package com.qaprosoft.zafira.api;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.testRunController.*;
-import com.qaprosoft.zafira.api.testRunSearchAttributesController.GetAllTestRunConfigBrowsersMethod;
-import com.qaprosoft.zafira.api.testRunSearchAttributesController.GetAllTestRunConfigLocalesMethod;
-import com.qaprosoft.zafira.api.testRunSearchAttributesController.GetAllTestRunConfigPlatformsMethod;
-import com.qaprosoft.zafira.api.testRunSearchAttributesController.GetAllTestRunEnvironmentsMethod;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.domain.EmailMsg;
@@ -94,7 +90,11 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     public void testFinishTestRun() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String expectedTestRunStatus = R.TESTDATA.get(ConfigConstant.STATUS_EXPECTED_KEY);
-        String testRunStatus = new TestRunServiceAPIImpl().finishTestRun(testRunId);
+        PostFinishTestRunMethod postFinishTestRunMethod = new PostFinishTestRunMethod(testRunId);
+        apiExecutor.expectStatus(postFinishTestRunMethod,HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postFinishTestRunMethod);
+        apiExecutor.validateResponse(postFinishTestRunMethod,JSONCompareMode.STRICT,JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String testRunStatus = JsonPath.from(rs).getString(JSONConstant.STATUS_KEY);
         Assert.assertEquals(testRunStatus, expectedTestRunStatus, "TestRun was not finish!");
     }
 
@@ -131,7 +131,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postMarkTestRunReviewedMethod);
     }
 
-    @Test(enabled = false)
+    @Test
     public void testGetTestByTestRunId() {
         TestServiceImpl testServiceImpl = new TestServiceImpl();
         int testSuiteId = new TestSuiteServiceImpl().create();
@@ -207,15 +207,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getAbortTestRunCiMethod);
     }
 
-    @Test(enabled = false)
-    public void testGetBuildConsoleOutput() {
-        int testRunId = createTestRun(TESTS_TO_ADD);
-        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
-        GetBuildConsoleOutputMethod getBuildConsoleOutputMethod = new GetBuildConsoleOutputMethod(ciRunId);
-        apiExecutor.expectStatus(getBuildConsoleOutputMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getBuildConsoleOutputMethod);
-    }
-
     @Test
     public void testGetTestRunBySearchCriteria() {
         String searchCriteriaType = R.TESTDATA.get(ConfigConstant.SEARCH_CRITERIA_TYPE_KEY);
@@ -241,38 +232,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         EMAIL.waitForEmailDelivered(new Date(), expStatus); // decency from connection, wait a little bit
         EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
         return email.getContent().contains(expStatus);
-    }
-
-    @Test
-    public void testGetAllTestRunConfigBrowsers() {
-        GetAllTestRunConfigBrowsersMethod getAllTestRunConfigBrowsersMethod = new GetAllTestRunConfigBrowsersMethod();
-        apiExecutor.expectStatus(getAllTestRunConfigBrowsersMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getAllTestRunConfigBrowsersMethod);
-        apiExecutor.validateResponse(getAllTestRunConfigBrowsersMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-    }
-
-    @Test
-    public void testGetAllTestRunEnvironments() {
-        GetAllTestRunEnvironmentsMethod getAllTestRunEnvironmentsMethod = new GetAllTestRunEnvironmentsMethod();
-        apiExecutor.expectStatus(getAllTestRunEnvironmentsMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getAllTestRunEnvironmentsMethod);
-        apiExecutor.validateResponse(getAllTestRunEnvironmentsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-    }
-
-    @Test
-    public void testGetAllTestRunConfigLocales() {
-        GetAllTestRunConfigLocalesMethod getAllTestRunConfigLocalesMethod = new GetAllTestRunConfigLocalesMethod();
-        apiExecutor.expectStatus(getAllTestRunConfigLocalesMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getAllTestRunConfigLocalesMethod);
-        apiExecutor.validateResponse(getAllTestRunConfigLocalesMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-    }
-
-    @Test
-    public void testGetAllTestRunConfigPlatforms() {
-        GetAllTestRunConfigPlatformsMethod getAllTestRunConfigPlatformsMethod = new GetAllTestRunConfigPlatformsMethod();
-        apiExecutor.expectStatus(getAllTestRunConfigPlatformsMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getAllTestRunConfigPlatformsMethod);
-        apiExecutor.validateResponse(getAllTestRunConfigPlatformsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test

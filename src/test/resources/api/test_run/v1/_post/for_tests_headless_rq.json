@@ -1,0 +1,4 @@
+{
+  <#if startedAt??>"startedAt": "${startedAt}",</#if>
+  <#if name??>"name": "${name}"</#if>
+}

@@ -1,0 +1,7 @@
+{
+  "id": "regex:[\\d]",
+  "name": "type:String",
+  "startedAt": "type:String",
+  "className":  "type:String",
+  "methodName":  "type:String"
+}

@@ -4,6 +4,7 @@ package com.qaprosoft.zafira.api;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.api.AbstractApiMethodV2;
 import com.qaprosoft.zafira.api.testRunController.PostAIAnalysisMethod;
+import com.qaprosoft.zafira.api.testRunController.PostFinishTestRunMethod;
 import com.qaprosoft.zafira.api.testRunController.PostMarkTestRunReviewedMethod;
 import com.qaprosoft.zafira.api.testRunController.v1.*;
 import com.qaprosoft.zafira.constant.JSONConstant;
@@ -195,9 +196,36 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
+    public void testStartTestsHeadless() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        PostStartTestsInTestRunV1HeadlessMethod postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1HeadlessMethod(testRunId);
+        apiExecutor.expectStatus(postStartTestsInTestRunV1Method, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postStartTestsInTestRunV1Method);
+        apiExecutor.validateResponse(postStartTestsInTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testStartTestsHeadlessWithoutStartedAt() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        PostStartTestsInTestRunV1HeadlessMethod postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1HeadlessMethod(testRunId);
+        postStartTestsInTestRunV1Method.removeProperty("startedAt");
+        apiExecutor.expectStatus(postStartTestsInTestRunV1Method, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(postStartTestsInTestRunV1Method);
+    }
+
+    @Test(dataProvider = "startedAtDataProvider")
+    public void testStartTestsHeadlessWithStartedAt(String description, String startedAt ) {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        PostStartTestsInTestRunV1HeadlessMethod postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1HeadlessMethod(testRunId);
+        postStartTestsInTestRunV1Method.addProperty("startedAt",startedAt);
+        apiExecutor.expectStatus(postStartTestsInTestRunV1Method, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(postStartTestsInTestRunV1Method);
+    }
+
+    @Test
     public void testFinishTests() {
         testRunId = new TestRunServiceAPIImplV1().create();
-        PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId);
+        PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId,OffsetDateTime.now().toString());
         apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putFinishTestRunV1Method);
     }
@@ -296,7 +324,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
         Assert.assertEquals(actualResult, RESULT_IN_PROGRESS, "Result is not as expected!");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGetListTestRuns() {
         testRunId = new TestRunServiceAPIImplV1().create();
         new TestServiceAPIV1Impl().createTest(testRunId);
@@ -304,6 +332,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(getListTestRunsV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getListTestRunsV1Method);
         apiExecutor.validateResponse(getListTestRunsV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        apiExecutor.validateResponseAgainstJSONSchema(getListTestRunsV1Method,"api/1.json");
     }
 
     @Test
