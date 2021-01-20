@@ -1,12 +1,3 @@
-
-
-{"id":1122,
-  "uuid":"29264ae6-272b-43ce-ae89-c05657aaa5d3",
-  "name":"Pytest-Agent",
-  "startedAt":"2020-09-25T14:08:34.348094Z",
-  "endedAt":"${endedAt}",
-  "framework":"pytest",
-  "config":{
-    "platform":"API"
-  }
+{
+  <#if endedAt??>"endedAt": "${endedAt}"</#if>
 }

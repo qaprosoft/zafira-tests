@@ -223,10 +223,28 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testFinishTests() {
+    public void testFinishTestRun() {
         testRunId = new TestRunServiceAPIImplV1().create();
         PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId,OffsetDateTime.now().toString());
         apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putFinishTestRunV1Method);
+    }
+
+    @Test(dataProvider = "startedAtDataProvider")
+    public void testFinishTestRunWithEndedAt(String description, String endedAt) {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId,OffsetDateTime.now().toString());
+        putFinishTestRunV1Method.addProperty("endedAt",endedAt);
+        apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(putFinishTestRunV1Method);
+    }
+
+    @Test
+    public void testFinishTestRunWithoutEndedAt() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId,OffsetDateTime.now().toString());
+        putFinishTestRunV1Method.removeProperty("endedAt");
+        apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(putFinishTestRunV1Method);
     }
 
