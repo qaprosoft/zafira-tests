@@ -15,7 +15,30 @@
   "needRerun": "type:Boolean",
   "dependsOnMethods": "type:String",
   "testClass": "type:String",
-  "artifacts": "type:JSONArray",
-  "labels": "type:JSONArray",
-  "stacktraceLabels" : "type:JSONArray"
+  "artifacts": [
+    {
+      "id": "regex:[\\d]",
+      "link": "type:String",
+      "name": "type:String",
+      "testId": "regex:[\\d]"
+    }
+  ],
+  "labels": [
+          {
+        "key": "type:String",
+        "value": "type:String",
+        "id":  "regex:[\\d]"
+      },
+      {
+        "key": "type:String",
+        "value": "type:String",
+        "id":  "regex:[\\d]"
+      }
+  ],
+  "stacktraceLabels" :[
+    {
+      "name": "type:String",
+      "reporter": "type:String"
+    }
+  ]
 }

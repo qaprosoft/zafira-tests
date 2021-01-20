@@ -10,4 +10,5 @@ public interface ExecutionService {
     String callApiMethod(AbstractApiMethodV2 method);
 
     void validateResponse(AbstractApiMethodV2 method, JSONCompareMode mode, String... validationFlags);
+    void validateResponseAgainstJSONSchema(AbstractApiMethodV2 method, String schemaPath);
 }

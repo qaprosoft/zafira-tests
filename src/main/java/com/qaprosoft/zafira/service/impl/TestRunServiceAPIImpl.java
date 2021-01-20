@@ -1,11 +1,10 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestRunV1Method;
-import io.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.testRunController.*;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.TestRunServiceAPI;
+import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;
 
 import java.util.List;

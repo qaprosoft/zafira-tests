@@ -1,14 +1,10 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.qaprosoft.zafira.api.filter.DeleteFilterMethod;
-import com.qaprosoft.zafira.api.filter.GetAllPublicFiltersMethods;
-import com.qaprosoft.zafira.api.filter.PostFilterMethod;
 import com.qaprosoft.zafira.api.testRunFilterController.DeleteTestRunFilterByIdMethod;
 import com.qaprosoft.zafira.api.testRunFilterController.GetTestRunFiltersMethod;
 import com.qaprosoft.zafira.api.testRunFilterController.PostTestRunFilterMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.service.FilterService;
 import com.qaprosoft.zafira.service.TestRunFilterV1Service;
 import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;

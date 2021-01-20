@@ -1,6 +1,5 @@
 package com.qaprosoft.zafira.api;
 
-import io.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.zafira.api.integration.GetAllIntegrationsMethod;
 import com.qaprosoft.zafira.api.integration.PutIntegrationByIdMethod;
@@ -8,6 +7,7 @@ import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.enums.IntegrationRqPathType;
 import com.qaprosoft.zafira.service.impl.IntegrationInfoServiceImpl;
+import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
