@@ -123,12 +123,6 @@
         </classes>
     </test>
 
-    <test name="Filter api controller tests">
-        <classes>
-            <class name="com.qaprosoft.zafira.api.FilterTest"/>
-        </classes>
-    </test>
-
     <test name="Dashboard api controller tests">
         <classes>
             <class name="com.qaprosoft.zafira.api.DashboardTest"/>
