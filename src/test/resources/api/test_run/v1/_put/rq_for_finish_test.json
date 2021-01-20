@@ -1,0 +1,5 @@
+{
+  <#if endedAt??>"endedAt": "${endedAt}",</#if>
+  <#if result??>"result": "${result}",</#if>
+  "reason": "NullPointerException: bla bla bla"
+}

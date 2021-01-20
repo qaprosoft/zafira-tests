@@ -1,12 +1,11 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.qaprosoft.zafira.api.assets.DeleteAssetByKeyMethod;
-import io.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.assets.PostAssetMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.AssetService;
-import com.qaprosoft.zafira.service.FileUtilService;
+import io.restassured.path.json.JsonPath;
 
 import java.io.File;
 

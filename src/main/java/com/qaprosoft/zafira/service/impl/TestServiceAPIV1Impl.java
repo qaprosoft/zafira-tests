@@ -2,7 +2,7 @@ package com.qaprosoft.zafira.service.impl;
 
 
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestsInTestRunV1Method;
-import com.qaprosoft.zafira.api.testRunController.v1.PutUpdateTestInTestRunV1Method;
+import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestInTestRunV1Method;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.TestServiceAPIV1;
@@ -27,9 +27,9 @@ public class TestServiceAPIV1Impl implements TestServiceAPIV1 {
 
     @Override
     public String updateResultInTest(int testRunId, int testId, String result) {
-        PutUpdateTestInTestRunV1Method putUpdateTestInTestRunV1Method = new PutUpdateTestInTestRunV1Method(testRunId, testId, result);
-        apiExecutor.expectStatus(putUpdateTestInTestRunV1Method, HTTPStatusCodeType.OK);
-        String response =  apiExecutor.callApiMethod(putUpdateTestInTestRunV1Method);
+        PutFinishTestInTestRunV1Method putFinishTestInTestRunV1Method = new PutFinishTestInTestRunV1Method(testRunId, testId, result);
+        apiExecutor.expectStatus(putFinishTestInTestRunV1Method, HTTPStatusCodeType.OK);
+        String response =  apiExecutor.callApiMethod(putFinishTestInTestRunV1Method);
         return JsonPath.from(response).getString(JSONConstant.RESULT);
     }
 }

@@ -1,0 +1,6 @@
+{
+  "id": "regex:[\\d]",
+  "endedAt": "type:String",
+  "result": "type:String",
+  "reason": "type:String"
+}
