@@ -27,7 +27,8 @@ import java.util.Locale;
  */
 
 public class TestRunV1Test extends ZafiraAPIBaseTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ZafiraAPIBaseTest.class);
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestRunV1Test.class);
     private int testRunId;
     private static final String RESULT_SKIPPED = "SKIPPED";
     private static final String RESULT_FAILED = "FAILED";
@@ -41,6 +42,10 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     public void deleteTestRun() {
         new TestRunServiceAPIImplV1().deleteTestRun(testRunId);
     }
+
+    /**
+     * Test run execution start
+     */
 
     @DataProvider(name = "rqFieldsAndHttpStatusDataProvider")
     public Object[][] getMandatoryFieldsAndHttpStatus() {
@@ -118,6 +123,10 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postStartTestRunV1Method);
     }
 
+    /**
+     * Test execution start
+     */
+
     @Test
     public void testStartTestsInTestRunV1() {
         testRunId = new TestRunServiceAPIImplV1().create();
@@ -128,7 +137,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "rqForTestMandatoryFieldsDataProvider")
-    public void testStartTestsInTestRunV1RemovedField(String field) {
+    public void testStartTestsInTestRunV1WithoutField(String field) {
         testRunId = new TestRunServiceAPIImplV1().create();
         PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1Method(testRunId);
         postStartTestsInTestRunV1Method.removeProperty(field);
@@ -179,17 +188,9 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postStartTestsInTestRunV1Method);
     }
 
-    @Test
-    public void testGetTestsByTestRunIdV1() {
-        TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
-        testRunId = testRunServiceAPIImplV1.create();
-        String ciRunId = testRunServiceAPIImplV1.getCiRunId(testRunId);
-        new TestServiceAPIV1Impl().createTest(testRunId);
-        GetTestsByCiRunIdV1Method getTestsByCiRunIdV1Method = new GetTestsByCiRunIdV1Method(ciRunId);
-        apiExecutor.expectStatus(getTestsByCiRunIdV1Method, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getTestsByCiRunIdV1Method);
-        apiExecutor.validateResponse(getTestsByCiRunIdV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-    }
+    /**
+     * Test execution start - headless option
+     */
 
     @Test
     public void testStartTestsHeadless() {
@@ -304,8 +305,149 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     /**
-     * Test execution finish
+     * Test execution update - headless option
      */
+
+    @DataProvider(name = "mandatoryFieldsUpdateTestsHeadless")
+    public Object[][] getMandatoryFieldsUpdateTestsHeadless() {
+        return new Object[][]{{"name"}, {"className"}, {"methodName"}};
+    }
+
+    @Test
+    public void testUpdateTestsHeadless() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
+        PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
+                = new PutUpdateTestsInTestRunV1HeadlessMethod(testRunId, testId);
+        apiExecutor.expectStatus(putUpdateTestsInTestRunV1HeadlessMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putUpdateTestsInTestRunV1HeadlessMethod);
+        apiExecutor.validateResponse(putUpdateTestsInTestRunV1HeadlessMethod, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test(dataProvider = "mandatoryFieldsUpdateTestsHeadless", description = "negative")
+    public void testUpdateTestsHeadlessWithoutMandatory(String field) {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
+        PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
+                = new PutUpdateTestsInTestRunV1HeadlessMethod(testRunId, testId);
+        putUpdateTestsInTestRunV1HeadlessMethod.removeProperty(field);
+        apiExecutor.expectStatus(putUpdateTestsInTestRunV1HeadlessMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(putUpdateTestsInTestRunV1HeadlessMethod);
+    }
+
+    @Test(dataProvider = "mandatoryFieldsUpdateTestsHeadless", description = "negative")
+    public void testUpdateTestsHeadlessWithEmptyMandatory(String field) {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
+        PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
+                = new PutUpdateTestsInTestRunV1HeadlessMethod(testRunId, testId);
+        putUpdateTestsInTestRunV1HeadlessMethod.addProperty(field, "");
+        apiExecutor.expectStatus(putUpdateTestsInTestRunV1HeadlessMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(putUpdateTestsInTestRunV1HeadlessMethod);
+    }
+
+    @Test
+    public void testUpdateTestsHeadlessNonExistentTestRunId() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
+        new TestRunServiceAPIImplV1().deleteTestRun(testRunId);
+        PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
+                = new PutUpdateTestsInTestRunV1HeadlessMethod(testRunId, testId);
+        apiExecutor.expectStatus(putUpdateTestsInTestRunV1HeadlessMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(putUpdateTestsInTestRunV1HeadlessMethod);
+    }
+
+    @Test
+    public void testUpdateTestsHeadlessNonExistentTestId() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
+        new TestServiceAPIV1Impl().deleteTest(testRunId, testId);
+        PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
+                = new PutUpdateTestsInTestRunV1HeadlessMethod(testRunId, testId);
+        apiExecutor.expectStatus(putUpdateTestsInTestRunV1HeadlessMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(putUpdateTestsInTestRunV1HeadlessMethod);
+    }
+
+    @Test
+    public void testUpdateTestsHeadlessWithInvalidTestRunId() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
+        PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
+                = new PutUpdateTestsInTestRunV1HeadlessMethod(testRunId, testId);
+        String methodPath = putUpdateTestsInTestRunV1HeadlessMethod.getMethodPath().replace(String.valueOf(testRunId), "!");
+        putUpdateTestsInTestRunV1HeadlessMethod.setMethodPath(methodPath);
+        apiExecutor.expectStatus(putUpdateTestsInTestRunV1HeadlessMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(putUpdateTestsInTestRunV1HeadlessMethod);
+    }
+
+    @Test
+    public void testUpdateTestsHeadlessWithInvalidTestId() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
+        PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
+                = new PutUpdateTestsInTestRunV1HeadlessMethod(testRunId, testId);
+        String methodPath = putUpdateTestsInTestRunV1HeadlessMethod.getMethodPath().replace(String.valueOf(testId), "!");
+        putUpdateTestsInTestRunV1HeadlessMethod.setMethodPath(methodPath);
+        apiExecutor.expectStatus(putUpdateTestsInTestRunV1HeadlessMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(putUpdateTestsInTestRunV1HeadlessMethod);
+    }
+
+    @Test
+    public void testUpdateTestsHeadlessWithHeadlessFalse() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
+        PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
+                = new PutUpdateTestsInTestRunV1HeadlessMethod(testRunId, testId);
+        putUpdateTestsInTestRunV1HeadlessMethod.addUrlParameter("headless", String.valueOf(false));
+        apiExecutor.expectStatus(putUpdateTestsInTestRunV1HeadlessMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(putUpdateTestsInTestRunV1HeadlessMethod);
+    }
+
+    /**
+     * Delete test in testRun
+     */
+
+    @Test
+    public void testDeleteTest() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        int testId= new TestServiceAPIV1Impl().createTest(testRunId);
+        DeleteTestByIdV1Method deleteTestByIdV1Method = new DeleteTestByIdV1Method(testRunId, testId);
+        apiExecutor.expectStatus(deleteTestByIdV1Method, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(deleteTestByIdV1Method);
+    }
+
+    @Test(enabled = false)
+    public void testDeleteTestWithNonExistentTestId() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        int testId= new TestServiceAPIV1Impl().createTest(testRunId);
+        new TestServiceAPIV1Impl().deleteTest(testRunId,testId);
+        DeleteTestByIdV1Method deleteTestByIdV1Method = new DeleteTestByIdV1Method(testRunId, testId);
+        apiExecutor.expectStatus(deleteTestByIdV1Method, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(deleteTestByIdV1Method);
+    }
+
+    @Test(enabled = false)
+    public void testDeleteTestWithNonExistentTestRunId() {
+        testRunId = new TestRunServiceAPIImplV1().create();
+        int testId= new TestServiceAPIV1Impl().createTest(testRunId);
+        new TestRunServiceAPIImplV1().deleteTestRun(testRunId);
+        DeleteTestByIdV1Method deleteTestByIdV1Method = new DeleteTestByIdV1Method(testRunId, testId);
+        apiExecutor.expectStatus(deleteTestByIdV1Method, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(deleteTestByIdV1Method);
+    }
+
+    @Test
+    public void testGetTestsByTestRunIdV1() {
+        TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
+        testRunId = testRunServiceAPIImplV1.create();
+        String ciRunId = testRunServiceAPIImplV1.getCiRunId(testRunId);
+        new TestServiceAPIV1Impl().createTest(testRunId);
+        GetTestsByCiRunIdV1Method getTestsByCiRunIdV1Method = new GetTestsByCiRunIdV1Method(ciRunId);
+        apiExecutor.expectStatus(getTestsByCiRunIdV1Method, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getTestsByCiRunIdV1Method);
+        apiExecutor.validateResponse(getTestsByCiRunIdV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
 
     @Test
     public void testGetTestRunStatusV1WithTestResultsFAILEDAndPASSED() {
