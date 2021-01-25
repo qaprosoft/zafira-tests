@@ -1,0 +1,17 @@
+{
+   <#if name??>"name": "${name}",</#if>
+  <#if className??>"className": "${className}",</#if>
+  <#if methodName??>"methodName": "${methodName}",</#if>
+  "maintainer": "johndoe@zebrunner.com",
+  "testCase": "login_with_incorrect_password",
+  "labels": [
+    {
+      "key": "feature",
+      "value": "List Users"
+    },
+    {
+      "key": "group",
+      "value": "Regression"
+    }
+  ]
+}

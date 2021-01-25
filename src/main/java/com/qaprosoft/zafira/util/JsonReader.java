@@ -15,4 +15,4 @@ public class JsonReader {
         List<String> jsonObjList = googleJson.fromJson(str, listType);
         return jsonObjList;
     }
-}
+    }
