@@ -6,6 +6,13 @@
     "maintainer": "type:String",
     "methodName": "type:String",
     "testCase": "type:String",
-    "result": "type:String"
+    "result": "type:String",
+    "labels": [
+      {
+        "key": "type:String",
+        "value": "type:String"
+      }
+    ],
+    "startedAt": "type:String"
   }
 ]

@@ -6,5 +6,6 @@
   "methodName":  "type:String",
   "labels": "type:JSONArray",
   "maintainer":  "type:String",
-  "testCase":  "type:String"
+  "testCase":  "type:String",
+  "result": "IN_PROGRESS"
 }

@@ -20,7 +20,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.time.OffsetDateTime;
-import java.util.Locale;
 
 /**
  * Test Run Controller v1
@@ -224,11 +223,49 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
      */
 
     @Test
-    public void testFinishTestRun() {
+    public void testFinishTestRunWithoutTest() {
         testRunId = new TestRunServiceAPIImplV1().create();
         PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId, OffsetDateTime.now().toString());
         apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putFinishTestRunV1Method);
+    }
+
+    @Test
+    public void testFinishTestRunWithTestWithStatusINPROGRESS() {
+        TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
+        testRunId = testRunServiceAPIImplV1.create();
+        int testId= new TestServiceAPIV1Impl().createTest(testRunId);
+        PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId, OffsetDateTime.now().toString());
+        apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putFinishTestRunV1Method);
+        String testResults = testRunServiceAPIImplV1.getTestResultsAfterFinishTestRun(testRunId);
+        String actualStatus = testRunServiceAPIImplV1.getTestStatusAfterFinishTestRun(testResults,testRunId,testId);
+        Assert.assertEquals(actualStatus,"SKIPPED","Test run has been finished incorrect!");
+    }
+
+    @Test
+    public void testFinishTestRunWithTestWithAllTestStatus() {
+        TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
+        testRunId = testRunServiceAPIImplV1.create();
+        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        int testId1 = new TestServiceAPIV1Impl().createTest(testRunId);
+        int testId2 = new TestServiceAPIV1Impl().createTest(testRunId);
+        int testId3 = new TestServiceAPIV1Impl().createTest(testRunId);
+        new TestServiceAPIV1Impl().updateResultInTest(testRunId,testId1,"PASSED");
+        new TestServiceAPIV1Impl().updateResultInTest(testRunId,testId2,"ABORTED");
+        new TestServiceAPIV1Impl().updateResultInTest(testRunId,testId3,"SKIPPED");
+        PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId, OffsetDateTime.now().toString());
+        apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putFinishTestRunV1Method);
+        String testResults = testRunServiceAPIImplV1.getTestResultsAfterFinishTestRun(testRunId);
+        String actualStatus = testRunServiceAPIImplV1.getTestStatusAfterFinishTestRun(testResults,testRunId,testId);
+        String actualStatus1 =testRunServiceAPIImplV1.getTestStatusAfterFinishTestRun(testResults,testRunId,testId1);
+        String actualStatus2 = testRunServiceAPIImplV1.getTestStatusAfterFinishTestRun(testResults,testRunId,testId2);
+        String actualStatus3 = testRunServiceAPIImplV1.getTestStatusAfterFinishTestRun(testResults,testRunId,testId3);
+        Assert.assertEquals(actualStatus,"SKIPPED","Test run has been finished incorrect!");
+        Assert.assertEquals(actualStatus1,"PASSED","Test run has been finished incorrect!");
+        Assert.assertEquals(actualStatus2,"ABORTED","Test run has been finished incorrect!");
+        Assert.assertEquals(actualStatus3,"SKIPPED","Test run has been finished incorrect!");
     }
 
     @Test(dataProvider = "startedAtDataProvider", description = "negative")

@@ -5,6 +5,8 @@
   "methodName":  "type:String",
   "maintainer": "type:String",
   "testCase": "type:String",
+  "result": "type:String",
+  "startedAt": "type:String",
   "labels": [
     {
       "key": "type:String",

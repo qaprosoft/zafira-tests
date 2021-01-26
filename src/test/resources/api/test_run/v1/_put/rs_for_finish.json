@@ -1,6 +1,11 @@
 {
   "id": "regex:[\\d]",
-  "endedAt": "type:String",
   "result": "type:String",
-  "reason": "type:String"
+  "reason": "type:String",
+  "className": "type:String",
+  "maintainer": "type:String",
+  "methodName": "type:String",
+  "name": "type:String",
+  "startedAt": "type:String",
+  "testCase": "type:String"
 }

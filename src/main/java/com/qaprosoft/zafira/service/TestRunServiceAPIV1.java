@@ -11,4 +11,8 @@ public interface TestRunServiceAPIV1 {
     void finishTestRun(int testRunId);
 
     void deleteTestRun(int testRunId);
+
+    String getTestResultsAfterFinishTestRun(int testRunId);
+
+    String getTestStatusAfterFinishTestRun(String testResults,int testRunId, int testId);
 }
