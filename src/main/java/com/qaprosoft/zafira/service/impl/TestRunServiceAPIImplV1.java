@@ -1,6 +1,7 @@
 package com.qaprosoft.zafira.service.impl;
 
 
+import com.qaprosoft.zafira.api.testController.PostRetrieveTestBySearchCriteriaMethod;
 import com.qaprosoft.zafira.api.testRunController.GetTestRunByIdMethod;
 import com.qaprosoft.zafira.api.testRunController.v1.DeleteTestRunByIdV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestRunV1Method;
@@ -54,5 +55,21 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
     public void deleteTestRun(int testRunId) {
         DeleteTestRunByIdV1Method deleteTestRunByIdV1Method = new DeleteTestRunByIdV1Method(testRunId);
         apiExecutor.callApiMethod(deleteTestRunByIdV1Method);
+    }
+
+    @Override
+    public String getTestResultsAfterFinishTestRun(int testRunId) {
+        PostRetrieveTestBySearchCriteriaMethod postRetrieveTestBySearchCriteriaMethod = new PostRetrieveTestBySearchCriteriaMethod(testRunId);
+        apiExecutor.expectStatus(postRetrieveTestBySearchCriteriaMethod, HTTPStatusCodeType.OK);
+        String rs =apiExecutor.callApiMethod(postRetrieveTestBySearchCriteriaMethod);
+        return rs;
+    }
+
+    @Override
+    public String getTestStatusAfterFinishTestRun(String testResults, int testRunId, int testId) {
+        JsonPath.from(testResults).getList("results.id");
+        int id = JsonPath.from(testResults).getList("results.id").indexOf(testId);
+        String actualStatus = JsonPath.from(testResults).getList("results.status").get(id).toString();
+        return actualStatus;
     }
 }

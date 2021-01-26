@@ -3,5 +3,7 @@
   "name": "type:String",
   "startedAt": "type:String",
   "className":  "type:String",
-  "methodName":  "type:String"
+  "methodName":  "type:String",
+  "maintainer": "type:String",
+  "result":  "type:String"
 }
