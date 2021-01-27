@@ -79,11 +79,4 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postVerifyPermissionsMethodIAM);
     }
 
-    @Test
-    public void testVerifyPermissionsWithIncorrectAuthToken() {
-        PostVerifyPermissionsMethodIAM postVerifyPermissionsMethodIAM
-                = new PostVerifyPermissionsMethodIAM(INCORRECT_AUTHTOKEN);
-        apiExecutor.expectStatus(postVerifyPermissionsMethodIAM, HTTPStatusCodeType.INTERNAL_SERVER_ERROR);
-        apiExecutor.callApiMethod(postVerifyPermissionsMethodIAM);
-    }
 }
