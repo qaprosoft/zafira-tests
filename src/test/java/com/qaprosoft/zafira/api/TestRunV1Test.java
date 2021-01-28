@@ -130,7 +130,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     @Test
     public void testStartTestsInTestRunV1() {
         testRunId = new TestRunServiceAPIImplV1().create();
-        PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1Method(testRunId+1);
+        PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1Method(testRunId);
         apiExecutor.expectStatus(postStartTestsInTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postStartTestsInTestRunV1Method);
         apiExecutor.validateResponse(postStartTestsInTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
