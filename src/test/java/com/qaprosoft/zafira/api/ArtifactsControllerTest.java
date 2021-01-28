@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.api;
 
+import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.artifactsController.GetLogsV1Method;
 import com.qaprosoft.zafira.api.artifactsController.GetScreenshotsV1Method;
@@ -14,6 +15,7 @@ import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceAPIV1Impl;
 import com.qaprosoft.zafira.util.WaitUtil;
 import org.apache.log4j.Logger;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
@@ -36,7 +38,10 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         new ArtifactsControllerV1ServiceImpl().createLogRecord(testRunId, testId);
         GetLogsV1Method getLogsV1Method = new GetLogsV1Method(testRunId, testId);
+        apiExecutor.callApiMethod(getLogsV1Method);
+        apiExecutor.expectStatus(getLogsV1Method,HTTPStatusCodeType.OK);
         Assert.assertTrue(WaitUtil.waitForLogFound(getLogsV1Method, EXPECTED_COUNT_ONE), "Log was not found!");
+        apiExecutor.validateResponse(getLogsV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test

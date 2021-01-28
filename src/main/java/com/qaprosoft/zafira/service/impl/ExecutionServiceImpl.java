@@ -27,6 +27,6 @@ public class ExecutionServiceImpl implements ExecutionService {
 
     @Override
     public void validateResponseAgainstJSONSchema(AbstractApiMethodV2 method, String schemaPath) {
-        method.validateResponseAgainstJSONSchema(schemaPath);
+        method.validateResponseAgainstSchema(schemaPath);
     }
 }

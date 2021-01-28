@@ -635,7 +635,8 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     @Test
     public void testPostAIAnalysis() {
         testRunId = new TestRunServiceAPIImplV1().create();
-        new TestServiceAPIV1Impl().createTest(testRunId);
+        int id =new TestServiceAPIV1Impl().createTest(testRunId);
+        new TestServiceAPIV1Impl().updateResultInTest(testRunId,id,"FAILED");
         PostAIAnalysisMethod postAIAnalysisMethod = new PostAIAnalysisMethod(testRunId);
         apiExecutor.expectStatus(postAIAnalysisMethod, HTTPStatusCodeType.ACCEPTED);
         apiExecutor.callApiMethod(postAIAnalysisMethod);
