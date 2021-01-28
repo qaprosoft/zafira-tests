@@ -91,7 +91,7 @@ public class ScmAccountControllerTest extends ZafiraAPIBaseTest {
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGetAllRepositories() {
         GetAllRepositoriesMethod getAllRepositoriesMethod = new GetAllRepositoriesMethod();
         apiExecutor.expectStatus(getAllRepositoriesMethod, HTTPStatusCodeType.OK);
