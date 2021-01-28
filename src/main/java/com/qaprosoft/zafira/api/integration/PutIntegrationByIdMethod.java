@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.api.integration;
 
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,7 +28,7 @@ public class PutIntegrationByIdMethod extends ZafiraBaseApiMethodWithAuth {
         String integrationName = "";
         if (matcher.find()) {
             integrationName = matcher.group();
-            LOGGER.info(String.format("integrationName = %s", integrationName));
+            Logger.getAnonymousLogger().info(String.format("integrationName = %s", integrationName));
         }
         return integrationName;
     }

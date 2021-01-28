@@ -130,7 +130,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     @Test
     public void testStartTestsInTestRunV1() {
         testRunId = new TestRunServiceAPIImplV1().create();
-        PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1Method(testRunId);
+        PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1Method(testRunId+1);
         apiExecutor.expectStatus(postStartTestsInTestRunV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postStartTestsInTestRunV1Method);
         apiExecutor.validateResponse(postStartTestsInTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
@@ -635,7 +635,8 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     @Test
     public void testPostAIAnalysis() {
         testRunId = new TestRunServiceAPIImplV1().create();
-        new TestServiceAPIV1Impl().createTest(testRunId);
+        int id =new TestServiceAPIV1Impl().createTest(testRunId);
+        new TestServiceAPIV1Impl().updateResultInTest(testRunId,id,"FAILED");
         PostAIAnalysisMethod postAIAnalysisMethod = new PostAIAnalysisMethod(testRunId);
         apiExecutor.expectStatus(postAIAnalysisMethod, HTTPStatusCodeType.ACCEPTED);
         apiExecutor.callApiMethod(postAIAnalysisMethod);
