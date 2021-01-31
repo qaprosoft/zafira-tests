@@ -1,5 +1,5 @@
 reporting:
-  enabled:  true
+  enabled: true
   project-key: Zebrunner
   server:
     hostname: https://automation.qaprosoft.farm

@@ -5,9 +5,8 @@
        parallel="tests" annotations="JDK">
 
 
-
     <parameter name="suiteOwner" value="qpsdemo"/>
-    <parameter name="zafira_project" value="UNKNOWN"/>
+    <parameter name="zafira_project" value="Zebrunner"/>
     <parameter name="jenkinsJobCreation" value="true"/>
     <parameter name="jenkinsJobName" value="Zafira-API-Acceptance-Test"/>
     <parameter name="jenkinsJobType" value="api"/>
@@ -17,7 +16,6 @@
     <parameter name="jenkinsPipelineEnvironments" value="STAG"/>
     <parameter name="jenkinsJobExecutionMode" value="continue"/>
     <parameter name="jenkinsMockHost" value="https://mockci.qaprosoft.farm"/>
-
 
     <test name="Integration-info controller tests">
         <classes>
