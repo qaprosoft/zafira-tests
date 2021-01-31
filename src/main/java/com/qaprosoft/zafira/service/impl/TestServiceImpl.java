@@ -42,6 +42,7 @@ public class TestServiceImpl implements TestService {
         PutUpdateTestStatusMethod putUpdateTestStatusMethod = new PutUpdateTestStatusMethod(testId, testSuiteId,
                 jobId, expectedTestStatusValue);
         apiExecutor.expectStatus(putUpdateTestStatusMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putUpdateTestStatusMethod);
     }
 
     @Override

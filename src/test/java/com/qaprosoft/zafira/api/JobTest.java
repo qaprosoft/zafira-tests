@@ -26,7 +26,7 @@ public class JobTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postJobMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGetAllJobs() {
         int jobId = new JobServiceImpl().create();
         GetAllJobsMethod getAllJobsMethod = new GetAllJobsMethod();
@@ -38,7 +38,7 @@ public class JobTest extends ZafiraAPIBaseTest {
         Assert.assertTrue(allJobsId.contains(jobId), "JobId is not found");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testCreateJobByJenkinsJobURL() {
         PostJobByJenkinsJobURLMethod postJobByJenkinsJobURLMethod = new PostJobByJenkinsJobURLMethod();
         apiExecutor.expectStatus(postJobByJenkinsJobURLMethod, HTTPStatusCodeType.OK);
