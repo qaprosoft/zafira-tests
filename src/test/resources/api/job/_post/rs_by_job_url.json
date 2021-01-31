@@ -1,7 +1,0 @@
-{
-  "id": "regex:[\\d]",
-  "name": "type:String",
-  "jobURL": "type:String",
-  "jenkinsHost": "type:String",
-  "userId": "regex:[\\d]"
-}
