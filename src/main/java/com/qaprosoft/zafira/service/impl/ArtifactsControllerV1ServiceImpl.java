@@ -31,6 +31,14 @@ public class ArtifactsControllerV1ServiceImpl implements ArtifactsControllerV1Se
     }
 
     @Override
+    public String createScreenshotWithHeader(int testRunId, int testId, String filePath, int milliseconds) {
+        PostScreenshotsV1Method postScreenshotsV1Method = new PostScreenshotsV1Method(testRunId, testId, filePath);
+        postScreenshotsV1Method.setHeaders("x-zbr-screenshot-captured-at=" + milliseconds);
+        apiExecutor.expectStatus(postScreenshotsV1Method, HTTPStatusCodeType.CREATED);
+        return apiExecutor.callApiMethod(postScreenshotsV1Method);
+    }
+
+    @Override
     public int getTotalResults(int testRunId, int testId, String filePath) {
         return JsonPath.from
                 (apiExecutor.callApiMethod(new PostScreenshotsV1Method(testRunId, testId, filePath))).

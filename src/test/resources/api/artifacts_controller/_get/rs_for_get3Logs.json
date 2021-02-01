@@ -1,0 +1,21 @@
+{
+  "page": "regex:[\\d]",
+  "pageSize": "regex:[\\d]",
+  "totalPages": "regex:[\\d]",
+  "totalResults": "regex:[\\d]",
+  "results": [
+    {
+      "level": "type:String",
+      "message": "type:String",
+      "timestamp": "regex:[\\d]"
+    },{
+      "level": "type:String",
+      "message": "type:String",
+      "timestamp": "regex:[\\d]"
+    },{
+      "level": "type:String",
+      "message": "type:String",
+      "timestamp": "regex:[\\d]"
+    }
+  ]
+}
