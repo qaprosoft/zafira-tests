@@ -3,5 +3,10 @@
   "pageSize": "regex:[\\d]",
   "totalPages": "regex:[\\d]",
   "totalResults": "regex:[\\d]",
-  "results": "type:JSONArray"
+  "results": [
+    {
+      "timestamp": "regex:[\\d]",
+      "src": "type:String"
+    }
+  ]
 }

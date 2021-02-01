@@ -1,0 +1,18 @@
+{
+  "page": "regex:[\\d]",
+  "pageSize": "regex:[\\d]",
+  "totalPages": "regex:[\\d]",
+  "totalResults": "regex:[\\d]",
+  "results": [
+    {
+      "timestamp": "regex:[\\d]",
+      "src": "type:String"
+    },{
+      "timestamp": "regex:[\\d]",
+      "src": "type:String"
+    },{
+      "timestamp": "regex:[\\d]",
+      "src": "type:String"
+    }
+  ]
+}

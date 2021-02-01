@@ -7,5 +7,6 @@
   "methodName": "type:String",
   "name": "type:String",
   "startedAt": "type:String",
-  "testCase": "type:String"
+  "testCase": "type:String",
+  "endedAt": "type:String"
 }

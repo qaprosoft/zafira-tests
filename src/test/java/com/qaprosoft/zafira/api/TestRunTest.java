@@ -155,7 +155,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postTestRunByJobMethod);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGetTestRunJobParameters() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
