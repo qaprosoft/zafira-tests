@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 public class JobTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(JobTest.class);
 
-    @Test(enabled = false)
+    @Test
     public void testCreateJob() {
         PostJobMethod postJobMethod = new PostJobMethod();
         apiExecutor.expectStatus(postJobMethod, HTTPStatusCodeType.OK);

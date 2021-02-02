@@ -128,13 +128,32 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
         PostTestArtifactMethod postTestArtifact = new PostTestArtifactMethod(testRunId, testId, uploadFile);
         apiExecutor.expectStatus(postTestArtifact, HTTPStatusCodeType.CREATED);
         apiExecutor.callApiMethod(postTestArtifact);
+        apiExecutor.validateResponse(postTestArtifact,JSONCompareMode.STRICT);
     }
 
-    @Test(enabled = false)
+    @Test
     public void testSendTestRunArtifact() {
         File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY));
-        PostTestRunArtifactMethod postTestRunArtifact = new PostTestRunArtifactMethod(testRunId, uploadFile);
+        PostTestRunArtifactMethod postTestRunArtifact = new PostTestRunArtifactMethod(testRunId+1, uploadFile);
         apiExecutor.expectStatus(postTestRunArtifact, HTTPStatusCodeType.CREATED);
         apiExecutor.callApiMethod(postTestRunArtifact);
+        apiExecutor.validateResponse(postTestRunArtifact,JSONCompareMode.STRICT);
     }
+
+    @Test
+    public void testSendTestArtifactReferences() {
+        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        PutTestArtifactReferencesMethod putTestArtifactReferencesMethod = new PutTestArtifactReferencesMethod(testRunId, testId);
+        apiExecutor.expectStatus(putTestArtifactReferencesMethod, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(putTestArtifactReferencesMethod);
+    }
+
+    @Test
+    public void testSendTestRunArtifactReferences() {
+        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        PutTestRunArtifactReferencesMethod putTestRunArtifactReferencesMethod = new PutTestRunArtifactReferencesMethod(testRunId, testId);
+        apiExecutor.expectStatus(putTestRunArtifactReferencesMethod, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(putTestRunArtifactReferencesMethod);
+    }
+
 }
