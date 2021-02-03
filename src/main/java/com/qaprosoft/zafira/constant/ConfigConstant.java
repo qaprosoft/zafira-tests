@@ -28,6 +28,7 @@ public class ConfigConstant {
     public static final String EXPECTED_USER_STATUS_KEY = "expected_user_status";
     public static final String EXPECTED_PERMISSION_ID_KEY = "expected_permission_id";
     public static final String IMAGE_PATH_KEY = "image_path_key";
+    public static final String APK_PATH_KEY = "apk_path_key";
     public static final String SUBJECT_NAME_KEY = "subject_name";
     public static final String EXPECTED_FILTER_NAME_KEY = "expected_filter_name";
     public static final String EXPECTED_DASHBOARD_NAME_KEY = "expected_dashboard_name";

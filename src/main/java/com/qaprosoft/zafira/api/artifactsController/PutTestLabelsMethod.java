@@ -3,11 +3,9 @@ package com.qaprosoft.zafira.api.artifactsController;
 import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
 import com.qaprosoft.zafira.manager.APIContextManager;
 
-import java.io.File;
-
-public class PutTestArtifactReferencesMethod extends ZafiraBaseApiMethodWithAuth {
-    public PutTestArtifactReferencesMethod(int testRunId, int testId) {
-        super("api/artifacts_controller/artifact_references/_post/rq_for_test.json",
+public class PutTestLabelsMethod extends ZafiraBaseApiMethodWithAuth {
+    public PutTestLabelsMethod(int testRunId, int testId) {
+        super("api/artifacts_controller/labels._put/rq_for_test.json",
                 null, "api/file_util.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.BASE_URL);
         replaceUrlPlaceholder("testRunId", String.valueOf(testRunId));

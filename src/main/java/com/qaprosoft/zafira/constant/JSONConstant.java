@@ -56,4 +56,5 @@ public class JSONConstant {
     public static final String TEST_INFO_KEY = "testInfo";
     public static final String CUSTOM_PARAMS_KEY = "customParams";
     public static final String TIMESTAMP_RESULT_KEY = "results[0].timestamp";
+    public static final String UUID_KEY = "uuid";
 }
