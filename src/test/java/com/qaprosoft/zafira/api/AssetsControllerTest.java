@@ -23,7 +23,7 @@ public class AssetsControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "data-provider-asset-type")
-    public void testUploadImageAssetSucceed(String type) {
+    public void testUploadImageAsset(String type) {
         File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY));
         PostAssetMethod postAssetMethod = new PostAssetMethod(type, uploadFile);
         apiExecutor.expectStatus(postAssetMethod, HTTPStatusCodeType.CREATED);
@@ -34,12 +34,23 @@ public class AssetsControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "data-provider-asset-type")
-    public void testDeleteImageAssetSucceed(String type) {
+    public void testDeleteImageAsset(String type) {
         File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY));
         String key = new AssetServiceImpl().create(type, uploadFile);
         DeleteAssetByKeyMethod deleteAssetByKeyMethod = new DeleteAssetByKeyMethod(key);
         apiExecutor.expectStatus(deleteAssetByKeyMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(deleteAssetByKeyMethod);
+    }
+
+    @Test
+    public void testUploadImageAssetWithTypeAPP_PACKAGE() {
+        File uploadFile = new File(R.TESTDATA.get(ConfigConstant.APK_PATH_KEY));
+        PostAssetMethod postAssetMethod = new PostAssetMethod("APP_PACKAGE", uploadFile);
+        apiExecutor.expectStatus(postAssetMethod, HTTPStatusCodeType.CREATED);
+        String rs = apiExecutor.callApiMethod(postAssetMethod);
+        apiExecutor.validateResponse(postAssetMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        String key = JsonPath.from(rs).getString(JSONConstant.KEY_KEY);
+        new AssetServiceImpl().delete(key);
     }
 }
 

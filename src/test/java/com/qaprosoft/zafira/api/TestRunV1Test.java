@@ -72,13 +72,18 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
         return testRunId;
     }
 
-    @Test
-    public void testStartTestRunV1WithoutTests() {
+    @Test(enabled = false)
+    public void testStartTestRunV1WithoutTestsWithExistingUUID() {
         PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method(PROJECT_UNKNOWN, OffsetDateTime.now().toString());
         apiExecutor.expectStatus(postStartTestRunV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postStartTestRunV1Method);
         apiExecutor.validateResponse(postStartTestRunV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         testRunId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        String uuid=JsonPath.from(rs).getString(JSONConstant.UUID_KEY);
+        PostStartTestRunV1Method postStartTestRunV1Method1 = new PostStartTestRunV1Method(PROJECT_UNKNOWN, OffsetDateTime.now().toString());
+        postStartTestRunV1Method1.addProperty(JSONConstant.UUID_KEY,uuid);
+        apiExecutor.expectStatus(postStartTestRunV1Method1, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postStartTestRunV1Method1);
     }
 
     @Test()
