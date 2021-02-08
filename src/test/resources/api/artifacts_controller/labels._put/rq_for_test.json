@@ -1,8 +1,8 @@
 {
   "items": [
     {
-      "key": "feature",
-      "value": "List Users"
+      "key": "${labelKey}",
+      "value": "${labelValue}"
     },
     {
       "key": "group",

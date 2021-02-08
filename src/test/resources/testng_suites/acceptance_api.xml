@@ -4,7 +4,6 @@
        junit="false"
        parallel="tests" annotations="JDK">
 
-
     <parameter name="suiteOwner" value="qpsdemo"/>
     <parameter name="zafira_project" value="Zebrunner"/>
     <parameter name="jenkinsJobCreation" value="true"/>

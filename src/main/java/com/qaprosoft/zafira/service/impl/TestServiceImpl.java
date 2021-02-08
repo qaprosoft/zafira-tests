@@ -1,14 +1,11 @@
 package com.qaprosoft.zafira.service.impl;
 
-import io.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.testController.*;
-import com.qaprosoft.zafira.api.testRunController.GetTestByTestRunIdMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.TestService;
+import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;
-
-import java.util.List;
 
 public class TestServiceImpl implements TestService {
     private static final Logger LOGGER = Logger.getLogger(TestServiceImpl.class);

@@ -7,7 +7,6 @@ public class JSONConstant {
     public static final String QUEUE_ITEM_URL_KEY = "queueItemUrl";
     public static final String WORK_ITEM_RS_KEY = "workItem";
     public static final String STATUS_KEY = "status";
-    public static final String ARTIFACT_ID_KEY = "results.artifacts";
     public static final String JIRA_ID_KEY = "jiraId";
     public static final String ALL_ID_FROM_RESULTS_KEY = "results[0].id";
     public static final String CI_RUN_ID_KEY = "ciRunId";
@@ -48,7 +47,6 @@ public class JSONConstant {
     public static final String INTEGRATION_GROUP_NAME = "[0].name";
     public static final String INTEGRATION_GROUP_ID = "[0].id";
     public static final String WIDGET_ID_KEY = "[0].id";
-    public static final String ATTRIBUTE_ID_KEY = "[0].id";
     public static final String PROJECT_NAME_KEY = "name";
     public static final String ARRAY_STATUS_KEY = "[0].status";
     public static final String FAVORITE_VALUE_KEY = "favorite";
@@ -57,4 +55,11 @@ public class JSONConstant {
     public static final String CUSTOM_PARAMS_KEY = "customParams";
     public static final String TIMESTAMP_RESULT_KEY = "results[0].timestamp";
     public static final String UUID_KEY = "uuid";
+    public static final String STATUSES_KEY = "statuses";
+    public static final String VALUE_KEY = "value";
+    public static final String LABEL_VALUE_KEY = "labelValue";
+    public static final String LABEL_KEY_KEY="labelKey";
+    public static final String RESULT_ARTIFACT_KEY = "results.artifacts";
+    public static final String ARTIFACTS_KEY = "artifacts";
+    public static final String NAME_KEY = "name";
 }

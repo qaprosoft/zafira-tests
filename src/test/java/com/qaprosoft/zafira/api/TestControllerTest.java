@@ -80,7 +80,7 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postCreateTestArtifactMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postCreateTestArtifactMethod);
         String testRs = testServiceImpl.getAllTest(testRunId);
-        List<String> artifactsList = JsonPath.from(testRs).getList(JSONConstant.ARTIFACT_ID_KEY);
+        List<String> artifactsList = JsonPath.from(testRs).getList(JSONConstant.RESULT_ARTIFACT_KEY);
         LOGGER.info(String.format("Artifact ID: %s", artifactsList.toString()));
         Assert.assertTrue(artifactsList.toString().contains(link),"Test's artifact was not attached to test!");
     }
