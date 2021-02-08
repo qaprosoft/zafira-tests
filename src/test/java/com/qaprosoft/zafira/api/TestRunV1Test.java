@@ -528,7 +528,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
         int testId1 = new TestServiceAPIV1Impl().createTest(testRunId);
         new TestServiceAPIV1Impl().updateResultInTest(testRunId,testId,result);
         GetTestsByCiRunIdV1Method getTestsByCiRunIdV1Method = new GetTestsByCiRunIdV1Method(ciRunId);
-        getTestsByCiRunIdV1Method.addUrlParameter("statuses",result);
+        getTestsByCiRunIdV1Method.addUrlParameter(JSONConstant.STATUSES_KEY,result);
         apiExecutor.expectStatus(getTestsByCiRunIdV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getTestsByCiRunIdV1Method);
         apiExecutor.validateResponse(getTestsByCiRunIdV1Method, JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());

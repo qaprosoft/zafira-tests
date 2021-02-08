@@ -2,7 +2,9 @@ package com.qaprosoft.zafira.service.impl;
 
 
 import com.qaprosoft.zafira.api.testController.PostRetrieveTestBySearchCriteriaMethod;
+import com.qaprosoft.zafira.api.testRunController.GetTestByTestRunIdMethod;
 import com.qaprosoft.zafira.api.testRunController.GetTestRunByIdMethod;
+import com.qaprosoft.zafira.api.testRunController.GetTestRunBySearchCriteriaMethod;
 import com.qaprosoft.zafira.api.testRunController.v1.DeleteTestRunByIdV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestRunV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestRunV1Method;
@@ -45,6 +47,13 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
     }
 
     @Override
+    public String getTestRunById(int testRunId) {
+        String rs = apiExecutor.callApiMethod(new GetTestRunByIdMethod(testRunId));
+        LOGGER.info("TestRunResult:  " + rs);
+        return apiExecutor.callApiMethod(new GetTestRunByIdMethod(testRunId));
+    }
+
+    @Override
     public void finishTestRun(int testRunId) {
         PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId, OffsetDateTime.now().toString());
         apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.OK);
@@ -61,7 +70,7 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
     public String getTestResultsAfterFinishTestRun(int testRunId) {
         PostRetrieveTestBySearchCriteriaMethod postRetrieveTestBySearchCriteriaMethod = new PostRetrieveTestBySearchCriteriaMethod(testRunId);
         apiExecutor.expectStatus(postRetrieveTestBySearchCriteriaMethod, HTTPStatusCodeType.OK);
-        String rs =apiExecutor.callApiMethod(postRetrieveTestBySearchCriteriaMethod);
+        String rs = apiExecutor.callApiMethod(postRetrieveTestBySearchCriteriaMethod);
         return rs;
     }
 
@@ -72,4 +81,27 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
         String actualStatus = JsonPath.from(testResults).getList("results.status").get(id).toString();
         return actualStatus;
     }
+
+    @Override
+    public String getTestResultsByTestId(int testRunId, int testId) {
+        GetTestByTestRunIdMethod getTestByTestRunIdMethod = new GetTestByTestRunIdMethod(testRunId);
+        apiExecutor.expectStatus(getTestByTestRunIdMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getTestByTestRunIdMethod);
+        int id = JsonPath.from(rs).getList("id").indexOf(testId);
+        LOGGER.info("TestId= " + testId);
+        String testResult = JsonPath.from(rs).getJsonObject("[" + id + "]").toString();
+        LOGGER.info("Test result with id = " + testId + " is " + testResult);
+        return testResult;
+    }
+
+    @Override
+    public String getTestRunLabels(int testRunId) {
+        GetTestRunBySearchCriteriaMethod getTestRunBySearchCriteriaMethod =
+                new GetTestRunBySearchCriteriaMethod("id", testRunId);
+        String rs = apiExecutor.callApiMethod(getTestRunBySearchCriteriaMethod);
+        String labelsList = JsonPath.from(rs).getString("results.labels");
+        LOGGER.info("Test run labels: " + labelsList);
+        return labelsList;
+    }
 }
+

@@ -128,7 +128,8 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
         PostTestArtifactMethod postTestArtifact = new PostTestArtifactMethod(testRunId, testId, uploadFile);
         apiExecutor.expectStatus(postTestArtifact, HTTPStatusCodeType.CREATED);
         apiExecutor.callApiMethod(postTestArtifact);
-        apiExecutor.validateResponse(postTestArtifact,JSONCompareMode.STRICT);
+        apiExecutor.validateResponse(postTestArtifact, JSONCompareMode.STRICT);
+        WaitUtil.waitForTestArtifactFound(testRunId, testId, uploadFile.getName());
     }
 
     @Test
@@ -137,36 +138,58 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
         PostTestRunArtifactMethod postTestRunArtifact = new PostTestRunArtifactMethod(testRunId, uploadFile);
         apiExecutor.expectStatus(postTestRunArtifact, HTTPStatusCodeType.CREATED);
         apiExecutor.callApiMethod(postTestRunArtifact);
-        apiExecutor.validateResponse(postTestRunArtifact,JSONCompareMode.STRICT);
+        apiExecutor.validateResponse(postTestRunArtifact, JSONCompareMode.STRICT);
+        WaitUtil.waitForTestRunArtifactFound(testRunId, uploadFile.getName());
     }
 
     @Test
     public void testSendTestArtifactReferences() {
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         PutTestArtifactReferencesMethod putTestArtifactReferencesMethod = new PutTestArtifactReferencesMethod(testRunId, testId);
+        putTestArtifactReferencesMethod.addProperty(JSONConstant.VALUE_KEY, R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_KEY));
         apiExecutor.expectStatus(putTestArtifactReferencesMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(putTestArtifactReferencesMethod);
+        String result = new TestRunServiceAPIImplV1().getTestResultsByTestId(testRunId, testId);
+        Assert.assertTrue(result.contains(R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_KEY)),
+                "Artifact reference  " + R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_KEY) + " was not found!");
     }
 
     @Test
     public void testSendTestRunArtifactReferences() {
         PutTestRunArtifactReferencesMethod putTestRunArtifactReferencesMethod = new PutTestRunArtifactReferencesMethod(testRunId);
+        putTestRunArtifactReferencesMethod.addProperty(JSONConstant.VALUE_KEY, R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_KEY));
+        putTestRunArtifactReferencesMethod.addProperty(JSONConstant.NAME_KEY, R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_NAME_KEY));
         apiExecutor.expectStatus(putTestRunArtifactReferencesMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(putTestRunArtifactReferencesMethod);
+        WaitUtil.waitForTestRunArtifactFound(testRunId, R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_KEY));
     }
 
     @Test
     public void testSendTestLabels() {
         int testId = new TestServiceAPIV1Impl().createTest(testRunId);
         PutTestLabelsMethod putTestLabels = new PutTestLabelsMethod(testRunId, testId);
+        putTestLabels.addProperty(JSONConstant.LABEL_VALUE_KEY, R.TESTDATA.get(ConfigConstant.LABEL_VALUE_KEY));
+        putTestLabels.addProperty(JSONConstant.LABEL_KEY_KEY, R.TESTDATA.get(ConfigConstant.LABEL_KEY_KEY));
         apiExecutor.expectStatus(putTestLabels, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(putTestLabels);
+        String result = new TestRunServiceAPIImplV1().getTestResultsByTestId(testRunId, testId);
+        Assert.assertTrue(result.contains(R.TESTDATA.get(ConfigConstant.LABEL_VALUE_KEY)),
+                "Label  " + R.TESTDATA.get(ConfigConstant.LABEL_VALUE_KEY) + " was not found!");
+        Assert.assertTrue(result.contains(R.TESTDATA.get(ConfigConstant.LABEL_KEY_KEY)),
+                "Label with key: " + R.TESTDATA.get(ConfigConstant.LABEL_KEY_KEY) + " was not found!");
     }
 
     @Test
     public void testSendTestRunLabels() {
         PutTestRunLabelsMethod putTestRunLabelsMethod = new PutTestRunLabelsMethod(testRunId);
+        putTestRunLabelsMethod.addProperty(JSONConstant.LABEL_VALUE_KEY, R.TESTDATA.get(ConfigConstant.LABEL_VALUE_KEY));
+        putTestRunLabelsMethod.addProperty(JSONConstant.LABEL_KEY_KEY, R.TESTDATA.get(ConfigConstant.LABEL_KEY_KEY));
         apiExecutor.expectStatus(putTestRunLabelsMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(putTestRunLabelsMethod);
+        String testRunLabels = new TestRunServiceAPIImplV1().getTestRunLabels(testRunId);
+        Assert.assertTrue(testRunLabels.contains(R.TESTDATA.get(ConfigConstant.LABEL_VALUE_KEY)),
+                "Label with value: " + R.TESTDATA.get(ConfigConstant.LABEL_VALUE_KEY) + " was not found!");
+        Assert.assertTrue(testRunLabels.contains(R.TESTDATA.get(ConfigConstant.LABEL_KEY_KEY)),
+                "Label with key: " + R.TESTDATA.get(ConfigConstant.LABEL_KEY_KEY) + " was not found!");
     }
 }

@@ -8,6 +8,8 @@ public interface TestRunServiceAPIV1 {
 
     String getTestRunResult(int testRunId);
 
+    String getTestRunById(int testRunId);
+
     void finishTestRun(int testRunId);
 
     void deleteTestRun(int testRunId);
@@ -15,4 +17,8 @@ public interface TestRunServiceAPIV1 {
     String getTestResultsAfterFinishTestRun(int testRunId);
 
     String getTestStatusAfterFinishTestRun(String testResults,int testRunId, int testId);
+
+    String getTestResultsByTestId(int testRunId, int testId);
+
+    String getTestRunLabels(int testRunId);
 }

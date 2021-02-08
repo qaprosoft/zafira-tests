@@ -8,4 +8,6 @@ public class TimeConstant {
     public static final int LOG_WITH_TIMEOUT_DURATION = 30;
     public static final int LOG_POLLING_EVERY_DURATION = 5;
     public static final int MILLISECONDS_DURATION = 100;
+    public static final int ARTIFACT_WITH_TIMEOUT_DURATION = 30;
+    public static final int ARTIFACT_POLLING_EVERY_DURATION = 5;
 }

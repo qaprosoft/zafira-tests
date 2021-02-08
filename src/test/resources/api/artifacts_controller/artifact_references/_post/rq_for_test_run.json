@@ -1,12 +1,12 @@
 {
   "items": [
     {
-      "name": "google",
-      "value": "https://www.google.com/"
+      "name": "${name}",
+      "value": "${value}"
     },
     {
-      "name": "Zebrunner",
-      "value": "https://zebrunner.com/"
+      "name": "${name1}",
+      "value": "${value1}"
     }
   ]
 }

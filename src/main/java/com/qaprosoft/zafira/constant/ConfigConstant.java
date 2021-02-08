@@ -59,9 +59,8 @@ public class ConfigConstant {
     public static final String QTEST_KEY = "qtest";
     public static final String SLACK_CHANNEL_KEY = "automation-tenant-test";
     public static final String VALUE_FOR_UPDATE_FILTER = "update_filter";
-    public static final String PASSED_KEY = "passed";
-    public static final String FAILED_KEY = "failed";
-    public static final String ABORTED_KEY = "aborted";
-    public static final String SKIPPED_KEY = "skipped";
-    public static final String IN_PROGRESS_KEY = "in_progress";
+    public static final String ARTIFACT_REF_KEY = "value";
+    public static final String LABEL_VALUE_KEY = "labelValue";
+    public static final String LABEL_KEY_KEY = "labelKey";
+    public static final String ARTIFACT_REF_NAME_KEY = "name";
 }
