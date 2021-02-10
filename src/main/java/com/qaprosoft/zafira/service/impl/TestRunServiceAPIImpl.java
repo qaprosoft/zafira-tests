@@ -47,7 +47,17 @@ public class TestRunServiceAPIImpl implements TestRunServiceAPI {
     @Override
     public List<Integer> getAll(String searchCriteriaType, int searchCriteriaId) {
         String response = apiExecutor.callApiMethod(new GetTestRunBySearchCriteriaMethod(searchCriteriaType, searchCriteriaId));
-        return JsonPath.from(response).getList(JSONConstant.ALL_TEST_RUN_ID_BY_SEARCH_CRITERIA_KEY);
+        List<Integer> list = JsonPath.from(response).getList(JSONConstant.ALL_TEST_RUN_ID_BY_SEARCH_CRITERIA_KEY);
+        LOGGER.info("All test run results: " + list);
+        return list;
+    }
+
+    @Override
+    public List<Integer> getAllTestRunIds() {
+        String response = apiExecutor.callApiMethod(new GetAllTestRunsMethod());
+        List<Integer> list = JsonPath.from(response).getList(JSONConstant.ALL_TEST_RUN_ID_BY_SEARCH_CRITERIA_KEY);
+        LOGGER.info("All test run ids: " + list);
+        return list;
     }
 
     @Override
@@ -56,9 +66,9 @@ public class TestRunServiceAPIImpl implements TestRunServiceAPI {
     }
 
     @Override
-    public String getTestRunStatus(int testSuiteId) {
+    public String getTestRunStatus(int testRunId) {
         return JsonPath.from(
-                apiExecutor.callApiMethod(new GetTestRunByIdMethod(testSuiteId)))
+                apiExecutor.callApiMethod(new GetTestRunByIdMethod(testRunId)))
                 .getString(JSONConstant.STATUS_KEY);
     }
 

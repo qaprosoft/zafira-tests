@@ -62,4 +62,7 @@ public class JSONConstant {
     public static final String RESULT_ARTIFACT_KEY = "results.artifacts";
     public static final String ARTIFACTS_KEY = "artifacts";
     public static final String NAME_KEY = "name";
+    public static final String LABEL_KEY = "labels";
+    public static final String RESULT_ID_KEY = "results.id";
+    public static final String ENDED_AT = "endedAt";
 }
