@@ -10,6 +10,8 @@ public interface TestRunServiceAPI {
 
     String finishTestRun(int testRunId);
 
+    List<Integer> getAllTestRunIds();
+
     void deleteById(int testRunId);
 
     void reviewTestRun(int testRunId);

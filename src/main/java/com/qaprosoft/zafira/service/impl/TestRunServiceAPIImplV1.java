@@ -76,7 +76,7 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
 
     @Override
     public String getTestStatusAfterFinishTestRun(String testResults, int testRunId, int testId) {
-        JsonPath.from(testResults).getList("results.id");
+        JsonPath.from(testResults).getList(JSONConstant.RESULT_ID_KEY);
         int id = JsonPath.from(testResults).getList("results.id").indexOf(testId);
         String actualStatus = JsonPath.from(testResults).getList("results.status").get(id).toString();
         return actualStatus;

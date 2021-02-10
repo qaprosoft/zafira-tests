@@ -10,6 +10,8 @@ public interface TestService {
 
     String getAllTest(int testRunId);
 
+    List<Integer> getAllTestIdsByTestRunId(int testRunId);
+
     void updateTestStatus(int testId, int testSuiteId, int
             jobId, String expectedTestStatusValue);
 

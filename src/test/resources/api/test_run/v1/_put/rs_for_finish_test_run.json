@@ -1,0 +1,14 @@
+
+{
+  "id": "regex:[\\d]",
+  "uuid": "type:String",
+  "name": "type:String",
+  "status": "type:String",
+  "startedAt": "type:String",
+  "endedAt":"type:String",
+  "framework": "type:String",
+  "config": {
+    "environment": "type:String",
+    "build": "type:String"
+  }
+}

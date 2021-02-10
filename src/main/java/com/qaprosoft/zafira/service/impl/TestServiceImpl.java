@@ -7,6 +7,8 @@ import com.qaprosoft.zafira.service.TestService;
 import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;
 
+import java.util.List;
+
 public class TestServiceImpl implements TestService {
     private static final Logger LOGGER = Logger.getLogger(TestServiceImpl.class);
     private ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
@@ -31,6 +33,16 @@ public class TestServiceImpl implements TestService {
         PostRetrieveTestBySearchCriteriaMethod postRetrieveTestBySearchCriteriaMethod = new PostRetrieveTestBySearchCriteriaMethod(testRunId);
         apiExecutor.expectStatus(postRetrieveTestBySearchCriteriaMethod, HTTPStatusCodeType.OK);
         return apiExecutor.callApiMethod(postRetrieveTestBySearchCriteriaMethod);
+    }
+
+    @Override
+    public List<Integer> getAllTestIdsByTestRunId(int testRunId) {
+        PostRetrieveTestBySearchCriteriaMethod postRetrieveTestBySearchCriteriaMethod = new PostRetrieveTestBySearchCriteriaMethod(testRunId);
+        apiExecutor.expectStatus(postRetrieveTestBySearchCriteriaMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postRetrieveTestBySearchCriteriaMethod);
+        List<Integer> listIds=JsonPath.from(rs).getList(JSONConstant.ALL_ID_FROM_RESULTS_V1_KEY);
+        LOGGER.info(listIds);
+        return listIds;
     }
 
     @Override
