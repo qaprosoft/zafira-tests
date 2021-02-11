@@ -28,7 +28,7 @@ public class TestServiceAPIV1Impl implements TestServiceAPIV1 {
     }
 
     @Override
-    public String updateResultInTest(int testRunId, int testId, String result) {
+    public String finishTestAsResult(int testRunId, int testId, String result) {
         PutFinishTestInTestRunV1Method putFinishTestInTestRunV1Method = new PutFinishTestInTestRunV1Method(testRunId, testId, result);
         apiExecutor.expectStatus(putFinishTestInTestRunV1Method, HTTPStatusCodeType.OK);
         String response =  apiExecutor.callApiMethod(putFinishTestInTestRunV1Method);

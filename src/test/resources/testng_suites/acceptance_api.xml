@@ -10,7 +10,6 @@
     <parameter name="jenkinsJobName" value="Zafira-API-Acceptance-Test"/>
     <parameter name="jenkinsJobType" value="api"/>
     <parameter name="jenkinsEnvironments" value="STAG"/>
-
     <parameter name="jenkinsRegressionPipeline" value="Carina-Demo-Regression-Pipeline"/>
     <parameter name="jenkinsPipelineEnvironments" value="STAG"/>
     <parameter name="jenkinsJobExecutionMode" value="continue"/>
@@ -54,6 +53,8 @@
 
     <test name="TestRunV1 controller tests">
         <classes>
+            <class name="com.qaprosoft.zafira.api.TestV1Test"/>
+            <class name="com.qaprosoft.zafira.api.TestHeadlessOptionV1Test"/>
             <class name="com.qaprosoft.zafira.api.TestRunV1Test"/>
         </classes>
     </test>

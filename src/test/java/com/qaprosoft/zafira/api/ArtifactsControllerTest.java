@@ -24,10 +24,9 @@ import java.io.File;
 
 public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
-    private final static Logger LOGGER = Logger.getLogger(ArtifactsControllerTest.class);
-    int testRunId = new TestRunServiceAPIImplV1().create();
     private final static int EXPECTED_COUNT_THREE = 3;
     private final static int EXPECTED_COUNT_ONE = 1;
+    int testRunId = new TestRunServiceAPIImplV1().create();
 
     @AfterTest
     public void testFinishTestRun() {
@@ -158,7 +157,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
     public void testSendTestRunArtifactReferences() {
         PutTestRunArtifactReferencesMethod putTestRunArtifactReferencesMethod = new PutTestRunArtifactReferencesMethod(testRunId);
         putTestRunArtifactReferencesMethod.addProperty(JSONConstant.VALUE_KEY, R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_KEY));
-        putTestRunArtifactReferencesMethod.addProperty(JSONConstant.NAME_KEY, R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_NAME_KEY));
+        putTestRunArtifactReferencesMethod.addProperty(JSONConstant.NAME, R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_NAME_KEY));
         apiExecutor.expectStatus(putTestRunArtifactReferencesMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(putTestRunArtifactReferencesMethod);
         WaitUtil.waitForTestRunArtifactFound(testRunId, R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_KEY));

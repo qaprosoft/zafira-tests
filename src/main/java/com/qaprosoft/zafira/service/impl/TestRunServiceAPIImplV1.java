@@ -95,6 +95,18 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
     }
 
     @Override
+    public String getTestStatusByTestId(int testRunId, int testId) {
+        GetTestByTestRunIdMethod getTestByTestRunIdMethod = new GetTestByTestRunIdMethod(testRunId);
+        apiExecutor.expectStatus(getTestByTestRunIdMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getTestByTestRunIdMethod);
+        int id = JsonPath.from(rs).getList("id").indexOf(testId);
+        LOGGER.info("TestId= " + testId);
+        String testStatus = JsonPath.from(rs).getJsonObject("[" + id + "]"+".status").toString();
+        LOGGER.info("Test status with testId = " + testId + " is " + testStatus);
+         return testStatus;
+    }
+
+    @Override
     public String getTestRunLabels(int testRunId) {
         GetTestRunBySearchCriteriaMethod getTestRunBySearchCriteriaMethod =
                 new GetTestRunBySearchCriteriaMethod("id", testRunId);

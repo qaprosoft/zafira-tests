@@ -20,5 +20,7 @@ public interface TestRunServiceAPIV1 {
 
     String getTestResultsByTestId(int testRunId, int testId);
 
+    String getTestStatusByTestId(int testRunId, int testId);
+
     String getTestRunLabels(int testRunId);
 }
