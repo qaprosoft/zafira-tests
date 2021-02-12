@@ -5,7 +5,7 @@ public interface TestServiceAPIV1 {
 
     int createTest(int testRunId);
 
-    String updateResultInTest(int testRunId, int testId, String result);
+    String finishTestAsResult(int testRunId, int testId, String result);
 
     int createTestHeadless(int testRunId);
 

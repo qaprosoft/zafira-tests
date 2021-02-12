@@ -1,5 +1,7 @@
 package com.qaprosoft.zafira.constant;
 
+import java.awt.desktop.ScreenSleepEvent;
+
 public class JSONConstant {
     public static final String ID_KEY = "id";
     public static final String ACCESS_TOKEN_KEY = "accessToken";
@@ -61,8 +63,12 @@ public class JSONConstant {
     public static final String LABEL_KEY_KEY="labelKey";
     public static final String RESULT_ARTIFACT_KEY = "results.artifacts";
     public static final String ARTIFACTS_KEY = "artifacts";
-    public static final String NAME_KEY = "name";
+    public static final String NAME = "name";
     public static final String LABEL_KEY = "labels";
     public static final String RESULT_ID_KEY = "results.id";
     public static final String ENDED_AT = "endedAt";
+    public static final String STARTED_AT = "startedAt";
+    public static final String METHOD_NAME = "methodName";
+    public static final String FRAMEWORK = "framework";
+    public static final String CLASS_NAME = "className";
 }
