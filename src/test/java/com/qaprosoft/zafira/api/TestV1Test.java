@@ -68,7 +68,8 @@ public class TestV1Test extends ZafiraAPIBaseTest {
 
     @DataProvider(name = "rqForTestMandatoryFieldsDataProvider")
     public Object[][] getRqForTestMandatoryFields() {
-        return new Object[][]{{JSONConstant.NAME}, {JSONConstant.CLASS_NAME}, {JSONConstant.METHOD_NAME}, {JSONConstant.STARTED_AT}};
+        return new Object[][]{{JSONConstant.NAME}, {JSONConstant.CLASS_NAME},
+                {JSONConstant.METHOD_NAME}, {JSONConstant.STARTED_AT}};
     }
 
     @Test(dataProvider = "startedAtDataProvider")
@@ -124,7 +125,8 @@ public class TestV1Test extends ZafiraAPIBaseTest {
 
     @DataProvider(name = "testResult")
     public Object[][] getTestResult() {
-        return new Object[][]{{RESULT_PASSED}, {RESULT_FAILED}, {RESULT_ABORTED}, {RESULT_SKIPPED}};
+        return new Object[][]{{RESULT_PASSED}, {RESULT_FAILED},
+                {RESULT_ABORTED}, {RESULT_SKIPPED}, {RESULT_IN_PROGRESS}};
     }
 
     @DataProvider(name = "rqMandatoryFields")

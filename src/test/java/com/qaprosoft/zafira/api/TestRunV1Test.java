@@ -51,9 +51,9 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     @DataProvider(name = "rqFieldsAndHttpStatusDataProvider")
     public Object[][] getMandatoryFieldsAndHttpStatus() {
         return new Object[][]{{"uuid", HTTPStatusCodeType.OK},
-                {"name", HTTPStatusCodeType.BAD_REQUEST},
-                {"startedAt", HTTPStatusCodeType.BAD_REQUEST},
-                {"framework", HTTPStatusCodeType.BAD_REQUEST}};
+                {JSONConstant.NAME, HTTPStatusCodeType.BAD_REQUEST},
+                {JSONConstant.STARTED_AT, HTTPStatusCodeType.BAD_REQUEST},
+                {JSONConstant.FRAMEWORK, HTTPStatusCodeType.BAD_REQUEST}};
     }
 
     @Test(dataProvider = "rqFieldsAndHttpStatusDataProvider")
