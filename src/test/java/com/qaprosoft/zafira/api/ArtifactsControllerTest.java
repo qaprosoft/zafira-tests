@@ -13,7 +13,6 @@ import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceAPIV1Impl;
 import com.qaprosoft.zafira.util.WaitUtil;
 import io.restassured.path.json.JsonPath;
-import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
@@ -26,7 +25,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     private final static int EXPECTED_COUNT_THREE = 3;
     private final static int EXPECTED_COUNT_ONE = 1;
-    int testRunId = new TestRunServiceAPIImplV1().create();
+    int testRunId = new TestRunServiceAPIImplV1().start();
 
     @AfterTest
     public void testFinishTestRun() {
@@ -35,7 +34,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetLogs() {
-        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        int testId = new TestServiceAPIV1Impl().startTest(testRunId);
         new ArtifactsControllerV1ServiceImpl().createLogRecord(testRunId, testId);
         GetLogsV1Method getLogsV1Method = new GetLogsV1Method(testRunId, testId);
         apiExecutor.expectStatus(getLogsV1Method, HTTPStatusCodeType.OK);
@@ -45,7 +44,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetScreenshots() {
-        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        int testId = new TestServiceAPIV1Impl().startTest(testRunId);
         String filePath = R.TESTDATA.get(ConfigConstant.SCREENSHOT_PATH_KEY);
         new ArtifactsControllerV1ServiceImpl().createScreenshot(testRunId, testId, filePath);
         GetScreenshotsV1Method getScreenshotsV1Method = new GetScreenshotsV1Method(testRunId, testId);
@@ -56,7 +55,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testSendTestExecutionLogRecord() {
-        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        int testId = new TestServiceAPIV1Impl().startTest(testRunId);
         PostLogsV1Method postLogsV1Method = new PostLogsV1Method(testRunId, testId);
         apiExecutor.expectStatus(postLogsV1Method, HTTPStatusCodeType.ACCEPTED);
         apiExecutor.callApiMethod(postLogsV1Method);
@@ -64,7 +63,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testSendOneScreenshot() {
-        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        int testId = new TestServiceAPIV1Impl().startTest(testRunId);
         String filePath = R.TESTDATA.get(ConfigConstant.SCREENSHOT_PATH_KEY);
         PostScreenshotsV1Method postScreenshotsV1Method = new PostScreenshotsV1Method(testRunId, testId, filePath);
         apiExecutor.expectStatus(postScreenshotsV1Method, HTTPStatusCodeType.CREATED);
@@ -73,7 +72,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testSendOneScreenshotWithHeader() {
-        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        int testId = new TestServiceAPIV1Impl().startTest(testRunId);
         String filePath = R.TESTDATA.get(ConfigConstant.SCREENSHOT_PATH_KEY);
         PostScreenshotsV1Method postScreenshotsV1Method = new PostScreenshotsV1Method(testRunId, testId, filePath);
         postScreenshotsV1Method.setHeaders("x-zbr-screenshot-captured-at=3");
@@ -83,7 +82,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetScreenshotsWithHeader() {
-        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        int testId = new TestServiceAPIV1Impl().startTest(testRunId);
         String filePath = R.TESTDATA.get(ConfigConstant.SCREENSHOT_PATH_KEY);
         new ArtifactsControllerV1ServiceImpl().createScreenshotWithHeader(testRunId, testId, filePath, TimeConstant.MILLISECONDS_DURATION);
         GetScreenshotsV1Method getScreenshotsV1Method = new GetScreenshotsV1Method(testRunId, testId);
@@ -97,7 +96,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetLogsWithThreeRecords() {
-        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        int testId = new TestServiceAPIV1Impl().startTest(testRunId);
         new ArtifactsControllerV1ServiceImpl().createLogRecord(testRunId, testId);
         new ArtifactsControllerV1ServiceImpl().createLogRecord(testRunId, testId);
         new ArtifactsControllerV1ServiceImpl().createLogRecord(testRunId, testId);
@@ -109,7 +108,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetScreenshotsWithThreeScreenshot() {
-        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        int testId = new TestServiceAPIV1Impl().startTest(testRunId);
         String filePath = R.TESTDATA.get(ConfigConstant.SCREENSHOT_PATH_KEY);
         new ArtifactsControllerV1ServiceImpl().createScreenshot(testRunId, testId, filePath);
         new ArtifactsControllerV1ServiceImpl().createScreenshot(testRunId, testId, filePath);
@@ -122,7 +121,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testSendTestArtifact() {
-        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        int testId = new TestServiceAPIV1Impl().startTest(testRunId);
         File uploadFile = new File(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY));
         PostTestArtifactMethod postTestArtifact = new PostTestArtifactMethod(testRunId, testId, uploadFile);
         apiExecutor.expectStatus(postTestArtifact, HTTPStatusCodeType.CREATED);
@@ -143,7 +142,7 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testSendTestArtifactReferences() {
-        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        int testId = new TestServiceAPIV1Impl().startTest(testRunId);
         PutTestArtifactReferencesMethod putTestArtifactReferencesMethod = new PutTestArtifactReferencesMethod(testRunId, testId);
         putTestArtifactReferencesMethod.addProperty(JSONConstant.VALUE_KEY, R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_KEY));
         apiExecutor.expectStatus(putTestArtifactReferencesMethod, HTTPStatusCodeType.NO_CONTENT);
@@ -151,6 +150,16 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
         String result = new TestRunServiceAPIImplV1().getTestResultsByTestId(testRunId, testId);
         Assert.assertTrue(result.contains(R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_KEY)),
                 "Artifact reference  " + R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_KEY) + " was not found!");
+    }
+
+    @Test(description = "negative")
+    public void testSendTestArtifactReferencesWithEmptyItems() {
+        int testId = new TestServiceAPIV1Impl().startTest(testRunId);
+        PutTestArtifactReferencesMethod putTestArtifactReferencesMethod = new PutTestArtifactReferencesMethod(testRunId, testId);
+        putTestArtifactReferencesMethod.removeProperty(JSONConstant.VALUE_KEY);
+        putTestArtifactReferencesMethod.removeProperty(JSONConstant.NAME);
+        apiExecutor.expectStatus(putTestArtifactReferencesMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(putTestArtifactReferencesMethod);
     }
 
     @Test
@@ -163,9 +172,36 @@ public class ArtifactsControllerTest extends ZafiraAPIBaseTest {
         WaitUtil.waitForTestRunArtifactFound(testRunId, R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_KEY));
     }
 
+    @Test(description = "negative")
+    public void testSendTestRunArtifactReferencesWithEmptyItems() {
+        PutTestRunArtifactReferencesMethod putTestRunArtifactReferencesMethod = new PutTestRunArtifactReferencesMethod(testRunId);
+        putTestRunArtifactReferencesMethod.removeProperty(JSONConstant.VALUE_KEY);
+        putTestRunArtifactReferencesMethod.removeProperty(JSONConstant.NAME);
+        apiExecutor.expectStatus(putTestRunArtifactReferencesMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(putTestRunArtifactReferencesMethod);
+    }
+
+    @Test(description = "negative")
+    public void testSendTestRunArtifactReferencesWithoutNameInBody() {
+        PutTestRunArtifactReferencesMethod putTestRunArtifactReferencesMethod = new PutTestRunArtifactReferencesMethod(testRunId);
+        putTestRunArtifactReferencesMethod.addProperty(JSONConstant.VALUE_KEY, R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_KEY));
+        putTestRunArtifactReferencesMethod.removeProperty(JSONConstant.NAME);
+        apiExecutor.expectStatus(putTestRunArtifactReferencesMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(putTestRunArtifactReferencesMethod);
+    }
+
+    @Test(description = "negative")
+    public void testSendTestRunArtifactReferencesWithoutValueInBody() {
+        PutTestRunArtifactReferencesMethod putTestRunArtifactReferencesMethod = new PutTestRunArtifactReferencesMethod(testRunId);
+        putTestRunArtifactReferencesMethod.removeProperty(JSONConstant.VALUE_KEY);
+        putTestRunArtifactReferencesMethod.addProperty(JSONConstant.NAME, R.TESTDATA.get(ConfigConstant.ARTIFACT_REF_NAME_KEY));
+        apiExecutor.expectStatus(putTestRunArtifactReferencesMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(putTestRunArtifactReferencesMethod);
+    }
+
     @Test
     public void testSendTestLabels() {
-        int testId = new TestServiceAPIV1Impl().createTest(testRunId);
+        int testId = new TestServiceAPIV1Impl().startTest(testRunId);
         PutTestLabelsMethod putTestLabels = new PutTestLabelsMethod(testRunId, testId);
         putTestLabels.addProperty(JSONConstant.LABEL_VALUE_KEY, R.TESTDATA.get(ConfigConstant.LABEL_VALUE_KEY));
         putTestLabels.addProperty(JSONConstant.LABEL_KEY_KEY, R.TESTDATA.get(ConfigConstant.LABEL_KEY_KEY));

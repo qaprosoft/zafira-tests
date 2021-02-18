@@ -43,7 +43,7 @@ public class TestHeadlessOptionV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testStartTestsHeadless() {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().start();
         PostStartTestsInTestRunV1HeadlessMethod postStartTestsInTestRunV1Method
                 = new PostStartTestsInTestRunV1HeadlessMethod(testRunId);
         apiExecutor.expectStatus(postStartTestsInTestRunV1Method, HTTPStatusCodeType.OK);
@@ -57,7 +57,7 @@ public class TestHeadlessOptionV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testStartTestsHeadlessWithEmptyName() {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().start();
         PostStartTestsInTestRunV1HeadlessMethod postStartTestsInTestRunV1Method
                 = new PostStartTestsInTestRunV1HeadlessMethod(testRunId);
         postStartTestsInTestRunV1Method.addProperty(JSONConstant.NAME, ConstantName.EMPTY);
@@ -73,7 +73,7 @@ public class TestHeadlessOptionV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testStartTestsHeadlessWithoutStartedAt() {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().start();
         PostStartTestsInTestRunV1HeadlessMethod postStartTestsInTestRunV1Method
                 = new PostStartTestsInTestRunV1HeadlessMethod(testRunId);
         postStartTestsInTestRunV1Method.removeProperty(JSONConstant.STARTED_AT);
@@ -83,7 +83,7 @@ public class TestHeadlessOptionV1Test extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "startedAtDataProvider")
     public void testStartTestsHeadlessWithStartedAt(String description, String startedAt) {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().start();
         PostStartTestsInTestRunV1HeadlessMethod postStartTestsInTestRunV1Method
                 = new PostStartTestsInTestRunV1HeadlessMethod(testRunId);
         postStartTestsInTestRunV1Method.addProperty(JSONConstant.STARTED_AT, startedAt);
@@ -102,7 +102,7 @@ public class TestHeadlessOptionV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateTestsHeadless() {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().start();
         int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
         PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
                 = new PutUpdateTestsInTestRunV1HeadlessMethod(testRunId, testId);
@@ -114,7 +114,7 @@ public class TestHeadlessOptionV1Test extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "mandatoryFieldsUpdateTestsHeadless", description = "negative")
     public void testUpdateTestsHeadlessWithoutMandatory(String field) {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().start();
         int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
         PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
                 = new PutUpdateTestsInTestRunV1HeadlessMethod(testRunId, testId);
@@ -125,7 +125,7 @@ public class TestHeadlessOptionV1Test extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "mandatoryFieldsUpdateTestsHeadless", description = "negative")
     public void testUpdateTestsHeadlessWithEmptyMandatory(String field) {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().start();
         int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
         PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
                 = new PutUpdateTestsInTestRunV1HeadlessMethod(testRunId, testId);
@@ -136,7 +136,7 @@ public class TestHeadlessOptionV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateTestsHeadlessNonExistentTestRunId() {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().start();
         int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
         new TestRunServiceAPIImplV1().deleteTestRun(testRunId);
         PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
@@ -147,7 +147,7 @@ public class TestHeadlessOptionV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateTestsHeadlessNonExistentTestId() {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().start();
         int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
         new TestServiceAPIV1Impl().deleteTest(testRunId, testId);
         PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
@@ -158,7 +158,7 @@ public class TestHeadlessOptionV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateTestsHeadlessWithInvalidTestRunId() {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().start();
         int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
         PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
                 = new PutUpdateTestsInTestRunV1HeadlessMethod(testRunId, testId);
@@ -170,7 +170,7 @@ public class TestHeadlessOptionV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateTestsHeadlessWithInvalidTestId() {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().start();
         int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
         PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
                 = new PutUpdateTestsInTestRunV1HeadlessMethod(testRunId, testId);
@@ -182,7 +182,7 @@ public class TestHeadlessOptionV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateTestsHeadlessWithHeadlessFalse() {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().start();
         int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
         PutUpdateTestsInTestRunV1HeadlessMethod putUpdateTestsInTestRunV1HeadlessMethod
                 = new PutUpdateTestsInTestRunV1HeadlessMethod(testRunId, testId);
@@ -193,7 +193,7 @@ public class TestHeadlessOptionV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testDeleteTestHeadless() {
-         testRunId = new TestRunServiceAPIImplV1().create();
+         testRunId = new TestRunServiceAPIImplV1().start();
         int testId = new TestServiceAPIV1Impl().createTestHeadless(testRunId);
         new TestServiceAPIV1Impl().deleteTest(testRunId,testId);
         Assert.assertFalse(new TestServiceImpl().getAllTestIdsByTestRunId(testRunId).contains(testId),

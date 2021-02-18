@@ -1,12 +1,12 @@
 {
   "items": [
     {
-      "name": "${name}",
-      "value": "${value}"
+      <#if name??> "name": "${name}",</#if>
+      <#if value??>"value": "${value}"</#if>
     },
     {
-      "name": "${name1}",
-      "value": "${value1}"
+      <#if name??> "name": "${name1}",</#if>
+      <#if value??>"value": "${value1}"</#if>
     }
   ]
 }

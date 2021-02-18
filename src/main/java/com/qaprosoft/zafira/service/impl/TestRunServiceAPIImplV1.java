@@ -27,7 +27,7 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
     }
 
     @Override
-    public int create() {
+    public int start() {
         String response = apiExecutor.callApiMethod(new PostStartTestRunV1Method(APIContextManager.PROJECT_NAME_KEY, OffsetDateTime.now().toString()));
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
@@ -64,6 +64,7 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
     public void deleteTestRun(int testRunId) {
         DeleteTestRunByIdV1Method deleteTestRunByIdV1Method = new DeleteTestRunByIdV1Method(testRunId);
         apiExecutor.callApiMethod(deleteTestRunByIdV1Method);
+        LOGGER.info("Test run with id=" + testRunId + " was deleted!");
     }
 
     @Override
@@ -101,9 +102,9 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
         String rs = apiExecutor.callApiMethod(getTestByTestRunIdMethod);
         int id = JsonPath.from(rs).getList("id").indexOf(testId);
         LOGGER.info("TestId= " + testId);
-        String testStatus = JsonPath.from(rs).getJsonObject("[" + id + "]"+".status").toString();
+        String testStatus = JsonPath.from(rs).getJsonObject("[" + id + "]" + ".status").toString();
         LOGGER.info("Test status with testId = " + testId + " is " + testStatus);
-         return testStatus;
+        return testStatus;
     }
 
     @Override

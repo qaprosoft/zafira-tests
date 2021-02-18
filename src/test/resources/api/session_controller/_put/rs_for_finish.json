@@ -2,5 +2,8 @@
   "id":"regex:[\\d]",
   "sessionId": "type:String",
   "endedAt": "type:String",
-  "testRefs": "type:JSONArray"
+  "testIds": "type:JSONArray",
+  "capabilities": "type:JSONObject",
+  "desiredCapabilities":"type:JSONObject",
+  "startedAt":"type:String"
 }

@@ -1,10 +1,15 @@
 
 {
-  "capabilities": {},
-  "desiredCapabilities": {},
-  "sessionId": "string",
-  "startedAt": "${startedAt}",
-  "testIds": [
-    0
-  ]
+  "sessionId": "${sessionId}",
+  "startedAt": "2020-12-01T08:00:00Z",
+  "testIds":
+    ${testId}
+  ,
+  "capabilities":
+    <#include "*/session_controller/capabilities.json">
+  ,
+  "desiredCapabilities": {
+    "browserName": "firefox",
+    "platformName":"macos"
+  }
 }
