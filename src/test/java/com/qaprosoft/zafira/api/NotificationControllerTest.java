@@ -1,27 +1,16 @@
 package com.qaprosoft.zafira.api;
 
-import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.zafira.api.notificationController.GetNotificationFinishTestRunByCiRunIdMethod;
 import com.qaprosoft.zafira.api.notificationController.GetNotificationReviewedByTestRunIdMethod;
 import com.qaprosoft.zafira.api.notificationController.GetSlackNotificationFinishTestRunByCiRunIdMethod;
 import com.qaprosoft.zafira.api.notificationController.GetSlackNotificationReviewedByTestRunIdMethod;
-import com.qaprosoft.zafira.api.project.*;
-import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.manager.APIContextManager;
-import com.qaprosoft.zafira.service.impl.ProjectServiceImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceAPIV1Impl;
-import io.restassured.path.json.JsonPath;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
-
-import java.util.List;
 
 
 public class NotificationControllerTest extends ZafiraAPIBaseTest {
@@ -35,9 +24,9 @@ public class NotificationControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testSendSlackNotificationFinishTestRun() {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().start();
         String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
-        new TestServiceAPIV1Impl().createTest(testRunId);
+        new TestServiceAPIV1Impl().startTest(testRunId);
         new TestRunServiceAPIImplV1().finishTestRun(testRunId);
         GetSlackNotificationFinishTestRunByCiRunIdMethod getSlackNotificationFinishTestRunByCiRunIdMethod
                 = new GetSlackNotificationFinishTestRunByCiRunIdMethod(ciRunId);
@@ -48,8 +37,8 @@ public class NotificationControllerTest extends ZafiraAPIBaseTest {
     @Test
     public void testSendSlackNotificationReviewedTestRun() {
         TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
-        testRunId = testRunServiceAPIImplV1.create();
-        new TestServiceAPIV1Impl().createTest(testRunId);
+        testRunId = testRunServiceAPIImplV1.start();
+        new TestServiceAPIV1Impl().startTest(testRunId);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
         new TestRunServiceAPIImpl().reviewTestRun(testRunId);
         GetSlackNotificationReviewedByTestRunIdMethod reviewedByTestRunIdMethod
@@ -60,9 +49,9 @@ public class NotificationControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testSendNotificationFinishTestRun() {
-        testRunId = new TestRunServiceAPIImplV1().create();
+        testRunId = new TestRunServiceAPIImplV1().start();
         String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
-        new TestServiceAPIV1Impl().createTest(testRunId);
+        new TestServiceAPIV1Impl().startTest(testRunId);
         new TestRunServiceAPIImplV1().finishTestRun(testRunId);
         GetNotificationFinishTestRunByCiRunIdMethod getNotificationFinishTestRun
                 = new GetNotificationFinishTestRunByCiRunIdMethod(ciRunId);
@@ -72,8 +61,8 @@ public class NotificationControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testSendNotificationReviewedTestRun() {
-        testRunId = new TestRunServiceAPIImplV1().create();
-        new TestServiceAPIV1Impl().createTest(testRunId);
+        testRunId = new TestRunServiceAPIImplV1().start();
+        new TestServiceAPIV1Impl().startTest(testRunId);
         new TestRunServiceAPIImpl().reviewTestRun(testRunId);
         GetNotificationReviewedByTestRunIdMethod getNotificationReviewedTestRun
                 = new GetNotificationReviewedByTestRunIdMethod(testRunId);

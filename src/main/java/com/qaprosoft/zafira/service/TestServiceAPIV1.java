@@ -1,9 +1,14 @@
 package com.qaprosoft.zafira.service;
 
 
+import java.util.List;
+
+
 public interface TestServiceAPIV1 {
 
-    int createTest(int testRunId);
+    int startTest(int testRunId);
+
+    List<Integer> startTests(int testRunId, int numOfTests);
 
     String finishTestAsResult(int testRunId, int testId, String result);
 

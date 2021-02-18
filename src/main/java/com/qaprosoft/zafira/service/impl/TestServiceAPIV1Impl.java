@@ -11,6 +11,11 @@ import com.qaprosoft.zafira.service.TestServiceAPIV1;
 import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class TestServiceAPIV1Impl implements TestServiceAPIV1 {
     private static final Logger LOGGER = Logger.getLogger(TestServiceAPIV1Impl.class);
     private ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
@@ -20,11 +25,24 @@ public class TestServiceAPIV1Impl implements TestServiceAPIV1 {
     }
 
     @Override
-    public int createTest(int testRunId) {
+    public int startTest(int testRunId) {
         PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1Method(testRunId);
         apiExecutor.expectStatus(postStartTestsInTestRunV1Method, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(postStartTestsInTestRunV1Method);
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
+    }
+
+    @Override
+    public List<Integer> startTests(int testRunId, int numOfTests) {
+        List<Integer> testIdsList = new ArrayList<>() ;
+        for (int i = 0; i < numOfTests; ++i) {
+            PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1Method(testRunId);
+            apiExecutor.expectStatus(postStartTestsInTestRunV1Method, HTTPStatusCodeType.OK);
+            String response = apiExecutor.callApiMethod(postStartTestsInTestRunV1Method);
+            int id = JsonPath.from(response).getInt(JSONConstant.ID_KEY);
+            testIdsList.add(id);
+        }
+        return testIdsList;
     }
 
     @Override

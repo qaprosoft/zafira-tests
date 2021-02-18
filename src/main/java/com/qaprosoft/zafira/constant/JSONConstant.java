@@ -71,4 +71,6 @@ public class JSONConstant {
     public static final String METHOD_NAME = "methodName";
     public static final String FRAMEWORK = "framework";
     public static final String CLASS_NAME = "className";
+    public static final String TEST_IDS = "testIds";
+    public static final String ITEMS_ID = "items.id";
 }

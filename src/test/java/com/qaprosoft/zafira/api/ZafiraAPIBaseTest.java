@@ -47,7 +47,6 @@ public class ZafiraAPIBaseTest extends AbstractTest {
         int jobId = new JobServiceImpl().create();
         int testRunId = testRunServiceImpl.create(testSuiteId, jobId);
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
-
         for (int i = 0; i < numOfTests; ++i) {
             new TestServiceImpl().create(testCaseId, testRunId);
         }

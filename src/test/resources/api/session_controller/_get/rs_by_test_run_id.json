@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "id":"regex:[\\d]",
+      "name": "type:String",
+      "testRunId": ${testRunId},
+      "sessionId": "type:String",
+      "startedAt":"type:String",
+      "platformName": "type:String",
+      "artifactReferences": [
+
+      ],
+      "tests": [
+        {
+          "id": ${testId},
+          "name": "type:String",
+          "status": "type:String"
+        }
+      ]
+    }
+  ]
+}
