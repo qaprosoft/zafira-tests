@@ -12,4 +12,8 @@ public interface TestSessionControllerService {
     void finish(int testRunId, int testId, int testSessionId);
 
     List getSessionsByTestRunId(int testRunId);
+
+    List getSessionsByTestRunIdAndTestId(int testRunId, int testId);
+
+    List getTestsInSessionsByTestRunId(int testRunId);
 }

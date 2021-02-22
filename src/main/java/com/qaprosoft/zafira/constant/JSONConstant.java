@@ -73,4 +73,10 @@ public class JSONConstant {
     public static final String CLASS_NAME = "className";
     public static final String TEST_IDS = "testIds";
     public static final String ITEMS_ID = "items.id";
+    public static final String ITEMS_TEST_ID = "items[0].tests.id";
+    public static final String ITEMS_SESSION_ID = "items[0].id";
+    public static final String ITEMS_TEST_IDS = "items.tests.id";
+    public static final String CAPABILITIES = "capabilities";
+    public static final String DESIRED_CAPABILITIES = "desiredCapabilities";
+    public static final String SESSION_ID = "sessionId";
 }
