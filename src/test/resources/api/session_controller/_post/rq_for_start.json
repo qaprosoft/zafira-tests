@@ -1,15 +1,7 @@
-
 {
-  "sessionId": "${sessionId}",
-  "startedAt": "2020-12-01T08:00:00Z",
-  "testIds":
-    ${testId}
-  ,
-  "capabilities":
-    <#include "*/session_controller/capabilities.json">
-  ,
-  "desiredCapabilities": {
-    "browserName": "firefox",
-    "platformName":"macos"
-  }
+  <#if sessionId??>"sessionId": "${sessionId}",</#if>
+  <#if startedAt??>"startedAt": "${startedAt}",</#if>
+  <#if capabilities??> "capabilities": <#include "*/session_controller/capabilities.json">, </#if>
+  <#if desiredCapabilities??> "desiredCapabilities": ${desiredCapabilities}</#if>,
+  "testIds": ${testId}
 }

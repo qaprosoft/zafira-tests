@@ -12,9 +12,7 @@ import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class TestServiceAPIV1Impl implements TestServiceAPIV1 {
     private static final Logger LOGGER = Logger.getLogger(TestServiceAPIV1Impl.class);

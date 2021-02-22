@@ -1,5 +1,5 @@
 {
-  "endedAt": "2020-12-01T08:00:01Z",
+  "endedAt":  "${endedAt}",
   "testIds":   ${testId}
 
 }

@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.service.impl;
 
+import com.qaprosoft.zafira.api.testSessionController.GetSessionByTestRunIdAndTestIdV1Method;
 import com.qaprosoft.zafira.api.testSessionController.GetSessionByTestRunIdV1Method;
 import io.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.testSessionController.PostSessionV1Method;
@@ -62,6 +63,24 @@ public class TestSessionControllerServiceImpl implements TestSessionControllerSe
         apiExecutor.expectStatus(getSessionByTestRunIdV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(getSessionByTestRunIdV1Method);
         List actualSessionIds = JsonPath.from(rs).getList(JSONConstant.ITEMS_ID);
+        return actualSessionIds;
+    }
+
+    @Override
+    public List getSessionsByTestRunIdAndTestId(int testRunId,int testId) {
+        GetSessionByTestRunIdAndTestIdV1Method getSessionByTestAndTestRunId = new GetSessionByTestRunIdAndTestIdV1Method(testRunId, testId);
+        apiExecutor.expectStatus(getSessionByTestAndTestRunId, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getSessionByTestAndTestRunId);
+        List actualSessionIds = JsonPath.from(rs).getList(JSONConstant.ITEMS_ID);
+        return actualSessionIds;
+    }
+
+    @Override
+    public List getTestsInSessionsByTestRunId(int testRunId) {
+        GetSessionByTestRunIdV1Method getSessionByTestRunIdV1Method = new GetSessionByTestRunIdV1Method(testRunId);
+        apiExecutor.expectStatus(getSessionByTestRunIdV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getSessionByTestRunIdV1Method);
+        List actualSessionIds = JsonPath.from(rs).get(JSONConstant.ITEMS_TEST_ID);
         return actualSessionIds;
     }
 }

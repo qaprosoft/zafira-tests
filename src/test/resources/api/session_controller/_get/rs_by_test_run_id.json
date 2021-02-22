@@ -14,7 +14,7 @@
         {
           "id": ${testId},
           "name": "type:String",
-          "status": "type:String"
+          "status": "type:String",
         }
       ]
     }
