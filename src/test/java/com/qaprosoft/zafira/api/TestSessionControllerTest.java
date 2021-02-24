@@ -31,8 +31,8 @@ public class TestSessionControllerTest extends ZafiraAPIBaseTest {
     @DataProvider(name = "mandatoryFieldsForStar")
     public Object[][] getMandatoryFieldsForStart() {
         return new Object[][]{{JSONConstant.SESSION_ID},
-                //   {JSONConstant.CAPABILITIES},
-                {JSONConstant.DESIRED_CAPABILITIES},
+              //  {JSONConstant.CAPABILITIES},
+             //   {JSONConstant.DESIRED_CAPABILITIES},
                 {JSONConstant.STARTED_AT}};
     }
 

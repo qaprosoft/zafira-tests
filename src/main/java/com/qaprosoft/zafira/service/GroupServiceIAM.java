@@ -8,7 +8,7 @@ public interface GroupServiceIAM {
 
     String getGroupById(int groupId);
 
-    int getGroupId(String groupName);
+    int createAndGetGroupId(String groupName);
 
     void deleteGroupById(int groupId);
 

@@ -6,6 +6,7 @@ import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.user.v1.*;
 import com.qaprosoft.zafira.bo.User;
 import com.qaprosoft.zafira.constant.ConfigConstant;
+import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.domain.EmailMsg;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.manager.EmailManager;
@@ -13,11 +14,13 @@ import com.qaprosoft.zafira.service.impl.GroupServiceIamImpl;
 import com.qaprosoft.zafira.service.impl.InvitationServiceV1Impl;
 import com.qaprosoft.zafira.service.impl.UserV1ServiceAPIImpl;
 import com.qaprosoft.zafira.util.CryptoUtil;
+import io.restassured.path.json.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -41,6 +44,12 @@ public class UserTest extends ZafiraAPIBaseTest {
     private final static String GMAIL_EMAIL = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY));
     private final static String EXPECTED_MESSAGE = "Password reset";
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    private int userId;
+
+    @AfterMethod
+    public void testDeleteUser() {
+        new UserV1ServiceAPIImpl().deleteUserById(userId);
+    }
 
     @Test
     public void testSearchUserByCriteria() {
@@ -59,8 +68,10 @@ public class UserTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postCreateUserV1Method, HTTPStatusCodeType.CREATED);
         String rs = apiExecutor.callApiMethod(postCreateUserV1Method);
         User user = MAPPER.readValue(rs, User.class);
+        userId = user.getId();
         Assert.assertEquals(EMAIL, user.getEmail(), "Email is not as expected!");
-        LOGGER.info("Email is" + user.getEmail());
+        LOGGER.info("Email is " + user.getEmail());
+        LOGGER.info("UserId is " + user.getId());
     }
 
     @Test
@@ -72,8 +83,10 @@ public class UserTest extends ZafiraAPIBaseTest {
         PostUserByInvitationTokenV1Method postUserByInvitationTokenV1Method =
                 new PostUserByInvitationTokenV1Method(USER_NAME, PASSWORD, invitationToken, EMAIL);
         apiExecutor.expectStatus(postUserByInvitationTokenV1Method, HTTPStatusCodeType.CREATED);
-        apiExecutor.callApiMethod(postUserByInvitationTokenV1Method);
+        String rs = apiExecutor.callApiMethod(postUserByInvitationTokenV1Method);
+        userId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         apiExecutor.validateResponse(postUserByInvitationTokenV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        LOGGER.info("UserId is " + userId);
     }
 
     @Test
@@ -81,7 +94,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
-        new UserV1ServiceAPIImpl().create(USER_NAME, PASSWORD, EMAIL);
+        userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
         GetUserByUsernameV1Method getUserByUsernameV1Method = new GetUserByUsernameV1Method(USER_NAME);
         apiExecutor.expectStatus(getUserByUsernameV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(getUserByUsernameV1Method);
@@ -96,8 +109,8 @@ public class UserTest extends ZafiraAPIBaseTest {
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
         new UserV1ServiceAPIImpl().create(USER_NAME, PASSWORD, EMAIL);
-        int id = new UserV1ServiceAPIImpl().getUserId(USER_NAME);
-        GetUserByIdV1Method getUserByIdV1Method = new GetUserByIdV1Method(id);
+        userId = new UserV1ServiceAPIImpl().getUserId(USER_NAME);
+        GetUserByIdV1Method getUserByIdV1Method = new GetUserByIdV1Method(userId);
         apiExecutor.expectStatus(getUserByIdV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getUserByIdV1Method);
         apiExecutor.validateResponse(getUserByIdV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
@@ -108,8 +121,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
-        new UserV1ServiceAPIImpl().create(USER_NAME, PASSWORD, EMAIL);
-        int userId = new UserV1ServiceAPIImpl().getUserId(USER_NAME);
+        userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
         GroupServiceIamImpl groupService = new GroupServiceIamImpl();
         String allGroupsRs = groupService.getAllGroupsString();
         Assert.assertTrue(allGroupsRs.contains(USER_NAME), "User was not add to group!");
@@ -119,12 +131,22 @@ public class UserTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    public void testDeleteUserByIdV1() {
+        final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
+        userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
+        DeleteUserByIdV1Method getUserByCriteriaV1Method = new DeleteUserByIdV1Method(userId);
+        apiExecutor.expectStatus(getUserByCriteriaV1Method, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(getUserByCriteriaV1Method);
+    }
+
+    @Test
     public void testAddUserToGroupV1() {
         final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
-        new UserV1ServiceAPIImpl().create(USER_NAME, PASSWORD, EMAIL);
-        int userId = new UserV1ServiceAPIImpl().getUserId(USER_NAME);
+        userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
         checkUserExistAndAddToGroupV1(USER_NAME, userId);
     }
 
@@ -134,8 +156,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
         final String NEW_PASSWORD = "new111";
-        new UserV1ServiceAPIImpl().create(USER_NAME, PASSWORD, EMAIL);
-        int userId = new UserV1ServiceAPIImpl().getUserId(USER_NAME);
+        userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
         PostNewUserPasswordMethodV1 postNewUserPasswordMethodV1 = new PostNewUserPasswordMethodV1(userId, PASSWORD, NEW_PASSWORD);
         apiExecutor.expectStatus(postNewUserPasswordMethodV1, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(postNewUserPasswordMethodV1);
@@ -145,7 +166,8 @@ public class UserTest extends ZafiraAPIBaseTest {
         GroupServiceIamImpl groupService = new GroupServiceIamImpl();
         List<Integer> allGroupsIds = groupService.getAllGroupsIds();
         List<Integer> allUserGroupIds = new UserV1ServiceAPIImpl().getAllUserGroupIds(userId);
-       LOGGER.info("All userGroup ids: " + allUserGroupIds);
+        LOGGER.info("All allGroupsIds: " + allGroupsIds);
+        LOGGER.info("All userGroup ids: " + allUserGroupIds);
         for (int i = 1; i <= Collections.max(allGroupsIds); ++i) {
             if (allGroupsIds.contains(i)) {
                 String rs = groupService.getGroupById(i);
@@ -163,8 +185,8 @@ public class UserTest extends ZafiraAPIBaseTest {
         GroupServiceIamImpl groupService = new GroupServiceIamImpl();
         List<Integer> allGroupsIds = groupService.getAllGroupsIds();
         List<Integer> allUserGroupIds = new UserV1ServiceAPIImpl().getAllUserGroupIds(userId);
-       LOGGER.info("All group ids: " + allGroupsIds);
-       LOGGER.info("All userGroup ids: " + allUserGroupIds);
+        LOGGER.info("All group ids: " + allGroupsIds);
+        LOGGER.info("All userGroup ids: " + allUserGroupIds);
         for (int i = 1; i <= Collections.max(allGroupsIds); ++i) {
             if ((allGroupsIds.contains(i)) & (allUserGroupIds.contains(i))) {
                 DeleteUserFromGroupV1Method deleteUserFromGroupV1Method = new DeleteUserFromGroupV1Method(i, userId);
@@ -180,8 +202,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
-        userV1ServiceAPIImpl.create(USER_NAME, PASSWORD, EMAIL);
-        int userId = userV1ServiceAPIImpl.getUserId(USER_NAME);
+        userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
         final String NEW_EMAIL = "new".concat(EMAIL);
         PatchUserV1Method patchUserV1Method = new PatchUserV1Method(userId, EMAIL_KEY_FOR_UPDATE, NEW_EMAIL);
         apiExecutor.expectStatus(patchUserV1Method, HTTPStatusCodeType.NO_CONTENT);
@@ -196,8 +217,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
-        userV1ServiceAPIImpl.create(USER_NAME, PASSWORD, EMAIL);
-        int userId = userV1ServiceAPIImpl.getUserId(USER_NAME);
+        userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
         final String NEW_STATUS = "INACTIVE";
         PatchUserV1Method patchUserV1Method = new PatchUserV1Method(userId, STATUS_KEY_FOR_UPDATE, NEW_STATUS);
         apiExecutor.expectStatus(patchUserV1Method, HTTPStatusCodeType.NO_CONTENT);
@@ -220,7 +240,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
-        new UserV1ServiceAPIImpl().create(USER_NAME, PASSWORD, EMAIL);
+        userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
         PostUserMethodV1 postCreateUserV1Method = new PostUserMethodV1(USER_NAME, PASSWORD, EMAIL);
         apiExecutor.expectStatus(postCreateUserV1Method, HTTPStatusCodeType.FORBIDDEN);
         apiExecutor.callApiMethod(postCreateUserV1Method);
@@ -265,12 +285,10 @@ public class UserTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateUserEmailWithEmptyEmail() {
-        UserV1ServiceAPIImpl userV1ServiceAPIImpl = new UserV1ServiceAPIImpl();
         final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
-        userV1ServiceAPIImpl.create(USER_NAME, PASSWORD, EMAIL);
-        int userId = userV1ServiceAPIImpl.getUserId(USER_NAME);
+        userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
         final String NEW_EMAIL = EMPTY_EMAIL;
         PatchUserV1Method patchUserV1Method = new PatchUserV1Method(userId, EMAIL_KEY_FOR_UPDATE, NEW_EMAIL);
         apiExecutor.expectStatus(patchUserV1Method, HTTPStatusCodeType.BAD_REQUEST);
@@ -279,12 +297,10 @@ public class UserTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testUpdateUserEmailWithInvalidEmail() {
-        UserV1ServiceAPIImpl userV1ServiceAPIImpl = new UserV1ServiceAPIImpl();
         final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
-        userV1ServiceAPIImpl.create(USER_NAME, PASSWORD, EMAIL);
-        int userId = userV1ServiceAPIImpl.getUserId(USER_NAME);
+        userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
         final String newEmail = INVALID_EMAIL;
         PatchUserV1Method patchUserV1Method = new PatchUserV1Method(userId, EMAIL_KEY_FOR_UPDATE, newEmail);
         apiExecutor.expectStatus(patchUserV1Method, HTTPStatusCodeType.BAD_REQUEST);
@@ -297,8 +313,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
-        userV1ServiceAPIImpl.create(USER_NAME, PASSWORD, EMAIL);
-        int userId = userV1ServiceAPIImpl.getUserId(USER_NAME);
+        userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
         final String NEW_STATUS = "INACTIVE";
         PatchUserV1Method patchUserV1Method = new PatchUserV1Method(userId, STATUS_KEY_FOR_UPDATE, NEW_STATUS);
         apiExecutor.expectStatus(patchUserV1Method, HTTPStatusCodeType.NO_CONTENT);
@@ -318,6 +333,9 @@ public class UserTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testSendPasswordReset() {
+        final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, GMAIL_EMAIL);
         PostPasswordResetMethodV1 postPasswordResetMethodV1 = new PostPasswordResetMethodV1(GMAIL_EMAIL);
         apiExecutor.expectStatus(postPasswordResetMethodV1, HTTPStatusCodeType.ACCEPTED);
         apiExecutor.callApiMethod(postPasswordResetMethodV1);
