@@ -37,7 +37,7 @@ public class GroupServiceIamImpl implements GroupServiceIAM {
     }
 
     @Override
-    public int getGroupId(String groupName) {
+    public int createAndGetGroupId(String groupName) {
         PostGroupMethodIAM postGroupMethod = new PostGroupMethodIAM(groupName);
         String response = apiExecutor.callApiMethod(postGroupMethod);
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);

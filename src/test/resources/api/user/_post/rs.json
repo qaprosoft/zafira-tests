@@ -1,5 +1,4 @@
 {
-  "query": "type:String",
   "page": "regex:[\\d]",
   "pageSize": "regex:[\\d]",
   "results": "type:JSONArray",
