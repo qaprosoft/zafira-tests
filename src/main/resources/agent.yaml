@@ -1,10 +1,10 @@
 reporting:
-  enabled: true
+  enabled: false
   project-key: Zebrunner
   server:
     hostname: https://automation.qaprosoft.farm
     access-token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwicGFzc3dvcmQiOiJmVllBK2o4SmpXUmVGRVVkajc1OU43TjZBQm1LYkkyNCIsInRlbmFudCI6ImF1dG9tYXRpb24iLCJpc3MiOiJpYW0iLCJleHAiOjM3NTQ4MTMxODh9.lasxeDXajHiNkfnmf5_mBVwoTud3Rx0162t0kAVOy5vZfsOb1UODkSlgkmaUHNg3NcQVvHPo-F0PLuaal_59Aw
   run:
-    display-name: api-acceptance-tests
+    display-name: API Integration Tests
     build: 1.21.0.512-SNAPSHOT
     environment: STAG

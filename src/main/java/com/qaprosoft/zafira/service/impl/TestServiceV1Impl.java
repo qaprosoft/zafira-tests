@@ -14,8 +14,8 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestServiceAPIV1Impl implements TestServiceAPIV1 {
-    private static final Logger LOGGER = Logger.getLogger(TestServiceAPIV1Impl.class);
+public class TestServiceV1Impl implements TestServiceAPIV1 {
+    private static final Logger LOGGER = Logger.getLogger(TestServiceV1Impl.class);
     private ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
     public ExecutionServiceImpl getExecutor() {

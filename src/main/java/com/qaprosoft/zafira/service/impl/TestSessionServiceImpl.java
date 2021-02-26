@@ -7,14 +7,15 @@ import com.qaprosoft.zafira.api.testSessionController.PostSessionV1Method;
 import com.qaprosoft.zafira.api.testSessionController.PutSessionV1Method;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.service.TestSessionControllerService;
+import com.qaprosoft.zafira.service.TestSessionService;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-public class TestSessionControllerServiceImpl implements TestSessionControllerService {
-    private static final Logger LOGGER = Logger.getLogger(TestSessionControllerServiceImpl.class);
+public class TestSessionServiceImpl implements TestSessionService {
+    private static final Logger LOGGER = Logger.getLogger(TestSessionServiceImpl.class);
     private ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
     public ExecutionServiceImpl getExecutor() {
@@ -23,7 +24,7 @@ public class TestSessionControllerServiceImpl implements TestSessionControllerSe
 
     @Override
     public int create(int testRunId, int testId) {
-        List testIds = new ArrayList();
+        List<Integer> testIds = new ArrayList();
         testIds.add(testId);
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId,testIds);
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
@@ -49,7 +50,7 @@ public class TestSessionControllerServiceImpl implements TestSessionControllerSe
 
     @Override
     public void finish(int testRunId, int testId, int testSessionId) {
-        List testIds = new ArrayList();
+        List<Integer> testIds = new ArrayList();
         testIds.add(testId);
         PutSessionV1Method putUpdateSessionV1Method = new PutSessionV1Method(testRunId, testIds, testSessionId);
         apiExecutor.expectStatus(putUpdateSessionV1Method, HTTPStatusCodeType.OK);
@@ -58,29 +59,30 @@ public class TestSessionControllerServiceImpl implements TestSessionControllerSe
     }
 
     @Override
-    public List getSessionsByTestRunId(int testRunId) {
+    public List<Integer> getSessionsByTestRunId(int testRunId) {
         GetSessionByTestRunIdV1Method getSessionByTestRunIdV1Method = new GetSessionByTestRunIdV1Method(testRunId);
         apiExecutor.expectStatus(getSessionByTestRunIdV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(getSessionByTestRunIdV1Method);
-        List actualSessionIds = JsonPath.from(rs).getList(JSONConstant.ITEMS_ID);
+        List<Integer> actualSessionIds = JsonPath.from(rs).getList(JSONConstant.ITEMS_ID);
         return actualSessionIds;
     }
 
     @Override
-    public List getSessionsByTestRunIdAndTestId(int testRunId,int testId) {
+    public List<Integer> getSessionsByTestRunIdAndTestId(int testRunId,int testId) {
         GetSessionByTestRunIdAndTestIdV1Method getSessionByTestAndTestRunId = new GetSessionByTestRunIdAndTestIdV1Method(testRunId, testId);
         apiExecutor.expectStatus(getSessionByTestAndTestRunId, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(getSessionByTestAndTestRunId);
-        List actualSessionIds = JsonPath.from(rs).getList(JSONConstant.ITEMS_ID);
+        List<Integer> actualSessionIds = JsonPath.from(rs).getList(JSONConstant.ITEMS_ID);
         return actualSessionIds;
     }
 
     @Override
-    public List getTestsInSessionsByTestRunId(int testRunId) {
+    public List<Integer> getTestsInSessionsByTestRunId(int testRunId) {
         GetSessionByTestRunIdV1Method getSessionByTestRunIdV1Method = new GetSessionByTestRunIdV1Method(testRunId);
         apiExecutor.expectStatus(getSessionByTestRunIdV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(getSessionByTestRunIdV1Method);
-        List actualSessionIds = JsonPath.from(rs).get(JSONConstant.ITEMS_TEST_ID);
+        List<Integer> actualSessionIds = JsonPath.from(rs).get(JSONConstant.ITEMS_TEST_ID);
+        actualSessionIds.sort(Comparator.naturalOrder());
         return actualSessionIds;
     }
 }

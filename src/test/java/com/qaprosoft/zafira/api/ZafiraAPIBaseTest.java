@@ -53,6 +53,30 @@ public class ZafiraAPIBaseTest extends AbstractTest {
         return testRunId;
     }
 
+    protected int startTestRunV1() {
+        TestRunServiceAPIImplV1 testRunServiceV1 = new TestRunServiceAPIImplV1();
+        int testRunId = testRunServiceV1.start();
+        return testRunId;
+    }
+
+    protected int startTestV1(int testRunId) {
+        TestServiceV1Impl testServiceV1 = new TestServiceV1Impl();
+        int testId = testServiceV1.startTest(testRunId);
+        return testId;
+    }
+
+    protected List<Integer> startTestsV1(int testRunId, int numOfTests) {
+        TestServiceV1Impl testServiceV1 = new TestServiceV1Impl();
+        List<Integer> testIds = testServiceV1.startTests(testRunId, numOfTests);
+        return testIds;
+    }
+
+    protected void deleteTestRunV1(int testRunId) {
+        TestRunServiceAPIImplV1 testRunServiceV1 = new TestRunServiceAPIImplV1();
+        testRunServiceV1.deleteTestRun(testRunId);
+    }
+
+
     @AfterSuite
     protected void deleteAllTestRuns() {
         TestRunServiceAPIImpl testRunServiceAPIImpl = new TestRunServiceAPIImpl();
