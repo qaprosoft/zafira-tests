@@ -149,7 +149,9 @@
     </test>
     <test name="Test session controller test">
         <classes>
-            <class name="com.qaprosoft.zafira.api.TestSessionControllerTest"/>
+            <class name="com.qaprosoft.zafira.api.TestSessionGetTest"/>
+            <class name="com.qaprosoft.zafira.api.TestSessionStartTest"/>
+            <class name="com.qaprosoft.zafira.api.TestSessionLinkAndFinishTest"/>
         </classes>
     </test>
     <test name="Service Metadata Controller Test">

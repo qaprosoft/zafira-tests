@@ -2,7 +2,7 @@ package com.qaprosoft.zafira.service;
 
 import java.util.List;
 
-public interface TestSessionControllerService {
+public interface TestSessionService {
     int create(int testRunId, int testId);
 
     int create(int testRunId, List testIds);
