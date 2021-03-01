@@ -17,6 +17,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.lang.invoke.MethodHandles;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -62,6 +65,20 @@ public class TestSessionLinkAndFinishTest extends ZafiraAPIBaseTest {
         LOGGER.info("Actual testIds in test session " + actualTestIdsList.toString());
         Assert.assertEquals(testIds, actualTestIdsList,
                 "The number of tests is not as expected!");
+    }
+
+    @Test(description = "negative")
+    public void testFinishSessionWithEndedAtInFuture() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 3);
+        int sessionId = testSessionService.create(testRunId, testIds);
+
+        PutSessionV1Method putUpdateSessionV1Method =
+                new PutSessionV1Method(testRunId, testIds, sessionId);
+        putUpdateSessionV1Method.addProperty("endedAt", OffsetDateTime.now(ZoneOffset.UTC).plusMinutes(10)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+        apiExecutor.expectStatus(putUpdateSessionV1Method, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(putUpdateSessionV1Method);
     }
 
     @Test
@@ -164,7 +181,7 @@ public class TestSessionLinkAndFinishTest extends ZafiraAPIBaseTest {
         List<Integer> testIdsAnotherTestRun = startTestsV1(testRunId1, 1);
 
         PutLinkingTestToSessionMethod putLinkingTestToSessionMethod =
-                new PutLinkingTestToSessionMethod(testRunId1, testIdsAnotherTestRun, sessionId);
+                new PutLinkingTestToSessionMethod(testRunId, testIdsAnotherTestRun, sessionId);
         apiExecutor.expectStatus(putLinkingTestToSessionMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(putLinkingTestToSessionMethod);
         apiExecutor.validateResponse(putLinkingTestToSessionMethod,
@@ -183,6 +200,7 @@ public class TestSessionLinkAndFinishTest extends ZafiraAPIBaseTest {
         LOGGER.info("Actual testIds in test session " + actualTestIdsList.toString());
         Assert.assertEquals(testIds, actualTestIdsList,
                 "The number of tests is not as expected!");
+        new TestRunServiceAPIImplV1().deleteTestRun(testRunId1);
     }
 
     @Test

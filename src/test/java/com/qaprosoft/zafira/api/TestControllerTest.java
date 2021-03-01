@@ -5,6 +5,7 @@ import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.testController.*;
 import com.qaprosoft.zafira.api.testController.v1.GetTestsV1Method;
 import com.qaprosoft.zafira.constant.ConfigConstant;
+import com.qaprosoft.zafira.constant.ConstantName;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.*;
@@ -112,12 +113,28 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        new TestServiceImpl().updateTestStatus(testId,testSuiteId,jobId, ConstantName.FAILED);
         PostLinkWorkItemMethod postLinkWorkItemMethod = new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue,
                 testId, workItemType);
         apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.OK);
         String linkWorkItemRs = apiExecutor.callApiMethod(postLinkWorkItemMethod);
         String jiraId = JsonPath.from(linkWorkItemRs).get(JSONConstant.JIRA_ID_KEY);
         Assert.assertEquals(jiraId, expectedJiraIdValue, "Work item was not linked to test!");
+    }
+
+    @Test
+    public void testLinkWorkItemToTestWithStatusPASSED() {
+        String expectedJiraIdValue = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
+        String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
+        int testSuiteId = new TestSuiteServiceImpl().create();
+        int jobId = new JobServiceImpl().create();
+        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
+        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
+        int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        new TestServiceImpl().updateTestStatus(testId,testSuiteId,jobId, ConstantName.PASSED);
+        PostLinkWorkItemMethod postLinkWorkItemMethod = new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue,
+                testId, workItemType);
+        apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.FORBIDDEN);
     }
 
     @Test
@@ -129,8 +146,13 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        new TestServiceImpl().updateTestStatus(testId,testSuiteId,jobId, ConstantName.FAILED);
         apiExecutor.callApiMethod(new PostLinkWorkItemMethod(testCaseId, jiraId, testId, workItemType));
-        String workItemRs = apiExecutor.callApiMethod(new GetWorkItemMethod(testId, workItemType));
+        GetWorkItemMethod getWorkItemMethod = new GetWorkItemMethod(testId, workItemType);
+        apiExecutor.expectStatus(getWorkItemMethod,HTTPStatusCodeType.OK);
+        String workItemRs = apiExecutor.callApiMethod(getWorkItemMethod);
+        apiExecutor.validateResponse(getWorkItemMethod,
+                JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         List<Integer> workItemId = JsonPath.from(workItemRs).getList(JSONConstant.ID_KEY);
         LOGGER.info(workItemId);
         Assert.assertFalse(workItemId.isEmpty());
@@ -177,6 +199,7 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         TestServiceImpl testServiсeImpl = new TestServiceImpl();
         int testId = testServiсeImpl.create(testCaseId, testRunId);
+        new TestServiceImpl().updateTestStatus(testId,testSuiteId,jobId, ConstantName.FAILED);
         String linkWorkItemRs = apiExecutor.callApiMethod(new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue,
                 testId, workItemType));
         int workItemId = JsonPath.from(linkWorkItemRs).get(JSONConstant.ID_KEY);
