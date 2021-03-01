@@ -245,17 +245,4 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(postSessionV1Method);
     }
-
-    @Test(description = "negative")
-    public void testStartSessionWithNonExistingTestId() {
-        testRunId = new TestRunServiceAPIImplV1().start();
-        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
-        new TestServiceV1Impl().deleteTest(testRunId, testIds.get(0));
-        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
-        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
-        String rs = apiExecutor.callApiMethod(postSessionV1Method);
-        List<Integer> actualTestIds = JsonPath.from(rs).get(JSONConstant.TEST_IDS);
-        Assert.assertFalse(actualTestIds.contains(testIds.get(0)),
-                "Test with id= " + testIds.get(0) + "had not to attached to session! ");
-    }
 }

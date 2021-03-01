@@ -1,10 +1,7 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.qaprosoft.zafira.api.user.DeleteUserFromGroupMethod;
-import com.qaprosoft.zafira.api.user.v1.DeleteUserByIdV1Method;
-import com.qaprosoft.zafira.api.user.v1.GetUserByIdV1Method;
-import com.qaprosoft.zafira.api.user.v1.GetUserByUsernameV1Method;
-import com.qaprosoft.zafira.api.user.v1.PostUserMethodV1;
+import com.qaprosoft.zafira.api.user.v1.*;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.UserV1ServiceAPI;
@@ -74,6 +71,23 @@ public class UserV1ServiceAPIImpl implements UserV1ServiceAPI {
     public void deleteUserById(int userId) {
         DeleteUserByIdV1Method getUserByCriteriaV1Method = new DeleteUserByIdV1Method(userId);
         apiExecutor.callApiMethod(getUserByCriteriaV1Method);
+    }
+
+    @Override
+    public String getUserById(int userId) {
+        GetUserByIdV1Method getUserByIdV1Method = new GetUserByIdV1Method(userId);
+        apiExecutor.expectStatus(getUserByIdV1Method, HTTPStatusCodeType.OK);
+        String response = apiExecutor.callApiMethod(getUserByIdV1Method);
+        return response;
+    }
+
+    @Override
+    public List<Integer> getAllUserIds(int userId) {
+        GetUserByCriteriaV1Method getUserByCriteriaV1Method = new GetUserByCriteriaV1Method("", "");
+        apiExecutor.expectStatus(getUserByCriteriaV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getUserByCriteriaV1Method);
+        List<Integer> userIds = JsonPath.from(rs).getList("results.id");
+        return userIds;
     }
 
 }

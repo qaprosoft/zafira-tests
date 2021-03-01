@@ -12,5 +12,4 @@ public class PostCreateWorkItemMethod extends ZafiraBaseApiMethodWithAuth {
         replaceUrlPlaceholder("id", String.valueOf(testId));
         addProperty("jiraId", jiraId);
     }
-
 }

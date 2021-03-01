@@ -19,4 +19,8 @@ public interface UserV1ServiceAPI {
     String getStatus(String username);
 
     void deleteUserById(int userId);
+
+    String getUserById(int userId);
+
+    List<Integer> getAllUserIds(int userId);
 }
