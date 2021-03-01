@@ -45,6 +45,7 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
     public void testStartSession() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 3);
+
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
@@ -75,6 +76,7 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 3);
         testIds.add(testIds.get(0));
+
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
@@ -84,11 +86,11 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
         int sessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         List<Integer> actualTestIds = JsonPath.from(rs).getList(JSONConstant.TEST_IDS);
         Set<Integer> expectedTestIds = new HashSet<>(testIds);
+        actualTestIds.sort(Comparator.naturalOrder());
+        expectedTestIds.stream().sorted(Comparator.naturalOrder());
         LOGGER.info("Expected testIds: " + expectedTestIds);
         LOGGER.info("Actual testIds:   " + actualTestIds);
 
-        actualTestIds.sort(Comparator.naturalOrder());
-        expectedTestIds.stream().sorted();
         Assert.assertEquals(actualTestIds, expectedTestIds,
                 "The number of tests is not as expected!");
         Assert.assertTrue(new TestSessionServiceImpl()
@@ -99,6 +101,74 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
         LOGGER.info("Actual testIds in test session " + actualTestIdsAfterGet.toString());
         actualTestIdsAfterGet.sort(Comparator.naturalOrder());
         Assert.assertEquals(expectedTestIds, actualTestIdsAfterGet,
+                "The number of tests is not as expected!");
+    }
+
+    @Test
+    public void testStartSessionWithNonExistentTestId() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 3);
+        int delTestId = testIds.get(0);
+        new TestServiceV1Impl().deleteTest(testRunId, delTestId);
+
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postSessionV1Method);
+        apiExecutor.validateResponse(postSessionV1Method,
+                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+         testIds.remove(testIds.get(0));
+        int sessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        List<Integer> actualTestIds = JsonPath.from(rs).getList(JSONConstant.TEST_IDS);
+        testIds.sort(Comparator.naturalOrder());
+        LOGGER.info("Expected testIds: " + testIds);
+        LOGGER.info("Actual testIds:   " + actualTestIds);
+
+        actualTestIds.sort(Comparator.naturalOrder());
+        Assert.assertEquals(actualTestIds, testIds,
+                "The number of tests is not as expected!");
+        Assert.assertTrue(new TestSessionServiceImpl()
+                .getSessionsByTestRunId(testRunId)
+                .contains(sessionId));
+        List<Integer> actualTestIdsAfterGet = new TestSessionServiceImpl()
+                .getTestsInSessionsByTestRunId(testRunId);
+        LOGGER.info("Actual testIds in test session " + actualTestIdsAfterGet.toString());
+        actualTestIdsAfterGet.sort(Comparator.naturalOrder());
+        Assert.assertEquals(testIds, actualTestIdsAfterGet,
+                "The number of tests is not as expected!");
+    }
+
+    @Test
+    public void testStartSessionWithNonExistentTestIdFromAnotherTestRun() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        int testId = startTestV1(testRunId);
+        int testRunId1 = startTestRunV1();
+        List<Integer> testIdsAnotherTestRun = startTestsV1(testRunId1, 1);
+
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIdsAnotherTestRun);
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postSessionV1Method);
+        apiExecutor.validateResponse(postSessionV1Method,
+                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        int sessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        List<Integer> actualTestIds = JsonPath.from(rs).getList(JSONConstant.TEST_IDS);
+        testIdsAnotherTestRun.removeAll(testIdsAnotherTestRun);
+        new TestRunServiceAPIImplV1().deleteTestRun(testRunId1);
+
+        LOGGER.info("Expected testIds: " + testIdsAnotherTestRun);
+        LOGGER.info("Actual testIds:   " + actualTestIds);
+
+        actualTestIds.sort(Comparator.naturalOrder());
+        Assert.assertEquals(actualTestIds, testIdsAnotherTestRun,
+                "The number of tests is not as expected!");
+        Assert.assertTrue(new TestSessionServiceImpl()
+                .getSessionsByTestRunId(testRunId)
+                .contains(sessionId));
+        List<Integer> actualTestIdsAfterGet = new TestSessionServiceImpl()
+                .getTestsInSessionsByTestRunId(testRunId);
+        LOGGER.info("Actual testIds in test session " + actualTestIdsAfterGet.toString());
+        actualTestIdsAfterGet.sort(Comparator.naturalOrder());
+        Assert.assertEquals(testIdsAnotherTestRun, actualTestIdsAfterGet,
                 "The number of tests is not as expected!");
     }
 
@@ -117,7 +187,7 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
         List<Integer> actualTestIds = JsonPath.from(rs).getList(JSONConstant.TEST_IDS);
         Set<Integer> expectedTestIds = new HashSet<>(testIds);
         actualTestIds.sort(Comparator.naturalOrder());
-        expectedTestIds.stream().sorted();
+        expectedTestIds.stream().sorted(Comparator.naturalOrder());
         LOGGER.info("Expected testIds: " + expectedTestIds);
         LOGGER.info("Actual testIds:   " + actualTestIds);
         Assert.assertEquals(actualTestIds, expectedTestIds,
@@ -187,16 +257,5 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
         List<Integer> actualTestIds = JsonPath.from(rs).get(JSONConstant.TEST_IDS);
         Assert.assertFalse(actualTestIds.contains(testIds.get(0)),
                 "Test with id= " + testIds.get(0) + "had not to attached to session! ");
-    }
-
-    @Test(description = "negative")
-    public void testStartSessionWithNegativeTestIdInBody() {
-        testRunId = new TestRunServiceAPIImplV1().start();
-        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
-        testIds.add(testIds.get(0) * (-1));
-        testIds.remove(0);
-        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
-        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.NOT_FOUND);
-        apiExecutor.callApiMethod(postSessionV1Method);
     }
 }
