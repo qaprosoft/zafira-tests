@@ -83,7 +83,7 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         String testRs = testServiceImpl.getAllTest(testRunId);
         List<String> artifactsList = JsonPath.from(testRs).getList(JSONConstant.RESULT_ARTIFACT_KEY);
         LOGGER.info(String.format("Artifact ID: %s", artifactsList.toString()));
-        Assert.assertTrue(artifactsList.toString().contains(link),"Test's artifact was not attached to test!");
+        Assert.assertTrue(artifactsList.toString().contains(link), "Test's artifact was not attached to test!");
     }
 
     @Test
@@ -113,7 +113,7 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testId = new TestServiceImpl().create(testCaseId, testRunId);
-        new TestServiceImpl().updateTestStatus(testId,testSuiteId,jobId, ConstantName.FAILED);
+        new TestServiceImpl().updateTestStatus(testId, testSuiteId, jobId, ConstantName.FAILED);
         PostLinkWorkItemMethod postLinkWorkItemMethod = new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue,
                 testId, workItemType);
         apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.OK);
@@ -131,7 +131,7 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testId = new TestServiceImpl().create(testCaseId, testRunId);
-        new TestServiceImpl().updateTestStatus(testId,testSuiteId,jobId, ConstantName.PASSED);
+        new TestServiceImpl().updateTestStatus(testId, testSuiteId, jobId, ConstantName.PASSED);
         PostLinkWorkItemMethod postLinkWorkItemMethod = new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue,
                 testId, workItemType);
         apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.FORBIDDEN);
@@ -146,17 +146,13 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testId = new TestServiceImpl().create(testCaseId, testRunId);
-        new TestServiceImpl().updateTestStatus(testId,testSuiteId,jobId, ConstantName.FAILED);
+        new TestServiceImpl().updateTestStatus(testId, testSuiteId, jobId, ConstantName.FAILED);
         apiExecutor.callApiMethod(new PostLinkWorkItemMethod(testCaseId, jiraId, testId, workItemType));
         GetWorkItemMethod getWorkItemMethod = new GetWorkItemMethod(testId, workItemType);
-        apiExecutor.expectStatus(getWorkItemMethod,HTTPStatusCodeType.OK);
-        String workItemRs = apiExecutor.callApiMethod(getWorkItemMethod);
+        apiExecutor.expectStatus(getWorkItemMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getWorkItemMethod);
         apiExecutor.validateResponse(getWorkItemMethod,
                 JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        List<Integer> workItemId = JsonPath.from(workItemRs).getList(JSONConstant.ID_KEY);
-        LOGGER.info(workItemId);
-        Assert.assertFalse(workItemId.isEmpty());
-        Assert.assertNotEquals(0, workItemId.get(0), "Work item was not created!");
     }
 
     @Test
@@ -199,7 +195,7 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         TestServiceImpl testServiсeImpl = new TestServiceImpl();
         int testId = testServiсeImpl.create(testCaseId, testRunId);
-        new TestServiceImpl().updateTestStatus(testId,testSuiteId,jobId, ConstantName.FAILED);
+        new TestServiceImpl().updateTestStatus(testId, testSuiteId, jobId, ConstantName.FAILED);
         String linkWorkItemRs = apiExecutor.callApiMethod(new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue,
                 testId, workItemType));
         int workItemId = JsonPath.from(linkWorkItemRs).get(JSONConstant.ID_KEY);

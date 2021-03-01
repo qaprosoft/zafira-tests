@@ -6,6 +6,7 @@ import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.user.v1.*;
 import com.qaprosoft.zafira.bo.User;
 import com.qaprosoft.zafira.constant.ConfigConstant;
+import com.qaprosoft.zafira.constant.ConstantName;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.domain.EmailMsg;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
@@ -72,10 +73,13 @@ public class UserTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(EMAIL, user.getEmail(), "Email is not as expected!");
         LOGGER.info("Email is " + user.getEmail());
         LOGGER.info("UserId is " + user.getId());
+        String getUser = new UserV1ServiceAPIImpl().getUserById(userId);
+        User userActual = MAPPER.readValue(getUser, User.class);
+        Assert.assertEquals(userActual.getEmail(), user.getEmail());
     }
 
     @Test
-    public void testCreateUserByInvitationToken() {
+    public void testCreateUserByInvitationToken() throws IOException {
         final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
@@ -86,7 +90,10 @@ public class UserTest extends ZafiraAPIBaseTest {
         String rs = apiExecutor.callApiMethod(postUserByInvitationTokenV1Method);
         userId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         apiExecutor.validateResponse(postUserByInvitationTokenV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        LOGGER.info("UserId is " + userId);
+        User user = MAPPER.readValue(rs, User.class);
+        String getUser = new UserV1ServiceAPIImpl().getUserById(userId);
+        User userActual = MAPPER.readValue(getUser, User.class);
+        Assert.assertEquals(userActual.getEmail(), user.getEmail());
     }
 
     @Test
@@ -104,6 +111,18 @@ public class UserTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    public void testGetUserByNonExistingUsername() {
+        final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
+        userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
+        new UserV1ServiceAPIImpl().deleteUserById(userId);
+        GetUserByUsernameV1Method getUserByUsernameV1Method = new GetUserByUsernameV1Method(USER_NAME);
+        apiExecutor.expectStatus(getUserByUsernameV1Method, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(getUserByUsernameV1Method);
+    }
+
+    @Test
     public void testGetUserByIdV1() {
         final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
@@ -114,6 +133,19 @@ public class UserTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(getUserByIdV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getUserByIdV1Method);
         apiExecutor.validateResponse(getUserByIdV1Method, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testGetUserByByNonExistingIdV1() {
+        final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
+        new UserV1ServiceAPIImpl().create(USER_NAME, PASSWORD, EMAIL);
+        userId = new UserV1ServiceAPIImpl().getUserId(USER_NAME);
+        new UserV1ServiceAPIImpl().deleteUserById(userId);
+        GetUserByIdV1Method getUserByIdV1Method = new GetUserByIdV1Method(userId);
+        apiExecutor.expectStatus(getUserByIdV1Method, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(getUserByIdV1Method);
     }
 
     @Test
@@ -138,6 +170,21 @@ public class UserTest extends ZafiraAPIBaseTest {
         userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
         DeleteUserByIdV1Method getUserByCriteriaV1Method = new DeleteUserByIdV1Method(userId);
         apiExecutor.expectStatus(getUserByCriteriaV1Method, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(getUserByCriteriaV1Method);
+        List<Integer> userIds = new UserV1ServiceAPIImpl().getAllUserIds(userId);
+        LOGGER.info(userIds.toString());
+        Assert.assertFalse(userIds.contains(userId), "User with id= " + userId + "was not deleted!");
+    }
+
+    @Test
+    public void testDeleteUserByByNonExistingIdV1() {
+        final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
+        userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
+        new UserV1ServiceAPIImpl().deleteUserById(userId);
+        DeleteUserByIdV1Method getUserByCriteriaV1Method = new DeleteUserByIdV1Method(userId);
+        apiExecutor.expectStatus(getUserByCriteriaV1Method, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(getUserByCriteriaV1Method);
     }
 
@@ -218,12 +265,24 @@ public class UserTest extends ZafiraAPIBaseTest {
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
         userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
-        final String NEW_STATUS = "INACTIVE";
+        final String NEW_STATUS = ConstantName.INACTIVE_STATUS;
         PatchUserV1Method patchUserV1Method = new PatchUserV1Method(userId, STATUS_KEY_FOR_UPDATE, NEW_STATUS);
         apiExecutor.expectStatus(patchUserV1Method, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(patchUserV1Method);
         String actualStatus = userV1ServiceAPIImpl.getStatus(USER_NAME);
         Assert.assertEquals(actualStatus, NEW_STATUS, "Status is not change!");
+    }
+
+    @Test
+    public void testUpdateUserStatusWithPatchWithInvalidStatus() {
+        final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
+        userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
+        final String NEW_STATUS = ConstantName.INACTIVE_STATUS + 1;
+        PatchUserV1Method patchUserV1Method = new PatchUserV1Method(userId, STATUS_KEY_FOR_UPDATE, NEW_STATUS);
+        apiExecutor.expectStatus(patchUserV1Method, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(patchUserV1Method);
     }
 
     @Test
