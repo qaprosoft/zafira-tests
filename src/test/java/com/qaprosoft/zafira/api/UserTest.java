@@ -244,7 +244,7 @@ public class UserTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testUpdateUserEmail() {
+    public void testUpdateUserEmail() throws IOException {
         UserV1ServiceAPIImpl userV1ServiceAPIImpl = new UserV1ServiceAPIImpl();
         final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
@@ -255,11 +255,14 @@ public class UserTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(patchUserV1Method, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(patchUserV1Method);
         String actualEmail = userV1ServiceAPIImpl.getEmail(USER_NAME);
-        Assert.assertEquals(actualEmail, NEW_EMAIL, "Email is not change!");
+        Assert.assertEquals(actualEmail, NEW_EMAIL, "Email is not changed!");
+        String getUser = new UserV1ServiceAPIImpl().getUserById(userId);
+        User userActual = MAPPER.readValue(getUser, User.class);
+        Assert.assertEquals(userActual.getEmail(), NEW_EMAIL,"Email is not changed!");
     }
 
     @Test
-    public void testUpdateUserStatusWithPatch() {
+    public void testUpdateUserStatusWithPatch() throws IOException {
         UserV1ServiceAPIImpl userV1ServiceAPIImpl = new UserV1ServiceAPIImpl();
         final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
@@ -270,7 +273,10 @@ public class UserTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(patchUserV1Method, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(patchUserV1Method);
         String actualStatus = userV1ServiceAPIImpl.getStatus(USER_NAME);
-        Assert.assertEquals(actualStatus, NEW_STATUS, "Status is not change!");
+        Assert.assertEquals(actualStatus, NEW_STATUS, "Status was not changed!");
+        String getUser = new UserV1ServiceAPIImpl().getUserById(userId);
+        User userActual = MAPPER.readValue(getUser, User.class);
+        Assert.assertEquals(userActual.getStatus(), NEW_STATUS,"Status was not changed!");
     }
 
     @Test
@@ -373,12 +379,10 @@ public class UserTest extends ZafiraAPIBaseTest {
         final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
         userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
-        final String NEW_STATUS = "INACTIVE";
+        final String NEW_STATUS = "NEW_STATUS";
         PatchUserV1Method patchUserV1Method = new PatchUserV1Method(userId, STATUS_KEY_FOR_UPDATE, NEW_STATUS);
-        apiExecutor.expectStatus(patchUserV1Method, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.expectStatus(patchUserV1Method, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(patchUserV1Method);
-        String actualStatus = userV1ServiceAPIImpl.getStatus(USER_NAME);
-        Assert.assertEquals(actualStatus, NEW_STATUS, "Status is not change!");
     }
 
     private boolean verifyIfEmailWasDelivered(String expStatus) {

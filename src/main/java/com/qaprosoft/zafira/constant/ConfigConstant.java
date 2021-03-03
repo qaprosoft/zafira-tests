@@ -64,4 +64,5 @@ public class ConfigConstant {
     public static final String LABEL_KEY_KEY = "labelKey";
     public static final String ARTIFACT_REF_NAME_KEY = "name";
     public static final String LABEL_KEY = "labels";
+    public static final String PATH_FOR_START_WITH_CAPABILITIES = "path_for_start_with_capability";
 }
