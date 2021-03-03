@@ -26,15 +26,15 @@ public class TestSessionServiceImpl implements TestSessionService {
     public int create(int testRunId, int testId) {
         List<Integer> testIds = new ArrayList();
         testIds.add(testId);
-        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId,testIds);
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(postSessionV1Method);
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
-            }
+    }
 
     @Override
     public int create(int testRunId, List testIds) {
-        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId,testIds);
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(postSessionV1Method);
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
@@ -68,7 +68,7 @@ public class TestSessionServiceImpl implements TestSessionService {
     }
 
     @Override
-    public List<Integer> getSessionsByTestRunIdAndTestId(int testRunId,int testId) {
+    public List<Integer> getSessionsByTestRunIdAndTestId(int testRunId, int testId) {
         GetSessionByTestRunIdAndTestIdV1Method getSessionByTestAndTestRunId = new GetSessionByTestRunIdAndTestIdV1Method(testRunId, testId);
         apiExecutor.expectStatus(getSessionByTestAndTestRunId, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(getSessionByTestAndTestRunId);
@@ -84,5 +84,35 @@ public class TestSessionServiceImpl implements TestSessionService {
         List<Integer> actualSessionIds = JsonPath.from(rs).get(JSONConstant.ITEMS_TEST_ID);
         actualSessionIds.sort(Comparator.naturalOrder());
         return actualSessionIds;
+    }
+
+    @Override
+    public String getTestsInSessionsName(int testRunId, int testSessionId) {
+        GetSessionByTestRunIdV1Method getSessionByTestRunIdV1Method = new GetSessionByTestRunIdV1Method(testRunId);
+        apiExecutor.expectStatus(getSessionByTestRunIdV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getSessionByTestRunIdV1Method);
+        int testSessionIdIndex = JsonPath.from(rs).getList(JSONConstant.ITEMS_ID).indexOf(testSessionId);
+        String actualName = JsonPath.from(rs).get("items[" + testSessionIdIndex + "].name");
+        return actualName;
+    }
+
+    @Override
+    public String getTestsInSessionsBrowserName(int testRunId, int testSessionId) {
+        GetSessionByTestRunIdV1Method getSessionByTestRunIdV1Method = new GetSessionByTestRunIdV1Method(testRunId);
+        apiExecutor.expectStatus(getSessionByTestRunIdV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getSessionByTestRunIdV1Method);
+        int testSessionIdIndex = JsonPath.from(rs).getList(JSONConstant.ITEMS_ID).indexOf(testSessionId);
+        String actualName = JsonPath.from(rs).get("items[" + testSessionIdIndex + "].browserName");
+        return actualName;
+    }
+
+    @Override
+    public String getTestsInSessionsBrowserVersion(int testRunId, int testSessionId) {
+        GetSessionByTestRunIdV1Method getSessionByTestRunIdV1Method = new GetSessionByTestRunIdV1Method(testRunId);
+        apiExecutor.expectStatus(getSessionByTestRunIdV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getSessionByTestRunIdV1Method);
+        int testSessionIdIndex = JsonPath.from(rs).getList(JSONConstant.ITEMS_ID).indexOf(testSessionId);
+        String actualName = JsonPath.from(rs).get("items[" + testSessionIdIndex + "].browserVersion");
+        return actualName;
     }
 }

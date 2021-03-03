@@ -26,7 +26,6 @@ import java.util.*;
 public class TestSessionStartTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private int testRunId;
-    private List<Integer> nonExistentTestIds = new ArrayList();
 
     @DataProvider(name = "mandatoryFieldsForStar")
     public Object[][] getMandatoryFieldsForStart() {
@@ -139,8 +138,7 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testStartSessionWithNonExistentTestIdFromAnotherTestRun() {
-        testRunId = new TestRunServiceAPIImplV1().start();
-        int testId = startTestV1(testRunId);
+        testRunId = startTestRunV1();
         int testRunId1 = startTestRunV1();
         List<Integer> testIdsAnotherTestRun = startTestsV1(testRunId1, 1);
 
@@ -219,6 +217,7 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        postSessionV1Method.removeProperty(field);
         postSessionV1Method.addProperty(field, ConstantName.EMPTY);
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(postSessionV1Method);

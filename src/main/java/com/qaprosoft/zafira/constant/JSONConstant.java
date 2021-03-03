@@ -79,4 +79,14 @@ public class JSONConstant {
     public static final String CAPABILITIES = "capabilities";
     public static final String DESIRED_CAPABILITIES = "desiredCapabilities";
     public static final String SESSION_ID = "sessionId";
+    public static final String ITEMS_SESSION_NAME = "items[0].name";
+
+    //    Test session API data
+    public static final String ACTUAL_CAPS_NAME = "nameAct";
+    public static final String DESIRED_CAPS_NAME = "nameDes";
+    public static final String ACTUAL_CAPS_BROWSER_NAME = "browserNameAct";
+    public static final String DESIRED_CAPS_BROWSER_NAME = "browserNameDes";
+    public static final String ACTUAL_CAPS_BROWSER_VERSION = "browserVersionAct";
+    public static final String DESIRED_CAPS_BROWSER_VERSION = "browserVersionDes";
+    public static final String ACTUAL_CAPS_VERSION = "version";
 }

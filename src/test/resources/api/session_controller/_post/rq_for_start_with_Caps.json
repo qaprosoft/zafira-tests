@@ -1,0 +1,21 @@
+{
+  <#if sessionId??>"sessionId": "${sessionId}",</#if>
+  <#if startedAt??>"startedAt": "${startedAt}",</#if>
+  "capabilities": {
+    <#if browserNameAct??> "browserName": "${browserNameAct}",</#if>
+    <#if browserVersionAct??> "browserVersion": "${browserVersionAct}",</#if>
+    <#if version??> "version": "${version}",</#if>
+    <#if nameAct??> "name": "${nameAct}",</#if>
+    <#if platformNameAct??>: "${platformNameAct}", </#if>
+    "proxy": {}
+  },
+   "desiredCapabilities": {
+     <#if browserNameDes??> "browserName": "${browserNameDes}",</#if>
+     <#if browserVersionDes??> "browserVersion": "${browserVersionDes}",</#if>
+     <#if nameDes??> "name": "${nameDes}",</#if>
+     <#if platformNameDes??>: "${platformNameDes}", </#if>
+     <#if versionDes??> "version": "${versionDes}",</#if>
+     "proxy": {}
+},
+  "testIds": ${testId}
+}

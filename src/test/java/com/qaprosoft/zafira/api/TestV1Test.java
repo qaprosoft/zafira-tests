@@ -280,7 +280,7 @@ public class TestV1Test extends ZafiraAPIBaseTest {
         testRunId = testRunServiceAPIImplV1.start();
         String ciRunId = testRunServiceAPIImplV1.getCiRunId(testRunId);
         int testId = new TestServiceV1Impl().startTest(testRunId);
-        int testId1 = new TestServiceV1Impl().startTest(testRunId);
+        new TestServiceV1Impl().startTest(testRunId);
         GetTestsByCiRunIdV1Method getTestsByCiRunIdV1Method = new GetTestsByCiRunIdV1Method(ciRunId);
         getTestsByCiRunIdV1Method.addUrlParameter("statuses", RESULT_IN_PROGRESS);
         getTestsByCiRunIdV1Method.addUrlParameter("tests", String.valueOf(testId));

@@ -67,6 +67,42 @@ public class TestSessionLinkAndFinishTest extends ZafiraAPIBaseTest {
                 "The number of tests is not as expected!");
     }
 
+    @Test
+    public void testFinishSessionForTestIdsFromAnotherTestRun() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 3);
+        int sessionId = testSessionService.create(testRunId, testIds);
+
+        int testRunId1 = startTestRunV1();
+        List<Integer> testIdsAnotherTestRun = startTestsV1(testRunId1, 1);
+
+
+        PutSessionV1Method putUpdateSessionV1Method =
+                new PutSessionV1Method(testRunId, testIdsAnotherTestRun, sessionId);
+        apiExecutor.expectStatus(putUpdateSessionV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(putUpdateSessionV1Method);
+        apiExecutor.validateResponse(putUpdateSessionV1Method,
+                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        List<Integer> actualTestIds = JsonPath.from(rs).getList(JSONConstant.TEST_IDS);
+        testIds.sort(Comparator.naturalOrder());
+        actualTestIds.sort(Comparator.naturalOrder());
+        LOGGER.info("Expected testIds:  " + testIds);
+        LOGGER.info("Actual testIds:    " + actualTestIds);
+
+        Assert.assertEquals(actualTestIds, testIds,
+                "The number of tests is not as expected!");
+        Assert.assertTrue(testSessionService
+                .getSessionsByTestRunId(testRunId)
+                .contains(sessionId), "TestSession was not found!");
+        List<Integer> actualTestIdsList = testSessionService
+                .getTestsInSessionsByTestRunId(testRunId);
+        actualTestIds.sort(Comparator.naturalOrder());
+        LOGGER.info("Actual testIds in test session " + actualTestIdsList.toString());
+        Assert.assertEquals(testIds, actualTestIdsList,
+                "The number of tests is not as expected!");
+    }
+
     @Test(description = "negative")
     public void testFinishSessionWithEndedAtInFuture() {
         testRunId = new TestRunServiceAPIImplV1().start();
