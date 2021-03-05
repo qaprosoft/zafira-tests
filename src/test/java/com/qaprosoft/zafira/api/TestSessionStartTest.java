@@ -84,9 +84,8 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
 
         int sessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         List<Integer> actualTestIds = JsonPath.from(rs).getList(JSONConstant.TEST_IDS);
-        Set<Integer> expectedTestIds = new HashSet<>(testIds);
+        SortedSet<Integer> expectedTestIds = new TreeSet<>(testIds);
         actualTestIds.sort(Comparator.naturalOrder());
-        expectedTestIds.stream().sorted(Comparator.naturalOrder());
         LOGGER.info("Expected testIds: " + expectedTestIds);
         LOGGER.info("Actual testIds:   " + actualTestIds);
 
@@ -97,8 +96,8 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
                 .contains(sessionId));
         List<Integer> actualTestIdsAfterGet = new TestSessionServiceImpl()
                 .getTestsInSessionsByTestRunId(testRunId);
-        LOGGER.info("Actual testIds in test session " + actualTestIdsAfterGet.toString());
         actualTestIdsAfterGet.sort(Comparator.naturalOrder());
+        LOGGER.info("Actual testIds in test session " + actualTestIdsAfterGet.toString());
         Assert.assertEquals(expectedTestIds, actualTestIdsAfterGet,
                 "The number of tests is not as expected!");
     }
@@ -115,7 +114,7 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
         apiExecutor.validateResponse(postSessionV1Method,
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-         testIds.remove(testIds.get(0));
+        testIds.remove(testIds.get(0));
         int sessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         List<Integer> actualTestIds = JsonPath.from(rs).getList(JSONConstant.TEST_IDS);
         testIds.sort(Comparator.naturalOrder());
@@ -173,9 +172,9 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
     @Test
     public void testStartSessionWithEmptyTestIds() {
         testRunId = new TestRunServiceAPIImplV1().start();
-        List<Integer> testIds = new ArrayList<>();
+        List<Integer> expectedTestIds = new ArrayList<>();
 
-        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, expectedTestIds);
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
@@ -183,9 +182,7 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
 
         int sessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         List<Integer> actualTestIds = JsonPath.from(rs).getList(JSONConstant.TEST_IDS);
-        Set<Integer> expectedTestIds = new HashSet<>(testIds);
         actualTestIds.sort(Comparator.naturalOrder());
-        expectedTestIds.stream().sorted(Comparator.naturalOrder());
         LOGGER.info("Expected testIds: " + expectedTestIds);
         LOGGER.info("Actual testIds:   " + actualTestIds);
         Assert.assertEquals(actualTestIds, expectedTestIds,

@@ -18,10 +18,14 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.lang.invoke.MethodHandles;
-import java.util.*;
+import java.util.List;
 
 public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final String PLATFORM_NAME_IN_SLOT = "PlatformNameSlot";
+    private static final String PLATFORM_NAME_IN_DESIRED = "PlatformNameDesired";
+    private static final String PLATFORM_NAME_IN_ACT_CAPS = "PlatformNameActCaps";
+    private static final Object PLATFORM_IN_ACT_CAPS = "PlatformActCaps";
     private int testRunId;
     private static final String EMPTY_NAME_IN_ACTUAL_CAPABILITY = "";
     private static final String EMPTY_NAME_IN_DESIRED_CAPABILITY = "";
@@ -121,8 +125,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         String actualName = new TestSessionServiceImpl().getTestsInSessionsName(testRunId, testSessionId);
 
-        Assert.assertEquals(NAME_IN_ACTUAL_CAPABILITY, actualName,
-                "Name is not as expected!");
+        Assert.assertEquals(NAME_IN_ACTUAL_CAPABILITY, actualName, "Name is not as expected!");
     }
 
     @Test(enabled = false)
@@ -204,8 +207,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsBrowserName(testRunId, testSessionId);
 
-        Assert.assertEquals(actualBrowseName, null,
-                "Name is not as expected!");
+        Assert.assertNull(actualBrowseName, "Name is not as expected!");
     }
 
     @Test
@@ -245,7 +247,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsBrowserVersion(testRunId, testSessionId);
 
-        Assert.assertEquals(actualBrowseName, null,
+        Assert.assertNull(actualBrowseName,
                 "Name is not as expected!");
     }
 
@@ -289,5 +291,219 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
 
         Assert.assertEquals(actualBrowseName, ACTUAL_CAPS_VERSION,
                 "Name is not as expected!");
+    }
+
+    @Test
+    public void testCheckPlatformNameWithPlatformNameInSlot() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
+
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        postSessionV1Method.setRequestTemplate(PATH_FOR_START_WITH_CAPABILITIES);
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_NAME_SLOT, PLATFORM_NAME_IN_SLOT);
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postSessionV1Method);
+        apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+
+        Assert.assertEquals(actualBrowseName, PLATFORM_NAME_IN_SLOT,
+                "Name is not as expected!");
+    }
+
+    @Test
+    public void testCheckPlatformNameWithPlatformNameInSlotAndInDesired() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
+
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        postSessionV1Method.setRequestTemplate(PATH_FOR_START_WITH_CAPABILITIES);
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_NAME_SLOT, PLATFORM_NAME_IN_SLOT);
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_NAME_DESIRED, PLATFORM_NAME_IN_DESIRED);
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postSessionV1Method);
+        apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+
+        Assert.assertEquals(actualBrowseName, PLATFORM_NAME_IN_SLOT,
+                "Name is not as expected!");
+    }
+
+    @Test
+    public void testCheckPlatformNameWithPlatformNameInDesired() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
+
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        postSessionV1Method.setRequestTemplate(PATH_FOR_START_WITH_CAPABILITIES);
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_NAME_DESIRED, PLATFORM_NAME_IN_DESIRED);
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postSessionV1Method);
+        apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+
+        Assert.assertEquals(actualBrowseName, PLATFORM_NAME_IN_DESIRED,
+                "Name is not as expected!");
+    }
+
+    @Test
+    public void testCheckPlatformNameWithPlatformNameInActualCaps() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
+
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        postSessionV1Method.setRequestTemplate(PATH_FOR_START_WITH_CAPABILITIES);
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_NAME_ACT, PLATFORM_NAME_IN_ACT_CAPS);
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postSessionV1Method);
+        apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+
+        Assert.assertEquals(actualBrowseName, PLATFORM_NAME_IN_ACT_CAPS,
+                "Name is not as expected!");
+    }
+
+    @Test
+    public void testCheckPlatformNameWithPlatformInActualCaps() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
+
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        postSessionV1Method.setRequestTemplate(PATH_FOR_START_WITH_CAPABILITIES);
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_ACT, PLATFORM_IN_ACT_CAPS);
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postSessionV1Method);
+        apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+
+        Assert.assertEquals(actualBrowseName, PLATFORM_IN_ACT_CAPS,
+                "Name is not as expected!");
+    }
+
+    @Test
+    public void testCheckPlatformNameWithPlatformOnAllPositions() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
+
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+
+        postSessionV1Method.setRequestTemplate(PATH_FOR_START_WITH_CAPABILITIES);
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_NAME_SLOT, PLATFORM_NAME_IN_SLOT);
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_NAME_DESIRED, PLATFORM_NAME_IN_DESIRED);
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_NAME_ACT, PLATFORM_NAME_IN_ACT_CAPS);
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_ACT, PLATFORM_IN_ACT_CAPS);
+
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postSessionV1Method);
+        apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+
+        Assert.assertEquals(actualBrowseName, PLATFORM_NAME_IN_SLOT,
+                "Name is not as expected!");
+    }
+
+    @Test
+    public void testCheckPlatformNameWithoutPlatformNameInSlot() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
+
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        postSessionV1Method.setRequestTemplate(PATH_FOR_START_WITH_CAPABILITIES);
+
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_NAME_DESIRED, PLATFORM_NAME_IN_DESIRED);
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_NAME_ACT, PLATFORM_NAME_IN_ACT_CAPS);
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_ACT, PLATFORM_IN_ACT_CAPS);
+
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postSessionV1Method);
+        apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+
+        Assert.assertEquals(actualBrowseName, PLATFORM_NAME_IN_DESIRED,
+                "Name is not as expected!");
+    }
+
+    @Test
+    public void testCheckPlatformNameWithoutPlatformNameInSlotAndDesired() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
+
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        postSessionV1Method.setRequestTemplate(PATH_FOR_START_WITH_CAPABILITIES);
+
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_NAME_ACT, PLATFORM_NAME_IN_ACT_CAPS);
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_ACT, PLATFORM_IN_ACT_CAPS);
+
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postSessionV1Method);
+        apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+
+        Assert.assertEquals(actualBrowseName, PLATFORM_NAME_IN_ACT_CAPS,
+                "Name is not as expected!");
+    }
+
+    @Test
+    public void testCheckPlatformNameWithoutPlatformNameInSlotAndDesiredAndAct() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
+
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        postSessionV1Method.setRequestTemplate(PATH_FOR_START_WITH_CAPABILITIES);
+
+        postSessionV1Method.addProperty(JSONConstant.PLATFORM_ACT, PLATFORM_IN_ACT_CAPS);
+
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postSessionV1Method);
+        apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+
+        Assert.assertEquals(actualBrowseName, PLATFORM_IN_ACT_CAPS,
+                "Name is not as expected!");
+    }
+
+    @Test
+    public void testCheckPlatformNameWithoutPlatformNamesAndPlatform() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
+
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        postSessionV1Method.setRequestTemplate(PATH_FOR_START_WITH_CAPABILITIES);
+
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postSessionV1Method);
+        apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+
+        Assert.assertNull(actualBrowseName, "Name is not as expected!");
     }
 }

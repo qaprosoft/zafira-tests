@@ -6,8 +6,22 @@
     <#if browserVersionAct??> "browserVersion": "${browserVersionAct}",</#if>
     <#if version??> "version": "${version}",</#if>
     <#if nameAct??> "name": "${nameAct}",</#if>
-    <#if platformNameAct??>: "${platformNameAct}", </#if>
-    "proxy": {}
+    <#if platformNameAct??> "platformName": "${platformNameAct}", </#if>
+    <#if platformAct??> "platform": "${platformAct}", </#if>
+    <#if platformVersionAct??> "platformVersion": "${platformVersionAct}",</#if>
+    "proxy": {},
+    "slotCapabilities": {
+      <#if platformNameSlot??>"platformName": "${platformNameSlot}",</#if>
+      <#if platformVersionSlot??> "platformVersion": "${platformVersionSlot}",</#if>
+      <#if versionSlot??> "version": "${versionSlot}",</#if>
+      <#if deviceNameSlot??> "deviceName": "${deviceNameSlot}",</#if>
+      <#if vncLinkSlot??> "vncLink": "${vncLinkSlot}",</#if>
+      "slotCapabilities": "slotCapabilities"
+    },
+    "desired": {
+      <#if platformNameDesired??>"platformName": "${platformNameDesired}",</#if>
+      "desired": "desired"
+    }
   },
    "desiredCapabilities": {
      <#if browserNameDes??> "browserName": "${browserNameDes}",</#if>

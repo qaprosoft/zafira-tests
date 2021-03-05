@@ -22,4 +22,6 @@ public interface TestSessionService {
     String getTestsInSessionsBrowserName(int testRunId, int testSessionId);
 
     String getTestsInSessionsBrowserVersion(int testRunId, int testSessionId);
+
+    String getTestsInSessionsPlatformName(int testRunId, int testSessionId);
 }

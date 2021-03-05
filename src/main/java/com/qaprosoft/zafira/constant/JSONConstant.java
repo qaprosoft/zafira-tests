@@ -89,4 +89,8 @@ public class JSONConstant {
     public static final String ACTUAL_CAPS_BROWSER_VERSION = "browserVersionAct";
     public static final String DESIRED_CAPS_BROWSER_VERSION = "browserVersionDes";
     public static final String ACTUAL_CAPS_VERSION = "version";
+    public static final String PLATFORM_NAME_SLOT = "platformNameSlot";
+    public static final String PLATFORM_NAME_DESIRED = "platformNameDesired";
+    public static final String PLATFORM_NAME_ACT = "platformNameAct";
+    public static final String PLATFORM_ACT = "platformAct";
 }

@@ -101,6 +101,7 @@ public class TestSessionLinkAndFinishTest extends ZafiraAPIBaseTest {
         LOGGER.info("Actual testIds in test session " + actualTestIdsList.toString());
         Assert.assertEquals(testIds, actualTestIdsList,
                 "The number of tests is not as expected!");
+        new TestRunServiceAPIImplV1().deleteTestRun(testRunId1);
     }
 
     @Test(description = "negative")
