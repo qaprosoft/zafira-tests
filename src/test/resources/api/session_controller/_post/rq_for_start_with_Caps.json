@@ -6,8 +6,10 @@
     <#if browserVersionAct??> "browserVersion": "${browserVersionAct}",</#if>
     <#if version??> "version": "${version}",</#if>
     <#if nameAct??> "name": "${nameAct}",</#if>
+    <#if sessionNameAct??> "sessionName": "${sessionNameAct}",</#if>
     <#if platformNameAct??> "platformName": "${platformNameAct}", </#if>
     <#if platformAct??> "platform": "${platformAct}", </#if>
+    <#if deviceModelAct??> "deviceModel": "${deviceModelAct}", </#if>
     <#if platformVersionAct??> "platformVersion": "${platformVersionAct}",</#if>
     "proxy": {},
     "slotCapabilities": {
@@ -27,6 +29,7 @@
      <#if browserNameDes??> "browserName": "${browserNameDes}",</#if>
      <#if browserVersionDes??> "browserVersion": "${browserVersionDes}",</#if>
      <#if nameDes??> "name": "${nameDes}",</#if>
+     <#if sessionNameDes??> "sessionName": "${sessionNameDes}",</#if>
      <#if platformNameDes??>: "${platformNameDes}", </#if>
      <#if versionDes??> "version": "${versionDes}",</#if>
      "proxy": {}

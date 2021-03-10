@@ -125,4 +125,24 @@ public class TestSessionServiceImpl implements TestSessionService {
         String actualName = JsonPath.from(rs).get("items[" + testSessionIdIndex + "].platformName");
         return actualName;
     }
+
+    @Override
+    public String getTestsInSessionsPlatformVersion(int testRunId, int testSessionId) {
+        GetSessionByTestRunIdV1Method getSessionByTestRunIdV1Method = new GetSessionByTestRunIdV1Method(testRunId);
+        apiExecutor.expectStatus(getSessionByTestRunIdV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getSessionByTestRunIdV1Method);
+        int testSessionIdIndex = JsonPath.from(rs).getList(JSONConstant.ITEMS_ID).indexOf(testSessionId);
+        String actualName = JsonPath.from(rs).get("items[" + testSessionIdIndex + "].platformVersion");
+        return actualName;
+    }
+
+    @Override
+    public String getSessionDeviseName(int testRunId, int testSessionId) {
+        GetSessionByTestRunIdV1Method getSessionByTestRunIdV1Method = new GetSessionByTestRunIdV1Method(testRunId);
+        apiExecutor.expectStatus(getSessionByTestRunIdV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getSessionByTestRunIdV1Method);
+        int testSessionIdIndex = JsonPath.from(rs).getList(JSONConstant.ITEMS_ID).indexOf(testSessionId);
+        String actualName = JsonPath.from(rs).get("items[" + testSessionIdIndex + "].deviceName");
+        return actualName;
+    }
 }
