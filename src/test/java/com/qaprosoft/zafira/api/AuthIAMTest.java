@@ -7,16 +7,22 @@ import com.qaprosoft.zafira.api.authIAM.PostGenerateAuthTokenMethodIAM;
 import com.qaprosoft.zafira.api.authIAM.PostRefreshTokenMethodIAM;
 import com.qaprosoft.zafira.api.authIAM.PostVerifyPermissionsMethodIAM;
 import com.qaprosoft.zafira.constant.ConfigConstant;
+import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.util.CryptoUtil;
+import io.restassured.path.json.JsonPath;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class AuthIAMTest extends ZafiraAPIBaseTest {
+import java.lang.invoke.MethodHandles;
+import java.util.List;
 
+public class AuthIAMTest extends ZafiraAPIBaseTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final static String INVALID_PASSWORD = "test";
     private final static String EMPTY_AUTHTOKEN = "";
 
@@ -46,9 +52,12 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
         PostRefreshTokenMethodIAM postRefreshTokenMethodIAM
                 = new PostRefreshTokenMethodIAM();
         apiExecutor.expectStatus(postRefreshTokenMethodIAM, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(postRefreshTokenMethodIAM);
+        String rs = apiExecutor.callApiMethod(postRefreshTokenMethodIAM);
         apiExecutor.validateResponse(postRefreshTokenMethodIAM, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        List<Object> projectAssignments =  JsonPath.from(rs).getList(JSONConstant.PROJECT_ASSIGNMENTS);
+        Assert.assertNotEquals(0,projectAssignments.size());
+        LOGGER.info(projectAssignments.toString());
     }
 
     @Test
