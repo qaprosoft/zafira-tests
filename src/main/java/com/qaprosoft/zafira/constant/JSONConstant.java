@@ -1,7 +1,5 @@
 package com.qaprosoft.zafira.constant;
 
-import java.awt.desktop.ScreenSleepEvent;
-
 public class JSONConstant {
     public static final String ID_KEY = "id";
     public static final String ACCESS_TOKEN_KEY = "accessToken";
@@ -60,7 +58,7 @@ public class JSONConstant {
     public static final String STATUSES_KEY = "statuses";
     public static final String VALUE_KEY = "value";
     public static final String LABEL_VALUE_KEY = "labelValue";
-    public static final String LABEL_KEY_KEY="labelKey";
+    public static final String LABEL_KEY_KEY = "labelKey";
     public static final String RESULT_ARTIFACT_KEY = "results.artifacts";
     public static final String ARTIFACTS_KEY = "artifacts";
     public static final String NAME = "name";
@@ -81,9 +79,11 @@ public class JSONConstant {
     public static final String SESSION_ID = "sessionId";
     public static final String ITEMS_SESSION_NAME = "items[0].name";
 
-    //    Test session API data
+    //    Capability Manager
     public static final String ACTUAL_CAPS_NAME = "nameAct";
     public static final String DESIRED_CAPS_NAME = "nameDes";
+    public static final String ACTUAL_CAPS_SESSION_NAME = "sessionNameAct";
+    public static final String DESIRED_CAPS_SESSION_NAME = "sessionNameDes";
     public static final String ACTUAL_CAPS_BROWSER_NAME = "browserNameAct";
     public static final String DESIRED_CAPS_BROWSER_NAME = "browserNameDes";
     public static final String ACTUAL_CAPS_BROWSER_VERSION = "browserVersionAct";
@@ -93,4 +93,9 @@ public class JSONConstant {
     public static final String PLATFORM_NAME_DESIRED = "platformNameDesired";
     public static final String PLATFORM_NAME_ACT = "platformNameAct";
     public static final String PLATFORM_ACT = "platformAct";
+    public static final String PLATFORM_VERSION_SLOT = "platformVersionSlot";
+    public static final String VERSION_SLOT = "versionSlot";
+    public static final String PLATFORM_VERSION_ACT = "platformVersionAct";
+    public static final String DEVICE_NAME_SLOT = "deviceNameSlot";
+    public static final String DEVICE_MODEL_ACT = "deviceModelAct";
 }

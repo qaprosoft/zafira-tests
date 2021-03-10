@@ -7,6 +7,10 @@
     {
       "projectId": "regex:[\\d]",
       "role": "type:String"
+    },
+    {
+      "projectId": "regex:[\\d]",
+      "role": "type:String"
     }
   ],
   "tenantName": "type:String",
