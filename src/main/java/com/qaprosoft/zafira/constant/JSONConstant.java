@@ -98,4 +98,5 @@ public class JSONConstant {
     public static final String PLATFORM_VERSION_ACT = "platformVersionAct";
     public static final String DEVICE_NAME_SLOT = "deviceNameSlot";
     public static final String DEVICE_MODEL_ACT = "deviceModelAct";
+    public static final String PROJECT_ASSIGNMENTS = "projectAssignments";
 }

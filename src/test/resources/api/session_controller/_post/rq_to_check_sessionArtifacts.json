@@ -1,0 +1,22 @@
+{
+  <#if sessionId??>"sessionId": "${sessionId}",</#if>
+  <#if startedAt??>"startedAt": "${startedAt}",</#if>
+  "capabilities": {
+    "enableVideo": true,
+    "videoLink": "videoLink",
+    "proxy": {},
+    "slotCapabilities": {},
+    "desired": { }
+  },
+   "desiredCapabilities": {
+     <#if metadataLink??>  "metadataLink": "${metadataLink}",</#if>
+     <#if logLink??> "logLink": "${logLink}",</#if>
+     <#if videoLink??> "videoLink": "${videoLink}",</#if>
+     <#if enableVideo??> "enableVideo": ${enableVideo},</#if>
+     <#if enableLog??> "enableLog":${enableLog},</#if>
+     <#if enableMetadata??>  "enableMetadata": ${enableMetadata},</#if>
+     <#if enableVNC??> "enableVNC": ${enableVNC},</#if>
+     "proxy": {}
+},
+  "testIds": ${testId}
+}
