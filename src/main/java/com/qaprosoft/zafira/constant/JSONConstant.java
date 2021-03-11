@@ -99,4 +99,14 @@ public class JSONConstant {
     public static final String DEVICE_NAME_SLOT = "deviceNameSlot";
     public static final String DEVICE_MODEL_ACT = "deviceModelAct";
     public static final String PROJECT_ASSIGNMENTS = "projectAssignments";
+    public static final String ITEMS_ARTIFACT_REF_NAME = "items.artifactReferences.name";
+
+    public static final String LOG_LINK = "logLink";
+
+    public static final String VIDEO_LINK = "videoLink";
+    public static final String METADATA_LINK = "metadataLink";
+    public static final String ENABLE_LOG = "enableLog";
+    public static final String ENABLE_VIDEO = "enableVideo";
+    public static final String ENABLE_METADATA = "enableMetadata";
+    public static final String ENABLE_VNC = "enableVNC";
 }

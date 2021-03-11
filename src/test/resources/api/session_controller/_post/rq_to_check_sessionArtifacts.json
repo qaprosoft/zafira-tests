@@ -4,6 +4,11 @@
   "capabilities": {
     "enableVideo": true,
     "videoLink": "videoLink",
+    "enableLog":true,
+    "logLink":"logLink",
+    "enableMetadata":true,
+    "metadataLink":"metadataLink",
+    "enableVNC":true,
     "proxy": {},
     "slotCapabilities": {},
     "desired": { }
