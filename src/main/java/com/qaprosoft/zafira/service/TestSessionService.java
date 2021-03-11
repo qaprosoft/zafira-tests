@@ -16,16 +16,4 @@ public interface TestSessionService {
     List getSessionsByTestRunIdAndTestId(int testRunId, int testId);
 
     List getTestsInSessionsByTestRunId(int testRunId);
-
-    String getTestsInSessionsName(int testRunId,int testSessionId);
-
-    String getTestsInSessionsBrowserName(int testRunId, int testSessionId);
-
-    String getTestsInSessionsBrowserVersion(int testRunId, int testSessionId);
-
-    String getTestsInSessionsPlatformName(int testRunId, int testSessionId);
-
-    String getTestsInSessionsPlatformVersion(int testRunId, int testSessionId);
-
-    String getSessionDeviseName(int testRunId, int testSessionId);
 }

@@ -52,4 +52,12 @@ public class CapabilitiesManagerDataProvider {
                 {JSONConstant.DESIRED_CAPS_NAME, ConstantName.NAME_IN_DESIRED_CAPABILITY},
                 {JSONConstant.DESIRED_CAPS_SESSION_NAME, ConstantName.SESSION_NAME_IN_DESIRED_CAPABILITY}};
     }
+
+    @DataProvider(name = "session-artifact-references")
+    public static Object[][] getArtifactReferences() {
+        return new Object[][]{
+                {"Log", JSONConstant.LOG_LINK, JSONConstant.ENABLE_LOG},
+                {"Video", JSONConstant.VIDEO_LINK, JSONConstant.ENABLE_VIDEO},
+                {"Metadata", JSONConstant.METADATA_LINK, JSONConstant.ENABLE_METADATA}};
+    }
 }

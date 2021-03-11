@@ -8,6 +8,7 @@ import com.qaprosoft.zafira.constant.ConstantName;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.dataProvider.CapabilitiesManagerDataProvider;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.service.impl.CapabilitiesManagerServiceImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceV1Impl;
 import com.qaprosoft.zafira.service.impl.TestSessionServiceImpl;
@@ -23,6 +24,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
 
     private static final String PATH_FOR_START_WITH_CAPABILITIES = R.TESTDATA.get(ConfigConstant.PATH_FOR_START_WITH_CAPABILITIES);
     private int testRunId;
+    private  CapabilitiesManagerServiceImpl capabilitiesManagerService = new CapabilitiesManagerServiceImpl();
 
     @AfterMethod
     public void testDeleteTestRun() {
@@ -47,7 +49,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualName = new TestSessionServiceImpl().getTestsInSessionsName(testRunId, testSessionId);
+        String actualName = capabilitiesManagerService.getTestsInSessionsName(testRunId, testSessionId);
         Assert.assertEquals(value, actualName, "Name is not as expected!");
     }
 
@@ -68,7 +70,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualName = new TestSessionServiceImpl().getTestsInSessionsName(testRunId, testSessionId);
+        String actualName = capabilitiesManagerService.getTestsInSessionsName(testRunId, testSessionId);
         Assert.assertEquals(ConstantName.NAME_IN_ACTUAL_CAPABILITY, actualName, "Name is not as expected!");
     }
 
@@ -88,7 +90,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualName = new TestSessionServiceImpl().getTestsInSessionsName(testRunId, testSessionId);
+        String actualName = capabilitiesManagerService.getTestsInSessionsName(testRunId, testSessionId);
         Assert.assertEquals(ConstantName.SESSION_NAME_IN_ACTUAL_CAPABILITY, actualName, "Name is not as expected!");
     }
 
@@ -107,7 +109,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualName = new TestSessionServiceImpl().getTestsInSessionsName(testRunId, testSessionId);
+        String actualName = capabilitiesManagerService.getTestsInSessionsName(testRunId, testSessionId);
         Assert.assertEquals(ConstantName.NAME_IN_DESIRED_CAPABILITY, actualName, "Name is not as expected!");
     }
 
@@ -124,7 +126,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         String sessionIdAct = JsonPath.from(rs).getString(JSONConstant.SESSION_ID);
-        String actualName = new TestSessionServiceImpl().getTestsInSessionsName(testRunId, testSessionId);
+        String actualName = capabilitiesManagerService.getTestsInSessionsName(testRunId, testSessionId);
         Assert.assertEquals(sessionIdAct, actualName, "Name is not as expected!");
     }
 
@@ -143,7 +145,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualName = new TestSessionServiceImpl().getTestsInSessionsName(testRunId, testSessionId);
+        String actualName = capabilitiesManagerService.getTestsInSessionsName(testRunId, testSessionId);
         Assert.assertEquals(ConstantName.NAME_IN_DESIRED_CAPABILITY, actualName,
                 "Name is not as expected!");
     }
@@ -193,7 +195,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsBrowserName(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsBrowserName(testRunId, testSessionId);
         Assert.assertEquals(actualBrowseName, ConstantName.BROWSER_NAME_IN_ACTUAL_CAPABILITY, "Name is not as expected!");
     }
 
@@ -211,7 +213,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsBrowserName(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsBrowserName(testRunId, testSessionId);
         Assert.assertNull(actualBrowseName, "Name is not as expected!");
     }
 
@@ -225,7 +227,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsBrowserName(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsBrowserName(testRunId, testSessionId);
         Assert.assertNull(actualBrowseName, "Name is not as expected!");
     }
 
@@ -247,7 +249,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsBrowserVersion(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsBrowserVersion(testRunId, testSessionId);
         Assert.assertEquals(actualBrowseName, value, "Name is not as expected!");
     }
 
@@ -266,7 +268,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsBrowserVersion(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsBrowserVersion(testRunId, testSessionId);
         Assert.assertEquals(actualBrowseName, ConstantName.BROWSER_VERSION_IN_ACTUAL_CAPABILITY, "Name is not as expected!");
     }
 
@@ -285,7 +287,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsBrowserVersion(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsBrowserVersion(testRunId, testSessionId);
         Assert.assertEquals(actualBrowseName, value, "Name is not as expected!");
     }
 
@@ -303,7 +305,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsBrowserVersion(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsBrowserVersion(testRunId, testSessionId);
         Assert.assertNull(actualBrowseName, "Name is not as expected!");
     }
 
@@ -319,7 +321,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsBrowserVersion(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsBrowserVersion(testRunId, testSessionId);
         Assert.assertNull(actualBrowseName, "Name is not as expected!");
     }
 
@@ -341,7 +343,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsPlatformName(testRunId, testSessionId);
         Assert.assertEquals(actualBrowseName, value, "Name is not as expected!");
     }
 
@@ -360,7 +362,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsPlatformName(testRunId, testSessionId);
         Assert.assertEquals(actualBrowseName, ConstantName.PLATFORM_NAME_IN_SLOT, "Name is not as expected!");
     }
 
@@ -381,7 +383,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsPlatformName(testRunId, testSessionId);
         Assert.assertEquals(actualBrowseName, ConstantName.PLATFORM_NAME_IN_SLOT,
                 "Name is not as expected!");
     }
@@ -402,7 +404,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsPlatformName(testRunId, testSessionId);
         Assert.assertEquals(actualBrowseName, ConstantName.PLATFORM_NAME_IN_DESIRED,
                 "Name is not as expected!");
     }
@@ -422,7 +424,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsPlatformName(testRunId, testSessionId);
         Assert.assertEquals(actualBrowseName, ConstantName.PLATFORM_NAME_IN_ACT_CAPS,
                 "Name is not as expected!");
     }
@@ -439,7 +441,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformName(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsPlatformName(testRunId, testSessionId);
         Assert.assertNull(actualBrowseName, "Name is not as expected!");
     }
 
@@ -463,7 +465,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformVersion(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsPlatformVersion(testRunId, testSessionId);
         Assert.assertEquals(actualBrowseName, ConstantName.PLATFORM_VERSION_IN_SLOT,
                 "Name is not as expected!");
     }
@@ -483,7 +485,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformVersion(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsPlatformVersion(testRunId, testSessionId);
         Assert.assertEquals(actualBrowseName, ConstantName.VERSION_IN_SLOT,
                 "Name is not as expected!");
     }
@@ -502,7 +504,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformVersion(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsPlatformVersion(testRunId, testSessionId);
         Assert.assertEquals(actualBrowseName, value, "Name is not as expected!");
     }
 
@@ -518,7 +520,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getTestsInSessionsPlatformVersion(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsPlatformVersion(testRunId, testSessionId);
         Assert.assertNull(actualBrowseName, "Name is not as expected!");
     }
 
@@ -541,7 +543,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getSessionDeviseName(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getSessionDeviseName(testRunId, testSessionId);
         Assert.assertEquals(actualBrowseName, ConstantName.DEVICE_NAME_IN_SLOT, "Name is not as expected!");
     }
 
@@ -559,7 +561,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getSessionDeviseName(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getSessionDeviseName(testRunId, testSessionId);
         Assert.assertEquals(actualBrowseName, value, "Name is not as expected!");
     }
 
@@ -575,7 +577,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualBrowseName = new TestSessionServiceImpl().getSessionDeviseName(testRunId, testSessionId);
+        String actualBrowseName = capabilitiesManagerService.getSessionDeviseName(testRunId, testSessionId);
         Assert.assertNull(actualBrowseName, "Name is not as expected!");
     }
 }
