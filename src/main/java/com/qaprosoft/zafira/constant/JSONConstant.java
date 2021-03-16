@@ -102,7 +102,6 @@ public class JSONConstant {
     public static final String ITEMS_ARTIFACT_REF_NAME = "items.artifactReferences.name";
 
     public static final String LOG_LINK = "logLink";
-
     public static final String VIDEO_LINK = "videoLink";
     public static final String METADATA_LINK = "metadataLink";
     public static final String ENABLE_LOG = "enableLog";

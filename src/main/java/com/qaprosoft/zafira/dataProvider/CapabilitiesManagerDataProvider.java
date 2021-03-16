@@ -60,4 +60,12 @@ public class CapabilitiesManagerDataProvider {
                 {"Video", JSONConstant.VIDEO_LINK, JSONConstant.ENABLE_VIDEO},
                 {"Metadata", JSONConstant.METADATA_LINK, JSONConstant.ENABLE_METADATA}};
     }
+
+    @DataProvider(name = "session-artifact-references-to-check-link")
+    public static Object[][] getArtifactReferenceLink() {
+        return new Object[][]{
+                {"Log", JSONConstant.ENABLE_LOG, "/session.log"},
+                {"Video", JSONConstant.ENABLE_VIDEO, "/video.mp4"},
+                {"Metadata", JSONConstant.ENABLE_METADATA, "/metadata.json"}};
+    }
 }

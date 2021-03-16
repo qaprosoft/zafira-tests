@@ -68,6 +68,8 @@ public class UserTest extends ZafiraAPIBaseTest {
         PostUserMethodV1 postCreateUserV1Method = new PostUserMethodV1(USER_NAME, PASSWORD, EMAIL);
         apiExecutor.expectStatus(postCreateUserV1Method, HTTPStatusCodeType.CREATED);
         String rs = apiExecutor.callApiMethod(postCreateUserV1Method);
+        apiExecutor.validateResponse(postCreateUserV1Method,
+                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         User user = MAPPER.readValue(rs, User.class);
         userId = user.getId();
         Assert.assertEquals(EMAIL, user.getEmail(), "Email is not as expected!");

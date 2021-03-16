@@ -8,5 +8,6 @@
   "permissions": "type:JSONArray",
   "registrationDateTime": "type:String",
   "source":"type:String",
-  "status":"type:String"
+  "status":"type:String",
+  "onboardingCompleted": "type:Boolean"
 }
