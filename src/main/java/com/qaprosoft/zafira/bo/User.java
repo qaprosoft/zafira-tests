@@ -20,6 +20,7 @@ public class User {
     String source;
     String status;
     List<Group> groups;
+    Boolean onboardingCompleted;
     List<Permission> permissions;
     String registrationDateTime;
 }

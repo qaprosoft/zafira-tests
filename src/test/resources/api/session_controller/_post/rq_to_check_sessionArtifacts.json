@@ -2,15 +2,17 @@
   <#if sessionId??>"sessionId": "${sessionId}",</#if>
   <#if startedAt??>"startedAt": "${startedAt}",</#if>
   "capabilities": {
-    "enableVideo": true,
-    "videoLink": "videoLink",
-    "enableLog":true,
-    "logLink":"logLink",
-    "enableMetadata":true,
-    "metadataLink":"metadataLink",
-    "enableVNC":true,
-    "proxy": {},
-    "slotCapabilities": {},
+    <#if metadataLinkAct??>  "metadataLink": "${metadataLinkAct}",</#if>
+    <#if logLinkAct??> "logLink": "${logLinkAct}",</#if>
+    <#if videoLinkAct??> "videoLink": "${videoLinkAct}",</#if>
+    <#if enableVideoAc??> "enableVideo": ${enableVideoAct},</#if>
+    <#if enableLogAct??> "enableLog":${enableLogAct},</#if>
+    <#if enableMetadataAct??>  "enableMetadata": ${enableMetadataAct},</#if>
+    <#if enableVNCAct??> "enableVNC": ${enableVNCACt},</#if>
+     "proxy": {},
+    "slotCapabilities": {
+
+},
     "desired": { }
   },
    "desiredCapabilities": {
@@ -21,6 +23,7 @@
      <#if enableLog??> "enableLog":${enableLog},</#if>
      <#if enableMetadata??>  "enableMetadata": ${enableMetadata},</#if>
      <#if enableVNC??> "enableVNC": ${enableVNC},</#if>
+     "provider":"mcloud",
      "proxy": {}
 },
   "testIds": ${testId}
