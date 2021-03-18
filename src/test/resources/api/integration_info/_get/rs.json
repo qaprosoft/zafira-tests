@@ -2,9 +2,6 @@
   "AUTOMATION_SERVER": {
     "JENKINS": "type:JSONArray"
   },
-  "ACCESS_MANAGEMENT": {
-    "LDAP": "type:JSONArray"
-  },
   "NOTIFICATION_SERVICE": {
     "SLACK": "type:JSONArray",
     "MICROSOFT_TEAMS": "type:JSONArray"

@@ -23,7 +23,7 @@
      <#if enableLog??> "enableLog":${enableLog},</#if>
      <#if enableMetadata??>  "enableMetadata": ${enableMetadata},</#if>
      <#if enableVNC??> "enableVNC": ${enableVNC},</#if>
-     "provider":"mcloud",
+     "provider":"ZEBRUNNER",
      "proxy": {}
 },
   "testIds": ${testId}

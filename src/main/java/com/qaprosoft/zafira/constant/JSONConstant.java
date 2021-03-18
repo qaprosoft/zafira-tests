@@ -19,6 +19,7 @@ public class JSONConstant {
     public static final String JIRA_INTEGRATION_ID_KEY = "TEST_CASE_MANAGEMENT.JIRA[0].integrationId";
     public static final String TESTRAIL_INTEGRATION_ID_KEY = "TEST_CASE_MANAGEMENT.TESTRAIL[0].integrationId";
     public static final String QTEST_INTEGRATION_ID_KEY = "TEST_CASE_MANAGEMENT.QTEST[0].integrationId";
+    public static final String QTEST_INTEGRATION_URL_KEY = "TEST_CASE_MANAGEMENT.QTEST[0].integrationId";
     public static final String ZEBRUNNER_INTEGRATION_ID_KEY = "TEST_AUTOMATION_TOOL.ZEBRUNNER[0].integrationId";
     public static final String SELENIUM_INTEGRATION_ID_KEY = "TEST_AUTOMATION_TOOL.SELENIUM[0].integrationId";
     public static final String BROWSERSTACK_INTEGRATION_ID_KEY = "TEST_AUTOMATION_TOOL.BROWSERSTACK[0].integrationId";
@@ -107,5 +108,10 @@ public class JSONConstant {
     public static final String ENABLE_LOG = "enableLog";
     public static final String ENABLE_VIDEO = "enableVideo";
     public static final String ENABLE_METADATA = "enableMetadata";
-    public static final String ENABLE_VNC = "enableVNC";
+    public static final String ENABLE_VNC_DESIRED = "enableVNCDes";
+    public static final String VNC_LINK_ACT_SLOT = "vncLinkSlotAct";
+    public static final String VNC_LINK_ACT = "vncLinkAct";
+    public static final String VNC_LINK_DES_SLOT = "vncLinkSlotDes";
+    public static final String VNC_LINK_DES = "vncLinkDes";
+    public static final String PROVIDER = "provider";
 }
