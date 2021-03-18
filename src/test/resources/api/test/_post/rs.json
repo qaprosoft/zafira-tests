@@ -34,11 +34,5 @@
         "value": "type:String",
         "id":  "regex:[\\d]"
       }
-  ],
-  "stacktraceLabels" :[
-    {
-      "name": "type:String",
-      "reporter": "type:String"
-    }
   ]
 }

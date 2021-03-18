@@ -208,7 +208,7 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         Assert.assertTrue(workItemsAfterDelete.isEmpty(), "Work item was not deleted!");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGetsAvailableStacktraceLabels() {
         GetStacktraceLabelsMethod getStacktraceLabelsMethod = new GetStacktraceLabelsMethod();
         String rs = apiExecutor.callApiMethod(getStacktraceLabelsMethod);
@@ -296,7 +296,7 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(testId, actualId, "Tests was not got!");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testPutStacktraceLabel() {
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();
@@ -313,7 +313,7 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(enabled = false)
     public void testDeleteStacktraceLabel() {
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();

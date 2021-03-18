@@ -15,5 +15,6 @@
   "blocker": "type:Boolean",
   "reviewed": "type:Boolean",
   "artifacts": "type:JSONArray",
-  "labels": "type:JSONArray"
+  "labels": "type:JSONArray",
+  "activeProjectId": "regex:[\\d]"
 }

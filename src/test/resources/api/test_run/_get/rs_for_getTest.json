@@ -18,6 +18,6 @@
     "testClass": "type:String",
     "artifacts": "type:JSONArray",
     "labels": "type:JSONArray",
-    "stacktraceLabels": "type:JSONArray"
+    "failureTagAssignments": "type:JSONArray"
   }
 ]

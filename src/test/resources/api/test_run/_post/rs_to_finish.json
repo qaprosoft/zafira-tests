@@ -6,6 +6,7 @@
   "jobId": "regex:[\\d]",
   "buildNumber": "regex:[\\d]",
   "startedBy": "type:String",
+  "activeProjectId": "regex:[\\d]",
   "project": {
     "id": "regex:[\\d]",
     "name": "type:String",
