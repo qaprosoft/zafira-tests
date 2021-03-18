@@ -121,11 +121,18 @@ public class CapabilitiesManagerServiceImpl implements CapabilitiesManagerServic
         GetSessionByTestRunIdV1Method getSessionByTestRunIdV1Method = new GetSessionByTestRunIdV1Method(testRunId);
         apiExecutor.expectStatus(getSessionByTestRunIdV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(getSessionByTestRunIdV1Method);
-        int testSessionIdIndex = JsonPath.from(rs).getList(JSONConstant.ITEMS_ID).indexOf(testSessionId);
-
-            actualLinkValue = JsonPath.from(rs).get("items[0].artifactReferences[0].value");
-
+        actualLinkValue = JsonPath.from(rs).get("items[0].artifactReferences[0].value");
         LOGGER.info("Actual link: " + String.valueOf(actualLinkValue));
         return actualLinkValue;
+    }
+
+    @Override
+    public String getVNCArtifactName(int testRunId) {
+        GetSessionByTestRunIdV1Method getSessionByTestRunIdV1Method = new GetSessionByTestRunIdV1Method(testRunId);
+        apiExecutor.expectStatus(getSessionByTestRunIdV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getSessionByTestRunIdV1Method);
+        String actualArtifactName = JsonPath.from(rs).get("items[0].artifactReferences[0].name");
+        LOGGER.info("Actual link: " + String.valueOf(actualArtifactName));
+        return actualArtifactName;
     }
 }

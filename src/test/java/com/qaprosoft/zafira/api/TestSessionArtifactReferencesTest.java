@@ -123,7 +123,7 @@ public class TestSessionArtifactReferencesTest extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "session-artifact-references", dataProviderClass = CapabilitiesManagerDataProvider.class)
-    public void testCheckArtifactReferenceLinkEnableTrueWithPlaceholderSessionId(String referenceType, String jsonConstantForLink, String jsonConstantForEnable) {
+    public void testCheckArtifactReferenceLinkWithPlaceholderSessionId(String referenceType, String jsonConstantForLink, String jsonConstantForEnable) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
 

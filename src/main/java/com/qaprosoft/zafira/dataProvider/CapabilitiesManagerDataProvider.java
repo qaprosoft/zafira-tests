@@ -68,4 +68,22 @@ public class CapabilitiesManagerDataProvider {
                 {"Video", JSONConstant.ENABLE_VIDEO, "/video.mp4"},
                 {"Metadata", JSONConstant.ENABLE_METADATA, "/metadata.json"}};
     }
+
+    @DataProvider(name = "vncLink-positions")
+    public static Object[][] getVNCLinkPositions() {
+        return new Object[][]{
+                {JSONConstant.VNC_LINK_ACT_SLOT},
+                {JSONConstant.VNC_LINK_ACT},
+                {JSONConstant.VNC_LINK_DES_SLOT},
+                {JSONConstant.VNC_LINK_DES}};
+    }
+
+    @DataProvider(name = "test-environment-provider")
+    public static Object[][] getProvider() {
+        return new Object[][]{
+                {"ZEBRUNNER"},
+                {"SELENIUM"},
+                {"MCLOUD"}};
+    }
+
 }

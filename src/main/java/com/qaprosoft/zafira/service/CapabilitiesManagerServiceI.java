@@ -18,4 +18,6 @@ public interface CapabilitiesManagerServiceI {
     String getArtifactReferencesInTest(int testRunId, int testId, int testSessionId, String name);
 
     String getVNCLink(int testRunId, int testSessionId);
+
+    String getVNCArtifactName(int testRunId);
 }

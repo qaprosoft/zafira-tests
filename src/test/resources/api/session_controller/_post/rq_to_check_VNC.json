@@ -1,0 +1,21 @@
+{
+  <#if sessionId??>"sessionId": "${sessionId}",</#if>
+  <#if startedAt??>"startedAt": "${startedAt}",</#if>
+  "capabilities": {
+      <#if enableVNC??> "enableVNC": ${enableVNC}, </#if>
+      <#if vncLinkAct??> "vncLink": "${vncLinkAct}",</#if>
+      "slotCapabilities": {
+      <#if vncLinkSlotAct??> "vncLink":"${vncLinkSlotAct}" </#if>
+},
+      "desired": { }
+  },
+   "desiredCapabilities": {
+     <#if provider??>  "provider":"${provider}",</#if>
+     <#if enableVNCDes??> "enableVNC": ${enableVNCDes},</#if>
+     <#if vncLinkDes??> "vncLink": "${vncLinkDes}",</#if>
+     "proxy": {},
+     "slotCapabilities": {
+        <#if vncLinkSlotDes??> "vncLink":"${vncLinkSlotDes}" </#if>}
+},
+  "testIds": ${testId}
+}

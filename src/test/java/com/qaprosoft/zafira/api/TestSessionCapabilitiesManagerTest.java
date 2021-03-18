@@ -11,7 +11,6 @@ import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.CapabilitiesManagerServiceImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceV1Impl;
-import com.qaprosoft.zafira.service.impl.TestSessionServiceImpl;
 import io.restassured.path.json.JsonPath;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
@@ -24,7 +23,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
 
     private static final String PATH_FOR_START_WITH_CAPABILITIES = R.TESTDATA.get(ConfigConstant.PATH_FOR_START_WITH_CAPABILITIES);
     private int testRunId;
-    private  CapabilitiesManagerServiceImpl capabilitiesManagerService = new CapabilitiesManagerServiceImpl();
+    private final CapabilitiesManagerServiceImpl capabilitiesManagerService = new CapabilitiesManagerServiceImpl();
 
     @AfterMethod
     public void testDeleteTestRun() {

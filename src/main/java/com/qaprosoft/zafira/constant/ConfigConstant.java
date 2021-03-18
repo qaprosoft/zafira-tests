@@ -66,4 +66,5 @@ public class ConfigConstant {
     public static final String LABEL_KEY = "labels";
     public static final String PATH_FOR_START_WITH_CAPABILITIES = "path_for_start_with_capability";
     public static final String PATH_TO_CHECK_SESSION_ARTIFACTS = "path_to_check_sessionArtifacts";
+    public static final String PATH_TO_CHECK_VNC = "path_to_check_VNC";
 }

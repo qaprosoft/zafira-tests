@@ -2,5 +2,7 @@ package com.qaprosoft.zafira.service;
 
 public interface IntegrationInfoService {
 
-    String getAllIntegretionsInfo();
+    String getAllIntegrationsInfo();
+
+    String getURLByIntegrationName(String name);
 }

@@ -34,7 +34,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "updateIntegration")
     public void testUpdatesJiraIntegrationById(boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.JIRA_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(IntegrationRqPathType.JIRA.getPath(),
                 integrationId, enabledType);
@@ -49,7 +49,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "updateIntegration")
     public void testUpdateTestrailIntegrationById(boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.TESTRAIL_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(IntegrationRqPathType.TESTRAIL.getPath(),
                 integrationId, enabledType);
@@ -64,7 +64,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "updateIntegration")
     public void testUpdateQTestIntegrationById(boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.QTEST_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(IntegrationRqPathType.QTEST.getPath(),
                 integrationId, enabledType);
@@ -79,7 +79,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "updateIntegration")
     public void testUpdateZebrunnerIntegrationById(boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.ZEBRUNNER_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(IntegrationRqPathType.ZEBRUNNER.getPath(),
                 integrationId, enabledType);
@@ -94,7 +94,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "updateIntegration")
     public void testUpdateSeleniumIntegrationById(boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.SELENIUM_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(IntegrationRqPathType.SELENIUM.getPath(),
                 integrationId, enabledType);
@@ -109,7 +109,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "updateIntegration")
     public void testUpdateBrowserstackIntegrationById(boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.BROWSERSTACK_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(IntegrationRqPathType.BROWSERSTACK.getPath(),
                 integrationId, enabledType);
@@ -124,7 +124,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "updateIntegration")
     public void testUpdateMcloudIntegrationById(boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.MCLOUD_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(IntegrationRqPathType.MCLOUD.getPath(),
                 integrationId, enabledType);
@@ -139,7 +139,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "updateIntegration")
     public void testUpdateSaucelabsIntegrationById(boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.SAUCELABS_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(IntegrationRqPathType.SAUCELABS.getPath(), integrationId, enabledType);
         apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
@@ -153,7 +153,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "updateIntegration")
     public void testUpdateLambdatestIntegrationById(boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.LAMBDATEST_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(IntegrationRqPathType.LAMBDATEST.getPath(),
                 integrationId, enabledType);
@@ -168,7 +168,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "updateIntegration", enabled = false)
     public void testUpdateAmazonIntegrationById(boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.AMAZON_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(IntegrationRqPathType.AMAZON.getPath(),
                 integrationId, enabledType);
@@ -183,7 +183,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "updateIntegration")
     public void testUpdatesSlackIntegrationById(boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.SLACK_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(IntegrationRqPathType.SLACK.getPath(),
                 integrationId, enabledType);
@@ -203,7 +203,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(description = "invalid_URL", dataProvider = "updateZebrunnerIntegrationNegative")
     public void testUpdateZebrunnerIntegrationByIdNegative(String rqPath, boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.ZEBRUNNER_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
         apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
@@ -220,7 +220,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(description = "invalid_URL", dataProvider = "updateSeleniumIntegrationNegative")
     public void testUpdateSeleniumIntegrationByIdNegative(String rqPath, boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.SELENIUM_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
         apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
@@ -237,7 +237,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(description = "invalid_password", dataProvider = "updateBrowserstackIntegrationNegative")
     public void testUpdateBrowserstackIntegrationByIdNegative(String rqPath, boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.BROWSERSTACK_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
         apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
@@ -254,7 +254,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(description = "invalid_URL", dataProvider = "updateMcloudIntegrationNegative")
     public void testUpdateMcloudIntegrationByIdNegative(String rqPath, boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.MCLOUD_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
         apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
@@ -271,7 +271,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(description = "invalid_password", dataProvider = "updateSaucelabsIntegrationNegative")
     public void testUpdateSaucelabsIntegrationByIdNegative(String rqPath, boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.SAUCELABS_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
         apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
@@ -288,7 +288,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(description = "invalid_password", dataProvider = "updateLambdatestIntegrationNegative")
     public void testUpdateLambdatestIntegrationByIdNegative(String rqPath, boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.LAMBDATEST_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
         apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
@@ -305,7 +305,7 @@ public class IntegrationTest extends ZafiraAPIBaseTest {
 
     @Test(description = "invalid_access_key", dataProvider = "updateAmazonIntegrationNegative", enabled = false)
     public void testUpdateAmazonIntegrationByIdNegative(String rqPath, boolean enabledType) {
-        String response = new IntegrationInfoServiceImpl().getAllIntegretionsInfo();
+        String response = new IntegrationInfoServiceImpl().getAllIntegrationsInfo();
         int integrationId = JsonPath.from(response).get(JSONConstant.AMAZON_INTEGRATION_ID_KEY);
         PutIntegrationByIdMethod putIntegrationByIdMethod = new PutIntegrationByIdMethod(rqPath, integrationId, true);
         apiExecutor.expectStatus(putIntegrationByIdMethod, HTTPStatusCodeType.OK);
