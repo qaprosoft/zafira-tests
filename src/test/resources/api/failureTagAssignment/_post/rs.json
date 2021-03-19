@@ -1,0 +1,17 @@
+{
+  "id": "regex:[\\d]",
+  "testId": ${testId},
+  "tag": {
+    "id": "regex:[\\d]",
+    "name": "type:String"
+  },
+  "performer": "type:String",
+  "feedback": "type:String",
+  "user": {
+    "id": "regex:[\\d]",
+    "username": "type:String"
+  },
+  "createdAt": "regex:[\\d]"
+}
+
+

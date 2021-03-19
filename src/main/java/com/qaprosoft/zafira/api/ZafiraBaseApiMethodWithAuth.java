@@ -24,6 +24,10 @@ public class ZafiraBaseApiMethodWithAuth extends AbstractApiMethodV2 {
         setAuthHeaders();
     }
 
+    public ZafiraBaseApiMethodWithAuth() {
+        setAuthHeaders();
+    }
+
     private void setAuthHeaders() {
         if (cacheAccessToken.isEmpty()) {
             cacheAccessToken = new APIContextManager().getAccessToken();

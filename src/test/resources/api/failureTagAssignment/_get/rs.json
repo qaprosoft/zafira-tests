@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "id": "regex:[\\d]",
+      "testId": "regex:[\\d]",
+      "tag": {
+        "id": "regex:[\\d]",
+        "name": "type:String"
+      },
+      "user": {
+        "id": "regex:[\\d]",
+        "username": "type:String"
+      },
+      "performer": "type:String",
+      "feedback": "type:String",
+      "createdAt":"regex:[\\d]",
+      "modifiedAt": "regex:[\\d]"
+    }
+  ]
+}

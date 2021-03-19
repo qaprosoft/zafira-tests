@@ -2,6 +2,7 @@ package com.qaprosoft.zafira.api;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
+import com.qaprosoft.zafira.api.failureTagAssignment.GetStacktraceLabelsMethod;
 import com.qaprosoft.zafira.api.testController.*;
 import com.qaprosoft.zafira.api.testController.v1.GetTestsV1Method;
 import com.qaprosoft.zafira.constant.ConfigConstant;

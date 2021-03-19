@@ -1,4 +1,4 @@
-package com.qaprosoft.zafira.api.testController;
+package com.qaprosoft.zafira.api.failureTagAssignment;
 
 import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
 import com.qaprosoft.zafira.manager.APIContextManager;

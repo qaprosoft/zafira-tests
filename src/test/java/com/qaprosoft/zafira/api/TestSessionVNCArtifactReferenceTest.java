@@ -6,10 +6,7 @@ import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.dataProvider.CapabilitiesManagerDataProvider;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.service.impl.CapabilitiesManagerServiceImpl;
-import com.qaprosoft.zafira.service.impl.IntegrationInfoServiceImpl;
-import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
-import com.qaprosoft.zafira.service.impl.TestServiceV1Impl;
+import com.qaprosoft.zafira.service.impl.*;
 import io.restassured.path.json.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
@@ -70,7 +67,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
-    public void testCheckVNCLinkWithLinkOnAllPosition() {
+    public void testCheckVNCLinkWithLinksOnAllPositions() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
         String link = "_Link_".concat(RandomStringUtils.randomAlphabetic(80));
@@ -141,7 +138,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
         postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
-        postSessionV1Method.addProperty(position, position + link + "<session-id>");
+        postSessionV1Method.addProperty(position, "");
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
@@ -210,7 +207,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
-    public void testCheckVNCLinkWithIncorrectProvider() {
+    public void testCheckVNCLinkWithNonexistentProvider() {
         testRunId = new TestRunServiceAPIImplV1().start();
         String provider =  "Provider_".concat(RandomStringUtils.randomAlphabetic(10));
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -225,5 +222,26 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         String actualLink = capabilitiesManagerService.getVNCLink(testRunId, testSessionId);
        Assert.assertNull(actualLink, "Link is not as expected!");
+    }
+
+    @Test()
+    public void testCheckVNCLinkAfterSessionFinish() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
+
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postSessionV1Method);
+        int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+
+        String actualName = capabilitiesManagerService.getVNCArtifactName(testRunId);
+        String expectedName = "\\bLive Video\\b \\d{2}:\\d{2}:\\d{2} \\bUTC\\b";
+        Assert.assertTrue(actualName.matches(expectedName));
+        new TestSessionServiceImpl().finish(testRunId,testIds,testSessionId);
+        String actualNameAfterFinish = capabilitiesManagerService.getVNCArtifactName(testRunId);
+        Assert.assertNull(actualNameAfterFinish, "Link is not deleted!");
     }
 }
