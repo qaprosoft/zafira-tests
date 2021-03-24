@@ -69,7 +69,7 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
         DeleteFailureTagMethod deleteFailureTagMethod = new DeleteFailureTagMethod(tagId);
         apiExecutor.expectStatus(deleteFailureTagMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(deleteFailureTagMethod);
-        CurrentTestRun.setBuild();
+        CurrentTestRun.setBuild("hhh");
         List<Integer> tagIds = failureTagService.getAllFailureTagIds();
         Assert.assertFalse(tagIds.contains(tagId));
     }
