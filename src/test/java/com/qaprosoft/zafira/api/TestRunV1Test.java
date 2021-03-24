@@ -5,13 +5,18 @@ import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.api.AbstractApiMethodV2;
 import com.qaprosoft.zafira.api.testRunController.PostAIAnalysisMethod;
 import com.qaprosoft.zafira.api.testRunController.PostMarkTestRunReviewedMethod;
-import com.qaprosoft.zafira.api.testRunController.v1.*;
+import com.qaprosoft.zafira.api.testRunController.v1.DeleteTestRunByIdV1Method;
+import com.qaprosoft.zafira.api.testRunController.v1.GetListTestRunsV1Method;
+import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestRunV1Method;
+import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestRunV1Method;
 import com.qaprosoft.zafira.constant.JSONConstant;
+import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceV1Impl;
+import com.zebrunner.agent.core.annotation.TestLabel;
 import io.restassured.path.json.JsonPath;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
@@ -57,6 +62,10 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "rqFieldsAndHttpStatusDataProvider")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "39916")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "39915")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "39914")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38921")
     public void testStartTestRunV1WithoutField(String field, HTTPStatusCodeType statusCode) {
         PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method(PROJECT_UNKNOWN, OffsetDateTime.now().toString());
         apiExecutor.expectStatus(postStartTestRunV1Method, statusCode);
@@ -76,6 +85,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "39917")
     public void testStartTestRunV1WithoutTestsWithExistingUUID() {
         TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
         testRunId = testRunServiceAPIImplV1.start();
@@ -89,6 +99,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38924")
     public void testStartTestRunV1() {
         PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method(PROJECT_UNKNOWN, OffsetDateTime.now().toString());
         apiExecutor.expectStatus(postStartTestRunV1Method, HTTPStatusCodeType.OK);
@@ -100,6 +111,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38926")
     public void testStartTestRunV1WithoutQuery() {
         PostStartTestRunV1Method postStartTestRunV1Method =
                 new PostStartTestRunV1Method(PROJECT_UNKNOWN, OffsetDateTime.now().toString());
@@ -111,6 +123,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38925")
     public void testStartTestRunV1WithEmptyProjectKey() {
         PostStartTestRunV1Method postStartTestRunV1Method
                 = new PostStartTestRunV1Method(EMPTY_PROJECT, OffsetDateTime.now().toString());
@@ -124,6 +137,9 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "rqMandatoryFieldsDataProvider")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38928")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38962")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38963")
     public void testStartTestRunV1WithEmptyField(String field) {
         PostStartTestRunV1Method postStartTestRunV1Method
                 = new PostStartTestRunV1Method(PROJECT_UNKNOWN, OffsetDateTime.now().toString());

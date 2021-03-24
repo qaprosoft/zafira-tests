@@ -7,7 +7,7 @@
   "settings": [
     {
       "id": 47,
-      "value": "test",
+      "value": "https://internalqaprosoft.testrail.net/",
       "binaryData": null,
       "encrypted": false,
       "param": {
