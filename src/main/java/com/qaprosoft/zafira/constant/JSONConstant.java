@@ -121,4 +121,5 @@ public class JSONConstant {
     public static final String ITEMS = "items";
     public static final String ITEMS_0 = "items[0]";
     public static final String FALLBACK = "fallback";
+    public static final String SERVICE = "service";
 }
