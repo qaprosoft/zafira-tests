@@ -10,10 +10,12 @@ import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestInTestRunV1Met
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.ConstantName;
 import com.qaprosoft.zafira.constant.JSONConstant;
+import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceV1Impl;
 import com.qaprosoft.zafira.service.impl.TestServiceImpl;
+import com.zebrunner.agent.core.annotation.TestLabel;
 import io.restassured.path.json.JsonPath;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
@@ -45,6 +47,7 @@ public class TestV1Test extends ZafiraAPIBaseTest {
      */
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38974")
     public void testStartTestsInTestRunV1() {
         testRunId = new TestRunServiceAPIImplV1().start();
         PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1Method(testRunId);
@@ -58,6 +61,10 @@ public class TestV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "rqForTestMandatoryFieldsDataProvider")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38977")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38978")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38979")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38980")
     public void testStartTestsInTestRunV1WithoutField(String field) {
         testRunId = new TestRunServiceAPIImplV1().start();
         PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1Method(testRunId);
@@ -73,6 +80,8 @@ public class TestV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "startedAtDataProvider")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38981")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38984")
     public void testStartTestWithDifferentStartedAt(String description, String date) {
         testRunId = new TestRunServiceAPIImplV1().start();
         PostStartTestsInTestRunV1Method postStartTestMethod = new PostStartTestsInTestRunV1Method(testRunId);
@@ -82,6 +91,7 @@ public class TestV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "rqForTestMandatoryFieldsDataProvider")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38985")
     public void testStartTestWithEmptyMandatoryField(String field) {
         testRunId = new TestRunServiceAPIImplV1().start();
         PostStartTestsInTestRunV1Method postStartTestMethod = new PostStartTestsInTestRunV1Method(testRunId);
@@ -91,6 +101,7 @@ public class TestV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38986")
     public void testStartTestsInTestRunV1WithNonExistentTestRunId() {
         TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
         testRunId = testRunServiceAPIImplV1.start();
@@ -101,7 +112,8 @@ public class TestV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testStartTestsInTestRunV1WithInvalidTestRunId() {
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38989")
+    public void testStartTestV1WithInvalidTestRunId() {
         testRunId = new TestRunServiceAPIImplV1().start();
         PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1Method(testRunId);
         String methodPath = postStartTestsInTestRunV1Method.getMethodPath().replace(String.valueOf(testRunId), "!");
@@ -111,7 +123,8 @@ public class TestV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testStartTestsInTestRunV1WithEmptyLabels() {
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "39918")
+    public void testStartTestV1WithEmptyLabels() {
         testRunId = new TestRunServiceAPIImplV1().start();
         PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1Method(testRunId);
         postStartTestsInTestRunV1Method.addProperty(JSONConstant.LABEL_KEY, R.TESTDATA.get(ConfigConstant.LABEL_KEY));

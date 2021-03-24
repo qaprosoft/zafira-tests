@@ -6,9 +6,10 @@ import com.qaprosoft.zafira.api.mock.GetAllJobs;
 import com.qaprosoft.zafira.api.mock.GetCreateJob;
 import com.qaprosoft.zafira.api.mock.GetCreateJobBuild;
 import com.qaprosoft.zafira.constant.ConfigConstant;
+import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.service.impl.*;
-
 import com.zebrunner.agent.core.registrar.CurrentTestRun;
+import com.zebrunner.agent.core.registrar.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -25,6 +26,8 @@ public class ZafiraAPIBaseTest extends AbstractTest {
 
     @BeforeSuite
     protected void createJenkinsMockJob() {
+        Label.attachToTestRun(TestRailConstant.PROJECT_ID,  "21");
+        Label.attachToTestRun(TestRailConstant.SUITE_ID,  "193");
         CurrentTestRun.setBuild(new MetadataServiceImpl().getBuild());
         String jenkinsMockJob = R.TESTDATA.get(ConfigConstant.JENKINS_MOCK_JOBNAME_KEY);
         GetAllJobs getAllJobs = new GetAllJobs();
