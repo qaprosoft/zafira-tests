@@ -114,4 +114,11 @@ public class JSONConstant {
     public static final String VNC_LINK_DES_SLOT = "vncLinkSlotDes";
     public static final String VNC_LINK_DES = "vncLinkDes";
     public static final String PROVIDER = "provider";
+
+    //Failure Tag Assignment Controller
+    public static final String TEST_ID = "testId";
+    public static final String TAG_ID = "tagId";
+    public static final String ITEMS = "items";
+    public static final String ITEMS_0 = "items[0]";
+    public static final String FALLBACK = "fallback";
 }

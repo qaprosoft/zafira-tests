@@ -138,7 +138,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
         postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
-        postSessionV1Method.addProperty(position, "");
+        postSessionV1Method.addProperty(position, position + link + "<session-id>");
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);

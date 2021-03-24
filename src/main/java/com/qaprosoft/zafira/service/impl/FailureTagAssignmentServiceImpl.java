@@ -1,8 +1,8 @@
 package com.qaprosoft.zafira.service.impl;
 
 
-import com.qaprosoft.zafira.api.failureTagAssignment.DeleteFailureTagsMethod;
-import com.qaprosoft.zafira.api.failureTagAssignment.PostFailureTagsMethod;
+import com.qaprosoft.zafira.api.failureTagAssignment.DeleteFailureTagAssignmentMethod;
+import com.qaprosoft.zafira.api.failureTagAssignment.PostFailureTagAssignmentMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.FailureTagAssignmentService;
@@ -18,17 +18,17 @@ public class FailureTagAssignmentServiceImpl implements FailureTagAssignmentServ
     }
 
     @Override
-    public int assignFailureTag(int testId) {
-        PostFailureTagsMethod postFailureTagsMethod = new PostFailureTagsMethod(testId);
+    public int assignFailureTag(int testId,int tagId) {
+        PostFailureTagAssignmentMethod postFailureTagsMethod = new PostFailureTagAssignmentMethod(testId,tagId);
         apiExecutor.expectStatus(postFailureTagsMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postFailureTagsMethod);
         return JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
     }
 
     @Override
-    public void deleteFailureTag(int tagId) {
-        DeleteFailureTagsMethod deleteFailureTagsMethod = new DeleteFailureTagsMethod(tagId);
-        apiExecutor.expectStatus(deleteFailureTagsMethod, HTTPStatusCodeType.NO_CONTENT);
-        apiExecutor.callApiMethod(deleteFailureTagsMethod);
+    public void deleteFailureTagAssignment(int tagId) {
+        DeleteFailureTagAssignmentMethod deleteFailureTagAssignmentMethod = new DeleteFailureTagAssignmentMethod(tagId);
+        apiExecutor.expectStatus(deleteFailureTagAssignmentMethod, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(deleteFailureTagAssignmentMethod);
     }
 }
