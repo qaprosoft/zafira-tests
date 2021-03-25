@@ -1,4 +1,5 @@
 {
-  "tagId": ${tagId},
-  "testId": ${testId}
+  <#if tagId??>"tagId": ${tagId},</#if>
+ <#if testId??>"testId": ${testId},</#if>
+        "":""
 }

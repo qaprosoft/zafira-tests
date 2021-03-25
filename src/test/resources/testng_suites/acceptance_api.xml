@@ -197,4 +197,14 @@
             <class name="com.qaprosoft.zafira.api.TestRunSearchAttributesControllerTest"/>
         </classes>
     </test>
+    <test name="Failure Tag Assignment Controller">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.FailureTagAssignmentControllerTest"/>
+        </classes>
+    </test>
+    <test name="Failure Tag Controller">
+    <classes>
+        <class name="com.qaprosoft.zafira.api.FailureTagControllerTest"/>
+    </classes>
+</test>
 </suite>

@@ -1,14 +1,10 @@
 package com.qaprosoft.zafira.api;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.zafira.api.failureTag.DeleteFailureTagMethod;
-import com.qaprosoft.zafira.api.failureTag.GetFailureTagsMethod;
-import com.qaprosoft.zafira.api.failureTag.PostFailureTagMethod;
-import com.qaprosoft.zafira.api.failureTag.PutFailureTagMethod;
+import com.qaprosoft.zafira.api.failureTag.*;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.FailureTagServiceImpl;
-import com.zebrunner.agent.core.registrar.CurrentTestRun;
 import io.restassured.path.json.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -62,6 +58,21 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postFailureTagMethod);
     }
 
+
+    @Test(description = "negative")
+    public void testPostFailureTagWithoutFallbackInBodeRq() {
+        String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
+        PostFailureTagMethod postFailureTagMethod = new PostFailureTagMethod(name);
+        postFailureTagMethod.removeProperty(JSONConstant.FALLBACK);
+        apiExecutor.expectStatus(postFailureTagMethod, HTTPStatusCodeType.CREATED);
+        String rs = apiExecutor.callApiMethod(postFailureTagMethod);
+        tagId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        Boolean fallback = JsonPath.from(rs).getBoolean(JSONConstant.FALLBACK);
+        Assert.assertFalse(fallback, "Fallback is not as expected!");
+        List<Integer> tagIds = failureTagService.getAllFailureTagIds();
+        Assert.assertTrue(tagIds.contains(tagId));
+    }
+
     @Test()
     public void testDeleteFailureTag() {
         String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
@@ -69,7 +80,6 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
         DeleteFailureTagMethod deleteFailureTagMethod = new DeleteFailureTagMethod(tagId);
         apiExecutor.expectStatus(deleteFailureTagMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(deleteFailureTagMethod);
-        CurrentTestRun.setBuild("hhh");
         List<Integer> tagIds = failureTagService.getAllFailureTagIds();
         Assert.assertFalse(tagIds.contains(tagId));
     }
@@ -89,12 +99,35 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
         String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
         tagId = failureTagService.createFailureTag(name);
         PutFailureTagMethod putFailureTagMethod = new PutFailureTagMethod(tagId);
-        putFailureTagMethod.addProperty(JSONConstant.NAME,"New_"+name);
+        putFailureTagMethod.addProperty(JSONConstant.NAME, "New_" + name);
         putFailureTagMethod.addProperty(JSONConstant.FALLBACK, true);
         apiExecutor.expectStatus(putFailureTagMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(putFailureTagMethod);
         tagId = JsonPath.from(rs).get(JSONConstant.ID_KEY);
         apiExecutor.validateResponse(putFailureTagMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-    //    failureTagService.updateFallbackFailureTag(tagId,false,name);
+        //    failureTagService.updateFallbackFailureTag(tagId,false,name);
+    }
+
+    @Test()
+    public void testPatchFailureTag() {
+        String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
+        tagId = failureTagService.createFailureTag(name);
+        PatchFailureTagMethod patchFailureTagAssignmentMethod = new PatchFailureTagMethod(true, tagId);
+        apiExecutor.expectStatus(patchFailureTagAssignmentMethod, HTTPStatusCodeType.ACCEPTED);
+        apiExecutor.callApiMethod(patchFailureTagAssignmentMethod);
+        failureTagService.getAllFailureTagIds();
+    }
+
+    @Test(enabled = false)
+    public void testPatchFailureTagFallBackFalse() {
+        String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
+        tagId = failureTagService.createFailureTag(name);
+        PatchFailureTagMethod patchFailureTagMethod = new PatchFailureTagMethod(true, tagId);
+        apiExecutor.expectStatus(patchFailureTagMethod, HTTPStatusCodeType.ACCEPTED);
+        apiExecutor.callApiMethod(patchFailureTagMethod);
+        PatchFailureTagMethod patchFailureTagAssignmentMethod = new PatchFailureTagMethod(false, tagId);
+        apiExecutor.expectStatus(patchFailureTagAssignmentMethod, HTTPStatusCodeType.ACCEPTED);
+        apiExecutor.callApiMethod(patchFailureTagAssignmentMethod);
+        failureTagService.getAllFailureTagIds();
     }
 }

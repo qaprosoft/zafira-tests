@@ -1,5 +1,7 @@
-{
-  "op": "replace",
-  "path": "/fallback",
-  "value": true
-}
+[
+  {
+    "op": "replace",
+    "path": "/fallback",
+    "value": true
+  }
+]
