@@ -19,6 +19,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 public class FailureTagAssignmentControllerTest extends ZafiraAPIBaseTest {
     private int testRunId;
     private static FailureTagAssignmentServiceImpl failureTagAssignmentService = new FailureTagAssignmentServiceImpl();
@@ -35,7 +37,7 @@ public class FailureTagAssignmentControllerTest extends ZafiraAPIBaseTest {
         int testId = startTestV1(testRunId);
         new TestServiceV1Impl().finishTestAsResult(testRunId, testId, ConstantName.FAILED);
         int tagIdCr = failureTagService.createFailureTag("newTAG");
-        failureTagAssignmentService.assignFailureTag(testId,tagIdCr);
+        failureTagAssignmentService.assignFailureTag(testId, tagIdCr);
         GetFailureTagAssignmentMethod getFailureTagsMethod = new GetFailureTagAssignmentMethod(testId);
         apiExecutor.expectStatus(getFailureTagsMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(getFailureTagsMethod);
@@ -59,33 +61,58 @@ public class FailureTagAssignmentControllerTest extends ZafiraAPIBaseTest {
         int testId = startTestV1(testRunId);
         new TestServiceV1Impl().finishTestAsResult(testRunId, testId, ConstantName.FAILED);
         int tagId = failureTagService.createFailureTag("newTAG".concat(RandomStringUtils.randomAlphabetic(5)));
-        PostFailureTagAssignmentMethod postFailureTagsMethod = new PostFailureTagAssignmentMethod(testId,tagId);
+        PostFailureTagAssignmentMethod postFailureTagsMethod = new PostFailureTagAssignmentMethod(testId, tagId);
         apiExecutor.expectStatus(postFailureTagsMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postFailureTagsMethod);
         apiExecutor.validateResponse(postFailureTagsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        int actualTag = failureTagAssignmentService.getFailureTag(testId);
         failureTagService.deleteFailureTag(tagId);
+        Assert.assertEquals(actualTag, tagId,"Tag is not as expected!");
     }
 
-    @Test(description = "negative",enabled = false)
+    @Test()
+    public void testPostFailureTagAssignmentWithNonExistentTestId() {
+        testRunId = startTestRunV1();
+        int testId = startTestV1(testRunId);
+        new TestServiceV1Impl().deleteTest(testRunId,testId);
+        int tagId = failureTagService.createFailureTag("newTAG".concat(RandomStringUtils.randomAlphabetic(5)));
+        PostFailureTagAssignmentMethod postFailureTagsMethod = new PostFailureTagAssignmentMethod(testId, tagId);
+        apiExecutor.expectStatus(postFailureTagsMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(postFailureTagsMethod);
+    }
+
+    @Test()
+    public void testPostFailureTagAssignmentWithNonExistentTagId() {
+        testRunId = startTestRunV1();
+        int testId = startTestV1(testRunId);
+        new TestServiceV1Impl().finishTestAsResult(testRunId, testId, ConstantName.FAILED);
+        int tagId = failureTagService.createFailureTag("newTAG".concat(RandomStringUtils.randomAlphabetic(5)));
+        failureTagService.deleteFailureTag(tagId);
+        PostFailureTagAssignmentMethod postFailureTagsMethod = new PostFailureTagAssignmentMethod(testId, tagId);
+        apiExecutor.expectStatus(postFailureTagsMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(postFailureTagsMethod);
+    }
+
+    @Test(description = "negative Now 500", enabled = false)
     public void testPostFailureTagAssignmentWithoutTestId() {
         testRunId = startTestRunV1();
         int testId = startTestV1(testRunId);
         new TestServiceV1Impl().finishTestAsResult(testRunId, testId, ConstantName.FAILED);
         int tagIdCr = failureTagService.createFailureTag("newTAG".concat(RandomStringUtils.randomAlphabetic(5)));
-        PostFailureTagAssignmentMethod postFailureTagsMethod = new PostFailureTagAssignmentMethod(testId,tagIdCr);
+        PostFailureTagAssignmentMethod postFailureTagsMethod = new PostFailureTagAssignmentMethod(testId, tagIdCr);
         postFailureTagsMethod.removeProperty(JSONConstant.TEST_ID);
         apiExecutor.expectStatus(postFailureTagsMethod, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(postFailureTagsMethod);
         failureTagService.deleteFailureTag(tagIdCr);
     }
 
-    @Test(description = "negative",enabled = false)
+    @Test(description = "negative Now 500", enabled = false)
     public void testPostFailureTagAssignmentWithoutTagId() {
         testRunId = startTestRunV1();
         int testId = startTestV1(testRunId);
         new TestServiceV1Impl().finishTestAsResult(testRunId, testId, ConstantName.FAILED);
         int tagId = failureTagService.createFailureTag("newTAG".concat(RandomStringUtils.randomAlphabetic(5)));
-        PostFailureTagAssignmentMethod postFailureTagsMethod = new PostFailureTagAssignmentMethod(testId,tagId);
+        PostFailureTagAssignmentMethod postFailureTagsMethod = new PostFailureTagAssignmentMethod(testId, tagId);
         postFailureTagsMethod.removeProperty(JSONConstant.TAG_ID);
         apiExecutor.expectStatus(postFailureTagsMethod, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(postFailureTagsMethod);
@@ -98,7 +125,7 @@ public class FailureTagAssignmentControllerTest extends ZafiraAPIBaseTest {
         int testId = startTestV1(testRunId);
         new TestServiceV1Impl().finishTestAsResult(testRunId, testId, ConstantName.FAILED);
         int tagIdCr = failureTagService.createFailureTag("newTAG".concat(RandomStringUtils.randomAlphabetic(5)));
-        int tagId =  failureTagAssignmentService.assignFailureTag(testId,tagIdCr);
+        int tagId = failureTagAssignmentService.assignFailureTag(testId, tagIdCr);
         DeleteFailureTagAssignmentMethod deleteFailureTagAssignmentMethod = new DeleteFailureTagAssignmentMethod(tagId);
         apiExecutor.expectStatus(deleteFailureTagAssignmentMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(deleteFailureTagAssignmentMethod);
@@ -111,7 +138,7 @@ public class FailureTagAssignmentControllerTest extends ZafiraAPIBaseTest {
         int testId = startTestV1(testRunId);
         new TestServiceV1Impl().finishTestAsResult(testRunId, testId, ConstantName.FAILED);
         int tagIdCr = failureTagService.createFailureTag("newTAG".concat(RandomStringUtils.randomAlphabetic(5)));
-        int tagId =  failureTagAssignmentService.assignFailureTag(testId,tagIdCr);
+        int tagId = failureTagAssignmentService.assignFailureTag(testId, tagIdCr);
         failureTagAssignmentService.deleteFailureTagAssignment(tagId);
         DeleteFailureTagAssignmentMethod deleteFailureTagAssignmentMethod = new DeleteFailureTagAssignmentMethod(tagId);
         apiExecutor.expectStatus(deleteFailureTagAssignmentMethod, HTTPStatusCodeType.NOT_FOUND);
@@ -119,15 +146,15 @@ public class FailureTagAssignmentControllerTest extends ZafiraAPIBaseTest {
         failureTagService.deleteFailureTag(tagIdCr);
     }
 
-    @Test()
+    @Test(enabled = false)
     public void testPatchFailureTagAssignment() {
         testRunId = startTestRunV1();
         int testId = startTestV1(testRunId);
         new TestServiceV1Impl().finishTestAsResult(testRunId, testId, ConstantName.FAILED);
         int tagIdCr = failureTagService.createFailureTag("newTAG".concat(RandomStringUtils.randomAlphabetic(5)));
-        int tagId =  failureTagAssignmentService.assignFailureTag(testId,tagIdCr);
+        int tagId = failureTagAssignmentService.assignFailureTag(testId, tagIdCr);
         String feedbackValue = "LIKE";
-        PatchFailureTagAssignmentMethod patchFailureTagAssignmentMethod = new PatchFailureTagAssignmentMethod(feedbackValue,tagId);
+        PatchFailureTagAssignmentMethod patchFailureTagAssignmentMethod = new PatchFailureTagAssignmentMethod(feedbackValue, tagId);
         apiExecutor.expectStatus(patchFailureTagAssignmentMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(patchFailureTagAssignmentMethod);
         failureTagService.deleteFailureTag(tagIdCr);
@@ -138,12 +165,12 @@ public class FailureTagAssignmentControllerTest extends ZafiraAPIBaseTest {
         testRunId = startTestRunV1();
         int testId = startTestV1(testRunId);
         new TestServiceV1Impl().finishTestAsResult(testRunId, testId, ConstantName.FAILED);
-       // int tagIdCr = failureTagService.createFailureTag("newTAG".concat(RandomStringUtils.randomAlphabetic(5)));
-     ///  int tagId =  failureTagAssignmentService.assignFailureTag(testId,tagIdCr);
+        // int tagIdCr = failureTagService.createFailureTag("newTAG".concat(RandomStringUtils.randomAlphabetic(5)));
+        ///  int tagId =  failureTagAssignmentService.assignFailureTag(testId,tagIdCr);
         String feedbackValue = "LIKE";
-        PatchFailureTagAssignmentMethod patchFailureTagAssignmentMethod = new PatchFailureTagAssignmentMethod(feedbackValue,4);
+        PatchFailureTagAssignmentMethod patchFailureTagAssignmentMethod = new PatchFailureTagAssignmentMethod(feedbackValue, 1);
         apiExecutor.expectStatus(patchFailureTagAssignmentMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(patchFailureTagAssignmentMethod);
-     //   failureTagService.deleteFailureTag(tagIdCr);
+        //   failureTagService.deleteFailureTag(tagIdCr);
     }
 }
