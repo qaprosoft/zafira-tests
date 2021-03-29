@@ -26,8 +26,8 @@ public class ZafiraAPIBaseTest extends AbstractTest {
 
     @BeforeSuite
     protected void createJenkinsMockJob() {
-        Label.attachToTestRun(TestRailConstant.PROJECT_ID,  "21");
-        Label.attachToTestRun(TestRailConstant.SUITE_ID,  "193");
+        Label.attachToTestRun(TestRailConstant.PROJECT_ID_NAME, TestRailConstant.PROJECT_ID_VALUE);
+        Label.attachToTestRun(TestRailConstant.SUITE_ID_NAME, TestRailConstant.SUITE_ID_VALUE);
         CurrentTestRun.setBuild(new MetadataServiceImpl().getBuild());
         String jenkinsMockJob = R.TESTDATA.get(ConfigConstant.JENKINS_MOCK_JOBNAME_KEY);
         GetAllJobs getAllJobs = new GetAllJobs();

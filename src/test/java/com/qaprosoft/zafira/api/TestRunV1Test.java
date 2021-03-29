@@ -155,6 +155,8 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "startedAtDataProvider")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38981")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "38984")
     public void testStartTestRunV1WithDifferentStartedAt(String description, String date) {
         PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method(PROJECT_UNKNOWN, date);
         apiExecutor.expectStatus(postStartTestRunV1Method, HTTPStatusCodeType.BAD_REQUEST);
@@ -166,6 +168,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
      */
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "39155")
     public void testFinishTestRunWithoutTest() {
         testRunId = new TestRunServiceAPIImplV1().start();
         PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId, OffsetDateTime.now().toString());
@@ -177,6 +180,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "39089")
     public void testFinishTestRunWithTestStatusINPROGRESS() {
         TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
         testRunId = testRunServiceAPIImplV1.start();
@@ -193,6 +197,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "39151")
     public void testFinishTestRunWithTestStatusPASSED() {
         TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
         testRunId = testRunServiceAPIImplV1.start();
@@ -210,6 +215,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "39875")
     public void testFinishTestRunWithTestWithAllTestStatus() {
         TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
         testRunId = testRunServiceAPIImplV1.start();
@@ -241,6 +247,8 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "startedAtDataProvider", description = "negative")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "39092")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "39091")
     public void testFinishTestRunWithEndedAt(String description, String endedAt) {
         testRunId = new TestRunServiceAPIImplV1().start();
         PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId, OffsetDateTime.now().toString());
@@ -250,6 +258,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test(description = "negative")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "39090")
     public void testFinishTestRunWithoutEndedAt() {
         testRunId = new TestRunServiceAPIImplV1().start();
         PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId, OffsetDateTime.now().toString());
@@ -263,6 +272,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
      */
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "39024")
     public void testDeleteTestRun() {
         testRunId = new TestRunServiceAPIImplV1().start();
         new TestServiceV1Impl().startTest(testRunId);
@@ -274,6 +284,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "39184")
     public void testDeleteTestRunWithNonExistentTestRunId() {
         testRunId = new TestRunServiceAPIImplV1().start();
         new TestServiceV1Impl().startTest(testRunId);

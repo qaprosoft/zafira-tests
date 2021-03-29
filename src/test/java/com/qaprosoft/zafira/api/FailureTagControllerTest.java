@@ -3,8 +3,10 @@ package com.qaprosoft.zafira.api;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.zafira.api.failureTag.*;
 import com.qaprosoft.zafira.constant.JSONConstant;
+import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.FailureTagServiceImpl;
+import com.zebrunner.agent.core.annotation.TestLabel;
 import io.restassured.path.json.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -28,6 +30,7 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40123")
     public void testGetFailureTag() {
         GetFailureTagsMethod getFailureTagsMethod = new GetFailureTagsMethod();
         apiExecutor.expectStatus(getFailureTagsMethod, HTTPStatusCodeType.OK);
@@ -38,6 +41,7 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40124")
     public void testPostFailureTag() {
         String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
         PostFailureTagMethod postFailureTagMethod = new PostFailureTagMethod(name);
@@ -50,6 +54,7 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test(description = "negative")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40125")
     public void testPostFailureTagWithoutNameInBodeRq() {
         String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
         PostFailureTagMethod postFailureTagMethod = new PostFailureTagMethod(name);
@@ -58,8 +63,8 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postFailureTagMethod);
     }
 
-
-    @Test(description = "negative")
+    @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40137")
     public void testPostFailureTagWithoutFallbackInBodeRq() {
         String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
         PostFailureTagMethod postFailureTagMethod = new PostFailureTagMethod(name);
@@ -74,6 +79,7 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40138")
     public void testDeleteFailureTag() {
         String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
         tagId = failureTagService.createFailureTag(name);
@@ -85,6 +91,7 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40139")
     public void testDeleteNonExistingFailureTag() {
         String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
         tagId = failureTagService.createFailureTag(name);
@@ -95,12 +102,14 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40140")
     public void testUpdateFailureTag() {
         String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
         tagId = failureTagService.createFailureTag(name);
         PutFailureTagMethod putFailureTagMethod = new PutFailureTagMethod(tagId);
         putFailureTagMethod.addProperty(JSONConstant.NAME, "New_" + name);
         putFailureTagMethod.addProperty(JSONConstant.FALLBACK, true);
+        putFailureTagMethod.addProperty(JSONConstant.DESCRIPTION, "New_description" + name);
         apiExecutor.expectStatus(putFailureTagMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(putFailureTagMethod);
         tagId = JsonPath.from(rs).get(JSONConstant.ID_KEY);
@@ -109,6 +118,7 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40141")
     public void testPatchFailureTag() {
         String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
         tagId = failureTagService.createFailureTag(name);

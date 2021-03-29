@@ -44,7 +44,7 @@ public class TestRunFilterControllerTest extends ZafiraAPIBaseTest {
         Assert.assertTrue(allFiltersIds.contains(id), "Filter was not created!");
     }
 
-    @Test(enabled = false)
+    @Test()
     public void testCreateTestRunFilterWithEmptyName() {
         PostTestRunFilterMethod postTestRunFilterMethod = new PostTestRunFilterMethod(EMPTY_NAME);
         apiExecutor.expectStatus(postTestRunFilterMethod, HTTPStatusCodeType.BAD_REQUEST);

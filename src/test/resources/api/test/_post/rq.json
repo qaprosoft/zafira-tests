@@ -49,9 +49,6 @@
       "name": "BUSINESS_ISSUE",
       "reporter": "HUMAN"
     }
-  ],
-  "workItems": [
-    "string"
   ]
 }
 

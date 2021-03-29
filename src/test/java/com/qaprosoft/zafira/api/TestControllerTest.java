@@ -21,8 +21,6 @@ import java.util.List;
 public class TestControllerTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(TestControllerTest.class);
     private static final String EXISTING_ISSUE = "ZEB-1871";
-    private static final String TEST_STATUS_FAILED = "FAILED";
-    private static final String STACKTRACE_LABELS_NAME = "BUSINESS_ISSUE";
 
     @Test
     public void testStartTest() {
@@ -164,6 +162,7 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testId = new TestServiceImpl().create(testCaseId, testRunId);
+        new TestServiceImpl().updateTestStatus(testId, testSuiteId, jobId, ConstantName.FAILED);
         PostCreateWorkItemMethod postCreateWorkItemMethod = new PostCreateWorkItemMethod(testId, jiraId);
         apiExecutor.expectStatus(postCreateWorkItemMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postCreateWorkItemMethod);
@@ -243,27 +242,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testUpdatesTestWorkItemWithTestStatusFailed() {
-        String expectedJiraId = EXISTING_ISSUE;
-        String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
-        int testSuiteId = new TestSuiteServiceImpl().create();
-        int jobId = new JobServiceImpl().create();
-        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(testCaseId, testRunId);
-        new TestServiceImpl().updateTestStatus(testId, testSuiteId,
-                jobId, TEST_STATUS_FAILED);
-        PutWorkItemMethod postLinkWorkItemMethod = new PutWorkItemMethod(testCaseId, expectedJiraId,
-                testId, workItemType);
-        apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.OK);
-        String rs = apiExecutor.callApiMethod(postLinkWorkItemMethod);
-        apiExecutor.validateResponse(postLinkWorkItemMethod, JSONCompareMode.STRICT,
-                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        String jiraId = JsonPath.from(rs).get(JSONConstant.JIRA_ID_KEY);
-        Assert.assertEquals(jiraId, jiraId, "Work item was not updated in test!");
-    }
-
-    @Test
     public void testUpdateBatchPatchesOfTestStatus() {
         String expectedTestStatusValue = R.TESTDATA.get(ConfigConstant.TEST_STATUS_EXPECTED_UPDATE_KEY);
         int testSuiteId = new TestSuiteServiceImpl().create();
@@ -295,39 +273,5 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
                 JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int actualId = JsonPath.from(rs).getInt(JSONConstant.ITEMS_TEST_ID_KEY);
         Assert.assertEquals(testId, actualId, "Tests was not got!");
-    }
-
-    @Test(enabled = false)
-    public void testPutStacktraceLabel() {
-        int testSuiteId = new TestSuiteServiceImpl().create();
-        int jobId = new JobServiceImpl().create();
-        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(testCaseId, testRunId);
-        new TestServiceImpl().updateTestStatus(testId, testSuiteId,
-                jobId, TEST_STATUS_FAILED);
-        new TestRunServiceAPIImpl().createAIAnalysis(testRunId);
-        PutStacktraceLabelsMethod putStacktraceLabelsMethod = new PutStacktraceLabelsMethod(testId, STACKTRACE_LABELS_NAME);
-        apiExecutor.expectStatus(putStacktraceLabelsMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(putStacktraceLabelsMethod);
-        apiExecutor.validateResponse(putStacktraceLabelsMethod,
-                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-    }
-
-    @Test(enabled = false)
-    public void testDeleteStacktraceLabel() {
-        int testSuiteId = new TestSuiteServiceImpl().create();
-        int jobId = new JobServiceImpl().create();
-        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(testCaseId, testRunId);
-        new TestServiceImpl().updateTestStatus(testId, testSuiteId,
-                jobId, TEST_STATUS_FAILED);
-        new TestRunServiceAPIImpl().createAIAnalysis(testRunId);
-        new TestServiceImpl().updateTestStacktraceLabel(testId,
-                STACKTRACE_LABELS_NAME);
-        DeleteStacktraceLabelsMethod deleteStacktraceLabelsMethod = new DeleteStacktraceLabelsMethod(testId);
-        apiExecutor.expectStatus(deleteStacktraceLabelsMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(deleteStacktraceLabelsMethod);
     }
 }

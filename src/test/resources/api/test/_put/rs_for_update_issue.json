@@ -1,6 +1,0 @@
-{
-  "jiraId": "type:String",
-  "description": "type:String",
-  "hashCode": "regex:[\\d]",
-  "testCaseId": "regex:[\\d]"
-}

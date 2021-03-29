@@ -1,6 +1,8 @@
 package com.qaprosoft.zafira.service.impl;
 
+import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.testController.*;
+import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.TestService;
@@ -40,7 +42,7 @@ public class TestServiceImpl implements TestService {
         PostRetrieveTestBySearchCriteriaMethod postRetrieveTestBySearchCriteriaMethod = new PostRetrieveTestBySearchCriteriaMethod(testRunId);
         apiExecutor.expectStatus(postRetrieveTestBySearchCriteriaMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postRetrieveTestBySearchCriteriaMethod);
-        List<Integer> listIds=JsonPath.from(rs).getList(JSONConstant.ALL_ID_FROM_RESULTS_V1_KEY);
+        List<Integer> listIds = JsonPath.from(rs).getList(JSONConstant.ALL_ID_FROM_RESULTS_V1_KEY);
         LOGGER.info(listIds);
         return listIds;
     }
@@ -55,8 +57,11 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public void updateTestStacktraceLabel(int testId, String stacktraceLabelsName) {
-        PutStacktraceLabelsMethod putStacktraceLabelsMethod = new PutStacktraceLabelsMethod(testId, stacktraceLabelsName);
-        apiExecutor.expectStatus(putStacktraceLabelsMethod, HTTPStatusCodeType.OK);
+    public void linkWorkItem(int testId, int testCaseId) {
+        String expectedJiraIdValue = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
+        PostLinkWorkItemMethod postLinkWorkItemMethod = new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue,
+                testId, "BUG");
+        apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postLinkWorkItemMethod);
     }
 }
