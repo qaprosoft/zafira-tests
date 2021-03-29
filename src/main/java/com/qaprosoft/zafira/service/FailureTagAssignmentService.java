@@ -9,4 +9,6 @@ public interface FailureTagAssignmentService {
     void deleteFailureTagAssignment(int tagId);
 
     int getFailureTag(int testId);
+
+    List <Integer> getAllFailureTagAssignments(int testId);
 }

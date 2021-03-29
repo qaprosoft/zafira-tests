@@ -1,5 +1,5 @@
 {
   <#if fallback??>"fallback": ${fallback},</#if>
   <#if name??>"name": "${name}",</#if>
-  "description": "Tag description"
+  <#if description??>"description": "${description}"</#if>
 }

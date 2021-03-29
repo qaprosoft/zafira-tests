@@ -143,8 +143,8 @@ public class TestSessionArtifactReferencesTest extends ZafiraAPIBaseTest {
         String actualLink = capabilitiesManagerService.getArtifactReferences(testRunId, testSessionId, referenceType);
         String expectedLink = sessionId + "/link/" + sessionId + "/link";
         String actualLinkInTests = capabilitiesManagerService.getArtifactReferencesInTest(testRunId, testIds.get(0), testSessionId, referenceType);
-        Assert.assertEquals(expectedLink, actualLinkInTests, "Link is not as expected!");
-        Assert.assertEquals(expectedLink, actualLink, "Link is not as expected!");
+        Assert.assertEquals(actualLinkInTests,expectedLink,  "Link is not as expected!");
+        Assert.assertEquals(actualLink,expectedLink,  "Link is not as expected!");
     }
 
     @Test(dataProvider = "session-artifact-references-to-check-link", dataProviderClass = CapabilitiesManagerDataProvider.class)
