@@ -4,9 +4,11 @@ import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.testSessionController.PostSessionV1Method;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
+import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.dataProvider.CapabilitiesManagerDataProvider;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.*;
+import com.zebrunner.agent.core.annotation.TestLabel;
 import io.restassured.path.json.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
@@ -30,6 +32,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
 
 
     @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40055")
     public void testCheckVNCLinkWithoutVNCLinksAndProviderInBodyRq() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -67,6 +70,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40059")
     public void testCheckVNCLinkWithLinksOnAllPositions() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -89,6 +93,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40060")
     public void testCheckVNCLinkWithLinksOnAllPositionWithout_VNC_LINK_ACT_SLOT() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -110,6 +115,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40061")
     public void testCheckVNCLinkWithoutLinksInActualCaps() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -130,6 +136,10 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "vncLink-positions", dataProviderClass = CapabilitiesManagerDataProvider.class)
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40062")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40063")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40064")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40065")
     public void testCheckVNCLinkEnableTrueWithLinkInPosition(String position) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -149,6 +159,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40055")
     public void testCheckArtifactVNCNameWithoutVNCLinksInBodyRq() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -165,6 +176,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "test-environment-provider", dataProviderClass = CapabilitiesManagerDataProvider.class)
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40066")
     public void testCheckVNCLinkWithProviderInBodyRq(String provider) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -186,6 +198,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "test-environment-provider", dataProviderClass = CapabilitiesManagerDataProvider.class)
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40067")
     public void testCheckVNCLinkWithProviderToLowerCaseInBodyRq(String provider) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -207,6 +220,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40068")
     public void testCheckVNCLinkWithNonexistentProvider() {
         testRunId = new TestRunServiceAPIImplV1().start();
         String provider =  "Provider_".concat(RandomStringUtils.randomAlphabetic(10));
@@ -225,6 +239,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40069")
     public void testCheckVNCLinkAfterSessionFinish() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
