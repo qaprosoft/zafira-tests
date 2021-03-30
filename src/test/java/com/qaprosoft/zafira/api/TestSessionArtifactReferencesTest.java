@@ -5,12 +5,14 @@ import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.testSessionController.PostSessionV1Method;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
+import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.dataProvider.CapabilitiesManagerDataProvider;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.CapabilitiesManagerServiceImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceV1Impl;
 import com.qaprosoft.zafira.service.impl.TestSessionServiceImpl;
+import com.zebrunner.agent.core.annotation.TestLabel;
 import io.restassured.path.json.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -35,6 +37,9 @@ public class TestSessionArtifactReferencesTest extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "session-artifact-references", dataProviderClass = CapabilitiesManagerDataProvider.class)
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40045")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40046")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40047")
     public void testCheckArtifactReferenceLinkEnableTrue(String referenceType, String jsonConstantForLink, String jsonConstantForEnable) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -52,12 +57,13 @@ public class TestSessionArtifactReferencesTest extends ZafiraAPIBaseTest {
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         new TestSessionServiceImpl().finish(testRunId, testIds, testSessionId);
         String actualLink = capabilitiesManagerService.getArtifactReferences(testRunId, testSessionId, referenceType);
-        String actualLinkInTests = capabilitiesManagerService.getArtifactReferencesInTest(testRunId, testIds.get(0), testSessionId, referenceType);
-        Assert.assertEquals(actualLinkInTests, actualLink, "Link is not as expected!");
-        Assert.assertEquals(link, actualLink, "Link is not as expected!");
+        Assert.assertEquals(actualLink,link,  "Link is not as expected!");
     }
 
     @Test(dataProvider = "session-artifact-references", dataProviderClass = CapabilitiesManagerDataProvider.class)
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40051")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40049")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40053")
     public void testCheckArtifactReferenceLinkEnableFalse(String referenceType, String jsonConstantForLink, String jsonConstantForEnable) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -123,6 +129,7 @@ public class TestSessionArtifactReferencesTest extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "session-artifact-references", dataProviderClass = CapabilitiesManagerDataProvider.class)
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40057")
     public void testCheckArtifactReferenceLinkWithPlaceholderSessionId(String referenceType, String jsonConstantForLink, String jsonConstantForEnable) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -142,12 +149,13 @@ public class TestSessionArtifactReferencesTest extends ZafiraAPIBaseTest {
         new TestSessionServiceImpl().finish(testRunId, testIds, testSessionId);
         String actualLink = capabilitiesManagerService.getArtifactReferences(testRunId, testSessionId, referenceType);
         String expectedLink = sessionId + "/link/" + sessionId + "/link";
-        String actualLinkInTests = capabilitiesManagerService.getArtifactReferencesInTest(testRunId, testIds.get(0), testSessionId, referenceType);
-        Assert.assertEquals(actualLinkInTests,expectedLink,  "Link is not as expected!");
         Assert.assertEquals(actualLink,expectedLink,  "Link is not as expected!");
     }
 
     @Test(dataProvider = "session-artifact-references-to-check-link", dataProviderClass = CapabilitiesManagerDataProvider.class)
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40050")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40048")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40052")
     public void testCheckArtifactReferenceLinkEnableTrueWithoutLink(String referenceType, String jsonConstantForEnable, String endOfLink) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);

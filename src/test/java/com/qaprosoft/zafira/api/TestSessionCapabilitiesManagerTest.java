@@ -6,11 +6,13 @@ import com.qaprosoft.zafira.api.testSessionController.PostSessionV1Method;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.ConstantName;
 import com.qaprosoft.zafira.constant.JSONConstant;
+import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.dataProvider.CapabilitiesManagerDataProvider;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.CapabilitiesManagerServiceImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceV1Impl;
+import com.zebrunner.agent.core.annotation.TestLabel;
 import io.restassured.path.json.JsonPath;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
@@ -35,6 +37,10 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
      */
 
     @Test(dataProvider = "session-name", dataProviderClass = CapabilitiesManagerDataProvider.class)
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40018")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40017")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40016")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40015")
     public void testCheckSessionNameWithNameInActualCapability(String jsonConstant, String value) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -53,6 +59,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40012")
     public void testCheckSessionNameWithAllVariantsOfName() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -74,6 +81,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40013")
     public void testCheckSessionNameWithAllVariantsOfNameWithoutNameInActual() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -94,6 +102,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40014")
     public void testCheckSessionNameWithoutActualNameAndActualSessionName() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -113,6 +122,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40019")
     public void testCheckSessionNameWithoutNameInBodyRq() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -180,6 +190,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
      */
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40020")
     public void testCheckBrowserName() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -199,6 +210,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40021")
     public void testCheckBrowserNameWithoutBrowserNameInActualCapability() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -235,6 +247,9 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
      */
 
     @Test(dataProvider = "browser-version", dataProviderClass = CapabilitiesManagerDataProvider.class)
+
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40024")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40025")
     public void testCheckBrowserVersionWith(String jsonConstant, String value) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -253,6 +268,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40023")
     public void testCheckBrowserVersionWithBrowserVersionAndVersionInActualCap() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -272,6 +288,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "browser-version", dataProviderClass = CapabilitiesManagerDataProvider.class)
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40022")
     public void testCheckDesiredBrowserVersionAndActualVariants(String jsonConstant, String value) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -309,6 +326,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40026")
     public void testCheckBrowserVersionWithoutBrowserVersionInRq() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -329,6 +347,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
      */
 
     @Test(dataProvider = "platform-name", dataProviderClass = CapabilitiesManagerDataProvider.class)
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40037")
     public void testCheckPlatformNameWith(String jsonConstant, String value) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -366,6 +385,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40027")
     public void testCheckPlatformNameWithAllPlatformVariants() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -388,6 +408,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40028")
     public void testCheckPlatformNameWithoutPlatformNameInSlot() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -409,6 +430,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40036")
     public void testCheckPlatformNameWithoutPlatformNameInSlotAndDesired() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -429,6 +451,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40038")
     public void testCheckPlatformNameWithoutPlatformNamesAndPlatform() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -449,6 +472,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
      */
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40039")
     public void testCheckPlatformVersionWithPlatformOnAllPositions() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -470,6 +494,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40040")
     public void testCheckPlatformVersionWithoutPlatformVersionInSlot() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -490,6 +515,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "platform-version", dataProviderClass = CapabilitiesManagerDataProvider.class)
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40041")
     public void testCheckPlatformVersionWith(String jsonConstant, String value) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -528,6 +554,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
      */
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40042")
     public void testCheckDeviseName() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -547,6 +574,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "devise-name", dataProviderClass = CapabilitiesManagerDataProvider.class)
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40043")
     public void testCheckDeviseNameWith(String jsonConstant, String value) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -565,6 +593,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40044")
     public void testCheckDeviseNameWithoutNameInRq() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
