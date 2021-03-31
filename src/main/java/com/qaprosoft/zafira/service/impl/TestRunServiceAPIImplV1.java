@@ -5,6 +5,7 @@ import com.qaprosoft.zafira.api.testController.PostRetrieveTestBySearchCriteriaM
 import com.qaprosoft.zafira.api.testRunController.GetTestByTestRunIdMethod;
 import com.qaprosoft.zafira.api.testRunController.GetTestRunByIdMethod;
 import com.qaprosoft.zafira.api.testRunController.GetTestRunBySearchCriteriaMethod;
+import com.qaprosoft.zafira.api.testRunController.PostAIAnalysisMethod;
 import com.qaprosoft.zafira.api.testRunController.v1.DeleteTestRunByIdV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestRunV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestRunV1Method;
@@ -115,6 +116,13 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
         String labelsList = JsonPath.from(rs).getString("results.labels");
         LOGGER.info("Test run labels: " + labelsList);
         return labelsList;
+    }
+
+    @Override
+    public void postAiAnalyze(int testRunId) {
+        PostAIAnalysisMethod postAIAnalysisMethod = new PostAIAnalysisMethod(testRunId);
+        apiExecutor.expectStatus(postAIAnalysisMethod, HTTPStatusCodeType.ACCEPTED);
+        apiExecutor.callApiMethod(postAIAnalysisMethod);
     }
 }
 

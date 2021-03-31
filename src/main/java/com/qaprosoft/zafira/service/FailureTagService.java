@@ -4,11 +4,13 @@ import java.util.List;
 
 public interface FailureTagService {
 
-   int createFailureTag(String name);
+    int createFailureTag(String name);
 
-    void updateFallbackFailureTag(int tagId, Boolean fallback,String name);
+    void updateFallbackFailureTag(int tagId, Boolean fallback, String name);
 
     void deleteFailureTag(int tagId);
 
     List<Integer> getAllFailureTagIds();
+
+    void setFallbackTrueToAnotherFailureTag();
 }

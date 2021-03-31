@@ -1,6 +1,7 @@
 package com.qaprosoft.zafira.service.impl;
 
 
+import com.qaprosoft.zafira.api.testRunController.PostAIAnalysisMethod;
 import com.qaprosoft.zafira.api.testRunController.v1.DeleteTestByIdV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestsInTestRunV1HeadlessMethod;
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestsInTestRunV1Method;
