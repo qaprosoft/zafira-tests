@@ -23,4 +23,6 @@ public interface TestRunServiceAPIV1 {
     String getTestStatusByTestId(int testRunId, int testId);
 
     String getTestRunLabels(int testRunId);
+
+    void postAiAnalyze(int testRunId);
 }

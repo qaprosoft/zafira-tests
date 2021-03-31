@@ -48,7 +48,8 @@ public class FailureTagAssignmentServiceImpl implements FailureTagAssignmentServ
         GetFailureTagAssignmentMethod getFailureTagsMethod = new GetFailureTagAssignmentMethod(testId);
         apiExecutor.expectStatus(getFailureTagsMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(getFailureTagsMethod);
-        List<Integer> listAllFailureTagAssignments= JsonPath.from(rs).getList("items.tag.id");
+        List<Integer> listAllFailureTagAssignments= JsonPath.from(rs).getList("items.id");
+        LOGGER.info(listAllFailureTagAssignments);
         return listAllFailureTagAssignments;
     }
 }
