@@ -118,7 +118,7 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
-    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40140")
+  //  @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40140")
     public void testUpdateFailureTagToFallbackFalse() {
         String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
         tagId = failureTagService.createFailureTag(name);
