@@ -118,6 +118,23 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
+  //  @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40140")
+    public void testUpdateFailureTagToFallbackFalse() {
+        String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
+        tagId = failureTagService.createFailureTag(name);
+        failureTagService.updateFallbackFailureTag(tagId, true, name + "_new");
+
+        PutFailureTagMethod putFailureTagMethod = new PutFailureTagMethod(tagId);
+        putFailureTagMethod.addProperty(JSONConstant.NAME, "New_" + name);
+        putFailureTagMethod.addProperty(JSONConstant.FALLBACK, false);
+        putFailureTagMethod.addProperty(JSONConstant.DESCRIPTION, "New_description" + name);
+        apiExecutor.expectStatus(putFailureTagMethod, HTTPStatusCodeType.FORBIDDEN);
+        String rs = apiExecutor.callApiMethod(putFailureTagMethod);
+
+        failureTagService.setFallbackTrueToAnotherFailureTag();
+    }
+
+    @Test()
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40141")
     public void testPatchFailureTag() {
         String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
@@ -132,7 +149,7 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
     public void testPatchFailureTagFallBackFalse() {
         String name = "Tag_".concat(RandomStringUtils.randomAlphabetic(5));
         tagId = failureTagService.createFailureTag(name);
-        failureTagService.updateFallbackFailureTag(tagId,true,name);
+        failureTagService.updateFallbackFailureTag(tagId, true, name);
         PatchFailureTagMethod patchFailureTagAssignmentMethod = new PatchFailureTagMethod(false, tagId);
         apiExecutor.expectStatus(patchFailureTagAssignmentMethod, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(patchFailureTagAssignmentMethod);
