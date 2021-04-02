@@ -3,6 +3,7 @@ package com.qaprosoft.zafira.constant;
 public class ConfigConstant {
     public static final String ENV_KEY = "env";
     public static final String BASE_API_URL_KEY = "%s.api_url";
+    public static final String PROJECT_SERVICE_URL_KEY = "%s.projects_url";
     public static final String BASE_URL_KEY = "%s.base";
     public static final String AUTHOMATION_SERVER_KEY = "authomationServerId";
     public static final String SCM_ACCOUNT_TYPE_KEY = "scmAccountTypeId";

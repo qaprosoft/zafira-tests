@@ -234,6 +234,7 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testId = testServiceImpl.create(testCaseId, testRunId);
+
         GetTestResultsHistoryByIdMethod getTestResultsHistoryByIdMethod = new GetTestResultsHistoryByIdMethod(testId);
         apiExecutor.callApiMethod(getTestResultsHistoryByIdMethod);
         apiExecutor.expectStatus(getTestResultsHistoryByIdMethod, HTTPStatusCodeType.OK);
