@@ -1,9 +1,7 @@
 package com.qaprosoft.zafira.api;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.zafira.api.projectsV1.DeleteProjectByKeyV1Method;
-import com.qaprosoft.zafira.api.projectsV1.GetAllProjectsMethod;
-import com.qaprosoft.zafira.api.projectsV1.PostProjectV1Method;
+import com.qaprosoft.zafira.api.projectsV1.*;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.ProjectV1ServiceImpl;
@@ -40,7 +38,9 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testCreateProject() {
-        PostProjectV1Method postProjectV1Method = new PostProjectV1Method();
+        String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
+        projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
+        PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName, projectKey);
         apiExecutor.expectStatus(postProjectV1Method, HTTPStatusCodeType.CREATED);
         String rs = apiExecutor.callApiMethod(postProjectV1Method);
         apiExecutor.validateResponse(postProjectV1Method, JSONCompareMode.STRICT,
@@ -55,6 +55,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
         projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
         projectV1Service.createProject(projectName, projectKey);
+
         DeleteProjectByKeyV1Method deleteProjectByKeyV1Method = new DeleteProjectByKeyV1Method(projectKey);
         apiExecutor.expectStatus(deleteProjectByKeyV1Method, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(deleteProjectByKeyV1Method);
@@ -62,5 +63,53 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
         Assert.assertFalse(projectKeys.contains(projectKey), "Project was not deleted!");
     }
 
+    @Test
+    public void testGetProjectByKey() {
+        String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
+        projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
+        projectV1Service.createProject(projectName, projectKey);
+
+        GetProjectByIdOrKeyMethod getProjectByIdOrKeyMethod = new GetProjectByIdOrKeyMethod(projectKey);
+        apiExecutor.expectStatus(getProjectByIdOrKeyMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getProjectByIdOrKeyMethod);
+        apiExecutor.validateResponse(getProjectByIdOrKeyMethod, JSONCompareMode.STRICT);
+        String actualProjectKey = JsonPath.from(rs).getString(JSONConstant.KEY_KEY);
+
+        Assert.assertEquals(actualProjectKey, projectKey, "Project was not got!");
+    }
+
+    @Test
+    public void testGetProjectById() {
+        String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
+        projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
+        int projectId = projectV1Service.createProjectAndGetId(projectName, projectKey);
+
+        GetProjectByIdOrKeyMethod getProjectByIdOrKeyMethod = new GetProjectByIdOrKeyMethod(projectId);
+        apiExecutor.expectStatus(getProjectByIdOrKeyMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getProjectByIdOrKeyMethod);
+        apiExecutor.validateResponse(getProjectByIdOrKeyMethod, JSONCompareMode.STRICT);
+        int actualProjectId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+
+        Assert.assertEquals(actualProjectId, projectId, "Project was not got!");
+    }
+
+    @Test(description = "without_lead")
+    public void testUpdateProject() {
+        String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
+        projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
+        projectV1Service.createProject(projectName, projectKey);
+        String newName = "New_".concat(projectName);
+        String newProjectKey = "NEW".concat(projectKey);
+
+        PutProjectV1Method putProjectV1Method = new PutProjectV1Method(projectKey, newName, newProjectKey);
+        apiExecutor.expectStatus(putProjectV1Method, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(putProjectV1Method);
+        apiExecutor.validateResponse(putProjectV1Method, JSONCompareMode.STRICT);
+        projectKey = JsonPath.from(rs).getString(JSONConstant.KEY_KEY);
+        String actualProjectName = projectV1Service.getProjectNameByKey(newProjectKey);
+
+        Assert.assertEquals(projectKey, newProjectKey, "Project key is not as expected!");
+        Assert.assertEquals(actualProjectName, newName, "Project name is not as expected!");
+    }
 }
 

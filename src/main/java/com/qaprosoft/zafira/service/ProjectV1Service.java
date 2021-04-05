@@ -9,4 +9,8 @@ public interface ProjectV1Service {
     void deleteProjectByKey(String projectKey);
 
     String createProject(String projectName, String projectKey);
+
+    int createProjectAndGetId(String projectName, String projectKey);
+
+    String getProjectNameByKey(String projectKey);
 }
