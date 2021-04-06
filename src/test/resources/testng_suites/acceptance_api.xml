@@ -110,6 +110,7 @@
     <test name="Project controller tests">
         <classes>
             <class name="com.qaprosoft.zafira.api.ProjectTest"/>
+            <class name="com.qaprosoft.zafira.api.ProjectV1Test"/>
         </classes>
     </test>
 
