@@ -15,7 +15,6 @@
     "description": "type:String"
   },
   "knownIssue": "type:Boolean",
-  "blocker": "type:Boolean",
   "reviewed": "type:Boolean",
   "artifacts": "type:JSONArray"
 }
