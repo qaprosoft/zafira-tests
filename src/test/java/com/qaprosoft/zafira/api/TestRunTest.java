@@ -196,6 +196,8 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         PostAbortTestRunMethod postAbortTestRunMethod = new PostAbortTestRunMethod(testRunId, ciRunId);
         apiExecutor.expectStatus(postAbortTestRunMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postAbortTestRunMethod);
+        apiExecutor.validateResponse(postAbortTestRunMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
     }
 
     @Test

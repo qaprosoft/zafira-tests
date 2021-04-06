@@ -1,0 +1,39 @@
+{
+  "id": "regex:[\\d]",
+  "ciRunId": "type:String",
+  "testSuiteId": "regex:[\\d]",
+  "status": "ABORTED",
+  "jobId": "regex:[\\d]",
+  "buildNumber": "regex:[\\d]",
+  "startedBy": "type:String",
+  "activeProjectId": "regex:[\\d]",
+  "project": {
+    "id": "regex:[\\d]",
+    "name": "type:String",
+    "description": "type:String"
+  },
+  "knownIssue": "type:Boolean",
+  "reviewed": "type:Boolean",
+  "artifacts": "type:JSONArray",
+  "labels": [
+    {
+      "id":"regex:[\\d]",
+      "modifiedAt": null,
+      "createdAt": null,
+      "key": "type:String",
+      "value": "type:String"
+    },{
+      "id":"regex:[\\d]",
+      "modifiedAt": null,
+      "createdAt": null,
+      "key": "type:String",
+      "value": "type:String"
+    },{
+      "id":"regex:[\\d]",
+      "modifiedAt": null,
+      "createdAt": null,
+      "key": "type:String",
+      "value": "type:String"
+    }
+  ]
+}
