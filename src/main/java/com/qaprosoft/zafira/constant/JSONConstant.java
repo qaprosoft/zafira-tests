@@ -123,4 +123,5 @@ public class JSONConstant {
     public static final String FALLBACK = "fallback";
     public static final String SERVICE = "service";
     public static final String DESCRIPTION = "description";
+    public static final String RESULTS_KEY_KEY = "results.key";
 }

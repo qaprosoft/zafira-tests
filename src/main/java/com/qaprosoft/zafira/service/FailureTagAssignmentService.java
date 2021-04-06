@@ -10,5 +10,7 @@ public interface FailureTagAssignmentService {
 
     int getFailureTag(int testId);
 
+    String getFailureTagAssignmentsFeedback(int testId);
+
     List <Integer> getAllFailureTagAssignments(int testId);
 }

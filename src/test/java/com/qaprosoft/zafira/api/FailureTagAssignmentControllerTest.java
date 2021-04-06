@@ -172,6 +172,7 @@ public class FailureTagAssignmentControllerTest extends ZafiraAPIBaseTest {
 
 
     @Test(dataProvider = "user-feedback", dataProviderClass = FailureTagAssignmentDataProvider.class)
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40450")
     public void testPatchFailureTagAssignment(String userFeedback) {
         testRunId = startTestRunV1();
         int testId = startTestV1(testRunId);
@@ -183,9 +184,12 @@ public class FailureTagAssignmentControllerTest extends ZafiraAPIBaseTest {
                 new PatchFailureTagAssignmentMethod(userFeedback, listTagAssignmentIds.get(0));
         apiExecutor.expectStatus(patchFailureTagAssignmentMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(patchFailureTagAssignmentMethod);
+        String actualFeedback = failureTagAssignmentService.getFailureTagAssignmentsFeedback(testId);
+        Assert.assertEquals(actualFeedback,userFeedback,"Feedback is not as expected!");
     }
 
-    @Test(description = "negative Now 500", enabled = false)
+    @Test(description = "negative")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40451")
     public void testPatchFailureTagAssignmentWithUnknownUserFeedBack() {
         String feedbackValue = UserFeedback.LIKE + "Unknown";
         testRunId = startTestRunV1();
@@ -196,7 +200,7 @@ public class FailureTagAssignmentControllerTest extends ZafiraAPIBaseTest {
 
         PatchFailureTagAssignmentMethod patchFailureTagAssignmentMethod =
                 new PatchFailureTagAssignmentMethod(feedbackValue, listTagAssignmentIds.get(0));
-        apiExecutor.expectStatus(patchFailureTagAssignmentMethod, HTTPStatusCodeType.OK);
+        apiExecutor.expectStatus(patchFailureTagAssignmentMethod, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(patchFailureTagAssignmentMethod);
     }
 }

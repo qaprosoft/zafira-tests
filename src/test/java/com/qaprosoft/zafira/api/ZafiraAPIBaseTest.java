@@ -81,7 +81,6 @@ public class ZafiraAPIBaseTest extends AbstractTest {
         testRunServiceV1.deleteTestRun(testRunId);
     }
 
-
     @AfterSuite
     protected void deleteAllTestRuns() {
         TestRunServiceAPIImpl testRunServiceAPIImpl = new TestRunServiceAPIImpl();

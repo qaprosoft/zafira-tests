@@ -1,0 +1,9 @@
+{
+  "id": "regex:[\\d]",
+  "name": "type:String",
+  "description": "type:String",
+  "publiclyAccessible": "type:Boolean",
+  "createdAt": "type:String",
+  "key": "type:String",
+  "logoKey": "type:String"
+}
