@@ -1,10 +1,14 @@
 package com.qaprosoft.zafira.api;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
+import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.projectsV1.*;
+import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
+import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.ProjectV1ServiceImpl;
+import com.zebrunner.agent.core.annotation.TestLabel;
 import io.restassured.path.json.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
@@ -21,13 +25,14 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     private static Logger LOGGER = Logger.getLogger(ProjectV1Test.class);
     private static ProjectV1ServiceImpl projectV1Service = new ProjectV1ServiceImpl();
     private static String projectKey;
-
+    private static final String EXISTING_PROJECT_KEY = R.TESTDATA.get(ConfigConstant.EXISTING_PROJECT_KEY);
     @AfterMethod
     public void testDeleteProject() {
         new ProjectV1ServiceImpl().deleteProjectByKey(projectKey);
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40452")
     public void testGetAllProjects() {
         GetAllProjectsMethod getAllProjectsMethod = new GetAllProjectsMethod();
         apiExecutor.expectStatus(getAllProjectsMethod, HTTPStatusCodeType.OK);
@@ -37,6 +42,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40453")
     public void testCreateProject() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
         projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
@@ -51,6 +57,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40454")
     public void testDeleteProjectByKey() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
         projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
@@ -64,6 +71,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40455")
     public void testGetProjectByKey() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
         projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
@@ -79,6 +87,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40456")
     public void testGetProjectById() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
         projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
@@ -94,6 +103,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test(description = "without_lead")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40457")
     public void testUpdateProject() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
         projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
@@ -110,6 +120,21 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
 
         Assert.assertEquals(projectKey, newProjectKey, "Project key is not as expected!");
         Assert.assertEquals(actualProjectName, newName, "Project name is not as expected!");
+    }
+
+    @Test()
+   // @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40457")
+    public void testPatchLeadIdProject() {
+     //   String existingProjectKey = "DEF";
+        int leadId = 2;
+
+        PatchProjectV1Method patchProjectV1Method = new PatchProjectV1Method(EXISTING_PROJECT_KEY, leadId);
+
+        apiExecutor.expectStatus(patchProjectV1Method, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(patchProjectV1Method);
+        int actualLeadId = projectV1Service.getLeadIdByProjectKey(EXISTING_PROJECT_KEY);
+
+        Assert.assertEquals(actualLeadId, leadId, "Project key is not as expected!");
     }
 }
 

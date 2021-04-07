@@ -13,4 +13,6 @@ public interface ProjectV1Service {
     int createProjectAndGetId(String projectName, String projectKey);
 
     String getProjectNameByKey(String projectKey);
+
+    int getLeadIdByProjectKey(String projectKey);
 }

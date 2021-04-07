@@ -58,4 +58,13 @@ public class ProjectV1ServiceImpl implements ProjectV1Service {
         String projectName = JsonPath.from(rs).getString(JSONConstant.NAME);
         return projectName;
     }
+
+    @Override
+    public int getLeadIdByProjectKey(String projectKey) {
+        GetProjectByIdOrKeyMethod getProjectByIdOrKeyMethod = new GetProjectByIdOrKeyMethod(projectKey);
+        apiExecutor.expectStatus(getProjectByIdOrKeyMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getProjectByIdOrKeyMethod);
+        int leadId = JsonPath.from(rs).getInt(JSONConstant.LEAD_ID);
+        return leadId;
+    }
 }
