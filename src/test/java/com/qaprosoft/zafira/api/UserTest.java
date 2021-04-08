@@ -173,7 +173,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         DeleteUserByIdV1Method getUserByCriteriaV1Method = new DeleteUserByIdV1Method(userId);
         apiExecutor.expectStatus(getUserByCriteriaV1Method, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(getUserByCriteriaV1Method);
-        List<Integer> userIds = new UserV1ServiceAPIImpl().getAllUserIds(userId);
+        List<Integer> userIds = new UserV1ServiceAPIImpl().getAllUserIds();
         LOGGER.info(userIds.toString());
         Assert.assertFalse(userIds.contains(userId), "User with id= " + userId + "was not deleted!");
     }

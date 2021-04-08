@@ -114,6 +114,12 @@
         </classes>
     </test>
 
+    <test name="Project assignment controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.ProjectV1AssignmentsTest"/>
+        </classes>
+    </test>
+
     <test name="Launcher preset api controller tests">
         <classes>
             <class name="com.qaprosoft.zafira.api.LauncherPresetTest"/>
