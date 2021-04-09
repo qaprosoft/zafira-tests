@@ -7,10 +7,15 @@ import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.UserV1ServiceAPI;
 import io.restassured.path.json.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.invoke.MethodHandles;
+import java.util.Comparator;
 import java.util.List;
 
 public class UserV1ServiceAPIImpl implements UserV1ServiceAPI {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
     @Override
@@ -33,7 +38,7 @@ public class UserV1ServiceAPIImpl implements UserV1ServiceAPI {
     public int createForProject() {
         String username = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
         String password = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
-         String email = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
+        String email = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
         PostUserMethodV1 postUserMethodV1 = new PostUserMethodV1(username, password, email);
         apiExecutor.expectStatus(postUserMethodV1, HTTPStatusCodeType.CREATED);
         String response = apiExecutor.callApiMethod(postUserMethodV1);
@@ -99,6 +104,8 @@ public class UserV1ServiceAPIImpl implements UserV1ServiceAPI {
         apiExecutor.expectStatus(getUserByCriteriaV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(getUserByCriteriaV1Method);
         List<Integer> userIds = JsonPath.from(rs).getList("results.id");
+        userIds.sort(Comparator.naturalOrder());
+        LOGGER.info("Existing userIds: " + userIds);
         return userIds;
     }
 
