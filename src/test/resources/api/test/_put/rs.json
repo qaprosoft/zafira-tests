@@ -14,7 +14,6 @@
   "finishTime": "regex:[\\d]",
   "workItems": "type:JSONArray",
   "knownIssue": "type:Boolean",
-  "logicallyFailed": "type:Boolean",
   "needRerun": "type:Boolean",
   "owner": "type:String",
   "dependsOnMethods": "type:String",

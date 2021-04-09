@@ -8,6 +8,8 @@ public interface UserV1ServiceAPI {
 
     String create(String username, String password, String email);
 
+    int createForProject();
+
     int createAndGetId(String username, String password, String email);
 
     void deleteUserFromGroup(int groupId, int userId);
@@ -22,5 +24,5 @@ public interface UserV1ServiceAPI {
 
     String getUserById(int userId);
 
-    List<Integer> getAllUserIds(int userId);
+    List<Integer> getAllUserIds();
 }

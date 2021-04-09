@@ -69,4 +69,7 @@ public class ConfigConstant {
     public static final String PATH_TO_CHECK_SESSION_ARTIFACTS = "path_to_check_sessionArtifacts";
     public static final String PATH_TO_CHECK_VNC = "path_to_check_VNC";
     public static final String TESTRAIL_TESTCASE_ID_LABEL = "testrail-testcase-id-label";
+    public static final String EXISTING_PROJECT_KEY = "existing_project_key";
+    public static final String EXISTING_PROJECT_ID = "existing_project_id";
+    public static final String EMPTY_RQ_PATH = "empty_request_path";
 }

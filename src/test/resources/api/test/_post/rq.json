@@ -4,7 +4,7 @@
   "dependsOnMethods": "string",
   "finishTime": 0,
   "id": 0,
-  "knownIssue": true,
+  "knownIssue": false,
   "message": "string",
   "messageHashCode": 0,
   "name": "string",

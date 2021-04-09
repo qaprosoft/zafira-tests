@@ -1,0 +1,9 @@
+{
+  "items": [
+    {
+      "userId": "regex:[\\d]",
+      "role": "type:String",
+      "addedAt": "type:String"
+    }
+  ]
+}

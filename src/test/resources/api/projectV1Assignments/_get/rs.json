@@ -1,0 +1,21 @@
+{
+  "sortBy": "type:String",
+  "sortOrder": "type:String",
+  "page": "regex:[\\d]",
+  "pageSize": "regex:[\\d]",
+  "totalPages": "regex:[\\d]",
+  "totalResults": "regex:[\\d]",
+  "results": [
+    {
+      "user": {
+        "id": "regex:[\\d]",
+        "username": "type:String",
+        "email": "type:String",
+        "firstName": "type:String",
+        "lastName": "type:String"
+      },
+      "addedAt": "type:String",
+      "role": "type:String"
+    }
+  ]
+}
