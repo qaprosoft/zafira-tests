@@ -111,6 +111,7 @@
         <classes>
             <class name="com.qaprosoft.zafira.api.ProjectTest"/>
             <class name="com.qaprosoft.zafira.api.ProjectV1Test"/>
+            <class name="com.qaprosoft.zafira.api.UpdateProjectLeadV1Test"/>
         </classes>
     </test>
 

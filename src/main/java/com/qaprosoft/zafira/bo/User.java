@@ -1,6 +1,5 @@
 package com.qaprosoft.zafira.bo;
 
-
 import groovy.util.logging.Log;
 import lombok.*;
 

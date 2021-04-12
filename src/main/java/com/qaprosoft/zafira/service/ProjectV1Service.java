@@ -1,5 +1,8 @@
 package com.qaprosoft.zafira.service;
 
+import com.qaprosoft.zafira.bo.Project;
+
+import java.io.IOException;
 import java.util.List;
 
 public interface ProjectV1Service {
@@ -19,6 +22,8 @@ public interface ProjectV1Service {
     String getProjectNameByKey(String projectKey);
 
     String getProjectKeyById(int projectId);
+
+    Project getProjectByKey(String projectKey) throws IOException;
 
     int getLeadIdByProjectKey(String projectKey);
 }

@@ -5,5 +5,12 @@
   "publiclyAccessible": "type:Boolean",
   "createdAt": "type:String",
   "key": "${key}",
-  "logoKey": "type:String"
+  "logoKey": "type:String",
+  "lead": {
+    "id": "regex:[\\d]",
+    "username": "type:String",
+    "email": "type:String",
+    "firstName": "type:String",
+    "lastName": "type:String"
+  }
 }
