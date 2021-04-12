@@ -7,7 +7,7 @@ import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
 import com.qaprosoft.zafira.manager.APIContextManager;
 
 @ResponseTemplatePath(path = "api/projectsV1/_get/rs.json")
-@Endpoint(url = "${projects_url}/v1/projects", methodType = HttpMethodType.GET)
+@Endpoint(url = "${projects_url}/v1/projects?page=1&pageSize=10&sortOrder=ASC", methodType = HttpMethodType.GET)
 public class GetAllProjectsMethod extends ZafiraBaseApiMethodWithAuth {
     public GetAllProjectsMethod() {
         replaceUrlPlaceholder("projects_url", APIContextManager.PROJECT_SERVICE_URL);
