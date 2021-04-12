@@ -39,7 +39,7 @@ public class ProjectV1AssignmentsTest extends ZafiraAPIBaseTest {
 
     @AfterTest
     public void testDeleteProject() {
-       new ProjectV1ServiceImpl().deleteProjectById(projectId);
+        new ProjectV1ServiceImpl().deleteProjectById(projectId);
     }
 
     @AfterMethod

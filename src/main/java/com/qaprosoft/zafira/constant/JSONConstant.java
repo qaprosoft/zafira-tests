@@ -122,8 +122,12 @@ public class JSONConstant {
     public static final String ITEMS_0 = "items[0]";
     public static final String FALLBACK = "fallback";
     public static final String SERVICE = "service";
+
+    //Project Controller
     public static final String DESCRIPTION = "description";
     public static final String RESULTS_KEY_KEY = "results.key";
     public static final String LEAD_ID = "lead.id";
     public static final String RESULTS_USER_ID = "results.user.id";
+    public static final String LEAD = "lead";
+    public static final String PUBLICLY_ACCESSIBLE = "publiclyAccessible";
 }
