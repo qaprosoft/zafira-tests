@@ -10,9 +10,7 @@ import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
-import com.qaprosoft.zafira.service.impl.ProjectV1AssignmentsServiceImpl;
 import com.qaprosoft.zafira.service.impl.ProjectV1ServiceImpl;
-import com.qaprosoft.zafira.service.impl.UserV1ServiceAPIImpl;
 import com.zebrunner.agent.core.annotation.TestLabel;
 import io.restassured.path.json.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -29,8 +27,6 @@ import java.util.Locale;
 public class ProjectV1Test extends ZafiraAPIBaseTest {
     private static Logger LOGGER = Logger.getLogger(ProjectV1Test.class);
     private static ProjectV1ServiceImpl projectV1Service = new ProjectV1ServiceImpl();
-    private static ProjectV1AssignmentsServiceImpl projectV1AssignmentsService = new ProjectV1AssignmentsServiceImpl();
-    private static UserV1ServiceAPIImpl userV1ServiceAPI = new UserV1ServiceAPIImpl();
     private static String projectKey;
 
     @AfterMethod
@@ -64,6 +60,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test(description = "negative")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "407882")
     public void testCreateProjectWithEmptyRq() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
         projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
@@ -88,12 +85,23 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test(description = "negative")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40789")
     public void testDeleteProjectByNonexistentKey() {
         String nonexistentProjectKey = RandomStringUtils.randomAlphabetic(5).toUpperCase(Locale.ROOT);
 
         DeleteProjectByKeyV1Method deleteProjectByKeyV1Method = new DeleteProjectByKeyV1Method(nonexistentProjectKey);
         apiExecutor.expectStatus(deleteProjectByKeyV1Method, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(deleteProjectByKeyV1Method);
+    }
+
+    @Test(description = "negative")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40790")
+    public void testGetProjectByNonexistentKey() {
+        String nonexistentProjectKey = RandomStringUtils.randomAlphabetic(5).toUpperCase(Locale.ROOT);
+
+        GetProjectByIdOrKeyMethod getProjectByIdOrKeyMethod = new GetProjectByIdOrKeyMethod(nonexistentProjectKey);
+        apiExecutor.expectStatus(getProjectByIdOrKeyMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(getProjectByIdOrKeyMethod);
     }
 
     @Test
@@ -126,6 +134,19 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
         int actualProjectId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
 
         Assert.assertEquals(actualProjectId, projectId, "Project was not got!");
+    }
+
+    @Test(description = "negative")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40791")
+    public void testGetProjectByNonexistentId() {
+        String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
+        projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
+        int projectId = projectV1Service.createProjectAndGetId(projectName, projectKey);
+        projectV1Service.deleteProjectByKey(projectKey);
+
+        GetProjectByIdOrKeyMethod getProjectByIdOrKeyMethod = new GetProjectByIdOrKeyMethod(projectId);
+        apiExecutor.expectStatus(getProjectByIdOrKeyMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(getProjectByIdOrKeyMethod);
     }
 }
 
