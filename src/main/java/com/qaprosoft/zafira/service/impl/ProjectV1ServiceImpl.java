@@ -1,6 +1,10 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.qaprosoft.zafira.api.projectsV1.DeleteProjectByKeyV1Method;
 import com.qaprosoft.zafira.api.projectsV1.GetAllProjectsMethod;
 import com.qaprosoft.zafira.api.projectsV1.GetProjectByIdOrKeyMethod;
@@ -16,6 +20,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,7 +55,7 @@ public class ProjectV1ServiceImpl implements ProjectV1Service {
 
     @Override
     public String createProject(String projectName, String projectKey) {
-        PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName,projectKey);
+        PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName, projectKey);
         apiExecutor.expectStatus(postProjectV1Method, HTTPStatusCodeType.CREATED);
         String rs = apiExecutor.callApiMethod(postProjectV1Method);
         return JsonPath.from(rs).getString(JSONConstant.KEY_KEY);
@@ -58,16 +64,28 @@ public class ProjectV1ServiceImpl implements ProjectV1Service {
     @Override
     public int createProject() {
         String projectName = RandomStringUtils.randomAlphabetic(5).concat("_Project_name");
-        String projectKey = projectName.substring(0,4).toUpperCase(Locale.ROOT);
-        PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName,projectKey);
+        String projectKey = projectName.substring(0, 4).toUpperCase(Locale.ROOT);
+        PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName, projectKey);
         apiExecutor.expectStatus(postProjectV1Method, HTTPStatusCodeType.CREATED);
         String rs = apiExecutor.callApiMethod(postProjectV1Method);
         return JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
     }
 
     @Override
+    public int createPrivateProject() {
+        String projectName = RandomStringUtils.randomAlphabetic(5).concat("_Project_name");
+        String projectKey = projectName.substring(0, 4).toUpperCase(Locale.ROOT);
+        PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName, projectKey);
+        postProjectV1Method.addProperty(JSONConstant.PUBLICLY_ACCESSIBLE, false);
+        apiExecutor.expectStatus(postProjectV1Method, HTTPStatusCodeType.CREATED);
+        String rs = apiExecutor.callApiMethod(postProjectV1Method);
+        return JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+    }
+
+
+    @Override
     public int createProjectAndGetId(String projectName, String projectKey) {
-        PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName,projectKey);
+        PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName, projectKey);
         apiExecutor.expectStatus(postProjectV1Method, HTTPStatusCodeType.CREATED);
         String rs = apiExecutor.callApiMethod(postProjectV1Method);
         return JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
@@ -107,5 +125,25 @@ public class ProjectV1ServiceImpl implements ProjectV1Service {
         String rs = apiExecutor.callApiMethod(getProjectByIdOrKeyMethod);
         int leadId = JsonPath.from(rs).getInt(JSONConstant.LEAD_ID);
         return leadId;
+    }
+
+    @Override
+    public List<Integer> getAllPublicProjectIds() {
+        List projectId = new ArrayList();
+        GetAllProjectsMethod getAllProjectsMethod = new GetAllProjectsMethod();
+        apiExecutor.expectStatus(getAllProjectsMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getAllProjectsMethod);
+
+        JsonArray projectItem = JsonParser.parseString(rs).getAsJsonObject().getAsJsonArray(JSONConstant.RESULTS);
+
+        for (JsonElement project : projectItem) {
+            JsonObject projectObject = project.getAsJsonObject();
+
+            if (projectObject.get(JSONConstant.PUBLICLY_ACCESSIBLE).getAsBoolean()) {
+                projectId.add(projectObject.get("id").getAsInt());
+            }
+        }
+        projectId.sort(Comparator.naturalOrder());
+        return projectId;
     }
 }

@@ -17,6 +17,8 @@ public interface ProjectV1Service {
 
     int createProject();
 
+    int createPrivateProject();
+
     int createProjectAndGetId(String projectName, String projectKey);
 
     String getProjectNameByKey(String projectKey);
@@ -26,4 +28,6 @@ public interface ProjectV1Service {
     Project getProjectByKey(String projectKey) throws IOException;
 
     int getLeadIdByProjectKey(String projectKey);
+
+    List<Integer> getAllPublicProjectIds();
 }

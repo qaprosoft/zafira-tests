@@ -38,6 +38,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40452")
     public void testGetAllProjects() {
         GetAllProjectsMethod getAllProjectsMethod = new GetAllProjectsMethod();
+
         apiExecutor.expectStatus(getAllProjectsMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getAllProjectsMethod);
         apiExecutor.validateResponse(getAllProjectsMethod, JSONCompareMode.STRICT,
@@ -49,12 +50,14 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     public void testCreateProject() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
         projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
+
         PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName, projectKey);
         apiExecutor.expectStatus(postProjectV1Method, HTTPStatusCodeType.CREATED);
         String rs = apiExecutor.callApiMethod(postProjectV1Method);
         apiExecutor.validateResponse(postProjectV1Method, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         projectKey = JsonPath.from(rs).getString(JSONConstant.KEY_KEY);
+
         List<String> projectKeys = projectV1Service.getAllProjectKeys();
         Assert.assertTrue(projectKeys.contains(projectKey), "Project was not created!");
     }
@@ -64,6 +67,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     public void testCreateProjectWithEmptyRq() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
         projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
+
         PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName, projectKey);
         postProjectV1Method.setRequestTemplate(R.TESTDATA.get(ConfigConstant.EMPTY_RQ_PATH));
         apiExecutor.expectStatus(postProjectV1Method, HTTPStatusCodeType.BAD_REQUEST);
@@ -80,6 +84,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
         DeleteProjectByKeyV1Method deleteProjectByKeyV1Method = new DeleteProjectByKeyV1Method(projectKey);
         apiExecutor.expectStatus(deleteProjectByKeyV1Method, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(deleteProjectByKeyV1Method);
+
         List<String> projectKeys = projectV1Service.getAllProjectKeys();
         Assert.assertFalse(projectKeys.contains(projectKey), "Project was not deleted!");
     }
