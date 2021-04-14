@@ -114,7 +114,11 @@
             <class name="com.qaprosoft.zafira.api.UpdateProjectLeadV1Test"/>
         </classes>
     </test>
-
+    <test name="User assignment controller test">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.UserAssignmentControllerTest"/>
+        </classes>
+    </test>
     <test name="Project assignment controller tests">
         <classes>
             <class name="com.qaprosoft.zafira.api.ProjectV1AssignmentsTest"/>
