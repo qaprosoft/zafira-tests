@@ -49,7 +49,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40453")
     public void testCreateProject() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
-        projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
+        projectKey = RandomStringUtils.randomAlphabetic(3).concat("1").toUpperCase(Locale.ROOT);
 
         PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName, projectKey);
         apiExecutor.expectStatus(postProjectV1Method, HTTPStatusCodeType.CREATED);
@@ -62,11 +62,22 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
         Assert.assertTrue(projectKeys.contains(projectKey), "Project was not created!");
     }
 
+    @Test
+  //  @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40453")
+    public void testCreateProjectWithProjectKeyOnlyWithNumbers() {
+        String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
+        projectKey = "1111";
+
+        PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName, projectKey);
+        apiExecutor.expectStatus(postProjectV1Method, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(postProjectV1Method);
+    }
+
     @Test(description = "negative")
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "407882")
     public void testCreateProjectWithEmptyRq() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
-        projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
+        projectKey = RandomStringUtils.randomAlphabetic(3).concat("1").toUpperCase(Locale.ROOT);
 
         PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName, projectKey);
         postProjectV1Method.setRequestTemplate(R.TESTDATA.get(ConfigConstant.EMPTY_RQ_PATH));
@@ -78,7 +89,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40454")
     public void testDeleteProjectByKey() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
-        projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
+        projectKey = RandomStringUtils.randomAlphabetic(3).concat("1").toUpperCase(Locale.ROOT);
         projectV1Service.createProject(projectName, projectKey);
 
         DeleteProjectByKeyV1Method deleteProjectByKeyV1Method = new DeleteProjectByKeyV1Method(projectKey);
@@ -113,7 +124,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40455")
     public void testGetProjectByKey() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
-        projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
+        projectKey = RandomStringUtils.randomAlphabetic(3).concat("1").toUpperCase(Locale.ROOT);
         projectV1Service.createProject(projectName, projectKey);
 
         GetProjectByIdOrKeyMethod getProjectByIdOrKeyMethod = new GetProjectByIdOrKeyMethod(projectKey);
@@ -129,7 +140,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40456")
     public void testGetProjectById() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
-        projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
+        projectKey = RandomStringUtils.randomAlphabetic(3).concat("1").toUpperCase(Locale.ROOT);
         int projectId = projectV1Service.createProjectAndGetId(projectName, projectKey);
 
         GetProjectByIdOrKeyMethod getProjectByIdOrKeyMethod = new GetProjectByIdOrKeyMethod(projectId);
@@ -145,7 +156,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40791")
     public void testGetProjectByNonexistentId() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
-        projectKey = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
+        projectKey = RandomStringUtils.randomAlphabetic(3).concat("1").toUpperCase(Locale.ROOT);
         int projectId = projectV1Service.createProjectAndGetId(projectName, projectKey);
         projectV1Service.deleteProjectByKey(projectKey);
 

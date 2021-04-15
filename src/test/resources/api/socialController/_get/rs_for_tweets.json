@@ -51,6 +51,9 @@
         "default_profile": true,
         "is_translation_enabled": "type:Boolean",
         "translator_type": "none",
+        "withheld_in_countries": [
+
+        ],
         "has_extended_profile": "type:Boolean"
       },
       "id": "regex:[\\d]",
