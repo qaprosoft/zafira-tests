@@ -64,7 +64,7 @@ public class ProjectV1ServiceImpl implements ProjectV1Service {
     @Override
     public int createProject() {
         String projectName = RandomStringUtils.randomAlphabetic(5).concat("_Project_name");
-        String projectKey = projectName.substring(0, 4).toUpperCase(Locale.ROOT);
+        String projectKey = projectName.substring(0, 4).concat("1").toUpperCase(Locale.ROOT);
         PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName, projectKey);
         apiExecutor.expectStatus(postProjectV1Method, HTTPStatusCodeType.CREATED);
         String rs = apiExecutor.callApiMethod(postProjectV1Method);
@@ -74,7 +74,7 @@ public class ProjectV1ServiceImpl implements ProjectV1Service {
     @Override
     public int createPrivateProject() {
         String projectName = RandomStringUtils.randomAlphabetic(5).concat("_Project_name");
-        String projectKey = projectName.substring(0, 4).toUpperCase(Locale.ROOT);
+        String projectKey = projectName.substring(0, 4).concat("1").toUpperCase(Locale.ROOT);
         PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName, projectKey);
         postProjectV1Method.addProperty(JSONConstant.PUBLICLY_ACCESSIBLE, false);
         apiExecutor.expectStatus(postProjectV1Method, HTTPStatusCodeType.CREATED);

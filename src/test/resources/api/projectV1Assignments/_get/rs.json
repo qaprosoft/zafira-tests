@@ -1,4 +1,5 @@
 {
+  "query": "type:String",
   "sortBy": "type:String",
   "sortOrder": "type:String",
   "page": "regex:[\\d]",

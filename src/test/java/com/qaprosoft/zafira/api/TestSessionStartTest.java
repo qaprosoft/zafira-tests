@@ -30,8 +30,14 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
     @DataProvider(name = "mandatoryFieldsForStar")
     public Object[][] getMandatoryFieldsForStart() {
         return new Object[][]{{JSONConstant.SESSION_ID},
-                //  {JSONConstant.CAPABILITIES},
-                //   {JSONConstant.DESIRED_CAPABILITIES},
+                  {JSONConstant.CAPABILITIES},
+                  {JSONConstant.DESIRED_CAPABILITIES},
+                  {JSONConstant.STARTED_AT}};
+    }
+
+    @DataProvider(name = "mandatorySessionIdAndStartedAt")
+    public Object[][] getMandatorySessionIdAndStartedAt() {
+        return new Object[][]{{JSONConstant.SESSION_ID},
                 {JSONConstant.STARTED_AT}};
     }
 
@@ -209,7 +215,7 @@ public class TestSessionStartTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postSessionV1Method);
     }
 
-    @Test(description = "negative", dataProvider = "mandatoryFieldsForStar")
+    @Test(description = "negative", dataProvider = "mandatorySessionIdAndStartedAt")
     public void testStartSessionWithEmptyField(String field) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
