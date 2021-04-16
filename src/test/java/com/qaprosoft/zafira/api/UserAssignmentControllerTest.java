@@ -1,7 +1,7 @@
 package com.qaprosoft.zafira.api;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
-import com.qaprosoft.zafira.api.project.GetUserAssignmentsByIdMethod;
+import com.qaprosoft.zafira.api.projectsV1.GetUserAssignmentsByIdMethod;
 import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.enums.ProjectRole;

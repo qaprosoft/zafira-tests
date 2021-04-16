@@ -30,4 +30,6 @@ public interface ProjectV1Service {
     int getLeadIdByProjectKey(String projectKey);
 
     List<Integer> getAllPublicProjectIds();
+
+    List<Integer> getProjectSortBySwitchedAte();
 }

@@ -146,4 +146,18 @@ public class ProjectV1ServiceImpl implements ProjectV1Service {
         projectId.sort(Comparator.naturalOrder());
         return projectId;
     }
+
+    @Override
+    public List<Integer> getProjectSortBySwitchedAte(){
+        GetAllProjectsMethod getAllProjectsMethod = new GetAllProjectsMethod();
+        getAllProjectsMethod.setMethodPath(
+                getAllProjectsMethod.getMethodPath()
+                        .split("\\?")[0]
+                        .concat("?sortBy=switchedAte&sortOrder=DESC&pageSize=10&page=1"));
+        apiExecutor.expectStatus(getAllProjectsMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getAllProjectsMethod);
+
+        List<Integer> listProjectIdsAfterSwitching= JsonPath.from(rs).getList("results.id");
+        return listProjectIdsAfterSwitching;
+    }
 }

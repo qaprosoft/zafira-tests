@@ -1,4 +1,4 @@
-package com.qaprosoft.zafira.api.project;
+package com.qaprosoft.zafira.api.projectsV1;
 
 import com.qaprosoft.carina.core.foundation.api.AbstractApiMethodV2;
 import com.qaprosoft.carina.core.foundation.api.annotation.Endpoint;
