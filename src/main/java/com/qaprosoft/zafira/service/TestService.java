@@ -16,4 +16,6 @@ public interface TestService {
             jobId, String expectedTestStatusValue);
 
     void linkWorkItem(int testId, int testCaseId);
+
+    void linkWorkItem(int testId, int testCaseId, String workitem);
 }

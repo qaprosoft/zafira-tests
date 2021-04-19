@@ -1,7 +1,6 @@
 package com.qaprosoft.zafira.service.impl;
 
 
-import com.qaprosoft.zafira.api.testRunController.PostAIAnalysisMethod;
 import com.qaprosoft.zafira.api.testRunController.v1.DeleteTestByIdV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestsInTestRunV1HeadlessMethod;
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestsInTestRunV1Method;
@@ -32,8 +31,17 @@ public class TestServiceV1Impl implements TestServiceAPIV1 {
     }
 
     @Override
+    public int startTestWithMethodName(int testRunId, String methodName) {
+        PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1Method(testRunId);
+        postStartTestsInTestRunV1Method.addProperty("methodName", methodName);
+        apiExecutor.expectStatus(postStartTestsInTestRunV1Method, HTTPStatusCodeType.OK);
+        String response = apiExecutor.callApiMethod(postStartTestsInTestRunV1Method);
+        return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
+    }
+
+    @Override
     public List<Integer> startTests(int testRunId, int numOfTests) {
-        List<Integer> testIdsList = new ArrayList<>() ;
+        List<Integer> testIdsList = new ArrayList<>();
         for (int i = 0; i < numOfTests; ++i) {
             PostStartTestsInTestRunV1Method postStartTestsInTestRunV1Method = new PostStartTestsInTestRunV1Method(testRunId);
             apiExecutor.expectStatus(postStartTestsInTestRunV1Method, HTTPStatusCodeType.OK);
@@ -48,7 +56,7 @@ public class TestServiceV1Impl implements TestServiceAPIV1 {
     public String finishTestAsResult(int testRunId, int testId, String result) {
         PutFinishTestInTestRunV1Method putFinishTestInTestRunV1Method = new PutFinishTestInTestRunV1Method(testRunId, testId, result);
         apiExecutor.expectStatus(putFinishTestInTestRunV1Method, HTTPStatusCodeType.OK);
-        String response =  apiExecutor.callApiMethod(putFinishTestInTestRunV1Method);
+        String response = apiExecutor.callApiMethod(putFinishTestInTestRunV1Method);
         return JsonPath.from(response).getString(JSONConstant.RESULT);
     }
 
@@ -63,7 +71,7 @@ public class TestServiceV1Impl implements TestServiceAPIV1 {
 
     @Override
     public void deleteTest(int testRunId, int id) {
-        DeleteTestByIdV1Method postStartTestsInTestRunV1Method = new DeleteTestByIdV1Method(testRunId,id);
+        DeleteTestByIdV1Method postStartTestsInTestRunV1Method = new DeleteTestByIdV1Method(testRunId, id);
         apiExecutor.callApiMethod(postStartTestsInTestRunV1Method);
     }
 }

@@ -1,8 +1,11 @@
 package com.qaprosoft.zafira.api;
 
 import com.qaprosoft.zafira.api.projectsV1.PutProjectSwitchV1Method;
+import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.ProjectV1ServiceImpl;
+import com.zebrunner.agent.core.annotation.Maintainer;
+import com.zebrunner.agent.core.annotation.TestLabel;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -16,7 +19,8 @@ public class ProjectSwitchTest extends ZafiraAPIBaseTest {
 
 
     @Test
-    //  @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40793")
+    @Maintainer("obabich")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40806")
     public void testSwitchProject() {
         List<Integer> allPublicProjectIds = projectV1Service.getAllPublicProjectIds();
         int projectId = allPublicProjectIds.get(1);
@@ -29,7 +33,8 @@ public class ProjectSwitchTest extends ZafiraAPIBaseTest {
     }
 
     @Test()
-    //  @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40799")
+    @Maintainer("obabich")
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40807")
     public void testSwitchProjectWithNonexistentProjectId() {
         int projectId = projectV1Service.createProject();
         projectV1Service.deleteProjectById(projectId);
@@ -40,7 +45,5 @@ public class ProjectSwitchTest extends ZafiraAPIBaseTest {
 
         Assert.assertFalse(projectV1Service.getProjectSortBySwitchedAte().contains(projectId));
     }
-
-
 }
 

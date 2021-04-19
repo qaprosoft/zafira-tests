@@ -8,6 +8,8 @@ public interface TestServiceAPIV1 {
 
     int startTest(int testRunId);
 
+    int startTestWithMethodName(int testRunId, String methodName);
+
     List<Integer> startTests(int testRunId, int numOfTests);
 
     String finishTestAsResult(int testRunId, int testId, String result);
