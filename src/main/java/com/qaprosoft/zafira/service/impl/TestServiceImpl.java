@@ -64,4 +64,12 @@ public class TestServiceImpl implements TestService {
         apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postLinkWorkItemMethod);
     }
+
+    @Override
+    public void linkWorkItem(int testId, int testCaseId, String workItem) {
+        PostLinkWorkItemMethod postLinkWorkItemMethod = new PostLinkWorkItemMethod(testCaseId, workItem,
+                testId, "BUG");
+        apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postLinkWorkItemMethod);
+    }
 }

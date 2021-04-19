@@ -15,9 +15,11 @@ import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
+import com.qaprosoft.zafira.service.impl.TestServiceImpl;
 import com.qaprosoft.zafira.service.impl.TestServiceV1Impl;
 import com.zebrunner.agent.core.annotation.TestLabel;
 import io.restassured.path.json.JsonPath;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +41,6 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     private static final String RESULT_SKIPPED = "SKIPPED";
     private static final String RESULT_FAILED = "FAILED";
     private static final String RESULT_PASSED = "PASSED";
-    private static final String RESULT_IN_PROGRESS = "IN_PROGRESS";
     private static final String RESULT_ABORTED = "ABORTED";
     private static final String PROJECT_UNKNOWN = APIContextManager.PROJECT_NAME_KEY;
     private static final String EMPTY_PROJECT = "";
@@ -363,4 +364,39 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postAIAnalysisMethod, HTTPStatusCodeType.ACCEPTED);
         apiExecutor.callApiMethod(postAIAnalysisMethod);
     }
+
+    @Test
+    public void testGetTestRunStatusV1WithTestResultsFAILEDAndPASSEDWithWorkitem() {
+        testRunId = new TestRunServiceAPIImplV1().start();
+        int testId1 = new TestServiceV1Impl().startTest(testRunId);
+        int testId2 = new TestServiceV1Impl().startTest(testRunId);
+        new TestServiceV1Impl().finishTestAsResult(testRunId, testId1, RESULT_FAILED);
+        new TestServiceV1Impl().finishTestAsResult(testRunId, testId2, RESULT_PASSED);
+        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+        new TestServiceImpl().linkWorkItem(testId1, 5);
+        String actualResult = new TestRunServiceAPIImplV1().getTestRunResult(testRunId);
+
+        Assert.assertEquals(actualResult, RESULT_PASSED, "Result is not as expected!");
+    }
+
+    @Test
+    public void testGetTestRunStatusV1WithLinkedWithWorkitem() {
+        String methodName = "NewMethodName".concat(RandomStringUtils.random(5));
+
+        testRunId = new TestRunServiceAPIImplV1().start();
+        int testId1 = new TestServiceV1Impl().startTestWithMethodName(testRunId, methodName);
+        new TestServiceV1Impl().finishTestAsResult(testRunId, testId1, RESULT_FAILED);
+        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+        new TestServiceImpl().linkWorkItem(testId1, 5);
+
+        int testRunIdNew = new TestRunServiceAPIImplV1().start();
+        int testId2 = new TestServiceV1Impl().startTestWithMethodName(testRunIdNew, methodName);
+        new TestServiceV1Impl().finishTestAsResult(testRunIdNew, testId2, RESULT_FAILED);
+        new TestRunServiceAPIImplV1().finishTestRun(testRunIdNew);
+        String actualResult = new TestRunServiceAPIImplV1().getTestRunResult(testRunIdNew);
+
+        Assert.assertEquals(actualResult, RESULT_PASSED, "Result is not as expected!");
+        new TestRunServiceAPIImplV1().deleteTestRun(testRunIdNew);
+    }
+
 }
