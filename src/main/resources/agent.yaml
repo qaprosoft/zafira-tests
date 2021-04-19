@@ -1,6 +1,6 @@
 reporting:
   enabled: true
-  project-key: Zebrunner
+  project-key: ZEB
   server:
     hostname: https://automation.qaprosoft.farm
     access-token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwicGFzc3dvcmQiOiJmVllBK2o4SmpXUmVGRVVkajc1OU43TjZBQm1LYkkyNCIsInRlbmFudCI6ImF1dG9tYXRpb24iLCJpc3MiOiJpYW0iLCJleHAiOjM3NTQ4MTMxODh9.lasxeDXajHiNkfnmf5_mBVwoTud3Rx0162t0kAVOy5vZfsOb1UODkSlgkmaUHNg3NcQVvHPo-F0PLuaal_59Aw
