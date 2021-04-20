@@ -224,4 +224,9 @@
             <class name="com.qaprosoft.zafira.api.ProjectSwitchTest"/>
         </classes>
     </test>
+    <test name="Project TestRun Controller">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.ProjectTestRunControllerTest"/>
+        </classes>
+    </test>
 </suite>

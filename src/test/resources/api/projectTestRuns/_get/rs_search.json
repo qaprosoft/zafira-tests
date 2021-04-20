@@ -1,0 +1,44 @@
+{
+  "query": null,
+  "orderBy": null,
+  "page": "regex:[\\d]",
+  "pageSize": "regex:[\\d]",
+  "sortOrder": "type:String",
+  "results": [
+    {
+      "id": "regex:[\\d]",
+    "modifiedAt": "regex:[\\d]",
+    "createdAt": "regex:[\\d]",
+    "name": "type:String",
+    "ciRunId": "type:String",
+    "user": "type:JSONObject",
+    "testSuite": "type:JSONObject",
+    "status": "type:String",
+    "buildNumber": "regex:[\\d]",
+    "activeProjectId": "regex:[\\d]",
+    "knownIssue": "type:Boolean",
+    "startedAt": "regex:[\\d]",
+    "endedAt": "regex:[\\d]",
+    "elapsed": "regex:[\\d]",
+    "config": "type:JSONObject",
+    "environment": "type:String",
+    "build": "type:String",
+    "passed": "regex:[\\d]",
+    "failed": "regex:[\\d]",
+    "failedAsKnown": "regex:[\\d]",
+    "skipped": "regex:[\\d]",
+    "inProgress": "regex:[\\d]",
+    "aborted": "regex:[\\d]",
+    "reviewed": "type:Boolean",
+    "framework": "type:String",
+    "artifacts": [
+
+    ],
+    "labels": [
+
+    ]
+    }
+  ],
+  "totalResults": "regex:[\\d]",
+  "offset": "regex:[\\d]"
+}
