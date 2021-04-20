@@ -1,0 +1,12 @@
+{
+  "id": "regex:[\\d]",
+  "ciRunId": "type:String",
+  "testSuiteId": "regex:[\\d]",
+  "status": "type:String",
+  "userId": "regex:[\\d]",
+  "activeProjectId": "regex:[\\d]",
+  "knownIssue": "type:Boolean",
+  "reviewed": "type:Boolean",
+  "artifacts": "type:JSONArray",
+  "labels": "type:JSONArray"
+}

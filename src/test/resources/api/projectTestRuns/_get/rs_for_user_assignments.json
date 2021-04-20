@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "project": {
+        "id": "regex:[\\d]",
+        "key": "type:String",
+        "name": "type:String"
+      },
+      "role": "type:String"
+    }
+  ]
+}
