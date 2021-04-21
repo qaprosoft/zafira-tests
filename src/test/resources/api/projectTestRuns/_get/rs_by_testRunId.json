@@ -5,6 +5,11 @@
   "status": "type:String",
   "userId": "regex:[\\d]",
   "activeProjectId": "regex:[\\d]",
+  "project": {
+    "id": "regex:[\\d]",
+    "name": "type:String",
+    "description": "type:String"
+  },
   "knownIssue": "type:Boolean",
   "reviewed": "type:Boolean",
   "artifacts": "type:JSONArray",

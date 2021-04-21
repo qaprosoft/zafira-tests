@@ -3,7 +3,6 @@
   "orderBy": "type:Null",
   "page": "regex:[\\d]",
   "pageSize": "regex:[\\d]",
-  "projects": "type:Null",
   "sortOrder": "type:String",
   "results": "type:JSONArray",
   "totalResults": "regex:[\\d]",

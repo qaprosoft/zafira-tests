@@ -4,7 +4,6 @@
        junit="false"
        parallel="tests" annotations="JDK">
 
-    <parameter name="suiteOwner" value="qpsdemo"/>
     <parameter name="zafira_project" value="Zebrunner"/>
     <parameter name="jenkinsJobCreation" value="true"/>
     <parameter name="jenkinsJobName" value="Zafira-API-Acceptance-Test"/>
@@ -109,7 +108,6 @@
 
     <test name="Project controller tests">
         <classes>
-            <class name="com.qaprosoft.zafira.api.ProjectTest"/>
             <class name="com.qaprosoft.zafira.api.ProjectV1Test"/>
             <class name="com.qaprosoft.zafira.api.UpdateProjectLeadV1Test"/>
         </classes>
