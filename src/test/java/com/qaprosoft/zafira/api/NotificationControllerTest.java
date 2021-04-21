@@ -8,11 +8,12 @@ import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceV1Impl;
+import com.zebrunner.agent.core.annotation.Maintainer;
 import org.apache.log4j.Logger;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
-
+@Maintainer("obabich")
 public class NotificationControllerTest extends ZafiraAPIBaseTest {
     private static Logger LOGGER = Logger.getLogger(NotificationControllerTest.class);
     private int testRunId;

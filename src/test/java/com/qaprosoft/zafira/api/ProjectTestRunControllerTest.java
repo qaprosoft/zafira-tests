@@ -6,11 +6,13 @@ import com.qaprosoft.zafira.api.projectTestRuns.GetProjectTestRunByTestRunIdMeth
 import com.qaprosoft.zafira.api.projectTestRuns.GetSearchProjectTestRunMethod;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
+import com.zebrunner.agent.core.annotation.Maintainer;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
+@Maintainer("obabich")
 public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
 
     private int testRunId;
@@ -76,7 +78,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(projectTestRunByTestRunIdMethod);
     }
 
-    @Test(enabled = false)
+    @Test()
     public void searchProjectTestRuns() {
         testRunId = testRunServiceAPIImplV1.start();
         GetSearchProjectTestRunMethod getSearchProjectTestRunMethod =

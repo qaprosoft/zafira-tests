@@ -32,7 +32,6 @@
     "iam:users:read",
     "iam:users:update",
     "reporting:dashboards:delete",
-    "reporting:dashboards:read-hidden",
     "reporting:dashboards:update",
     "reporting:integrations:read",
     "reporting:integrations:update",
