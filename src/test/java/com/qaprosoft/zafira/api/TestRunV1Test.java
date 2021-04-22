@@ -366,9 +366,10 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testGetTestRunStatusV1WithTestResultsFAILEDAndPASSEDWithWorkitem() {
+    public void testGetTestRunStatusV1WithTestResultsFAILEDAndPASSEDWithWorkItem() {
+        String methodName = "ToCheckWorkItemMethodName".concat(RandomStringUtils.random(15));
         testRunId = new TestRunServiceAPIImplV1().start();
-        int testId1 = new TestServiceV1Impl().startTest(testRunId);
+        int testId1 = new TestServiceV1Impl().startTestWithMethodName(testRunId, methodName);
         int testId2 = new TestServiceV1Impl().startTest(testRunId);
         new TestServiceV1Impl().finishTestAsResult(testRunId, testId1, RESULT_FAILED);
         new TestServiceV1Impl().finishTestAsResult(testRunId, testId2, RESULT_PASSED);
@@ -380,7 +381,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testGetTestRunStatusV1WithLinkedWithWorkitem() {
+    public void testGetTestRunStatusV1WithLinkedWithWorkItem() {
         String methodName = "NewMethodName".concat(RandomStringUtils.random(5));
 
         testRunId = new TestRunServiceAPIImplV1().start();
