@@ -5,18 +5,33 @@ import com.qaprosoft.zafira.api.projectTestRuns.GetProjectTestRunByCiRunIdMethod
 import com.qaprosoft.zafira.api.projectTestRuns.GetProjectTestRunByTestRunIdMethod;
 import com.qaprosoft.zafira.api.projectTestRuns.GetSearchProjectTestRunMethod;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.service.impl.ProjectV1ServiceImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.zebrunner.agent.core.annotation.Maintainer;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 @Maintainer("obabich")
 public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
-
+    private static int projectId;
     private int testRunId;
     private TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
+    private ProjectV1ServiceImpl projectV1Service = new ProjectV1ServiceImpl();
+
+
+    @BeforeTest
+    public void testCreateProject() {
+        projectId = projectV1Service.createProject();
+    }
+
+    @AfterTest
+    public void testDeleteProject() {
+        projectV1Service.deleteProjectById(projectId);
+    }
 
     @AfterMethod
     public void deleteTestRun() {
@@ -25,7 +40,8 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void getTestRunByCiRunId() {
-        testRunId = testRunServiceAPIImplV1.start();
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
         String ciRunId = testRunServiceAPIImplV1.getCiRunId(testRunId);
         GetProjectTestRunByCiRunIdMethod getProjectTestRunByCiRunIdMethod =
                 new GetProjectTestRunByCiRunIdMethod(ciRunId);
@@ -59,7 +75,8 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void getTestRunByTestRunId() {
-        testRunId = testRunServiceAPIImplV1.start();
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
         GetProjectTestRunByTestRunIdMethod projectTestRunByTestRunIdMethod =
                 new GetProjectTestRunByTestRunIdMethod(testRunId);
         apiExecutor.expectStatus(projectTestRunByTestRunIdMethod, HTTPStatusCodeType.OK);
@@ -80,9 +97,10 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
 
     @Test()
     public void searchProjectTestRuns() {
-        testRunId = testRunServiceAPIImplV1.start();
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
         GetSearchProjectTestRunMethod getSearchProjectTestRunMethod =
-                new GetSearchProjectTestRunMethod(7);
+                new GetSearchProjectTestRunMethod(projectId);
         apiExecutor.expectStatus(getSearchProjectTestRunMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getSearchProjectTestRunMethod);
         apiExecutor.validateResponse(getSearchProjectTestRunMethod, JSONCompareMode.STRICT,

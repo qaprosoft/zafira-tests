@@ -23,8 +23,6 @@
       "activeProjectId": "regex:[\\d]",
       "knownIssue": "type:Boolean",
       "startedAt": "regex:[\\d]",
-      "endedAt": "regex:[\\d]",
-      "elapsed": "regex:[\\d]",
       "config": "type:JSONObject",
       "environment": "type:String",
       "build": "type:String",

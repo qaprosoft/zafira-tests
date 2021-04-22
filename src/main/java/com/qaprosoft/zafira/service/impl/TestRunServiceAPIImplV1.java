@@ -34,6 +34,13 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
     }
 
     @Override
+    public int start(String projectKey) {
+        PostStartTestRunV1Method postStartTestRunV1Method = new PostStartTestRunV1Method(projectKey, OffsetDateTime.now().toString());
+        String response = apiExecutor.callApiMethod(postStartTestRunV1Method);
+        return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
+    }
+
+    @Override
     public String getCiRunId(int testRunId) {
         return JsonPath.from(
                 apiExecutor.callApiMethod(new GetTestRunByIdMethod(testRunId)))
