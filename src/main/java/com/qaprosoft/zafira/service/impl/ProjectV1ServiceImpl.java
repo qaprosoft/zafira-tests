@@ -148,7 +148,7 @@ public class ProjectV1ServiceImpl implements ProjectV1Service {
     }
 
     @Override
-    public List<Integer> getProjectSortBySwitchedAte(){
+    public List<Integer> getProjectSortBySwitchedAte() {
         GetAllProjectsMethod getAllProjectsMethod = new GetAllProjectsMethod();
         getAllProjectsMethod.setMethodPath(
                 getAllProjectsMethod.getMethodPath()
@@ -157,7 +157,7 @@ public class ProjectV1ServiceImpl implements ProjectV1Service {
         apiExecutor.expectStatus(getAllProjectsMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(getAllProjectsMethod);
 
-        List<Integer> listProjectIdsAfterSwitching= JsonPath.from(rs).getList("results.id");
+        List<Integer> listProjectIdsAfterSwitching = JsonPath.from(rs).getList("results.id");
         return listProjectIdsAfterSwitching;
     }
 }
