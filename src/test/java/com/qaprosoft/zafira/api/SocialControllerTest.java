@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 public class SocialControllerTest extends ZafiraAPIBaseTest {
 
-    @Test
+    @Test(enabled = false)
     public void testGetTenancyInfo() {
         GetZebrunnerTweetsMethod getZebrunnerTweetsMethod = new GetZebrunnerTweetsMethod();
         apiExecutor.expectStatus(getZebrunnerTweetsMethod, HTTPStatusCodeType.OK);
