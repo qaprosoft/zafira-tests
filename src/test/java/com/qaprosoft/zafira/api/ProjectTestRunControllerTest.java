@@ -181,6 +181,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(sendTestRunResultsViaEmailMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(sendTestRunResultsViaEmailMethod);
         verifyIfEmailWasDelivered(status);
+        EMAIL.deleteMsg(status);
     }
 
     /**
@@ -206,6 +207,18 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         projectV1TestRunService.deleteProjectTestRun(testRunId);
         SendTestRunResultsViaEmailMethod sendTestRunResultsViaEmailMethod = new SendTestRunResultsViaEmailMethod(testRunId, TEST_EMAIL);
         apiExecutor.expectStatus(sendTestRunResultsViaEmailMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(sendTestRunResultsViaEmailMethod);
+    }
+
+    @Test(groups = {"negative"})
+    public void testSendTestRunResultsViaEmailWithRecipients() {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        projectV1TestRunService.deleteProjectTestRun(testRunId);
+        SendTestRunResultsViaEmailMethod sendTestRunResultsViaEmailMethod = new SendTestRunResultsViaEmailMethod(testRunId, TEST_EMAIL);
+        sendTestRunResultsViaEmailMethod.removeProperty("recipients");
+        apiExecutor.expectStatus(sendTestRunResultsViaEmailMethod, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(sendTestRunResultsViaEmailMethod);
     }
 }

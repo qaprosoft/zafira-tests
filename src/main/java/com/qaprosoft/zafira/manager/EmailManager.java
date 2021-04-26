@@ -23,6 +23,7 @@ public class EmailManager {
     private static final int DEFAULT_EMAILS_COUNT_TO_RETRIEVE = 10;
     private static final int FLUENT_WAIT_POLLING_INTERVAL = 20;
     private static final int FIVE_MINUTES_TO_MILLISEKUNDS_PERIOD = 300000;
+    private static final String HOST = "imap.gmail.com";
 
 
     private String email;
@@ -54,7 +55,7 @@ public class EmailManager {
         try {
             // open session
             store = session.getStore("imaps");
-            store.connect("imap.gmail.com", email, password);
+            store.connect(HOST, email, password);
 
             // get inbox folder
             Folder inboxFolder = store.getFolder("inbox");
@@ -165,4 +166,45 @@ public class EmailManager {
         LOGGER.info("Email with '" + passwordResetMessage + "' with proper delivery date found in Inbox");
     }
 
+    public void deleteMsg(String value) {
+        try {
+            Properties properties = initProps();
+            Session emailSession = Session.getDefaultInstance(properties);
+
+            // create the imaps store object and connect with the pop server
+            Store store = emailSession.getStore("imaps");
+            store.connect(HOST, email, password);
+
+            // create the folder object and open it
+            Folder emailFolder = store.getFolder("INBOX");
+            emailFolder.open(Folder.READ_WRITE);
+
+            // retrieve the messages from the folder in an array and print it
+            Message[] messages = emailFolder.getMessages();
+            System.out.println("messages.length---" + messages.length);
+            for (int i = 0; i < messages.length; i++) {
+                Message message = messages[i];
+                System.out.println("---------------------------------");
+                System.out.println("Email Number " + (i + 1));
+                System.out.println("Subject: " + message.getSubject());
+                System.out.println("From: " + message.getFrom()[0]);
+                System.out.println("ReceivedDate: " + message.getReceivedDate());
+
+                String subject = message.getSubject();
+
+                if (subject.contains(value)) {
+                    message.setFlag(Flags.Flag.DELETED, true);
+                    LOGGER.info("Marked DELETE for message: " + subject);
+                }
+            }
+            // expunges the folder to remove messages which are marked deleted
+            emailFolder.close(true);
+            store.close();
+
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 }

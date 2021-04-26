@@ -405,6 +405,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postPasswordResetMethodV1, HTTPStatusCodeType.ACCEPTED);
         apiExecutor.callApiMethod(postPasswordResetMethodV1);
         verifyIfEmailWasDelivered(EXPECTED_MESSAGE);
+        EMAIL.deleteMsg(EXPECTED_MESSAGE);
     }
 }
 
