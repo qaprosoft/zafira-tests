@@ -2,7 +2,10 @@ package com.qaprosoft.zafira.api;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
-import com.qaprosoft.zafira.api.dashboard.widget.*;
+import com.qaprosoft.zafira.api.dashboard.widget.DeleteWidgetFromDashboardMethod;
+import com.qaprosoft.zafira.api.dashboard.widget.PostDashboardByEmailMethod;
+import com.qaprosoft.zafira.api.dashboard.widget.PostWidgetToDashboardMethod;
+import com.qaprosoft.zafira.api.dashboard.widget.PutBatchOfWidgetsDashboardMethod;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.domain.EmailMsg;
@@ -110,6 +113,7 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postAssetMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postAssetMethod);
         verifyIfEmailWasDelivered(dashboardName);
+        EMAIL.deleteMsg(dashboardName);
     }
 
     @Test
@@ -128,6 +132,7 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postAssetMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postAssetMethod);
         verifyIfEmailWasDelivered(dashboardName);
+        EMAIL.deleteMsg(dashboardName);
     }
 
     private boolean verifyIfEmailWasDelivered(String dashboardName) {

@@ -111,6 +111,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postTestRunResultEmailMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postTestRunResultEmailMethod);
         verifyIfEmailWasDelivered(expStatus);
+        EMAIL.deleteMsg(expStatus);
     }
 
     @Test
