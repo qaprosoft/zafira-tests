@@ -1,19 +1,27 @@
 package com.qaprosoft.zafira.api;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
+import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.projectTestRuns.*;
+import com.qaprosoft.zafira.constant.ConfigConstant;
+import com.qaprosoft.zafira.domain.EmailMsg;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.ProjectV1ServiceImpl;
 import com.qaprosoft.zafira.service.impl.ProjectV1TestRunServiceImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
+import com.qaprosoft.zafira.util.CryptoUtil;
 import com.zebrunner.agent.core.annotation.Maintainer;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import java.util.Date;
 
 @Maintainer("obabich")
 public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
@@ -22,6 +30,11 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
     private TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
     private ProjectV1ServiceImpl projectV1Service = new ProjectV1ServiceImpl();
     private ProjectV1TestRunServiceImpl projectV1TestRunService = new ProjectV1TestRunServiceImpl();
+    private static Logger LOGGER = Logger.getLogger(ProjectTestRunControllerTest.class);
+    private final String TEST_EMAIL = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
+    private final EmailManager EMAIL = new EmailManager(
+            CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY)),
+            CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY)));
 
 
     @BeforeTest
@@ -36,7 +49,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
 
     @AfterMethod
     public void deleteTestRun() {
-    projectV1TestRunService.deleteProjectTestRun(testRunId);
+        projectV1TestRunService.deleteProjectTestRun(testRunId);
     }
 
     @Test
@@ -52,7 +65,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey() + "labels");
     }
 
-    @Test(description = "negative")
+    @Test(groups = {"negative"})
     public void testGetTestRunByCiRunIdWithNonExistentCiRunId() {
         String ciRunId = RandomStringUtils.randomAlphabetic(5);
         GetProjectTestRunByCiRunIdMethod getProjectTestRunByCiRunIdMethod =
@@ -61,7 +74,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getProjectTestRunByCiRunIdMethod);
     }
 
-    @Test(description = "negative")
+    @Test(groups = {"negative"})
     public void testGetTestRunByCiRunIdWithoutQueryParams() {
         String ciRunId = RandomStringUtils.randomAlphabetic(5);
         GetProjectTestRunByCiRunIdMethod getProjectTestRunByCiRunIdMethod =
@@ -86,7 +99,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(groups = {"negative"})
     public void testGetTestRunByNonexistentTestRunId() {
         testRunId = testRunServiceAPIImplV1.start();
         testRunServiceAPIImplV1.deleteTestRun(testRunId);
@@ -118,20 +131,12 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         Assert.assertFalse(projectV1TestRunService.getAllProjectTestRunIds(projectId).contains(testRunId));
     }
 
-    @Test
+    @Test(groups = {"negative"})
     public void testDeleteTestRunByTestRunIdWithNonexistentId() {
         String projectKey = projectV1Service.getProjectKeyById(projectId);
         testRunId = testRunServiceAPIImplV1.start(projectKey);
         projectV1TestRunService.deleteProjectTestRun(testRunId);
         DeleteProjectTestRunByIdMethod deleteProjectTestRunByIdMethod = new DeleteProjectTestRunByIdMethod(testRunId);
-        apiExecutor.expectStatus(deleteProjectTestRunByIdMethod, HTTPStatusCodeType.NOT_FOUND);
-        apiExecutor.callApiMethod(deleteProjectTestRunByIdMethod);
-    }
-
-    @Test(enabled = false)
-    public void testDeleteTestRunByTestRunIdWithTestRunIdFromAnotherProject() {
-        testRunId = testRunServiceAPIImplV1.start();
-        DeleteProjectTestRunByIdMethod deleteProjectTestRunByIdMethod = new DeleteProjectTestRunByIdMethod(29326);
         apiExecutor.expectStatus(deleteProjectTestRunByIdMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(deleteProjectTestRunByIdMethod);
     }
@@ -144,6 +149,63 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         PostProjectIAAnalysisMethod postProjectIAAnalysisMethod = new PostProjectIAAnalysisMethod(testRunId);
         apiExecutor.expectStatus(postProjectIAAnalysisMethod, HTTPStatusCodeType.ACCEPTED);
         apiExecutor.callApiMethod(postProjectIAAnalysisMethod);
-        projectV1TestRunService.getAllProjectTestRunIds(projectId);
+    }
+
+    @Test(groups = {"negative"})
+    public void testPostProjectIAAnalysisWithNonexistentTestRunId() {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        projectV1TestRunService.deleteProjectTestRun(testRunId);
+        PostProjectIAAnalysisMethod postProjectIAAnalysisMethod = new PostProjectIAAnalysisMethod(testRunId);
+        apiExecutor.expectStatus(postProjectIAAnalysisMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(postProjectIAAnalysisMethod);
+    }
+
+    @Test
+    public void testBuildProjectTestRun() {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        BuildProjectTestRunMethod buildProjectTestRunMethod = new BuildProjectTestRunMethod(testRunId);
+        apiExecutor.expectStatus(buildProjectTestRunMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(buildProjectTestRunMethod);
+    }
+
+    @Test
+    public void testSendTestRunResultsViaEmail() {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        String status = testRunServiceAPIImplV1.finishTestRun(testRunId);
+        SendTestRunResultsViaEmailMethod sendTestRunResultsViaEmailMethod = new SendTestRunResultsViaEmailMethod(testRunId, TEST_EMAIL);
+        apiExecutor.expectStatus(sendTestRunResultsViaEmailMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(sendTestRunResultsViaEmailMethod);
+        verifyIfEmailWasDelivered(status);
+    }
+
+    /**
+     * Checks the expected testRun url contains in the last email
+     *
+     * @param expStatus expected testrun URL to get from email
+     * @return
+     */
+    private boolean verifyIfEmailWasDelivered(String expStatus) {
+        final int lastEmailIndex = 0;
+        final int emailsCount = 1;
+        LOGGER.info("Will get last email from inbox.");
+        EMAIL.waitForEmailDelivered(new Date(), expStatus); // decency from connection, wait a little bit
+        EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
+        return email.getContent().contains(expStatus);
+    }
+
+    @Test(groups = {"negative"})
+    public void testSendTestRunResultsViaEmailWithNonexistentTestRunId() {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        projectV1TestRunService.deleteProjectTestRun(testRunId);
+        SendTestRunResultsViaEmailMethod sendTestRunResultsViaEmailMethod = new SendTestRunResultsViaEmailMethod(testRunId, TEST_EMAIL);
+        apiExecutor.expectStatus(sendTestRunResultsViaEmailMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(sendTestRunResultsViaEmailMethod);
     }
 }

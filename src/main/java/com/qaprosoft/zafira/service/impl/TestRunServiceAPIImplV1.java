@@ -62,10 +62,12 @@ public class TestRunServiceAPIImplV1 implements TestRunServiceAPIV1 {
     }
 
     @Override
-    public void finishTestRun(int testRunId) {
+    public String finishTestRun(int testRunId) {
         PutFinishTestRunV1Method putFinishTestRunV1Method = new PutFinishTestRunV1Method(testRunId, OffsetDateTime.now().toString());
         apiExecutor.expectStatus(putFinishTestRunV1Method, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(putFinishTestRunV1Method);
+       String rs =  apiExecutor.callApiMethod(putFinishTestRunV1Method);
+       String status = JsonPath.from(rs).getString(JSONConstant.STATUS_KEY);
+       return status;
     }
 
     @Override

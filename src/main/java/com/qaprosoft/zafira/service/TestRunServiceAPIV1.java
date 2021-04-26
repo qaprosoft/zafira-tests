@@ -12,7 +12,7 @@ public interface TestRunServiceAPIV1 {
 
     String getTestRunById(int testRunId);
 
-    void finishTestRun(int testRunId);
+    String finishTestRun(int testRunId);
 
     void deleteTestRun(int testRunId);
 

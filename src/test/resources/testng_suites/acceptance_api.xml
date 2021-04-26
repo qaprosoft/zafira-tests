@@ -172,11 +172,6 @@
             <class name="com.qaprosoft.zafira.api.ServiceMetadataControllerTest"/>
         </classes>
     </test>
-    <test name="Social Controller Test ">
-        <classes>
-            <class name="com.qaprosoft.zafira.api.SocialControllerTest"/>
-        </classes>
-    </test>
     <test name="Settings Controller Test ">
         <classes>
             <class name="com.qaprosoft.zafira.api.SettingsControllerTest"/>
