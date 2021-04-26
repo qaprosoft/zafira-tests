@@ -222,7 +222,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
     }
 
     /**
-     * Checks the expected testrun url contains in the last email
+     * Checks the expected testRun url contains in the last email
      *
      * @param expStatus expected testrun URL to get from email
      * @return

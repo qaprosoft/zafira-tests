@@ -112,7 +112,7 @@ public class EmailManager {
                     LOGGER.info("Retrieved msg: " + msg);
                     LOGGER.info("MessageTime msg: " + msg.getTime());
                     LOGGER.info("TestTime : " + startTestTime);
-                    LOGGER.info("MessageTime- TestTime: " + (msg.getTime().getTime() - startTestTime.getTime()) + FIVE_MINUTES_TO_MILLISEKUNDS_PERIOD+"ms");
+                    LOGGER.info("MessageTime- TestTime: " + (msg.getTime().getTime() - startTestTime.getTime()) + FIVE_MINUTES_TO_MILLISEKUNDS_PERIOD + "ms");
                     if (msg.getSubject().contains(expStatus)
                             && (msg.getTime().getTime() - startTestTime.getTime() < FIVE_MINUTES_TO_MILLISEKUNDS_PERIOD)) {
                         return true;
@@ -150,7 +150,7 @@ public class EmailManager {
                     LOGGER.info("Retrieved msg: " + msg);
                     LOGGER.info("MessageTime msg: " + msg.getTime());
                     LOGGER.info("TestTime : " + startTestTime);
-                    LOGGER.info("MessageTime- TestTime: " + (msg.getTime().getTime() - startTestTime.getTime()) + FIVE_MINUTES_TO_MILLISEKUNDS_PERIOD+"ms");
+                    LOGGER.info("MessageTime- TestTime: " + (msg.getTime().getTime() - startTestTime.getTime()) + FIVE_MINUTES_TO_MILLISEKUNDS_PERIOD + "ms");
                     if (msg.getSubject().contains(passwordResetMessage)
                             && (msg.getTime().getTime() - startTestTime.getTime() < FIVE_MINUTES_TO_MILLISEKUNDS_PERIOD)) {
                         return true;

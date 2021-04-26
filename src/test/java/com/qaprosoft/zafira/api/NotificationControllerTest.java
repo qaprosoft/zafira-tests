@@ -27,7 +27,8 @@ public class NotificationControllerTest extends ZafiraAPIBaseTest {
     public void testSendSlackNotificationFinishTestRun() {
         testRunId = new TestRunServiceAPIImplV1().start();
         String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
-        new TestServiceV1Impl().startTest(testRunId);
+        int testId = new TestServiceV1Impl().startTest(testRunId);
+        new TestServiceV1Impl().finishTestAsResult(testRunId,testId,"PASSED");
         new TestRunServiceAPIImplV1().finishTestRun(testRunId);
         GetSlackNotificationFinishTestRunByCiRunIdMethod getSlackNotificationFinishTestRunByCiRunIdMethod
                 = new GetSlackNotificationFinishTestRunByCiRunIdMethod(ciRunId);
