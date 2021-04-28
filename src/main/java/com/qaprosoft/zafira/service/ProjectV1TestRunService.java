@@ -10,4 +10,8 @@ public interface ProjectV1TestRunService {
     List<Integer> getAllProjectTestRunIds(int projectId);
 
     String getProjectTestRunById(int testRunId);
+
+    String getProjectTestRunComment(int projectId, int testRunId);
+
+    Boolean getProjectTestRunReviewedIs(int projectId, int testRunId);
 }

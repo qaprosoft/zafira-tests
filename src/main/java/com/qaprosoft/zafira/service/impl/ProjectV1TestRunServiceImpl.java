@@ -42,4 +42,28 @@ public class ProjectV1TestRunServiceImpl implements ProjectV1TestRunService {
         String rs = apiExecutor.callApiMethod(projectTestRunByTestRunIdMethod);
         return rs;
     }
+
+    @Override
+    public String getProjectTestRunComment(int projectId, int testRunId) {
+        GetSearchProjectTestRunMethod getSearchProjectTestRunMethod =
+                new GetSearchProjectTestRunMethod(projectId);
+        apiExecutor.expectStatus(getSearchProjectTestRunMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getSearchProjectTestRunMethod);
+        int indexOfId = JsonPath.from(rs).getList(JSONConstant.RESULT_ID_KEY).indexOf(testRunId);
+        String comment = JsonPath.from(rs).getString("results[" + indexOfId + "].comments");
+        LOGGER.info("Comments:  " + comment);
+        return comment;
+    }
+
+    @Override
+    public Boolean getProjectTestRunReviewedIs(int projectId, int testRunId) {
+        GetSearchProjectTestRunMethod getSearchProjectTestRunMethod =
+                new GetSearchProjectTestRunMethod(projectId);
+        apiExecutor.expectStatus(getSearchProjectTestRunMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getSearchProjectTestRunMethod);
+        int indexOfId = JsonPath.from(rs).getList(JSONConstant.RESULT_ID_KEY).indexOf(testRunId);
+        Boolean isReviewed = JsonPath.from(rs).getBoolean("results[" + indexOfId + "].reviewed");
+        LOGGER.info("Reviewed:  " + isReviewed);
+        return isReviewed;
+    }
 }

@@ -126,6 +126,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
     public void testDeleteTestRunByTestRunId() {
         String projectKey = projectV1Service.getProjectKeyById(projectId);
         testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.start(projectKey);
         DeleteProjectTestRunByIdMethod deleteProjectTestRunByIdMethod = new DeleteProjectTestRunByIdMethod(testRunId);
         apiExecutor.expectStatus(deleteProjectTestRunByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(deleteProjectTestRunByIdMethod);
@@ -267,13 +268,17 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testMarkTestRunAsReviewedMethod() {
+        String comment = "New comment_".concat(RandomStringUtils.randomAlphabetic(5));
         String projectKey = projectV1Service.getProjectKeyById(projectId);
         testRunId = testRunServiceAPIImplV1.start(projectKey);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
-        PostMarkTestRunAsReviewedMethod getJobParametersMethod = new PostMarkTestRunAsReviewedMethod(testRunId, "New comment");
+        PostMarkTestRunAsReviewedMethod getJobParametersMethod = new PostMarkTestRunAsReviewedMethod(testRunId, comment);
         apiExecutor.expectStatus(getJobParametersMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getJobParametersMethod);
-        projectV1TestRunService.getAllProjectTestRunIds(projectId);
+        String actualComment = projectV1TestRunService.getProjectTestRunComment(projectId, testRunId);
+        Assert.assertEquals(actualComment, comment, "Comment is not as expected!");
+        Boolean isReviewedAct = projectV1TestRunService.getProjectTestRunReviewedIs(projectId,testRunId);
+        Assert.assertTrue(isReviewedAct,"Test run is not reviewed!");
     }
 
     @Test(groups = {"negative"})
