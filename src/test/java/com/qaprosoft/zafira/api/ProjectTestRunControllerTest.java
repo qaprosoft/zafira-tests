@@ -17,10 +17,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.util.Date;
 
@@ -126,6 +123,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
     public void testDeleteTestRunByTestRunId() {
         String projectKey = projectV1Service.getProjectKeyById(projectId);
         testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.start(projectKey);
         DeleteProjectTestRunByIdMethod deleteProjectTestRunByIdMethod = new DeleteProjectTestRunByIdMethod(testRunId);
         apiExecutor.expectStatus(deleteProjectTestRunByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(deleteProjectTestRunByIdMethod);
@@ -267,13 +265,36 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testMarkTestRunAsReviewedMethod() {
+        String comment = "New comment_".concat(RandomStringUtils.randomAlphabetic(5));
         String projectKey = projectV1Service.getProjectKeyById(projectId);
         testRunId = testRunServiceAPIImplV1.start(projectKey);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
-        PostMarkTestRunAsReviewedMethod getJobParametersMethod = new PostMarkTestRunAsReviewedMethod(testRunId, "New comment");
-        apiExecutor.expectStatus(getJobParametersMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getJobParametersMethod);
-        projectV1TestRunService.getAllProjectTestRunIds(projectId);
+        PostMarkTestRunAsReviewedMethod postMarkTestRunAsReviewedMethod = new PostMarkTestRunAsReviewedMethod(testRunId, comment);
+        apiExecutor.expectStatus(postMarkTestRunAsReviewedMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postMarkTestRunAsReviewedMethod);
+        String actualComment = projectV1TestRunService.getProjectTestRunComment(projectId, testRunId);
+        Assert.assertEquals(actualComment, comment, "Comment is not as expected!");
+        Boolean isReviewedAct = projectV1TestRunService.getProjectTestRunReviewedIs(projectId, testRunId);
+        Assert.assertTrue(isReviewedAct, "Test run is not reviewed!");
+    }
+
+    @Test
+    public void testCheckIsReviewedIfTestRunIsNotMarkAsReviewed() {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        Boolean isReviewedAct = projectV1TestRunService.getProjectTestRunReviewedIs(projectId, testRunId);
+        Assert.assertFalse(isReviewedAct, "Test run is reviewed!");
+    }
+
+    @Test(groups = {"negative"}, enabled = false)
+    public void testMarkTestRunAsReviewedTestRunIN_PROGRESS() {
+        String comment = "New comment_".concat(RandomStringUtils.randomAlphabetic(5));
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        PostMarkTestRunAsReviewedMethod postMarkTestRunAsReviewedMethod = new PostMarkTestRunAsReviewedMethod(testRunId, comment);
+        apiExecutor.expectStatus(postMarkTestRunAsReviewedMethod, HTTPStatusCodeType.FORBIDDEN);
+        apiExecutor.callApiMethod(postMarkTestRunAsReviewedMethod);
     }
 
     @Test(groups = {"negative"})
@@ -282,8 +303,81 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         testRunId = testRunServiceAPIImplV1.start(projectKey);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
         projectV1TestRunService.deleteProjectTestRun(testRunId);
-        PostMarkTestRunAsReviewedMethod getJobParametersMethod = new PostMarkTestRunAsReviewedMethod(testRunId, "New comment");
+        PostMarkTestRunAsReviewedMethod getJobParametersMethod =
+                new PostMarkTestRunAsReviewedMethod(testRunId, "New comment");
         apiExecutor.expectStatus(getJobParametersMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(getJobParametersMethod);
+    }
+
+    @DataProvider(name = "rerunFailuresDataProvider")
+    public Object[][] getRerunFailuresFlag() {
+        return new Object[][]{{true}, {false}};
+    }
+
+    @Test(dataProvider = "rerunFailuresDataProvider")
+    public void testRerunProjectTestRunMethod(Boolean rerunFailures) {
+        testRunId = createTestRun(1);
+        new TestRunServiceAPIImpl().finishTestRun(testRunId);
+        RerunProjectTestRunMethod rerunProjectTestRunMethod = new RerunProjectTestRunMethod(testRunId, rerunFailures);
+        apiExecutor.expectStatus(rerunProjectTestRunMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(rerunProjectTestRunMethod);
+        projectV1TestRunService.getAllProjectTestRunIds(1);
+    }
+
+    @Test(groups = {"negative"})
+    public void testRerunProjectTestRunMethodWithNonexistentTestRunId() {
+        testRunId = createTestRun(1);
+        projectV1TestRunService.deleteProjectTestRun(testRunId);
+        RerunProjectTestRunMethod rerunProjectTestRunMethod = new RerunProjectTestRunMethod(testRunId, true);
+        apiExecutor.expectStatus(rerunProjectTestRunMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(rerunProjectTestRunMethod);
+    }
+
+    @Test
+    public void testAbortProjectTestRun() {
+        String comment = "New comment_".concat(RandomStringUtils.randomAlphabetic(5));
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        String ciRunId = testRunServiceAPIImplV1.getCiRunId(testRunId);
+
+        AbortProjectTestRunMethod abortProjectTestRunMethod = new AbortProjectTestRunMethod(ciRunId, comment);
+        apiExecutor.expectStatus(abortProjectTestRunMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(abortProjectTestRunMethod);
+        apiExecutor.validateResponse(abortProjectTestRunMethod, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        String actualComment = projectV1TestRunService.getProjectTestRunComment(projectId, testRunId);
+        Assert.assertEquals(actualComment, comment, "Comment is not as expected!");
+    }
+
+    @Test(groups = {"negative"})
+    public void testAbortProjectTestRunWithNonexistentTestRunId() {
+        String comment = "New comment_".concat(RandomStringUtils.randomAlphabetic(5));
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        String ciRunId = testRunServiceAPIImplV1.getCiRunId(testRunId);
+        projectV1TestRunService.deleteProjectTestRun(testRunId);
+
+        AbortProjectTestRunMethod abortProjectTestRunMethod = new AbortProjectTestRunMethod(ciRunId, comment);
+        apiExecutor.expectStatus(abortProjectTestRunMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(abortProjectTestRunMethod);
+    }
+
+    @Test(enabled = false)
+    public void testAbortProjectTestRunAfterFinish() {
+        String comment = "New comment_".concat(RandomStringUtils.randomAlphabetic(5));
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        String ciRunId = testRunServiceAPIImplV1.getCiRunId(testRunId);
+
+        AbortProjectTestRunMethod abortProjectTestRunMethod = new AbortProjectTestRunMethod(ciRunId, comment);
+        apiExecutor.expectStatus(abortProjectTestRunMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(abortProjectTestRunMethod);
+        apiExecutor.validateResponse(abortProjectTestRunMethod, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+
+        String actualComment = projectV1TestRunService.getProjectTestRunComment(projectId, testRunId);
+        Assert.assertEquals(actualComment, comment, "Comment is not as expected!");
     }
 }
