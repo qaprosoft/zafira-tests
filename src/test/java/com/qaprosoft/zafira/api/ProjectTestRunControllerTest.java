@@ -380,4 +380,54 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         String actualComment = projectV1TestRunService.getProjectTestRunComment(projectId, testRunId);
         Assert.assertEquals(actualComment, comment, "Comment is not as expected!");
     }
+
+    @Test
+    public void testAbortCIJob() {
+        testRunId = createTestRun(1);
+        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
+        AbortCIJobMethod ciJobMethod = new AbortCIJobMethod(ciRunId);
+        apiExecutor.expectStatus(ciJobMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(ciJobMethod);
+    }
+
+    @Test
+    public void testAbortCIJobWithNonexistentCiRunId() {
+        testRunId = createTestRun(1);
+        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
+        projectV1TestRunService.deleteProjectTestRun(testRunId);
+        AbortCIJobMethod ciJobMethod = new AbortCIJobMethod(ciRunId);
+        apiExecutor.expectStatus(ciJobMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(ciJobMethod);
+    }
+
+    @Test
+    public void testAttachTestRunToMilestoneMethod() {
+        //  String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start("DEF");
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 2);
+        apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
+    }
+
+    @Test
+    public void testAttachTestRunToCompletedMilestoneMethod() {
+        //  String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start("DEF");
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 3);
+        apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.FORBIDDEN);
+        apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
+    }
+
+    @Test
+    public void testAttachTestRunToMilestoneMethodWithNonexistentTestRunId() {
+        //  String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start("DEF");
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        testRunServiceAPIImplV1.deleteTestRun(testRunId);
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 2);
+        apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
+    }
 }
