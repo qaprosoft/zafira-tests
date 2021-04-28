@@ -282,7 +282,8 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         testRunId = testRunServiceAPIImplV1.start(projectKey);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
         projectV1TestRunService.deleteProjectTestRun(testRunId);
-        PostMarkTestRunAsReviewedMethod getJobParametersMethod = new PostMarkTestRunAsReviewedMethod(testRunId, "New comment");
+        PostMarkTestRunAsReviewedMethod getJobParametersMethod =
+                new PostMarkTestRunAsReviewedMethod(testRunId, "New comment");
         apiExecutor.expectStatus(getJobParametersMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(getJobParametersMethod);
     }
