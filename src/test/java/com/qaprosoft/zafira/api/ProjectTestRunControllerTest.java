@@ -9,6 +9,7 @@ import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.ProjectV1ServiceImpl;
 import com.qaprosoft.zafira.service.impl.ProjectV1TestRunServiceImpl;
+import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.util.CryptoUtil;
 import com.zebrunner.agent.core.annotation.Maintainer;
@@ -220,5 +221,69 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         sendTestRunResultsViaEmailMethod.removeProperty("recipients");
         apiExecutor.expectStatus(sendTestRunResultsViaEmailMethod, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(sendTestRunResultsViaEmailMethod);
+    }
+
+    @Test
+    public void testExportTestRunHTML() {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        ExportTestRunHTMLMethod exportTestRunHTMLMethod = new ExportTestRunHTMLMethod(testRunId);
+        apiExecutor.expectStatus(exportTestRunHTMLMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(exportTestRunHTMLMethod);
+    }
+
+    @Test(groups = {"negative"})
+    public void testExportTestRunHTMLWithNonexistentTestRunId() {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        projectV1TestRunService.deleteProjectTestRun(testRunId);
+        ExportTestRunHTMLMethod exportTestRunHTMLMethod = new ExportTestRunHTMLMethod(testRunId);
+        apiExecutor.expectStatus(exportTestRunHTMLMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(exportTestRunHTMLMethod);
+    }
+
+    @Test
+    public void testGetJobParametersMethod() {
+        testRunId = createTestRun(1);
+        new TestRunServiceAPIImpl().finishTestRun(testRunId);
+        GetJobParametersMethod getJobParametersMethod = new GetJobParametersMethod(testRunId);
+        apiExecutor.expectStatus(getJobParametersMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getJobParametersMethod);
+        apiExecutor.validateResponse(getJobParametersMethod, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test(groups = {"negative"})
+    public void testGetJobParametersMethodWithNonexistentTestRunId() {
+        testRunId = createTestRun(1);
+        new TestRunServiceAPIImpl().finishTestRun(testRunId);
+        projectV1TestRunService.deleteProjectTestRun(testRunId);
+        GetJobParametersMethod getJobParametersMethod = new GetJobParametersMethod(testRunId);
+        apiExecutor.expectStatus(getJobParametersMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(getJobParametersMethod);
+    }
+
+    @Test
+    public void testMarkTestRunAsReviewedMethod() {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        PostMarkTestRunAsReviewedMethod getJobParametersMethod = new PostMarkTestRunAsReviewedMethod(testRunId, "New comment");
+        apiExecutor.expectStatus(getJobParametersMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getJobParametersMethod);
+        projectV1TestRunService.getAllProjectTestRunIds(projectId);
+    }
+
+    @Test(groups = {"negative"})
+    public void testMarkTestRunAsReviewedMethodWithNonexistentTestRunId() {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        projectV1TestRunService.deleteProjectTestRun(testRunId);
+        PostMarkTestRunAsReviewedMethod getJobParametersMethod = new PostMarkTestRunAsReviewedMethod(testRunId, "New comment");
+        apiExecutor.expectStatus(getJobParametersMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(getJobParametersMethod);
     }
 }

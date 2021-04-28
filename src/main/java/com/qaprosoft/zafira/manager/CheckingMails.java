@@ -1,5 +1,9 @@
 package com.qaprosoft.zafira.manager;
 
+import com.qaprosoft.carina.core.foundation.utils.R;
+import com.qaprosoft.zafira.constant.ConfigConstant;
+import com.qaprosoft.zafira.util.CryptoUtil;
+
 import javax.mail.*;
 import java.io.IOException;
 import java.util.Properties;
@@ -60,8 +64,8 @@ public class CheckingMails {
 
         String host = "pop.gmail.com";// change accordingly
         String mailStoreType = "pop3";
-        String username = "test.zebrunner@gmail.com";// change accordingly
-        String password = "xc23GFe72ff";// change accordingly
+        String username =  CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY));// change accordingly
+        String password = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY));// change accordingly
 
 
   check(host, mailStoreType, username, password);
