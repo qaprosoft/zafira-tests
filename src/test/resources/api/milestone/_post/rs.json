@@ -1,0 +1,8 @@
+{
+  "id": "regex:[\\d]",
+  "name": "${name}",
+  "description": "${description}",
+  "completed": ${completed},
+  "projectId": ${projectId},
+  "startDate":"type:String"
+}
