@@ -287,7 +287,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         Assert.assertFalse(isReviewedAct, "Test run is reviewed!");
     }
 
-    @Test(groups = {"negative"}, enabled = false)
+    @Test(groups = {"negative"})
     public void testMarkTestRunAsReviewedTestRunIN_PROGRESS() {
         String comment = "New comment_".concat(RandomStringUtils.randomAlphabetic(5));
         String projectKey = projectV1Service.getProjectKeyById(projectId);
@@ -405,7 +405,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         //  String projectKey = projectV1Service.getProjectKeyById(projectId);
         testRunId = testRunServiceAPIImplV1.start("DEF");
         testRunServiceAPIImplV1.finishTestRun(testRunId);
-        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 2);
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 36);
         apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
     }
