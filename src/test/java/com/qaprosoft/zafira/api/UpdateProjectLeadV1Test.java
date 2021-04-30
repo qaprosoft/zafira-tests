@@ -1,8 +1,10 @@
 package com.qaprosoft.zafira.api;
 
+import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.projectsV1.PatchProjectV1Method;
 import com.qaprosoft.zafira.api.projectsV1.PutProjectV1Method;
 import com.qaprosoft.zafira.bo.Project;
+import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
@@ -61,6 +63,13 @@ public class UpdateProjectLeadV1Test extends ZafiraAPIBaseTest {
                 {"ENGINEER"}};
     }
 
+    @DataProvider(name = "mandatory fields for put")
+    public static Object[][] getFields() {
+        return new Object[][]{
+                {"name"},
+                {"key"}};
+    }
+
     @Test
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40773")
     public void testUpdateProjectWithUserInAdministratorRole() throws IOException {
@@ -72,7 +81,7 @@ public class UpdateProjectLeadV1Test extends ZafiraAPIBaseTest {
         String newProjectKey = "NEW".concat(projectKey);
 
         PutProjectV1Method putProjectV1Method = new PutProjectV1Method(projectKey, newName, newProjectKey);
-        putProjectV1Method.addProperty(JSONConstant.LEAD, userId);
+        putProjectV1Method.addProperty(JSONConstant.LEAD_ID_KEY, userId);
         putProjectV1Method.addProperty(JSONConstant.PUBLICLY_ACCESSIBLE, false);
         apiExecutor.expectStatus(putProjectV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putProjectV1Method);
@@ -96,7 +105,7 @@ public class UpdateProjectLeadV1Test extends ZafiraAPIBaseTest {
         projectV1AssignmentsService.assignUserToProject(projectId, userId, ProjectRole.MANAGER.name());
 
         PutProjectV1Method putProjectV1Method = new PutProjectV1Method(projectKey, projectName, projectKey);
-        putProjectV1Method.addProperty(JSONConstant.LEAD, userId);
+        putProjectV1Method.addProperty(JSONConstant.LEAD_ID_KEY, userId);
         apiExecutor.expectStatus(putProjectV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putProjectV1Method);
         apiExecutor.validateResponse(putProjectV1Method, JSONCompareMode.STRICT);
@@ -116,7 +125,7 @@ public class UpdateProjectLeadV1Test extends ZafiraAPIBaseTest {
         projectV1AssignmentsService.assignUserToProject(projectId, userId, role);
 
         PutProjectV1Method putProjectV1Method = new PutProjectV1Method(projectKey, projectName, projectKey);
-        putProjectV1Method.addProperty(JSONConstant.LEAD, userId);
+        putProjectV1Method.addProperty(JSONConstant.LEAD_ID_KEY, userId);
 
         apiExecutor.expectStatus(putProjectV1Method, HTTPStatusCodeType.FORBIDDEN);
         apiExecutor.callApiMethod(putProjectV1Method);
@@ -129,9 +138,30 @@ public class UpdateProjectLeadV1Test extends ZafiraAPIBaseTest {
         userId = userV1ServiceAPI.createForProject();
 
         PutProjectV1Method putProjectV1Method = new PutProjectV1Method(projectKey, projectName, projectKey);
-        putProjectV1Method.addProperty(JSONConstant.LEAD, userId);
+        putProjectV1Method.addProperty(JSONConstant.LEAD_ID_KEY, userId);
 
         apiExecutor.expectStatus(putProjectV1Method, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(putProjectV1Method);
+    }
+
+    @Test(description = "negative")
+    public void testUpdateProjectLeadWithEmptyRq() {
+        userId = userV1ServiceAPI.createForProject();
+
+        PutProjectV1Method putProjectV1Method = new PutProjectV1Method(projectKey, projectName, projectKey);
+        putProjectV1Method.setRequestTemplate(R.TESTDATA.get(ConfigConstant.EMPTY_RQ_PATH));
+        apiExecutor.expectStatus(putProjectV1Method, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(putProjectV1Method);
+    }
+
+    @Test(description = "negative", dataProvider = "mandatory fields for put")
+    public void testUpdateProjectLeadWithoutMandatoryField(String field) {
+        userId = userV1ServiceAPI.createForProject();
+
+        PutProjectV1Method putProjectV1Method = new PutProjectV1Method(projectKey, projectName, projectKey);
+        putProjectV1Method.removeProperty(field);
+
+        apiExecutor.expectStatus(putProjectV1Method, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(putProjectV1Method);
     }
 

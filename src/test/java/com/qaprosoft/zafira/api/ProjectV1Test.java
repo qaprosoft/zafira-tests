@@ -63,7 +63,6 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     }
 
     @Test
-    //  @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40453")
     public void testCreateProjectWithProjectKeyOnlyWithNumbers() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
         projectKey = "1111";
