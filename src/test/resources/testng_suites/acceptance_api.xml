@@ -222,4 +222,9 @@
             <class name="com.qaprosoft.zafira.api.ProjectTestRunControllerTest"/>
         </classes>
     </test>
+    <test name="Milestone controller tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.MilestoneControllerTest"/>
+        </classes>
+    </test>
 </suite>
