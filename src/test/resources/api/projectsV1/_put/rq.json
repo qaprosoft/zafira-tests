@@ -2,7 +2,7 @@
   <#if name??> "name": "${name}",</#if>
   <#if key??> "key": "${key}",</#if>
   <#if logoKey??> "logoKey": "${logoKey}",</#if>
-  <#if lead??> "lead": "${lead}",</#if>
+  <#if leadId??> "leadId": "${leadId}",</#if>
   <#if publiclyAccessible??> "publiclyAccessible": ${publiclyAccessible},</#if>
   "description": "${description}"
 }
