@@ -8,10 +8,7 @@ import com.qaprosoft.zafira.domain.EmailMsg;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.manager.EmailManager;
-import com.qaprosoft.zafira.service.impl.ProjectV1ServiceImpl;
-import com.qaprosoft.zafira.service.impl.ProjectV1TestRunServiceImpl;
-import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImpl;
-import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
+import com.qaprosoft.zafira.service.impl.*;
 import com.qaprosoft.zafira.util.CryptoUtil;
 import com.zebrunner.agent.core.annotation.Maintainer;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -29,6 +26,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
     private TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
     private ProjectV1ServiceImpl projectV1Service = new ProjectV1ServiceImpl();
     private ProjectV1TestRunServiceImpl projectV1TestRunService = new ProjectV1TestRunServiceImpl();
+    private MilestoneServiceImpl milestoneService = new MilestoneServiceImpl();
     private static Logger LOGGER = Logger.getLogger(ProjectTestRunControllerTest.class);
     private final String TEST_EMAIL = R.TESTDATA.get(ConfigConstant.TEST_EMAIL_KEY);
     private final EmailManager EMAIL = new EmailManager(
@@ -405,7 +403,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
     public void testAttachTestRunToMilestoneMethod() {
         testRunId = testRunServiceAPIImplV1.start(APIContextManager.PROJECT_NAME_KEY);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
-        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 36);
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 3);
         apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
     }
@@ -414,7 +412,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
     public void testAttachTestRunToCompletedMilestoneMethod() {
         testRunId = testRunServiceAPIImplV1.start(APIContextManager.PROJECT_NAME_KEY);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
-        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 3);
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 6);
         apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.FORBIDDEN);
         apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
     }

@@ -8,6 +8,7 @@ import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.MilestoneService;
 import io.restassured.path.json.JsonPath;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -30,9 +31,20 @@ public class MilestoneServiceImpl implements MilestoneService {
     }
 
     @Override
-    public void delete(int projectId, int milestoneNameId) {
+    public int create(int projectId) {
+        String milestoneName = "MilestoneName".concat(RandomStringUtils.randomAlphabetic(7));
+        PostMilestoneMethod postMilestoneMethod =
+                new PostMilestoneMethod(projectId, milestoneName);
+        postMilestoneMethod.addProperty(JSONConstant.COMPLETED, false);
+        apiExecutor.expectStatus(postMilestoneMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postMilestoneMethod);
+        return JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+    }
+
+    @Override
+    public void delete(int projectId, int milestoneId) {
         DeleteMilestoneByIdAndProjectIdMethod deleteMilestoneByIdAndProjectId =
-                new DeleteMilestoneByIdAndProjectIdMethod(projectId, milestoneNameId);
+                new DeleteMilestoneByIdAndProjectIdMethod(projectId, milestoneId);
         apiExecutor.callApiMethod(deleteMilestoneByIdAndProjectId);
     }
 
