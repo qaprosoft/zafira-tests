@@ -6,6 +6,8 @@ public interface MilestoneService {
 
     int create(int projectId, String milestoneName);
 
+    int create(int projectId);
+
     void delete(int projectId, int milestoneNameId);
 
     List<Integer> getAllMilestoneIdsInProject(int projectId);
