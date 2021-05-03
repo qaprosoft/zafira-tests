@@ -1,0 +1,7 @@
+[
+  {
+    "op": "replace",
+    "path": "/completed",
+    "value":${value}
+  }
+]

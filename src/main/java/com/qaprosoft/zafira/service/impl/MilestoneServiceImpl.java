@@ -1,6 +1,7 @@
 package com.qaprosoft.zafira.service.impl;
 
 import com.qaprosoft.zafira.api.milestones.DeleteMilestoneByIdAndProjectIdMethod;
+import com.qaprosoft.zafira.api.milestones.GetMilestonesByIdAndProjectIdMethod;
 import com.qaprosoft.zafira.api.milestones.GetMilestonesByProjectIdMethod;
 import com.qaprosoft.zafira.api.milestones.PostMilestoneMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
@@ -44,5 +45,26 @@ public class MilestoneServiceImpl implements MilestoneService {
         List<Integer> milestoneIds = JsonPath.from(rs).getList(JSONConstant.ITEMS_ID);
         LOGGER.info("Actual milestone ids:  " + milestoneIds);
         return milestoneIds;
+    }
+
+    @Override
+    public String getMilestoneNameById(int projectId, int milestoneId) {
+        GetMilestonesByIdAndProjectIdMethod getMilestonesByProjectIdMethod =
+                new GetMilestonesByIdAndProjectIdMethod(projectId, milestoneId);
+        apiExecutor.expectStatus(getMilestonesByProjectIdMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(getMilestonesByProjectIdMethod);
+        String name = JsonPath.from(rs).getString(JSONConstant.NAME);
+        LOGGER.info("Actual milestone name:  " + name);
+        return name;
+    }
+
+    @Override
+    public String getMilestoneById(int projectId, int milestoneId) {
+        GetMilestonesByIdAndProjectIdMethod getMilestonesByProjectIdMethod =
+                new GetMilestonesByIdAndProjectIdMethod(projectId, milestoneId);
+        apiExecutor.expectStatus(getMilestonesByProjectIdMethod, HTTPStatusCodeType.OK);
+        String milestone = apiExecutor.callApiMethod(getMilestonesByProjectIdMethod);
+        LOGGER.info("Actual milestone:  " + milestone);
+        return milestone;
     }
 }

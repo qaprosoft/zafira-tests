@@ -4,5 +4,6 @@
   "description": "type:String",
   "completed": "type:Boolean",
   "startDate": "type:String",
+  "dueDate": "type:String",
   "projectId": ${projectId}
 }

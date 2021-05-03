@@ -6,6 +6,7 @@ import com.qaprosoft.zafira.api.projectTestRuns.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.domain.EmailMsg;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.ProjectV1ServiceImpl;
 import com.qaprosoft.zafira.service.impl.ProjectV1TestRunServiceImpl;
@@ -402,8 +403,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testAttachTestRunToMilestoneMethod() {
-        //  String projectKey = projectV1Service.getProjectKeyById(projectId);
-        testRunId = testRunServiceAPIImplV1.start("DEF");
+        testRunId = testRunServiceAPIImplV1.start(APIContextManager.PROJECT_NAME_KEY);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
         AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 36);
         apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.NO_CONTENT);
@@ -412,8 +412,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testAttachTestRunToCompletedMilestoneMethod() {
-        //  String projectKey = projectV1Service.getProjectKeyById(projectId);
-        testRunId = testRunServiceAPIImplV1.start("DEF");
+        testRunId = testRunServiceAPIImplV1.start(APIContextManager.PROJECT_NAME_KEY);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
         AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 3);
         apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.FORBIDDEN);
@@ -422,8 +421,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testAttachTestRunToMilestoneMethodWithNonexistentTestRunId() {
-        //  String projectKey = projectV1Service.getProjectKeyById(projectId);
-        testRunId = testRunServiceAPIImplV1.start("DEF");
+        testRunId = testRunServiceAPIImplV1.start(APIContextManager.PROJECT_NAME_KEY);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
         testRunServiceAPIImplV1.deleteTestRun(testRunId);
         AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 2);
