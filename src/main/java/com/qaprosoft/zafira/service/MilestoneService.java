@@ -4,9 +4,13 @@ import java.util.List;
 
 public interface MilestoneService {
 
-      int create(int projectId, String milestoneName);
+    int create(int projectId, String milestoneName);
 
-      void delete(int projectId, int milestoneNameId);
+    void delete(int projectId, int milestoneNameId);
 
-      List<Integer> getAllMilestoneIdsInProject(int projectId);
+    List<Integer> getAllMilestoneIdsInProject(int projectId);
+
+    String getMilestoneNameById(int projectId, int milestoneId);
+
+    String getMilestoneById(int projectId, int milestoneId);
 }

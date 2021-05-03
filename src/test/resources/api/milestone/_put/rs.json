@@ -2,8 +2,8 @@
   "id": "regex:[\\d]",
   "name": "${name}",
   "description": "${description}",
-  "completed": ${сompleted},
+  "completed": ${completed},
   "projectId": ${projectId},
-  "startDate": "type:String",
-   "dueDate": "type:String"
+  "startDate":"${startDate}",
+  "dueDate":"${dueDate}"
 }
