@@ -7,10 +7,15 @@ import com.qaprosoft.zafira.manager.APIContextManager;
 
 @Endpoint(url = "${api_url}/api/project-test-runs/${id}/milestone/${milestoneId}", methodType = HttpMethodType.PUT)
 public class AttachTestRunToMilestoneMethod extends ZafiraBaseApiMethodWithAuth {
-    public AttachTestRunToMilestoneMethod(int testRunId, int milestoneId) {
+    public AttachTestRunToMilestoneMethod(int testRunId, int milestoneId, int projectId) {
         replaceUrlPlaceholder("api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("id", String.valueOf(testRunId));
         replaceUrlPlaceholder("milestoneId", String.valueOf(milestoneId));
-        addUrlParameter("projectId", String.valueOf(1));
+        addUrlParameter("projectId", String.valueOf(projectId));
+    }
+
+    protected void setAuthHeaders() {
+        String accessToken = new APIContextManager().getAccessToken();
+        setHeaders("Authorization=Bearer " + accessToken);
     }
 }

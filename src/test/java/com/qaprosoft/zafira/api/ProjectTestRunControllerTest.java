@@ -17,6 +17,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import java.io.IOException;
 import java.util.Date;
 
 @Maintainer("obabich")
@@ -400,21 +401,36 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testAttachTestRunToMilestoneMethod() {
+    public void testAttachTestRunToMilestoneMethodDefProject() throws IOException {
         testRunId = testRunServiceAPIImplV1.start(APIContextManager.PROJECT_NAME_KEY);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
-        int milestoneId = milestoneService.create(1);
-        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, milestoneId);
+        int projectId = projectV1Service.getProjectByKey(APIContextManager.PROJECT_NAME_KEY).getId();
+        int milestoneId = milestoneService.create(projectId);
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, milestoneId,projectId);
         apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
-        milestoneService.delete(1,milestoneId);
+        milestoneService.delete(projectId,milestoneId);
+    }
+
+    @Test
+    public void testAttachTestRunToMilestoneMethod()  {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        new ProjectV1AssignmentsServiceImpl().assignUserToProject(projectId,2,"ADMINISTRATOR");
+        int milestoneId = milestoneService.create(projectId);
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, milestoneId,projectId);
+        apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
+        milestoneService.delete(projectId,milestoneId);
     }
 
     @Test
     public void testAttachTestRunToCompletedMilestoneMethod() {
         testRunId = testRunServiceAPIImplV1.start(APIContextManager.PROJECT_NAME_KEY);
+
         testRunServiceAPIImplV1.finishTestRun(testRunId);
-        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 6);
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 6,1);
         apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.FORBIDDEN);
         apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
     }
@@ -424,7 +440,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         testRunId = testRunServiceAPIImplV1.start(APIContextManager.PROJECT_NAME_KEY);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
         testRunServiceAPIImplV1.deleteTestRun(testRunId);
-        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 2);
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 2,1);
         apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
     }

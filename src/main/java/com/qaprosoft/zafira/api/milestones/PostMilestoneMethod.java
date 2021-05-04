@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.api.milestones;
 
+import com.qaprosoft.carina.core.foundation.api.AbstractApiMethodV2;
 import com.qaprosoft.carina.core.foundation.api.annotation.Endpoint;
 import com.qaprosoft.carina.core.foundation.api.annotation.RequestTemplatePath;
 import com.qaprosoft.carina.core.foundation.api.annotation.ResponseTemplatePath;
@@ -24,5 +25,10 @@ public class PostMilestoneMethod extends ZafiraBaseApiMethodWithAuth {
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
         addProperty("startDate", OffsetDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+    }
+
+    public void setAuthHeaders() {
+        String accessToken = new APIContextManager().getAccessToken();
+        setHeaders("Authorization=Bearer " + accessToken);
     }
 }

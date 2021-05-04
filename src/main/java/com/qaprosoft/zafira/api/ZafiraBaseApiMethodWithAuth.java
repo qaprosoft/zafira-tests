@@ -28,12 +28,10 @@ public class ZafiraBaseApiMethodWithAuth extends AbstractApiMethodV2 {
         setAuthHeaders();
     }
 
-    private void setAuthHeaders() {
+    protected void setAuthHeaders() {
         if (cacheAccessToken.isEmpty()) {
             cacheAccessToken = new APIContextManager().getAccessToken();
         }
         setHeaders("Authorization=Bearer " + cacheAccessToken);
     }
-
-
 }
