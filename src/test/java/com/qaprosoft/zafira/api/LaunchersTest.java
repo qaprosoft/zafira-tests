@@ -115,7 +115,7 @@ public class LaunchersTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postJobByWebHookMethod);
     }
 
-    @Test(enabled = false)
+    @Test()
     public void testBuildJobByLauncher() {
         int accountTypeId = APIContextManager.SCM_ACCOUNT_TYPE_ID_VALUE;
 
