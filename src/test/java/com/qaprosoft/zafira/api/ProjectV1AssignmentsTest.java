@@ -126,10 +126,11 @@ public class ProjectV1AssignmentsTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(deleteProjectAssignmentMethod);
     }
 
-    @Test(description = "negative",enabled = false)
+    @Test(description = "negative")
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40576")
     public void testDeleteUserAssignmentWithoutQueryParam() {
-        projectV1AssignmentsService.assignUserToProject(projectId, EXISTING_USER_ID, ProjectRole.GUEST.name());
+        userId = userServiceAPI.createForProject();
+        projectV1AssignmentsService.assignUserToProject(projectId, userId, ProjectRole.GUEST.name());
 
         DeleteProjectAssignmentMethod deleteProjectAssignmentMethod = new DeleteProjectAssignmentMethod(projectId, userId);
         deleteProjectAssignmentMethod.setMethodPath(deleteProjectAssignmentMethod.getMethodPath().split("\\?")[0]);
