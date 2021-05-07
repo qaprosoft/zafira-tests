@@ -33,6 +33,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
 //    }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40871")
     public void testCreateProjectDashboard() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
 
@@ -49,6 +50,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40870")
     public void testSearchProjectDashboard() {
         GetSearchProjectDashboards searchProjectDashboards =
                 new GetSearchProjectDashboards(projectId);
