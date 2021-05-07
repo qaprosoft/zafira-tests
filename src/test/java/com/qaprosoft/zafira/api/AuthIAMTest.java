@@ -10,6 +10,7 @@ import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.manager.APIContextManager;
+import com.qaprosoft.zafira.service.impl.AuthServiceApiIamImpl;
 import com.qaprosoft.zafira.util.CryptoUtil;
 import io.restassured.path.json.JsonPath;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -23,6 +24,8 @@ import java.util.List;
 
 public class AuthIAMTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static AuthServiceApiIamImpl authServiceApiIam = new AuthServiceApiIamImpl();
+    private static String permissions = authServiceApiIam.getPermissionsList();
     private final static String INVALID_PASSWORD = "test";
     private final static String EMPTY_AUTHTOKEN = "";
 
@@ -55,8 +58,8 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
         String rs = apiExecutor.callApiMethod(postRefreshTokenMethodIAM);
         apiExecutor.validateResponse(postRefreshTokenMethodIAM, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        List<Object> projectAssignments =  JsonPath.from(rs).getList(JSONConstant.PROJECT_ASSIGNMENTS);
-        Assert.assertNotEquals(0,projectAssignments.size());
+        List<Object> projectAssignments = JsonPath.from(rs).getList(JSONConstant.PROJECT_ASSIGNMENTS);
+        Assert.assertNotEquals(0, projectAssignments.size());
         LOGGER.info(projectAssignments.toString());
     }
 
@@ -73,7 +76,7 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
     public void testVerifyPermissions() {
         String authToken = new APIContextManager().getAccessToken();
         PostVerifyPermissionsMethodIAM postVerifyPermissionsMethodIAM
-                = new PostVerifyPermissionsMethodIAM(authToken);
+                = new PostVerifyPermissionsMethodIAM(authToken, permissions);
         apiExecutor.expectStatus(postVerifyPermissionsMethodIAM, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postVerifyPermissionsMethodIAM);
     }
@@ -81,9 +84,8 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
     @Test
     public void testVerifyPermissionsWithoutAuthToken() {
         PostVerifyPermissionsMethodIAM postVerifyPermissionsMethodIAM
-                = new PostVerifyPermissionsMethodIAM(EMPTY_AUTHTOKEN);
+                = new PostVerifyPermissionsMethodIAM(EMPTY_AUTHTOKEN, permissions);
         apiExecutor.expectStatus(postVerifyPermissionsMethodIAM, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(postVerifyPermissionsMethodIAM);
     }
-
 }
