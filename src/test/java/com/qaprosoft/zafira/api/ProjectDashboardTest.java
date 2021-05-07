@@ -59,5 +59,4 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(searchProjectDashboards, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey() + "results");
     }
-
 }
