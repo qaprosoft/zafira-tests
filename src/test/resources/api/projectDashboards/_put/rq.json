@@ -1,5 +1,6 @@
 {
+  <#if id??>"id": ${id},</#if>
   <#if title??>"title": "${title}", </#if>
   <#if projectId??>"projectId": ${projectId},</#if>
-  "hidden": ${hidden}
+  "editable": true
 }

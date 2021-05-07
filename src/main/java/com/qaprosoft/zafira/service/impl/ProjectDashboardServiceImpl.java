@@ -1,8 +1,7 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.qaprosoft.zafira.api.dashboard.DeleteDashboardByIdMethod;
-import com.qaprosoft.zafira.api.dashboard.GetAllDashboardMethod;
 import com.qaprosoft.zafira.api.dashboard.widget.PostWidgetToDashboardMethod;
+import com.qaprosoft.zafira.api.projectDashbords.DeleteProjectDashboardById;
 import com.qaprosoft.zafira.api.projectDashbords.GetSearchProjectDashboards;
 import com.qaprosoft.zafira.api.projectDashbords.PostProjectDashboard;
 import com.qaprosoft.zafira.constant.JSONConstant;
@@ -27,8 +26,7 @@ public class ProjectDashboardServiceImpl implements ProjectDashboardService {
 
     @Override
     public void deleteDashboardById(int dashboardId) {
-        DeleteDashboardByIdMethod deleteDashboardByIdMethod = new DeleteDashboardByIdMethod(dashboardId);
-        apiExecutor.expectStatus(deleteDashboardByIdMethod, HTTPStatusCodeType.OK);
+        DeleteProjectDashboardById deleteDashboardByIdMethod = new DeleteProjectDashboardById(dashboardId);
         apiExecutor.callApiMethod(deleteDashboardByIdMethod);
     }
 
