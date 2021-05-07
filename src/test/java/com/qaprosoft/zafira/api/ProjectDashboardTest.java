@@ -177,4 +177,26 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(putProjectDashboard, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
+
+    public @Test
+    void testUpdateProjectDashboardByIdWithTheSameName() {
+        String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
+        dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
+
+        PutProjectDashboard putProjectDashboard =
+                new PutProjectDashboard(projectId, dashboardId, dashboardName);
+        apiExecutor.expectStatus(putProjectDashboard, HTTPStatusCodeType.FORBIDDEN);
+        apiExecutor.callApiMethod(putProjectDashboard);
+    }
+
+    @Test(enabled = false)
+    public void testUpdateProjectDashboardOnEmptyName() {
+        String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
+        dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
+
+        PutProjectDashboard putProjectDashboard =
+                new PutProjectDashboard(projectId, dashboardId, "");
+        apiExecutor.expectStatus(putProjectDashboard, HTTPStatusCodeType.FORBIDDEN);
+        apiExecutor.callApiMethod(putProjectDashboard);
+    }
 }
