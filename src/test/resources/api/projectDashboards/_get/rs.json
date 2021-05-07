@@ -1,0 +1,8 @@
+{
+  "id": "regex:[\\d]",
+  "title": "type:String",
+  "widgets": "type:JSONArray",
+  "position": "regex:[\\d]",
+  "editable": "type:Boolean",
+  "projectId":"regex:[\\d]"
+}

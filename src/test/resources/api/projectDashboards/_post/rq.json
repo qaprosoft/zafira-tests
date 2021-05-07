@@ -1,0 +1,5 @@
+{
+  "hidden": ${hidden},
+  "projectId": ${projectId},
+  "title": "${title}"
+}

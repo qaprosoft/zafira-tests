@@ -1,0 +1,21 @@
+{
+  "page": "regex:[\\d]",
+  "pageSize": 1000,
+  "results": [
+    {
+      "id": "regex:[\\d]",
+      "createdAt": "type:String",
+      "title": "type:String",
+      "widgets": "type:JSONArray",
+      "position": "regex:[\\d]",
+      "editable": "type:Boolean",
+      "creator": {
+        "id": "regex:[\\d]",
+        "username": "anonymous"
+      }
+    }
+  ],
+  "sortOrder": "ASC",
+  "totalPages": "regex:[\\d]",
+  "totalResults": "regex:[\\d]"
+}
