@@ -8,11 +8,13 @@ import com.qaprosoft.zafira.api.widget.PostWidgetMethod;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.WidgetService;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
 public class WidgetServiceImpl implements WidgetService {
     private ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
+    private static Logger LOGGER = Logger.getLogger(WidgetServiceImpl.class);
 
     @Override
     public List<Integer> getAllWidgetIds() {
@@ -41,14 +43,16 @@ public class WidgetServiceImpl implements WidgetService {
     public String createWidgetToDashboard(String widgetName) {
         PostWidgetMethod postWidgetMethod = new PostWidgetMethod(widgetName);
         apiExecutor.expectStatus(postWidgetMethod, HTTPStatusCodeType.OK);
-       return apiExecutor.callApiMethod(postWidgetMethod);
+        return apiExecutor.callApiMethod(postWidgetMethod);
     }
 
     @Override
-    public int getWidgetTemplateId() {
+    public List<Integer> getAllWidgetTemplateIds() {
         GetAllWidgetTemplatesMethod getAllWidgetTemplatesMethod = new GetAllWidgetTemplatesMethod();
         apiExecutor.expectStatus(getAllWidgetTemplatesMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(getAllWidgetTemplatesMethod);
-        return JsonPath.from(rs).getInt(JSONConstant.WIDGET_ID_KEY);
+        List<Integer> ids = JsonPath.from(rs).getList(JSONConstant.ID_KEY);
+        LOGGER.info("Widget template ids:  " + ids);
+        return ids;
     }
 }
