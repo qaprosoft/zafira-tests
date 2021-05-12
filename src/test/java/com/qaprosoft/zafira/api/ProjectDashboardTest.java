@@ -9,6 +9,7 @@ import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.ProjectDashboardServiceImpl;
 import com.qaprosoft.zafira.service.impl.ProjectV1ServiceImpl;
+import com.qaprosoft.zafira.service.impl.WidgetServiceImpl;
 import com.zebrunner.agent.core.annotation.Maintainer;
 import com.zebrunner.agent.core.annotation.TestLabel;
 import io.restassured.path.json.JsonPath;
@@ -26,6 +27,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
     private static Logger LOGGER = Logger.getLogger(ProjectSwitchTest.class);
     private static ProjectV1ServiceImpl projectV1Service = new ProjectV1ServiceImpl();
     private static ProjectDashboardServiceImpl projectDashboardService = new ProjectDashboardServiceImpl();
+    private static WidgetServiceImpl widgetService = new WidgetServiceImpl();
     private static int dashboardId;
     private static int projectId = 1;
 
@@ -305,4 +307,47 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(putProjectDashboard, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(putProjectDashboard);
     }
+
+    @Test
+    public void testPostWidgetToProjectDashboardFromExistingWidgets() {
+        String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
+        int widgetId = widgetService.getAllWidgetIds().get(0);
+        dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
+
+        PostWidgetToProjectDashboard putProjectDashboard =
+                new PostWidgetToProjectDashboard(dashboardId, widgetId);
+               apiExecutor.expectStatus(putProjectDashboard, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putProjectDashboard);
+        apiExecutor.validateResponse(putProjectDashboard, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testPostWidgetToProjectDashboard() {
+        String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
+        String widgetName = "TestWidget_".concat(org.apache.commons.lang3.RandomStringUtils.randomAlphabetic(15));
+        dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
+        int widgetId = widgetService.createWidget(widgetName);
+
+        PostWidgetToProjectDashboard postWidgetToProjectDashboard =
+                new PostWidgetToProjectDashboard(dashboardId, widgetId);
+        apiExecutor.expectStatus(postWidgetToProjectDashboard, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postWidgetToProjectDashboard);
+        apiExecutor.validateResponse(postWidgetToProjectDashboard, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test(enabled = false, description = "500 error")
+    public void testPostWidgetToProjectDashboardWithoutWidgetId() {
+        String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
+        dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
+        int widgetId = widgetService.getAllWidgetIds().get(0);
+
+        PostWidgetToProjectDashboard postWidgetToProjectDashboard =
+                new PostWidgetToProjectDashboard(dashboardId, widgetId);
+        postWidgetToProjectDashboard.removeProperty("id");
+        apiExecutor.expectStatus(postWidgetToProjectDashboard, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(postWidgetToProjectDashboard);
+    }
+
 }

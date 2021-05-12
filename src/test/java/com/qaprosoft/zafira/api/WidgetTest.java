@@ -87,7 +87,7 @@ public class WidgetTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetWidgetTemplateByID() {
-        int templateId = new WidgetServiceImpl().getWidgetTemplateId();
+        int templateId = new WidgetServiceImpl().getAllWidgetTemplateIds().get(0);
         GetWidgetTemplateByIdMethod getWidgetTemplateByIdMethod = new GetWidgetTemplateByIdMethod(templateId);
         apiExecutor.expectStatus(getWidgetTemplateByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getWidgetTemplateByIdMethod);

@@ -34,4 +34,11 @@ public class ZafiraBaseApiMethodWithAuth extends AbstractApiMethodV2 {
         }
         setHeaders("Authorization=Bearer " + cacheAccessToken);
     }
+
+    protected void setNewAuthTokenHeaders(String token) {
+        if (!cacheAccessToken.isEmpty()) {
+            cacheAccessToken = token;
+        }
+        setHeaders("Authorization=Bearer " + cacheAccessToken);
+    }
 }

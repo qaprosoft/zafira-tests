@@ -12,5 +12,5 @@ public interface WidgetService {
 
     String createWidgetToDashboard(String widgetName);
 
-    int getWidgetTemplateId();
+    List<Integer> getAllWidgetTemplateIds();
 }
