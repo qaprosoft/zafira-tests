@@ -11,6 +11,7 @@ public interface ProjectDashboardService {
 
     List<Integer> gelAllDashboardIds(int projectId);
 
-    int createWidgetToDashboard(String body, int dashboardId);
+    int createWidgetToDashboard(int widgetId, int dashboardId);
 
+    void deleteDashboardWidget(int dashboardId, int widgetId);
 }

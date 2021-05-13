@@ -77,7 +77,5 @@ public class UserAssignmentControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(getProjectAssignmentsMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(getProjectAssignmentsMethod);
     }
-
-
 }
 
