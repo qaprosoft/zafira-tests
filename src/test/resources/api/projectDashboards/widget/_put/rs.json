@@ -1,8 +1,12 @@
-{
-  "id": "regex:[\\d]",
-  "title": "type:String",
-  "widgets": "type:JSONArray",
-  "position": null,
-  "editable": "type:Boolean",
-  "projectId":"regex:[\\d]"
-}
+[
+  {
+    "id": "regex:[\\d]",
+    "title": "type:String",
+    "description": "type:String",
+    "paramsConfig": "type:String",
+    "legendConfig": null,
+    "type": "type:String",
+    "location": "type:String",
+    "widgetTemplate": "type:JSONObject"
+  }
+]

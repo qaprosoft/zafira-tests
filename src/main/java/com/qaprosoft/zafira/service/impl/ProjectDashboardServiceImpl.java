@@ -1,9 +1,6 @@
 package com.qaprosoft.zafira.service.impl;
 
-import com.qaprosoft.zafira.api.dashboard.widget.PostWidgetToDashboardMethod;
-import com.qaprosoft.zafira.api.projectDashbords.DeleteProjectDashboardById;
-import com.qaprosoft.zafira.api.projectDashbords.GetSearchProjectDashboards;
-import com.qaprosoft.zafira.api.projectDashbords.PostProjectDashboard;
+import com.qaprosoft.zafira.api.projectDashbords.*;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.ProjectDashboardService;
@@ -41,11 +38,18 @@ public class ProjectDashboardServiceImpl implements ProjectDashboardService {
     }
 
     @Override
-    public int createWidgetToDashboard(String body, int dashboardId) {
-        PostWidgetToDashboardMethod postWidgetToDashboardMethod = new PostWidgetToDashboardMethod(body, dashboardId);
-        apiExecutor.expectStatus(postWidgetToDashboardMethod, HTTPStatusCodeType.OK);
-        String response = apiExecutor.callApiMethod(postWidgetToDashboardMethod);
+    public int createWidgetToDashboard(int widgetId, int dashboardId) {
+        PostWidgetToProjectDashboard putProjectDashboard =
+                new PostWidgetToProjectDashboard(dashboardId, widgetId);
+        apiExecutor.expectStatus(putProjectDashboard, HTTPStatusCodeType.OK);
+        String response = apiExecutor.callApiMethod(putProjectDashboard);
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
     }
 
+    @Override
+    public void deleteDashboardWidget(int dashboardId, int widgetId) {
+        DeleteWidgetFromProjectDashboard deleteWidgetFromProjectDashboard =
+                new DeleteWidgetFromProjectDashboard(dashboardId, widgetId);
+        apiExecutor.callApiMethod(deleteWidgetFromProjectDashboard);
+    }
 }

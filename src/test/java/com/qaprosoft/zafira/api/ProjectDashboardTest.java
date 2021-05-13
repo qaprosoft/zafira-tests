@@ -63,7 +63,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         Assert.assertTrue(projectDashboardService.gelAllDashboardIds(projectId).contains(dashboardId));
     }
 
-    @Test(enabled = false)
+    @Test(enabled = false, groups = {"negative"})
     public void testCreateProjectDashboardWithEmptyName() {
         PostProjectDashboard postProjectDashboard =
                 new PostProjectDashboard(projectId, "");
@@ -71,7 +71,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postProjectDashboard);
     }
 
-    @Test(enabled = false)
+    @Test(enabled = false,groups = {"negative"})
     public void testCreateProjectDashboardWithNonexistentProjectId() {
         String dashboardTitle = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         PostProjectDashboard postProjectDashboard =
@@ -80,7 +80,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postProjectDashboard);
     }
 
-    @Test(enabled = false)
+    @Test(enabled = false,groups = {"negative"})
     public void testCreateProjectDashboardWithoutTitleInRq() {
         PostProjectDashboard postProjectDashboard =
                 new PostProjectDashboard(projectId, "WithoutName");
@@ -89,7 +89,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postProjectDashboard);
     }
 
-    @Test(enabled = false)
+    @Test(enabled = false,groups = {"negative"})
     public void testCreateProjectDashboardWithoutProjectIdInRq() {
         PostProjectDashboard postProjectDashboard =
                 new PostProjectDashboard(projectId, "WithoutProjectId");
@@ -98,7 +98,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postProjectDashboard);
     }
 
-    @Test(enabled = false)
+    @Test(enabled = false,groups = {"negative"})
     public void testCreateProjectDashboardWitEmptyRq() {
         PostProjectDashboard postProjectDashboard =
                 new PostProjectDashboard(projectId, "WithoutName");
@@ -130,7 +130,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(searchProjectDashboards);
     }
 
-    @Test(enabled = false)
+    @Test(enabled = false,groups = {"negative"})
     public void testSearchProjectDashboardWithNonexistentId() {
         GetSearchProjectDashboards searchProjectDashboards =
                 new GetSearchProjectDashboards(projectId * (144444));
@@ -166,7 +166,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(groups = {"negative"})
     public void testGetProjectDashboardByNonexistentName() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         GetProjectDashboardByName getProjectDashboardByName =
@@ -175,7 +175,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getProjectDashboardByName);
     }
 
-    @Test
+    @Test(groups = {"negative"})
     public void testGetProjectDashboardByNonexistentProjectId() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -185,7 +185,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getProjectDashboardByName);
     }
 
-    @Test(enabled = false)
+    @Test(enabled = false,groups = {"negative"})
     public void testGetProjectDashboardByNameWithoutQueryParam() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -200,7 +200,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getProjectDashboardByName);
     }
 
-    @Test
+    @Test(groups = {"negative"})
     public void testGetProjectDashboardByNonexistentId() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -224,7 +224,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         Assert.assertFalse(projectDashboardService.gelAllDashboardIds(projectId).contains(dashboardId));
     }
 
-    @Test
+    @Test(groups = {"negative"})
     public void testDeleteProjectDashboardByNonexistentId() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -236,8 +236,8 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getProjectDashboardById);
     }
 
-    public @Test
-    void testUpdateProjectDashboardById() {
+    @Test
+    public void testUpdateProjectDashboardById() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         String newTitle = "New_".concat(dashboardName);
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -250,7 +250,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(groups = {"negative"})
     public void testUpdateProjectDashboardByIdWithTheSameName() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -261,7 +261,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(putProjectDashboard);
     }
 
-    @Test(enabled = false)
+    @Test(enabled = false,groups = {"negative"})
     public void testUpdateProjectDashboardOnEmptyName() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -272,7 +272,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(putProjectDashboard);
     }
 
-    @Test(enabled = false, description = "500 error")
+    @Test(enabled = false, description = "500 error",groups = {"negative"})
     public void testUpdateProjectDashboardByIdWithEmptyRq() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -284,7 +284,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(putProjectDashboard);
     }
 
-    @Test(enabled = false, description = "500 error")
+    @Test(enabled = false, description = "500 error",groups = {"negative"})
     public void testUpdateProjectDashboardByIdWithoutTitleInRq() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -296,7 +296,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(putProjectDashboard);
     }
 
-    @Test(enabled = false, description = "500 error")
+    @Test(enabled = false, description = "500 error",groups = {"negative"})
     public void testUpdateProjectDashboardByIdWithoutIdInRq() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -308,8 +308,8 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(putProjectDashboard);
     }
 
-    @Test
-    public void testPostWidgetToProjectDashboardFromExistingWidgets() {
+    @Test()
+    public void testPostWidgetToProjectDashboardByExistingWidgets() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         int widgetId = widgetService.getAllWidgetIds().get(0);
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -323,7 +323,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testPostWidgetToProjectDashboard() {
+    public void testPostWidgetToProjectDashboardByNewWidget() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         String widgetName = "TestWidget_".concat(org.apache.commons.lang3.RandomStringUtils.randomAlphabetic(15));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -335,9 +335,10 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postWidgetToProjectDashboard);
         apiExecutor.validateResponse(postWidgetToProjectDashboard, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        widgetService.deleteWidget(widgetId);
     }
 
-    @Test(enabled = false, description = "500 error")
+    @Test(enabled = false, description = "500 error",groups = {"negative"})
     public void testPostWidgetToProjectDashboardWithoutWidgetId() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -350,4 +351,74 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postWidgetToProjectDashboard);
     }
 
+    @Test(groups = {"negative"})
+    public void testPostWidgetToProjectDashboardWithNonExistentWidgetId() {
+        String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
+        String widgetName = "TestWidget_".concat(org.apache.commons.lang3.RandomStringUtils.randomAlphabetic(15));
+        dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
+        int widgetId = widgetService.createWidget(widgetName);
+        widgetService.deleteWidget(widgetId);
+
+        PostWidgetToProjectDashboard putProjectDashboard =
+                new PostWidgetToProjectDashboard(dashboardId, widgetId);
+        apiExecutor.expectStatus(putProjectDashboard, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(putProjectDashboard);
+    }
+
+    @Test(groups = {"negative"})
+    public void testPostWidgetToProjectDashboardWithNonExistentDashboardId() {
+        String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
+        String widgetName = "TestWidget_".concat(org.apache.commons.lang3.RandomStringUtils.randomAlphabetic(15));
+        dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
+        int widgetId = widgetService.createWidget(widgetName);
+        projectDashboardService.deleteDashboardById(dashboardId);
+
+        PostWidgetToProjectDashboard putProjectDashboard =
+                new PostWidgetToProjectDashboard(dashboardId, widgetId);
+        apiExecutor.expectStatus(putProjectDashboard, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(putProjectDashboard);
+        widgetService.deleteWidget(widgetId);
+    }
+
+    @Test()
+    public void testDeleteWidgetFromProjectDashboard() {
+        String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
+        int widgetId = widgetService.getAllWidgetIds().get(0);
+        dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
+        int dashboardWidgetId = projectDashboardService.createWidgetToDashboard(widgetId,dashboardId);
+
+        DeleteWidgetFromProjectDashboard deleteWidgetFromProjectDashboard =
+                new DeleteWidgetFromProjectDashboard(dashboardId, dashboardWidgetId);
+        apiExecutor.expectStatus(deleteWidgetFromProjectDashboard, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(deleteWidgetFromProjectDashboard);
+    }
+
+    @Test(groups = {"negative"})
+    public void testDeleteWidgetFromProjectDashboardWithNonexistentDashboardId() {
+        String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
+        int widgetId = widgetService.getAllWidgetIds().get(0);
+        dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
+        projectDashboardService.createWidgetToDashboard(widgetId,dashboardId);
+        projectDashboardService.deleteDashboardById(dashboardId);
+
+        DeleteWidgetFromProjectDashboard deleteWidgetFromProjectDashboard =
+                new DeleteWidgetFromProjectDashboard(dashboardId, widgetId);
+        apiExecutor.expectStatus(deleteWidgetFromProjectDashboard, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(deleteWidgetFromProjectDashboard);
+    }
+
+    @Test()
+    public void testUpdateWidgetFromProjectDashboard() {
+        String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
+        int widgetId = widgetService.getAllWidgetIds().get(0);
+        dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
+        int dashboardWidgetId = projectDashboardService.createWidgetToDashboard(widgetId,dashboardId);
+
+        PutWidgetToProjectDashboard putWidgetToProjectDashboard =
+                new PutWidgetToProjectDashboard(dashboardId, dashboardWidgetId);
+        apiExecutor.expectStatus(putWidgetToProjectDashboard, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(putWidgetToProjectDashboard);
+        apiExecutor.validateResponse(putWidgetToProjectDashboard, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
 }
