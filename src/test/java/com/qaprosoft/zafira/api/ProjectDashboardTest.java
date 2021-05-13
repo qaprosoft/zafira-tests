@@ -6,10 +6,14 @@ import com.qaprosoft.zafira.api.projectDashbords.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.constant.TestRailConstant;
+import com.qaprosoft.zafira.domain.EmailMsg;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.ProjectDashboardServiceImpl;
 import com.qaprosoft.zafira.service.impl.ProjectV1ServiceImpl;
 import com.qaprosoft.zafira.service.impl.WidgetServiceImpl;
+import com.qaprosoft.zafira.util.CryptoUtil;
+import com.qaprosoft.zafira.util.FileUtil;
 import com.zebrunner.agent.core.annotation.Maintainer;
 import com.zebrunner.agent.core.annotation.TestLabel;
 import io.restassured.path.json.JsonPath;
@@ -22,12 +26,19 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+
 @Maintainer("obabich")
 public class ProjectDashboardTest extends ZafiraAPIBaseTest {
     private static Logger LOGGER = Logger.getLogger(ProjectSwitchTest.class);
     private static ProjectV1ServiceImpl projectV1Service = new ProjectV1ServiceImpl();
     private static ProjectDashboardServiceImpl projectDashboardService = new ProjectDashboardServiceImpl();
     private static WidgetServiceImpl widgetService = new WidgetServiceImpl();
+    private final EmailManager EMAIL = new EmailManager(
+            CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY)),
+            CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY)));
     private static int dashboardId;
     private static int projectId = 1;
 
@@ -71,7 +82,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postProjectDashboard);
     }
 
-    @Test(enabled = false,groups = {"negative"})
+    @Test(enabled = false, groups = {"negative"})
     public void testCreateProjectDashboardWithNonexistentProjectId() {
         String dashboardTitle = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         PostProjectDashboard postProjectDashboard =
@@ -80,7 +91,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postProjectDashboard);
     }
 
-    @Test(enabled = false,groups = {"negative"})
+    @Test(enabled = false, groups = {"negative"})
     public void testCreateProjectDashboardWithoutTitleInRq() {
         PostProjectDashboard postProjectDashboard =
                 new PostProjectDashboard(projectId, "WithoutName");
@@ -89,7 +100,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postProjectDashboard);
     }
 
-    @Test(enabled = false,groups = {"negative"})
+    @Test(enabled = false, groups = {"negative"})
     public void testCreateProjectDashboardWithoutProjectIdInRq() {
         PostProjectDashboard postProjectDashboard =
                 new PostProjectDashboard(projectId, "WithoutProjectId");
@@ -98,7 +109,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postProjectDashboard);
     }
 
-    @Test(enabled = false,groups = {"negative"})
+    @Test(enabled = false, groups = {"negative"})
     public void testCreateProjectDashboardWitEmptyRq() {
         PostProjectDashboard postProjectDashboard =
                 new PostProjectDashboard(projectId, "WithoutName");
@@ -130,7 +141,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(searchProjectDashboards);
     }
 
-    @Test(enabled = false,groups = {"negative"})
+    @Test(enabled = false, groups = {"negative"})
     public void testSearchProjectDashboardWithNonexistentId() {
         GetSearchProjectDashboards searchProjectDashboards =
                 new GetSearchProjectDashboards(projectId * (144444));
@@ -185,7 +196,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getProjectDashboardByName);
     }
 
-    @Test(enabled = false,groups = {"negative"})
+    @Test(enabled = false, groups = {"negative"})
     public void testGetProjectDashboardByNameWithoutQueryParam() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -261,7 +272,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(putProjectDashboard);
     }
 
-    @Test(enabled = false,groups = {"negative"})
+    @Test(enabled = false, groups = {"negative"})
     public void testUpdateProjectDashboardOnEmptyName() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -272,7 +283,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(putProjectDashboard);
     }
 
-    @Test(enabled = false, description = "500 error",groups = {"negative"})
+    @Test(enabled = false, description = "500 error", groups = {"negative"})
     public void testUpdateProjectDashboardByIdWithEmptyRq() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -284,7 +295,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(putProjectDashboard);
     }
 
-    @Test(enabled = false, description = "500 error",groups = {"negative"})
+    @Test(enabled = false, description = "500 error", groups = {"negative"})
     public void testUpdateProjectDashboardByIdWithoutTitleInRq() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -296,7 +307,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(putProjectDashboard);
     }
 
-    @Test(enabled = false, description = "500 error",groups = {"negative"})
+    @Test(enabled = false, description = "500 error", groups = {"negative"})
     public void testUpdateProjectDashboardByIdWithoutIdInRq() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -316,7 +327,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
 
         PostWidgetToProjectDashboard putProjectDashboard =
                 new PostWidgetToProjectDashboard(dashboardId, widgetId);
-               apiExecutor.expectStatus(putProjectDashboard, HTTPStatusCodeType.OK);
+        apiExecutor.expectStatus(putProjectDashboard, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putProjectDashboard);
         apiExecutor.validateResponse(putProjectDashboard, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
@@ -338,7 +349,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         widgetService.deleteWidget(widgetId);
     }
 
-    @Test(enabled = false, description = "500 error",groups = {"negative"})
+    @Test(enabled = false, description = "500 error", groups = {"negative"})
     public void testPostWidgetToProjectDashboardWithoutWidgetId() {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
@@ -385,7 +396,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         int widgetId = widgetService.getAllWidgetIds().get(0);
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
-        int dashboardWidgetId = projectDashboardService.createWidgetToDashboard(widgetId,dashboardId);
+        int dashboardWidgetId = projectDashboardService.createWidgetToDashboard(widgetId, dashboardId);
 
         DeleteWidgetFromProjectDashboard deleteWidgetFromProjectDashboard =
                 new DeleteWidgetFromProjectDashboard(dashboardId, dashboardWidgetId);
@@ -398,7 +409,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         int widgetId = widgetService.getAllWidgetIds().get(0);
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
-        projectDashboardService.createWidgetToDashboard(widgetId,dashboardId);
+        projectDashboardService.createWidgetToDashboard(widgetId, dashboardId);
         projectDashboardService.deleteDashboardById(dashboardId);
 
         DeleteWidgetFromProjectDashboard deleteWidgetFromProjectDashboard =
@@ -412,7 +423,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         int widgetId = widgetService.getAllWidgetIds().get(0);
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
-        int dashboardWidgetId = projectDashboardService.createWidgetToDashboard(widgetId,dashboardId);
+        int dashboardWidgetId = projectDashboardService.createWidgetToDashboard(widgetId, dashboardId);
 
         PutWidgetToProjectDashboard putWidgetToProjectDashboard =
                 new PutWidgetToProjectDashboard(dashboardId, dashboardWidgetId);
@@ -421,4 +432,54 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(putWidgetToProjectDashboard, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
+
+    @Test()
+    public void testSendViaEmailProjectDashboard() throws IOException {
+        String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
+        int widgetId = widgetService.getAllWidgetIds().get(0);
+        dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
+        projectDashboardService.createWidgetToDashboard(widgetId, dashboardId);
+
+        File uploadFile = new FileUtil().getFile(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG));
+        String text = R.TESTDATA.get(ConfigConstant.EMAIL_KEY).replace("dashboardName", dashboardName);
+        File emailFile = new FileUtil().getFile(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_EMAIL));
+        new FileUtil().createEmailFile(text);
+
+        PostSendProjectDashboardByEmail postSendProjectDashboardByEmail =
+                new PostSendProjectDashboardByEmail(dashboardId, uploadFile, emailFile);
+        apiExecutor.expectStatus(postSendProjectDashboardByEmail, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postSendProjectDashboardByEmail);
+        verifyIfEmailWasDelivered(dashboardName);
+        EMAIL.deleteMsg(dashboardName);
+    }
+
+    private boolean verifyIfEmailWasDelivered(String dashboardName) {
+        final int lastEmailIndex = 0;
+        final int emailsCount = 1;
+        LOGGER.info("Will get last email from inbox.");
+        EMAIL.waitForEmailDelivered(new Date(), dashboardName); // decency from connection, wait a little bit
+        EmailMsg email = EMAIL.getInbox(emailsCount)[lastEmailIndex];
+        return email.getContent().contains(dashboardName);
+    }
+
+    @Test()
+    public void testSendViaEmailProjectDashboardBigImage() throws IOException {
+        String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
+        int widgetId = widgetService.getAllWidgetIds().get(0);
+        dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
+
+        projectDashboardService.createWidgetToDashboard(widgetId, dashboardId);
+        File uploadFile = new FileUtil().getFile(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG_LARGE));
+        String text = R.TESTDATA.get(ConfigConstant.EMAIL_KEY).replace("dashboardName", dashboardName);
+        File emailFile = new FileUtil().getFile(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_EMAIL));
+        new FileUtil().createEmailFile(text);
+
+        PostSendProjectDashboardByEmail postSendProjectDashboardByEmail =
+                new PostSendProjectDashboardByEmail(dashboardId, uploadFile, emailFile);
+        apiExecutor.expectStatus(postSendProjectDashboardByEmail, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postSendProjectDashboardByEmail);
+        verifyIfEmailWasDelivered(dashboardName);
+        EMAIL.deleteMsg(dashboardName);
+    }
 }
+
