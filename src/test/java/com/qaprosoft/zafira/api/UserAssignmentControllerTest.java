@@ -67,7 +67,7 @@ public class UserAssignmentControllerTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(actualListIds, allPublicProjectIds, "Actual projectIds aren't as expected!");
     }
 
-    @Test()
+    @Test(enabled = false)
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40799")
     public void testGetAllUserAssignmentsWithNonexistentUserId() throws UnsupportedEncodingException {
         userId = userServiceAPI.createForProject();
