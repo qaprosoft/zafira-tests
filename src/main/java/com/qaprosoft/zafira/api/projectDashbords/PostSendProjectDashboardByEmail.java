@@ -16,4 +16,5 @@ public class PostSendProjectDashboardByEmail extends ZafiraBaseApiMethodWithAuth
         setHeaders("Content-Type=multipart/form-data");
         request.multiPart("file", file, "image/png").multiPart("email", email,"application/json");
     }
+
 }
