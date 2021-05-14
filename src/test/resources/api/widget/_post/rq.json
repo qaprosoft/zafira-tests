@@ -3,7 +3,7 @@
   "id": 2,
   "legendConfig": "{}",
   "paramsConfig": "{}",
-  "location": "gggg",
+  "location": "{\"width\":4,\"height\":11}",
   "title": "${title}",
   "type": "string",
   "widgetTemplate": {

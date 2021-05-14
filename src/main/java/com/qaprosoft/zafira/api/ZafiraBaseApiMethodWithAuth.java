@@ -28,6 +28,10 @@ public class ZafiraBaseApiMethodWithAuth extends AbstractApiMethodV2 {
         setAuthHeaders();
     }
 
+    public ZafiraBaseApiMethodWithAuth(String token) {
+        setNewAuthTokenHeaders(token);
+    }
+
     protected void setAuthHeaders() {
         if (cacheAccessToken.isEmpty()) {
             cacheAccessToken = new APIContextManager().getAccessToken();
@@ -36,9 +40,6 @@ public class ZafiraBaseApiMethodWithAuth extends AbstractApiMethodV2 {
     }
 
     protected void setNewAuthTokenHeaders(String token) {
-        if (!cacheAccessToken.isEmpty()) {
-            cacheAccessToken = token;
-        }
-        setHeaders("Authorization=Bearer " + cacheAccessToken);
+        setHeaders("Authorization=Bearer " + token);
     }
 }
