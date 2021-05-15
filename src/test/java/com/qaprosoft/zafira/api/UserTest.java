@@ -260,7 +260,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(actualEmail, NEW_EMAIL, "Email is not changed!");
         String getUser = new UserV1ServiceAPIImpl().getUserById(userId);
         User userActual = MAPPER.readValue(getUser, User.class);
-        Assert.assertEquals(userActual.getEmail(), NEW_EMAIL,"Email is not changed!");
+        Assert.assertEquals(userActual.getEmail(), NEW_EMAIL, "Email is not changed!");
     }
 
     @Test
@@ -278,7 +278,7 @@ public class UserTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(actualStatus, NEW_STATUS, "Status was not changed!");
         String getUser = new UserV1ServiceAPIImpl().getUserById(userId);
         User userActual = MAPPER.readValue(getUser, User.class);
-        Assert.assertEquals(userActual.getStatus(), NEW_STATUS,"Status was not changed!");
+        Assert.assertEquals(userActual.getStatus(), NEW_STATUS, "Status was not changed!");
     }
 
     @Test

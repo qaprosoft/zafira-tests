@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.service.impl;
 
+import com.qaprosoft.zafira.api.authIAM.PostGenerateAuthTokenMethodIAM;
 import com.qaprosoft.zafira.api.authIAM.PostRefreshTokenMethodIAM;
 import com.qaprosoft.zafira.api.permissions.GetAllPermissionsMethodIAM;
 import com.qaprosoft.zafira.constant.JSONConstant;
@@ -23,5 +24,14 @@ public class AuthServiceApiIamImpl implements AuthServiceApiIAM {
         apiExecutor.expectStatus(getAllPermissionsMethod, HTTPStatusCodeType.OK);
         String permissionsList = apiExecutor.callApiMethod(getAllPermissionsMethod);
         return permissionsList;
+    }
+
+    @Override
+    public String getAuthToken(String login, String password) {
+        PostGenerateAuthTokenMethodIAM postGenerateAuthTokenMethodIAM
+                = new PostGenerateAuthTokenMethodIAM(login, password);
+        apiExecutor.expectStatus(postGenerateAuthTokenMethodIAM, HTTPStatusCodeType.OK);
+        String response=apiExecutor.callApiMethod(postGenerateAuthTokenMethodIAM);
+        return JsonPath.from(response).get(JSONConstant.AUTH_TOKEN_KEY);
     }
 }
