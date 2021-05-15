@@ -17,4 +17,12 @@ public class PostProjectV1Method extends ZafiraBaseApiMethodWithAuth {
         addProperty("name", name);
         addProperty("key", key);
     }
+
+    public PostProjectV1Method(String name, String key,String token) {
+        super(token);
+        replaceUrlPlaceholder("projects_url", APIContextManager.PROJECT_SERVICE_URL);
+        setProperties("api/projectV1.properties");
+        addProperty("name", name);
+        addProperty("key", key);
+    }
 }

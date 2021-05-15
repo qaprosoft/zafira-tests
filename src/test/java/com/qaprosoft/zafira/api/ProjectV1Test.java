@@ -10,7 +10,9 @@ import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.service.impl.AuthServiceApiIamImpl;
 import com.qaprosoft.zafira.service.impl.ProjectV1ServiceImpl;
+import com.qaprosoft.zafira.service.impl.UserV1ServiceAPIImpl;
 import com.zebrunner.agent.core.annotation.TestLabel;
 import io.restassured.path.json.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -50,6 +52,12 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
     public void testCreateProject() {
         String projectName = "TestProject_".concat(RandomStringUtils.randomAlphabetic(5));
         projectKey = RandomStringUtils.randomAlphabetic(3).concat("1").toUpperCase(Locale.ROOT);
+
+        final String USER_NAME = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        final String PASSWORD = "TEST_".concat(RandomStringUtils.randomAlphabetic(10));
+        final String EMAIL = "TEST_".concat(RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
+        int userId = new UserV1ServiceAPIImpl().createAndGetId(USER_NAME, PASSWORD, EMAIL);
+        String token = new AuthServiceApiIamImpl().getAuthToken(USER_NAME, PASSWORD);
 
         PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName, projectKey);
         apiExecutor.expectStatus(postProjectV1Method, HTTPStatusCodeType.CREATED);

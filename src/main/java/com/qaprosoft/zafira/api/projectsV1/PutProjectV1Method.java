@@ -18,4 +18,13 @@ public class PutProjectV1Method extends ZafiraBaseApiMethodWithAuth {
         addProperty("name", name);
         addProperty("key", newKey);
     }
+
+    public PutProjectV1Method(String key, String name, String newKey, String token) {
+        super(token);
+        replaceUrlPlaceholder("projects_url", APIContextManager.PROJECT_SERVICE_URL);
+        replaceUrlPlaceholder("key", key);
+        setProperties("api/projectV1.properties");
+        addProperty("name", name);
+        addProperty("key", newKey);
+    }
 }

@@ -1,5 +1,7 @@
 package com.qaprosoft.zafira.api;
 
+import com.qaprosoft.zafira.service.impl.AuthServiceApiIamImpl;
+import com.qaprosoft.zafira.service.impl.UserV1ServiceAPIImpl;
 import io.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
@@ -11,11 +13,19 @@ import com.qaprosoft.zafira.service.impl.WidgetServiceImpl;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
 public class WidgetTest extends ZafiraAPIBaseTest {
+    private UserV1ServiceAPIImpl userV1ServiceAPI= new UserV1ServiceAPIImpl();
+    private static int userId;
+    @AfterMethod
+    public void testDeleteUser() {
+        new UserV1ServiceAPIImpl().deleteUserById(userId);
+    }
+
 
     @Test
     public void testGetAllWidgetTemplates() {
@@ -45,6 +55,21 @@ public class WidgetTest extends ZafiraAPIBaseTest {
         List<Integer> allWidgetIds = widgetService.getAllWidgetIds();
         widgetService.deleteWidget(widgetId);
         Assert.assertTrue(allWidgetIds.contains(widgetId), "Widget was not create!");
+    }
+
+    @Test
+    public void testCreateWidgetByUserFromUserGroup() {
+        final String USER_NAME = "TEST_".concat(org.apache.commons.lang3.RandomStringUtils.randomAlphabetic(10));
+        final String PASSWORD = "TEST_".concat(org.apache.commons.lang3.RandomStringUtils.randomAlphabetic(10));
+        final String EMAIL = "TEST_".concat(org.apache.commons.lang3.RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
+
+        userId = userV1ServiceAPI.createAndGetId(USER_NAME,PASSWORD,EMAIL);
+        String token =  new AuthServiceApiIamImpl().getAuthToken(USER_NAME,PASSWORD);
+
+        String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
+        PostWidgetMethod postWidgetMethod = new PostWidgetMethod(widgetName,token);
+        apiExecutor.expectStatus(postWidgetMethod, HTTPStatusCodeType.FORBIDDEN);
+        apiExecutor.callApiMethod(postWidgetMethod);
     }
 
     @Test

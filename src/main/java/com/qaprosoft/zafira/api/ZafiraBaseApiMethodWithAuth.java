@@ -14,6 +14,11 @@ public class ZafiraBaseApiMethodWithAuth extends AbstractApiMethodV2 {
         setAuthHeaders();
     }
 
+    public ZafiraBaseApiMethodWithAuth(String rqPath, String rsPath, String propertiesPath,String token) {
+        super(rqPath, rsPath, propertiesPath);
+        setNewAuthTokenHeaders(token);
+    }
+
     public ZafiraBaseApiMethodWithAuth(String rqPath, String rsPath, Properties properties) {
         super(rqPath, rsPath, properties);
         setAuthHeaders();
