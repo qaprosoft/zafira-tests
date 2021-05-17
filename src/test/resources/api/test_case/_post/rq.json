@@ -1,6 +1,5 @@
 {
   "info": "string",
-  "primaryOwnerId": 2,
   "testClass": "string",
   "testMethod": "string",
   "testSuiteId": ${
