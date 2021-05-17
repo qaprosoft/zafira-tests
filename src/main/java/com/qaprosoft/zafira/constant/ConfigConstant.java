@@ -5,6 +5,7 @@ public class ConfigConstant {
     public static final String BASE_API_URL_KEY = "%s.api_url";
     public static final String PROJECT_SERVICE_URL_KEY = "%s.projects_url";
     public static final String BASE_URL_KEY = "%s.base";
+    public static final String REFRESH_TOKEN_KEY_KEY = "%s.refresh_token";
     public static final String AUTHOMATION_SERVER_KEY = "authomationServerId";
     public static final String SCM_ACCOUNT_TYPE_KEY = "scmAccountTypeId";
     public static final String TYPE_KEY = "type_to_put";
@@ -48,7 +49,6 @@ public class ConfigConstant {
     public static final String SAUCELABS_PASSWORD_KEY = "saucelabs_password";
     public static final String ZEBRUNNER_PASSWORD_KEY = "zebrunner_passwod";
     public static final String JENKINS_MOCK_JOBNAME_KEY = "jenkins_mock_jobName";
-    public static final String REFRESH_TOKEN_KEY = "refresh_token";
     public static final String EXPECTED_PERMISSION_NAME = "expected_permission_name";
     public static final String PROJECT_NAME_KEY = "projectNameKey";
     public static final String SCREENSHOT_PATH_KEY = "screenshot_path_key";
@@ -74,4 +74,5 @@ public class ConfigConstant {
     public static final String EXISTING_PROJECT_KEY = "existing_project_key";
     public static final String EXISTING_PROJECT_ID = "existing_project_id";
     public static final String EMPTY_RQ_PATH = "empty_request_path";
+
 }

@@ -10,6 +10,6 @@ public class PostRefreshTokenMethodIAM extends AbstractApiMethodV2 {
     public PostRefreshTokenMethodIAM() {
         super("api/authIAM/_post/rq_for_refresh.json", "api/authIAM/_post/rs_for_refresh.json", "api/auth.properties");
         replaceUrlPlaceholder("base_api_url", APIContextManager.BASE_URL);
-        addProperty("refreshToken",CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.REFRESH_TOKEN_KEY)));
+        addProperty("refreshToken",CryptoUtil.decrypt(APIContextManager.REFRESH_TOKEN));
     }
 }

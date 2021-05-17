@@ -14,4 +14,6 @@ public interface ProjectV1TestRunService {
     String getProjectTestRunComment(int projectId, int testRunId);
 
     Boolean getProjectTestRunReviewedIs(int projectId, int testRunId);
+
+    void attachToMilestone(int testRunId, int milestoneId, int projectId);
 }

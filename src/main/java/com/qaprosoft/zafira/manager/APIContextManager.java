@@ -1,15 +1,11 @@
 package com.qaprosoft.zafira.manager;
 
-import com.qaprosoft.zafira.api.authIAM.PostRefreshTokenMethodIAM;
-import com.qaprosoft.zafira.util.CryptoUtil;
-import io.restassured.path.json.JsonPath;
-
-
 import com.qaprosoft.carina.core.foundation.utils.R;
-
+import com.qaprosoft.zafira.api.authIAM.PostRefreshTokenMethodIAM;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.service.impl.ExecutionServiceImpl;
+import io.restassured.path.json.JsonPath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +19,7 @@ public class APIContextManager {
     public static final String BASE_URL = R.CONFIG.get(String.format(ConfigConstant.BASE_URL_KEY, ENV_VALUE));
     public static final String API_URL = R.CONFIG.get(String.format(ConfigConstant.BASE_API_URL_KEY, ENV_VALUE));
     public static final String PROJECT_SERVICE_URL = R.CONFIG.get(String.format(ConfigConstant.PROJECT_SERVICE_URL_KEY, ENV_VALUE));
+    public static final String REFRESH_TOKEN = R.CONFIG.get(String.format(ConfigConstant.REFRESH_TOKEN_KEY_KEY, ENV_VALUE));
     public static final int AUTHOMATION_SERVER_ID_VALUE = R.TESTDATA.getInt(ConfigConstant.AUTHOMATION_SERVER_KEY);
     public static final int SCM_ACCOUNT_TYPE_ID_VALUE = R.TESTDATA.getInt(ConfigConstant.SCM_ACCOUNT_TYPE_KEY);
     public static final int EXISTING_SCM_ID = R.TESTDATA.getInt(ConfigConstant.EXISTING_SCM_ID);
@@ -46,6 +43,6 @@ public class APIContextManager {
         ExecutionServiceImpl executor = new ExecutionServiceImpl();
         String rsString = executor.callApiMethod(new PostRefreshTokenMethodIAM());
         accessToken = JsonPath.from(rsString).get(JSONConstant.AUTH_TOKEN_KEY);
-        LOGGER.info("Zafira Access Token: ".concat(accessToken));
+        LOGGER.info("Zebrunner Access Token: ".concat(accessToken));
     }
 }

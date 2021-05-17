@@ -161,13 +161,23 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(postProjectIAAnalysisMethod);
     }
 
+
     @Test
     public void testBuildProjectTestRun() {
+        testRunId = createTestRun(1);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        BuildProjectTestRunMethod buildProjectTestRunMethod = new BuildProjectTestRunMethod(testRunId);
+        apiExecutor.expectStatus(buildProjectTestRunMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(buildProjectTestRunMethod);
+    }
+
+    @Test
+    public void testBuildProjectTestRunWithoutJob() {
         String projectKey = projectV1Service.getProjectKeyById(projectId);
         testRunId = testRunServiceAPIImplV1.start(projectKey);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
         BuildProjectTestRunMethod buildProjectTestRunMethod = new BuildProjectTestRunMethod(testRunId);
-        apiExecutor.expectStatus(buildProjectTestRunMethod, HTTPStatusCodeType.OK);
+        apiExecutor.expectStatus(buildProjectTestRunMethod, HTTPStatusCodeType.FORBIDDEN);
         apiExecutor.callApiMethod(buildProjectTestRunMethod);
     }
 
@@ -442,5 +452,18 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 2,1);
         apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
+    }
+
+    @Test
+    public void testDeAttachTestRunToMilestoneMethod()  {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        int milestoneId = milestoneService.create(projectId);
+        projectV1TestRunService.attachToMilestone(testRunId,milestoneId,projectId);
+        DeleteTestRunFromMilestoneMethod deleteTestRunFromMilestoneMethod = new DeleteTestRunFromMilestoneMethod(testRunId, milestoneId,projectId);
+        apiExecutor.expectStatus(deleteTestRunFromMilestoneMethod, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(deleteTestRunFromMilestoneMethod);
+        milestoneService.delete(projectId,milestoneId);
     }
 }

@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.service.impl;
 
+import com.qaprosoft.zafira.api.projectTestRuns.AttachTestRunToMilestoneMethod;
 import com.qaprosoft.zafira.api.projectTestRuns.DeleteProjectTestRunByIdMethod;
 import com.qaprosoft.zafira.api.projectTestRuns.GetProjectTestRunByTestRunIdMethod;
 import com.qaprosoft.zafira.api.projectTestRuns.GetSearchProjectTestRunMethod;
@@ -65,5 +66,12 @@ public class ProjectV1TestRunServiceImpl implements ProjectV1TestRunService {
         Boolean isReviewed = JsonPath.from(rs).getBoolean("results[" + indexOfId + "].reviewed");
         LOGGER.info("Reviewed:  " + isReviewed);
         return isReviewed;
+    }
+
+    @Override
+    public void attachToMilestone(int testRunId, int milestoneId, int projectId) {
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, milestoneId, projectId);
+        apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
     }
 }
