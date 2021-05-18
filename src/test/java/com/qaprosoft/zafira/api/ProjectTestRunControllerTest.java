@@ -416,30 +416,31 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         testRunServiceAPIImplV1.finishTestRun(testRunId);
         int projectId = projectV1Service.getProjectByKey(APIContextManager.PROJECT_NAME_KEY).getId();
         int milestoneId = milestoneService.create(projectId);
-        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, milestoneId,projectId);
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, milestoneId, projectId);
         apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
-        milestoneService.delete(projectId,milestoneId);
+        milestoneService.delete(projectId, milestoneId);
     }
 
     @Test
-    public void testAttachTestRunToMilestoneMethod()  {
+    public void testAttachTestRunToMilestoneMethod() {
         String projectKey = projectV1Service.getProjectKeyById(projectId);
         testRunId = testRunServiceAPIImplV1.start(projectKey);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
         int milestoneId = milestoneService.create(projectId);
-        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, milestoneId,projectId);
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, milestoneId, projectId);
         apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
-        milestoneService.delete(projectId,milestoneId);
     }
 
     @Test
     public void testAttachTestRunToCompletedMilestoneMethod() {
-        testRunId = testRunServiceAPIImplV1.start(APIContextManager.PROJECT_NAME_KEY);
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
 
         testRunServiceAPIImplV1.finishTestRun(testRunId);
-        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 6,1);
+        int milestoneId = milestoneService.createCompletedMilestone(projectId);
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, milestoneId, projectId);
         apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.FORBIDDEN);
         apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
     }
@@ -449,21 +450,61 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         testRunId = testRunServiceAPIImplV1.start(APIContextManager.PROJECT_NAME_KEY);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
         testRunServiceAPIImplV1.deleteTestRun(testRunId);
-        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 2,1);
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, 2, 1);
         apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
     }
 
     @Test
-    public void testDeAttachTestRunToMilestoneMethod()  {
+    public void testDeAttachTestRunToMilestoneMethod() {
         String projectKey = projectV1Service.getProjectKeyById(projectId);
         testRunId = testRunServiceAPIImplV1.start(projectKey);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
         int milestoneId = milestoneService.create(projectId);
-        projectV1TestRunService.attachToMilestone(testRunId,milestoneId,projectId);
-        DeleteTestRunFromMilestoneMethod deleteTestRunFromMilestoneMethod = new DeleteTestRunFromMilestoneMethod(testRunId, milestoneId,projectId);
+        projectV1TestRunService.attachToMilestone(testRunId, milestoneId, projectId);
+        DeleteTestRunFromMilestoneMethod deleteTestRunFromMilestoneMethod = new DeleteTestRunFromMilestoneMethod(testRunId, milestoneId, projectId);
         apiExecutor.expectStatus(deleteTestRunFromMilestoneMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(deleteTestRunFromMilestoneMethod);
         milestoneService.delete(projectId,milestoneId);
+    }
+
+    @Test
+    public void testDeAttachTestRunToMilestoneMethodWithoutQueryParams() {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        int milestoneId = milestoneService.create(projectId);
+        projectV1TestRunService.attachToMilestone(testRunId, milestoneId, projectId);
+        DeleteTestRunFromMilestoneMethod deleteTestRunFromMilestoneMethod = new DeleteTestRunFromMilestoneMethod(testRunId, milestoneId, projectId);
+        deleteTestRunFromMilestoneMethod
+                .setMethodPath(
+                        deleteTestRunFromMilestoneMethod.getMethodPath()
+                                .split("\\?")[0]);
+        apiExecutor.expectStatus(deleteTestRunFromMilestoneMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(deleteTestRunFromMilestoneMethod);
+    }
+
+    @Test
+    public void testDeAttachTestRunToMilestoneMethodWithNonexistentTestRunId() {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        int milestoneId = milestoneService.create(projectId);
+        projectV1TestRunService.attachToMilestone(testRunId, milestoneId, projectId);
+        DeleteTestRunFromMilestoneMethod deleteTestRunFromMilestoneMethod = new DeleteTestRunFromMilestoneMethod(testRunId*(-1), milestoneId, projectId);
+        apiExecutor.expectStatus(deleteTestRunFromMilestoneMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(deleteTestRunFromMilestoneMethod);
+    }
+
+    @Test
+    public void testDeAttachTestRunToMilestoneMethodWithNonexistentMilestoneId() {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+        int milestoneId = milestoneService.create(projectId);
+        projectV1TestRunService.attachToMilestone(testRunId, milestoneId, projectId);
+        DeleteTestRunFromMilestoneMethod deleteTestRunFromMilestoneMethod = new DeleteTestRunFromMilestoneMethod(testRunId, milestoneId*(-1), projectId);
+        apiExecutor.expectStatus(deleteTestRunFromMilestoneMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(deleteTestRunFromMilestoneMethod);
     }
 }

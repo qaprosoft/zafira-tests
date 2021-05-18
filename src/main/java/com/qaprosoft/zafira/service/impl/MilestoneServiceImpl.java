@@ -42,6 +42,17 @@ public class MilestoneServiceImpl implements MilestoneService {
     }
 
     @Override
+    public int createCompletedMilestone(int projectId) {
+        String milestoneName = "MilestoneName".concat(RandomStringUtils.randomAlphabetic(7));
+        PostMilestoneMethod postMilestoneMethod =
+                new PostMilestoneMethod(projectId, milestoneName);
+        postMilestoneMethod.addProperty(JSONConstant.COMPLETED, true);
+        apiExecutor.expectStatus(postMilestoneMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(postMilestoneMethod);
+        return JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+    }
+
+    @Override
     public void delete(int projectId, int milestoneId) {
         DeleteMilestoneByIdAndProjectIdMethod deleteMilestoneByIdAndProjectId =
                 new DeleteMilestoneByIdAndProjectIdMethod(projectId, milestoneId);

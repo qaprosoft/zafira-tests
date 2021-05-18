@@ -1,8 +1,8 @@
 package com.qaprosoft.zafira.api;
 
-
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
+import com.qaprosoft.zafira.api.testController.GetTestResultsHistoryByIdMethod;
 import com.qaprosoft.zafira.api.testRunController.v1.DeleteTestByIdV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.GetTestsByCiRunIdV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestsInTestRunV1Method;
@@ -30,6 +30,8 @@ import java.time.OffsetDateTime;
 public class TestV1Test extends ZafiraAPIBaseTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestV1Test.class);
+    private static TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
+    private static TestServiceV1Impl testServiceV1 = new TestServiceV1Impl();
     private int testRunId;
     private static final String RESULT_SKIPPED = "SKIPPED";
     private static final String RESULT_FAILED = "FAILED";
@@ -311,6 +313,21 @@ public class TestV1Test extends ZafiraAPIBaseTest {
         String rs = apiExecutor.callApiMethod(getTestsByCiRunIdV1Method);
         Assert.assertEquals(JsonPath.from(rs).getList("").size(), 0,
                 "Test run does not contain tests, but the list of result is not empty!");
+    }
+
+    @Test
+    public void testGetTestResultsHistoryById() {
+        testRunId = testRunServiceAPIImplV1.start();
+        int testId = testServiceV1.startTest(testRunId);
+        int testId1 = testServiceV1.startTest(testRunId);
+        testServiceV1.finishTestAsResult(testRunId, testId, RESULT_PASSED);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+
+        GetTestResultsHistoryByIdMethod getTestResultsHistoryByIdMethod = new GetTestResultsHistoryByIdMethod(testId1);
+        apiExecutor.callApiMethod(getTestResultsHistoryByIdMethod);
+        apiExecutor.expectStatus(getTestResultsHistoryByIdMethod, HTTPStatusCodeType.OK);
+        apiExecutor.validateResponse(getTestResultsHistoryByIdMethod, JSONCompareMode.STRICT,
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
 }

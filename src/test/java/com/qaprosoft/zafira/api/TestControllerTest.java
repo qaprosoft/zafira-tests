@@ -14,6 +14,7 @@ import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.List;
 public class TestControllerTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(TestControllerTest.class);
     private static final String EXISTING_ISSUE = "ZEB-1871";
+
 
     @Test
     public void testStartTest() {
@@ -223,22 +225,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getJiraIssueByItsIdMethod);
         apiExecutor.expectStatus(getJiraIssueByItsIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.validateResponse(getJiraIssueByItsIdMethod, JSONCompareMode.STRICT,
-                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-    }
-
-    @Test
-    public void testGetTestResultsHistoryById() {
-        TestServiceImpl testServiceImpl = new TestServiceImpl();
-        int testSuiteId = new TestSuiteServiceImpl().create();
-        int jobId = new JobServiceImpl().create();
-        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
-        int testId = testServiceImpl.create(testCaseId, testRunId);
-
-        GetTestResultsHistoryByIdMethod getTestResultsHistoryByIdMethod = new GetTestResultsHistoryByIdMethod(testId);
-        apiExecutor.callApiMethod(getTestResultsHistoryByIdMethod);
-        apiExecutor.expectStatus(getTestResultsHistoryByIdMethod, HTTPStatusCodeType.OK);
-        apiExecutor.validateResponse(getTestResultsHistoryByIdMethod, JSONCompareMode.STRICT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
