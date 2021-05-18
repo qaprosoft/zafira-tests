@@ -8,6 +8,8 @@ public interface MilestoneService {
 
     int create(int projectId);
 
+    int createCompletedMilestone(int projectId);
+
     void delete(int projectId, int milestoneNameId);
 
     List<Integer> getAllMilestoneIdsInProject(int projectId);

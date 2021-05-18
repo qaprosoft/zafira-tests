@@ -12,6 +12,7 @@ public class DeleteMilestoneByIdAndProjectIdMethod extends ZafiraBaseApiMethodWi
         replaceUrlPlaceholder("id", String.valueOf(milestoneId));
         replaceUrlPlaceholder("projectId", String.valueOf(projectId));
     }
+
     public void setAuthHeaders() {
         String accessToken = new APIContextManager().getAccessToken();
         setHeaders("Authorization=Bearer " + accessToken);
