@@ -26,6 +26,7 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static AuthServiceApiIamImpl authServiceApiIam = new AuthServiceApiIamImpl();
     private static String permissions = authServiceApiIam.getPermissionsList();
+    private static List userPermissions = authServiceApiIam.getUserPermissionsList();
     private final static String INVALID_PASSWORD = "test";
     private final static String EMPTY_AUTHTOKEN = "";
 

@@ -28,7 +28,7 @@ public class SettingsControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getSettingsByToolMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(enabled = false)
     public void testUpdateSettings() {
         String settingName = SETTING_NAME;
         PutUpdateSettingsMethod putUpdateSettingsMethod = new PutUpdateSettingsMethod(settingName);

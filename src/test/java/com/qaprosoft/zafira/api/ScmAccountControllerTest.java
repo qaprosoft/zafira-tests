@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.api;
 
+import com.qaprosoft.zafira.manager.APIContextManager;
 import io.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.zafira.api.scmAccountController.*;
@@ -14,7 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 
 public class ScmAccountControllerTest extends ZafiraAPIBaseTest {
-    private static final int EXISTING_ACCOUNT_ID = 86;
+    private static final int EXISTING_ACCOUNT_ID = APIContextManager.EXISTING_SCM_ID;
     private static int scmAccountId;
 
     @AfterMethod
