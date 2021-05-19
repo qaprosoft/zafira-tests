@@ -4,6 +4,8 @@
       "id": "regex:[\\d]",
       "name": "type:String",
       "description": "type:String",
+      "dueDate": "type:String",
+      "startDate": "type:String",
       "completed": "type:Boolean",
       "projectId": ${projectId}
     }

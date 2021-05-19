@@ -3,6 +3,8 @@ package com.qaprosoft.zafira.api.authIAM;
 import com.qaprosoft.carina.core.foundation.api.AbstractApiMethodV2;
 import com.qaprosoft.zafira.manager.APIContextManager;
 
+import java.util.List;
+
 
 public class PostVerifyPermissionsMethodIAM extends AbstractApiMethodV2 {
     public PostVerifyPermissionsMethodIAM(String authToken, String permissionsList) {

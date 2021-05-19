@@ -47,7 +47,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         String sessionId = JsonPath.from(rs).getString(JSONConstant.SESSION_ID);
         String actualLink = capabilitiesManagerService.getVNCLink(testRunId, testSessionId);
         String url = new IntegrationInfoServiceImpl().getURLByIntegrationName("ZEBRUNNER");
-        String expectedLink = url.substring(0, url.indexOf("com") + 3).replaceFirst("http", "ws")
+        String expectedLink = url.replace("/wd/hub","").replaceFirst("http", "ws")
                 + "/ws/vnc/" + sessionId;
         Assert.assertEquals(actualLink, expectedLink, "Link is not as expected!");
     }
@@ -192,8 +192,10 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         String sessionId = JsonPath.from(rs).getString(JSONConstant.SESSION_ID);
         String actualLink = capabilitiesManagerService.getVNCLink(testRunId, testSessionId);
         String url = new IntegrationInfoServiceImpl().getURLByIntegrationName(provider);
-        String expectedLink = url.substring(0, url.indexOf("com") + 3).replaceFirst("http", "ws")
-                + "/ws/vnc/" + sessionId;
+//        String expectedLink = url.substring(0, url.indexOf("com") + 3).replaceFirst("http", "ws")
+//                + "/ws/vnc/" + sessionId;
+        String expectedLink = url.replace("/wd/hub","").replaceFirst("http", "ws")
+              + "/ws/vnc/" + sessionId;
         Assert.assertEquals(actualLink, expectedLink, "Link is not as expected!");
     }
 
@@ -214,7 +216,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         String sessionId = JsonPath.from(rs).getString(JSONConstant.SESSION_ID);
         String actualLink = capabilitiesManagerService.getVNCLink(testRunId, testSessionId);
         String url = new IntegrationInfoServiceImpl().getURLByIntegrationName(provider);
-        String expectedLink = url.substring(0, url.indexOf("com") + 3).replaceFirst("http", "ws")
+        String expectedLink = url.replace("/wd/hub","").replaceFirst("http", "ws")
                 + "/ws/vnc/" + sessionId;
         Assert.assertEquals(actualLink, expectedLink, "Link is not as expected!");
     }

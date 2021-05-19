@@ -1,13 +1,9 @@
 package com.qaprosoft.zafira.api.scmAccountController;
 
-import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
-import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.manager.APIContextManager;
 
 import java.util.Properties;
-
-import static com.qaprosoft.carina.core.foundation.utils.R.TESTDATA;
 
 public class GetAllOrganizationsMethod extends ZafiraBaseApiMethodWithAuth {
     public GetAllOrganizationsMethod() {

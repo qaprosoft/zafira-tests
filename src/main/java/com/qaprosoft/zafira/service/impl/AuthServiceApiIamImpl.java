@@ -8,6 +8,8 @@ import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.AuthServiceApiIAM;
 import io.restassured.path.json.JsonPath;
 
+import java.util.List;
+
 public class AuthServiceApiIamImpl implements AuthServiceApiIAM {
     private ExecutionServiceImpl apiExecutor = new ExecutionServiceImpl();
 
@@ -24,6 +26,14 @@ public class AuthServiceApiIamImpl implements AuthServiceApiIAM {
         apiExecutor.expectStatus(getAllPermissionsMethod, HTTPStatusCodeType.OK);
         String permissionsList = apiExecutor.callApiMethod(getAllPermissionsMethod);
         return permissionsList;
+    }
+
+    @Override
+    public List getUserPermissionsList() {
+        PostRefreshTokenMethodIAM postRefreshTokenMethodIAM = new PostRefreshTokenMethodIAM();
+        String response = apiExecutor.callApiMethod(postRefreshTokenMethodIAM);
+       List userPermissions = JsonPath.from(response).get("permissionsSuperset");
+        return userPermissions;
     }
 
     @Override
