@@ -1,3 +1,11 @@
 [
-  "${jiraId}"
+  {
+    "testId": ${testId},
+    "workItems": [
+      {
+        "testCaseId": 1,
+        "jiraId":"${jiraId}"
+      }
+    ]
+  }
 ]

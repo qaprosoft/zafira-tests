@@ -14,7 +14,6 @@ import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -157,7 +156,7 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testCreateWorkItem() {
+    public void testCreateBatchWorkItem() {
         String jiraId = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();
@@ -165,10 +164,10 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
         int testId = new TestServiceImpl().create(testCaseId, testRunId);
         new TestServiceImpl().updateTestStatus(testId, testSuiteId, jobId, ConstantName.FAILED);
-        PostCreateWorkItemMethod postCreateWorkItemMethod = new PostCreateWorkItemMethod(testId, jiraId);
-        apiExecutor.expectStatus(postCreateWorkItemMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(postCreateWorkItemMethod);
-        apiExecutor.validateResponse(postCreateWorkItemMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+        PostCreateBatchWorkItemsMethod postCreateBatchWorkItemsMethod = new PostCreateBatchWorkItemsMethod(testRunId,testId, jiraId);
+        apiExecutor.expectStatus(postCreateBatchWorkItemsMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(postCreateBatchWorkItemsMethod);
+        apiExecutor.validateResponse(postCreateBatchWorkItemsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
