@@ -201,7 +201,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
 
     }
 
-    @Test
+    @Test(enabled = false)
     public void testAbortTestRunCi() {
         int testRunId = createTestRun(TESTS_TO_ADD);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
