@@ -4,6 +4,7 @@
   "testMethod": "type:String",
   "info": "type:String",
   "testSuiteId": "regex:[\\d]",
+  "primaryOwnerId": 1,
   "project": {
     "id": "regex:[\\d]",
     "name": "type:String",

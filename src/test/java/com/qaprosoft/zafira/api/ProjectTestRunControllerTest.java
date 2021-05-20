@@ -324,7 +324,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         return new Object[][]{{true}, {false}};
     }
 
-    @Test(dataProvider = "rerunFailuresDataProvider")
+    @Test(dataProvider = "rerunFailuresDataProvider",enabled = false)
     public void testRerunProjectTestRunMethod(Boolean rerunFailures) {
         testRunId = createTestRun(1);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
@@ -334,7 +334,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         projectV1TestRunService.getAllProjectTestRunIds(1);
     }
 
-    @Test(groups = {"negative"})
+    @Test(groups = {"negative"},enabled = false)
     public void testRerunProjectTestRunMethodWithNonexistentTestRunId() {
         testRunId = createTestRun(1);
         projectV1TestRunService.deleteProjectTestRun(testRunId);

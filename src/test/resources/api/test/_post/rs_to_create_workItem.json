@@ -1,20 +1,11 @@
-{
-  "id": "regex:[\\d]",
-  "name": "type:String",
-  "status": "type:String",
-  "testArgs": "type:String",
-  "testRunId": "regex:[\\d]",
-  "testCaseId": "regex:[\\d]",
-  "testGroup": "type:String",
-  "message": "type:String",
-  "messageHashCode": "regex:[\\d]",
-  "startTime": "regex:[\\d]",
-  "finishTime": "regex:[\\d]",
-  "knownIssue": "type:Boolean",
-  "needRerun": "type:Boolean",
-  "dependsOnMethods": "type:String",
-  "testClass": "type:String",
-  "artifacts": "type:JSONArray",
-  "labels": "type:JSONArray",
-  "failureTagAssignments" : "type:JSONArray"
-}
+[
+  {
+    "testId": ${testId},
+    "workItems": [
+      {
+        "id": "regex:[\\d]",
+        "jiraId": "${jiraId}"
+      }
+    ]
+  }
+]
