@@ -232,4 +232,9 @@
             <class name="com.qaprosoft.zafira.api.ProjectDashboardTest"/>
         </classes>
     </test>
+    <test name="Project Integration Controllers">
+        <classes>
+            <class name="com.qaprosoft.zafira.api.projectIntegrations.BrowserStackIntegrationTest"/>
+        </classes>
+    </test>
 </suite>

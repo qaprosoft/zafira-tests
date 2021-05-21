@@ -1,4 +1,4 @@
-package com.qaprosoft.zafira.api.ProjectIntegrations;
+package com.qaprosoft.zafira.api.projectIntegrations;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.zafira.api.ZafiraAPIBaseTest;
