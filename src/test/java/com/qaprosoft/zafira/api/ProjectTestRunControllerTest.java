@@ -431,6 +431,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, milestoneId, projectId);
         apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
+        milestoneService.delete(projectId,milestoneId);
     }
 
     @Test

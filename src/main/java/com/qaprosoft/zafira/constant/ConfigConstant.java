@@ -27,6 +27,7 @@ public class ConfigConstant {
     public static final String AUTTH_PASSWORD_KEY = "auth_password";
     public static final String BASIC_AUTH_USERNAME_KEY = "basic_auth_username";
     public static final String BASIC_AUTTH_PASSWORD_KEY = "basic_auth_password";
+    public static final String BASIC_AUTTH_FOR_INTEGRATION_PASSWORD_KEY = "basic_for_integration_auth_password";
     public static final String TEST_EMAIL_KEY = "test_API_email";
     public static final String EXPECTED_LAST_NAME_KEY = "expected_last_name";
     public static final String EXPECTED_USER_STATUS_KEY = "expected_user_status";
@@ -75,4 +76,8 @@ public class ConfigConstant {
     public static final String EXISTING_PROJECT_ID = "existing_project_id";
     public static final String EMPTY_RQ_PATH = "empty_request_path";
 
+//#========================== Project Integration ========================#
+    public static final String BROWSERSTACK_URL = "browserStack_url";
+    public static final String BROWSERSTACK_USERNAME = "browserStack_username";
+    public static final String BROWSERSTACK_ACCESSKEY = "browserStack_accessKey";
 }
