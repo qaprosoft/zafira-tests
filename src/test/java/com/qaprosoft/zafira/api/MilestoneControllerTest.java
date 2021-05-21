@@ -20,7 +20,6 @@ import org.testng.annotations.Test;
 public class MilestoneControllerTest extends ZafiraAPIBaseTest {
     private static MilestoneServiceImpl milestoneService = new MilestoneServiceImpl();
     private final int nonexistentProjectId = -2;
-
     private int projectId = 1;
     private int milestoneId;
 
@@ -120,7 +119,7 @@ public class MilestoneControllerTest extends ZafiraAPIBaseTest {
     @Test
     public void testListMilestones() {
         String milestoneName = "MilestoneName".concat(RandomStringUtils.randomAlphabetic(7));
-        milestoneService.create(projectId, milestoneName);
+        milestoneId = milestoneService.create(projectId, milestoneName);
         GetMilestonesByProjectIdMethod getMilestonesByProjectIdMethod =
                 new GetMilestonesByProjectIdMethod(projectId);
         apiExecutor.expectStatus(getMilestonesByProjectIdMethod, HTTPStatusCodeType.OK);
@@ -131,8 +130,6 @@ public class MilestoneControllerTest extends ZafiraAPIBaseTest {
 
     @Test(groups = {"negative"})
     public void testListMilestonesWithNonExistentProjectId() {
-        String milestoneName = "MilestoneName".concat(RandomStringUtils.randomAlphabetic(7));
-        milestoneService.create(projectId, milestoneName);
         GetMilestonesByProjectIdMethod getMilestonesByProjectIdMethod =
                 new GetMilestonesByProjectIdMethod(nonexistentProjectId);
         apiExecutor.expectStatus(getMilestonesByProjectIdMethod, HTTPStatusCodeType.FORBIDDEN);

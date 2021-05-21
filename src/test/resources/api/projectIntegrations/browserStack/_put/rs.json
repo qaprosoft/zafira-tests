@@ -1,0 +1,7 @@
+{
+  "id": "regex:[\\d]",
+  "hubUrl": "${hubUrl}",
+  "username":"${username}",
+  "accessKey": "type:String",
+  "enabled": ${enabled}
+}
