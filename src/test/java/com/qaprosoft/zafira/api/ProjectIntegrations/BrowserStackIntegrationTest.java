@@ -2,14 +2,13 @@ package com.qaprosoft.zafira.api.ProjectIntegrations;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.zafira.api.ZafiraAPIBaseTest;
-import com.qaprosoft.zafira.api.projectIntegrations.BrowserStackController.GetBrowserStackIntegrationByProjectIdMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.BrowserStackController.PostCheckConnectionWithBrowserStackMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.BrowserStackController.PutSaveBrowserStackIntegrationMethod;
+import com.qaprosoft.zafira.api.projectIntegrations.BrowserStackController.*;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.projectIntegrations.BrowserStackIntegrationServiceImpl;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -55,5 +54,27 @@ public class BrowserStackIntegrationTest extends ZafiraAPIBaseTest {
                                 .split("\\?")[0]);
         apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(checkConnection);
+    }
+
+    @Test
+    public void testCheckEnabledBrowserStackIntegration() throws UnsupportedEncodingException {
+        browserStackIntegrationService.addIntegration(projectId);
+        Boolean expectedEnableValue = false;
+        PatchEnabledBrowserStackIntegrationMethod checkConnection = new PatchEnabledBrowserStackIntegrationMethod(projectId,expectedEnableValue);
+        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(checkConnection);
+        Boolean actualEnabled = browserStackIntegrationService.getEnabledBrowserStackIntegration(projectId);
+        Assert.assertEquals(actualEnabled,expectedEnableValue, "Enabled was not updated!");
+    }
+
+    @Test
+    public void testDeleteBrowserStackIntegrations() throws UnsupportedEncodingException {
+        browserStackIntegrationService.addIntegration(projectId);
+        DeleteBrowserStackIntegrationMethod deleteBrowserStackIntegrationMethod = new DeleteBrowserStackIntegrationMethod(projectId);
+        apiExecutor.expectStatus(deleteBrowserStackIntegrationMethod, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(deleteBrowserStackIntegrationMethod);
+        GetBrowserStackIntegrationByProjectIdMethod getBrowserStackIntegrationByProjectIdMethod = new GetBrowserStackIntegrationByProjectIdMethod(projectId);
+        apiExecutor.expectStatus(getBrowserStackIntegrationByProjectIdMethod,HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(getBrowserStackIntegrationByProjectIdMethod);
     }
 }
