@@ -36,6 +36,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
     private static ProjectV1ServiceImpl projectV1Service = new ProjectV1ServiceImpl();
     private static ProjectDashboardServiceImpl projectDashboardService = new ProjectDashboardServiceImpl();
     private static WidgetServiceImpl widgetService = new WidgetServiceImpl();
+    private int widgetTemplateId = widgetService.getAllWidgetTemplateIds().get(0);
     private final EmailManager EMAIL = new EmailManager(
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY)),
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY)));
@@ -338,7 +339,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         String widgetName = "TestWidget_".concat(org.apache.commons.lang3.RandomStringUtils.randomAlphabetic(15));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
-        int widgetId = widgetService.createWidget(widgetName);
+        int widgetId = widgetService.createWidget(widgetName, widgetTemplateId);
 
         PostWidgetToProjectDashboard postWidgetToProjectDashboard =
                 new PostWidgetToProjectDashboard(dashboardId, widgetId);
@@ -367,7 +368,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         String widgetName = "TestWidget_".concat(org.apache.commons.lang3.RandomStringUtils.randomAlphabetic(15));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
-        int widgetId = widgetService.createWidget(widgetName);
+        int widgetId = widgetService.createWidget(widgetName, widgetTemplateId);
         widgetService.deleteWidget(widgetId);
 
         PostWidgetToProjectDashboard putProjectDashboard =
@@ -381,7 +382,7 @@ public class ProjectDashboardTest extends ZafiraAPIBaseTest {
         String dashboardName = "Dash_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         String widgetName = "TestWidget_".concat(org.apache.commons.lang3.RandomStringUtils.randomAlphabetic(15));
         dashboardId = projectDashboardService.createDashboard(projectId, dashboardName);
-        int widgetId = widgetService.createWidget(widgetName);
+        int widgetId = widgetService.createWidget(widgetName, widgetTemplateId);
         projectDashboardService.deleteDashboardById(dashboardId);
 
         PostWidgetToProjectDashboard putProjectDashboard =

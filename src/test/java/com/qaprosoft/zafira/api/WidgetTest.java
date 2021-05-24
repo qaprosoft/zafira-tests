@@ -19,8 +19,11 @@ import org.testng.annotations.Test;
 import java.util.List;
 
 public class WidgetTest extends ZafiraAPIBaseTest {
-    private UserV1ServiceAPIImpl userV1ServiceAPI= new UserV1ServiceAPIImpl();
+    private UserV1ServiceAPIImpl userV1ServiceAPI = new UserV1ServiceAPIImpl();
+    private WidgetServiceImpl widgetService = new WidgetServiceImpl();
+    private int widgetTemplateId = widgetService.getAllWidgetTemplateIds().get(0);
     private static int userId;
+
     @AfterMethod
     public void testDeleteUser() {
         new UserV1ServiceAPIImpl().deleteUserById(userId);
@@ -46,12 +49,11 @@ public class WidgetTest extends ZafiraAPIBaseTest {
     @Test
     public void testCreateWidget() {
         String widgetdName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
-        PostWidgetMethod postWidgetMethod = new PostWidgetMethod(widgetdName);
+        PostWidgetMethod postWidgetMethod = new PostWidgetMethod(widgetdName, widgetTemplateId);
         apiExecutor.expectStatus(postWidgetMethod, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(postWidgetMethod);
         apiExecutor.validateResponse(postWidgetMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int widgetId = JsonPath.from(response).get(JSONConstant.ID_KEY);
-        WidgetServiceImpl widgetService = new WidgetServiceImpl();
         List<Integer> allWidgetIds = widgetService.getAllWidgetIds();
         widgetService.deleteWidget(widgetId);
         Assert.assertTrue(allWidgetIds.contains(widgetId), "Widget was not create!");
@@ -63,11 +65,11 @@ public class WidgetTest extends ZafiraAPIBaseTest {
         final String PASSWORD = "TEST_".concat(org.apache.commons.lang3.RandomStringUtils.randomAlphabetic(10));
         final String EMAIL = "TEST_".concat(org.apache.commons.lang3.RandomStringUtils.randomAlphabetic(15)).concat("@gmail.com");
 
-        userId = userV1ServiceAPI.createAndGetId(USER_NAME,PASSWORD,EMAIL);
-        String token =  new AuthServiceApiIamImpl().getAuthToken(USER_NAME,PASSWORD);
+        userId = userV1ServiceAPI.createAndGetId(USER_NAME, PASSWORD, EMAIL);
+        String token = new AuthServiceApiIamImpl().getAuthToken(USER_NAME, PASSWORD);
 
         String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
-        PostWidgetMethod postWidgetMethod = new PostWidgetMethod(widgetName,token);
+        PostWidgetMethod postWidgetMethod = new PostWidgetMethod(widgetName, token, widgetTemplateId);
         apiExecutor.expectStatus(postWidgetMethod, HTTPStatusCodeType.FORBIDDEN);
         apiExecutor.callApiMethod(postWidgetMethod);
     }
@@ -76,7 +78,7 @@ public class WidgetTest extends ZafiraAPIBaseTest {
     public void testDeleteWidget() {
         String widgetdName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
-        int widgetId = widgetService.createWidget(widgetdName);
+        int widgetId = widgetService.createWidget(widgetdName, widgetTemplateId);
         DeleteWidgetMethod deleteWidgetMethod = new DeleteWidgetMethod(widgetId);
         apiExecutor.expectStatus(deleteWidgetMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(deleteWidgetMethod);
@@ -88,7 +90,7 @@ public class WidgetTest extends ZafiraAPIBaseTest {
     public void testGetWidgetById() {
         String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
-        int widgetId = widgetService.createWidget(widgetName);
+        int widgetId = widgetService.createWidget(widgetName, widgetTemplateId);
         GetWidgetByIdMethod getWidgetByIdMethod = new GetWidgetByIdMethod(widgetId);
         apiExecutor.expectStatus(getWidgetByIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getWidgetByIdMethod);
@@ -100,9 +102,9 @@ public class WidgetTest extends ZafiraAPIBaseTest {
     public void testPutWidget() {
         String widgetdName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
-        int widgetId = widgetService.createWidget(widgetdName);
+        int widgetId = widgetService.createWidget(widgetdName, widgetTemplateId);
         String expectedWidgetName = R.TESTDATA.get(ConfigConstant.EXPECTED_WIDGET_NAME_KEY) + widgetdName;
-        PutWidgetMethod putWidgetMethod = new PutWidgetMethod(widgetId, expectedWidgetName);
+        PutWidgetMethod putWidgetMethod = new PutWidgetMethod(widgetId, expectedWidgetName, widgetTemplateId);
         apiExecutor.expectStatus(putWidgetMethod, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(putWidgetMethod);
         apiExecutor.validateResponse(putWidgetMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());

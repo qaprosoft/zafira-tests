@@ -19,6 +19,7 @@ public class BrowserStackIntegrationTest extends ZafiraAPIBaseTest {
     private static BrowserStackIntegrationServiceImpl browserStackIntegrationService = new BrowserStackIntegrationServiceImpl();
     private static int projectId = 1;
 
+
     @Test
     public void testSaveBrowserStackIntegrations() {
         PutSaveBrowserStackIntegrationMethod saveBrowserStackIntegrations = new PutSaveBrowserStackIntegrationMethod(projectId);

@@ -8,9 +8,9 @@ public interface WidgetService {
 
     void deleteWidget(int widgetId);
 
-    int createWidget(String widgetName);
+    int createWidget(String widgetName, int widgetTemplateId);
 
-    String createWidgetToDashboard(String widgetName);
+    String createWidgetToDashboard(String widgetName, int widgetTemplateId);
 
     List<Integer> getAllWidgetTemplateIds();
 }
