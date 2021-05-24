@@ -10,4 +10,6 @@ public interface AuthServiceApiIAM {
     List getUserPermissionsList();
 
     String getAuthToken(String login, String password);
+
+    String getTenantName();
 }

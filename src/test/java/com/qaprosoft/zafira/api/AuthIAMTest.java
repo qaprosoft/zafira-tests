@@ -76,16 +76,18 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
     @Test
     public void testVerifyPermissions() {
         String authToken = new APIContextManager().getAccessToken();
+        String tenantName = authServiceApiIam.getTenantName();
         PostVerifyPermissionsMethodIAM postVerifyPermissionsMethodIAM
-                = new PostVerifyPermissionsMethodIAM(authToken, permissions);
+                = new PostVerifyPermissionsMethodIAM(authToken, permissions,tenantName);
         apiExecutor.expectStatus(postVerifyPermissionsMethodIAM, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postVerifyPermissionsMethodIAM);
     }
 
     @Test
     public void testVerifyPermissionsWithoutAuthToken() {
+        String tenantName = authServiceApiIam.getTenantName();
         PostVerifyPermissionsMethodIAM postVerifyPermissionsMethodIAM
-                = new PostVerifyPermissionsMethodIAM(EMPTY_AUTHTOKEN, permissions);
+                = new PostVerifyPermissionsMethodIAM(EMPTY_AUTHTOKEN, permissions,tenantName);
         apiExecutor.expectStatus(postVerifyPermissionsMethodIAM, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(postVerifyPermissionsMethodIAM);
     }

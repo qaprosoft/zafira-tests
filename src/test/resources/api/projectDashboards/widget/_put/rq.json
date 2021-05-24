@@ -1,6 +1,6 @@
 [
   {
   <#if id??>"id":${id},</#if>
-  "location":"{\"width\":4,\"height\":11}"
+  "location":"{\"width\":4,\"height\":11,\"x\":0,\"y\":3}"
    }
 ]

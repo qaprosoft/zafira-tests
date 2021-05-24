@@ -2,7 +2,6 @@ package com.qaprosoft.zafira.api;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
-import com.qaprosoft.zafira.api.failureTagAssignment.GetStacktraceLabelsMethod;
 import com.qaprosoft.zafira.api.testController.*;
 import com.qaprosoft.zafira.api.testController.v1.GetTestsV1Method;
 import com.qaprosoft.zafira.constant.ConfigConstant;
@@ -20,7 +19,7 @@ import java.util.List;
 
 public class TestControllerTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(TestControllerTest.class);
-    private static final String EXISTING_ISSUE = "ZEB-1871";
+    private static final String EXISTING_ISSUE = "ZEB-2787";
 
 
     @Test
@@ -207,15 +206,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
         String testRsAfterDelete = testServiсeImpl.getAllTest(testRunId);
         List<Integer> workItemsAfterDelete = JsonPath.from(testRsAfterDelete).getList(JSONConstant.WORK_ITEMS_ARRAY_KEY);
         Assert.assertTrue(workItemsAfterDelete.isEmpty(), "Work item was not deleted!");
-    }
-
-    @Test(enabled = false)
-    public void testGetsAvailableStacktraceLabels() {
-        GetStacktraceLabelsMethod getStacktraceLabelsMethod = new GetStacktraceLabelsMethod();
-        String rs = apiExecutor.callApiMethod(getStacktraceLabelsMethod);
-        apiExecutor.expectStatus(getStacktraceLabelsMethod, HTTPStatusCodeType.OK);
-        List<String> listOfStacktraceLabels = JsonPath.from(rs).get();
-        Assert.assertFalse(listOfStacktraceLabels.isEmpty());
     }
 
     @Test

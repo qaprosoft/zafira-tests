@@ -44,4 +44,11 @@ public class AuthServiceApiIamImpl implements AuthServiceApiIAM {
         String response=apiExecutor.callApiMethod(postGenerateAuthTokenMethodIAM);
         return JsonPath.from(response).get(JSONConstant.AUTH_TOKEN_KEY);
     }
+
+    @Override
+    public String getTenantName() {
+        PostRefreshTokenMethodIAM postRefreshTokenMethodIAM = new PostRefreshTokenMethodIAM();
+        String response = apiExecutor.callApiMethod(postRefreshTokenMethodIAM);
+        return JsonPath.from(response).get(JSONConstant.TENANT_NAME_KEY);
+    }
 }

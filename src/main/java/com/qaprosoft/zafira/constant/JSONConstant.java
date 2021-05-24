@@ -133,4 +133,5 @@ public class JSONConstant {
     public static final String RESULTS = "results";
     public static final String LEAD_ID_KEY = "leadId";
     public static final String COMPLETED = "completed";
+    public static final String TENANT_NAME_KEY = "tenantName";
 }
