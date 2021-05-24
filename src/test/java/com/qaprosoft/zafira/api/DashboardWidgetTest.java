@@ -32,6 +32,8 @@ import java.util.List;
 
 public class DashboardWidgetTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = LoggerFactory.getLogger((ZafiraAPIBaseTest.class));
+    private static WidgetServiceImpl widgetService = new WidgetServiceImpl();
+    private int widgetTemplateId = widgetService.getAllWidgetTemplateIds().get(0);
     private final EmailManager EMAIL = new EmailManager(
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_USERNAME_KEY)),
             CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.GMAIL_PASSWORD_KEY)));
@@ -61,7 +63,7 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
         String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
-        String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
+        String rs = widgetService.createWidgetToDashboard(widgetName,widgetTemplateId).replace("\"location\":null", "\"location\":\"location\"");
         widgetId = JsonPath.from(rs).get(JSONConstant.ID_KEY);
         PostWidgetToDashboardMethod postWidgetToDashboardMethod = new PostWidgetToDashboardMethod(rs, dashboardId);
         apiExecutor.expectStatus(postWidgetToDashboardMethod, HTTPStatusCodeType.OK);
@@ -76,7 +78,7 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
         String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
-        String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
+        String rs = widgetService.createWidgetToDashboard(widgetName,widgetTemplateId).replace("\"location\":null", "\"location\":\"location\"");
         widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
         PutBatchOfWidgetsDashboardMethod putBatchOfWidgetsDashboardMethod = new PutBatchOfWidgetsDashboardMethod(dashboardId, widgetId);
         apiExecutor.expectStatus(putBatchOfWidgetsDashboardMethod, HTTPStatusCodeType.OK);
@@ -90,7 +92,7 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
         String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
-        String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
+        String rs = widgetService.createWidgetToDashboard(widgetName,widgetTemplateId).replace("\"location\":null", "\"location\":\"location\"");
         widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
         DeleteWidgetFromDashboardMethod deleteWidgetFromDashboardMethod = new DeleteWidgetFromDashboardMethod(dashboardId, widgetId);
         apiExecutor.expectStatus(deleteWidgetFromDashboardMethod, HTTPStatusCodeType.OK);
@@ -103,7 +105,7 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
         String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
-        String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
+        String rs = widgetService.createWidgetToDashboard(widgetName,widgetTemplateId).replace("\"location\":null", "\"location\":\"location\"");
         widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
         File uploadFile = new FileUtil().getFile(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG));
         String text = R.TESTDATA.get(ConfigConstant.EMAIL_KEY).replace("dashboardName", dashboardName);
@@ -122,7 +124,7 @@ public class DashboardWidgetTest extends ZafiraAPIBaseTest {
         int dashboardId = new DashboardServiceImpl().createDashboard(dashboardName);
         String widgetName = "TestWidget_".concat(RandomStringUtils.randomAlphabetic(15));
         WidgetServiceImpl widgetService = new WidgetServiceImpl();
-        String rs = widgetService.createWidgetToDashboard(widgetName).replace("\"location\":null", "\"location\":\"location\"");
+        String rs = widgetService.createWidgetToDashboard(widgetName,widgetTemplateId).replace("\"location\":null", "\"location\":\"location\"");
         widgetId = new DashboardServiceImpl().createWidgetToDashboard(rs, dashboardId);
         File uploadFile =  new FileUtil().getFile(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_PNG_LARGE));
         File emailFile = new FileUtil().getFile(R.TESTDATA.get(ConfigConstant.IMAGE_PATH_KEY_EMAIL));

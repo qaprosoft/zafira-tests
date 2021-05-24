@@ -382,7 +382,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetTestRunStatusV1WithLinkedWithWorkItem() {
-        String methodName = "NewMethodName".concat(RandomStringUtils.random(5));
+        String methodName = "NewMethodName".concat(RandomStringUtils.randomAlphabetic(5));
 
         testRunId = new TestRunServiceAPIImplV1().start();
         int testId1 = new TestServiceV1Impl().startTestWithMethodName(testRunId, methodName);

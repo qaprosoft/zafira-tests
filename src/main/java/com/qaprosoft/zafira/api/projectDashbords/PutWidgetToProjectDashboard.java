@@ -14,6 +14,6 @@ public class PutWidgetToProjectDashboard extends ZafiraBaseApiMethodWithAuth {
     public PutWidgetToProjectDashboard(int dashboardId, int widgetId) {
         replaceUrlPlaceholder("api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("dashboardId", String.valueOf(dashboardId));
-         addProperty("id", String.valueOf(widgetId));
+        addProperty("id", String.valueOf(widgetId));
     }
 }

@@ -7,7 +7,7 @@
     "jobURL": "https://mockci.qaprosoft.farm/job/launcher/",
     "name": "testJob",
     "userId": 2,
-    "automationServerId": 21
+    "automationServerId": 15
   },
   "model": "{}",
   "name": "string",

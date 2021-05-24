@@ -5,7 +5,7 @@
   "paramsConfig": "{}",
   "title": "${title}",
   "widgetTemplate": {
-    "id": 16,
+    "id": ${widgetTemplateId},
     "type":"TABLE"
 }
 }

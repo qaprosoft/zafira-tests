@@ -7,7 +7,7 @@
   "title": "${title}",
   "type": "string",
   "widgetTemplate": {
-    "id": 16,
+    "id": ${widgetTemplateId},
     "type": "TABLE"
   }
 }
