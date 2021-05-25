@@ -3,5 +3,6 @@
   "hubUrl": "${hubUrl}",
   "username":"${username}",
   "accessKey": "type:String",
-  "enabled": ${enabled}
+  "encrypted": "type:Boolean",
+  "enabled": true
 }

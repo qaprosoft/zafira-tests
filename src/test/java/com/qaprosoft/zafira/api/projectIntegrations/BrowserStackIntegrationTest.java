@@ -39,6 +39,7 @@ public class BrowserStackIntegrationTest extends ZafiraAPIBaseTest {
     @Test
     public void testGetBrowserStackIntegrations() throws UnsupportedEncodingException {
         browserStackIntegrationService.addIntegration(projectId);
+
         GetBrowserStackIntegrationByProjectIdMethod checkConnection = new GetBrowserStackIntegrationByProjectIdMethod(projectId);
         apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(checkConnection);
@@ -48,6 +49,7 @@ public class BrowserStackIntegrationTest extends ZafiraAPIBaseTest {
     @Test(description = "500 error",enabled = false)
     public void testGetBrowserStackIntegrationsWithoutQueryParams() throws UnsupportedEncodingException {
         browserStackIntegrationService.addIntegration(projectId);
+
         GetBrowserStackIntegrationByProjectIdMethod checkConnection = new GetBrowserStackIntegrationByProjectIdMethod(projectId);
         checkConnection
                 .setMethodPath(
@@ -60,6 +62,7 @@ public class BrowserStackIntegrationTest extends ZafiraAPIBaseTest {
     @Test
     public void testCheckEnabledBrowserStackIntegration() throws UnsupportedEncodingException {
         browserStackIntegrationService.addIntegration(projectId);
+
         Boolean expectedEnableValue = false;
         PatchEnabledBrowserStackIntegrationMethod checkConnection = new PatchEnabledBrowserStackIntegrationMethod(projectId,expectedEnableValue);
         apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.NO_CONTENT);
@@ -71,9 +74,11 @@ public class BrowserStackIntegrationTest extends ZafiraAPIBaseTest {
     @Test
     public void testDeleteBrowserStackIntegrations() throws UnsupportedEncodingException {
         browserStackIntegrationService.addIntegration(projectId);
+
         DeleteBrowserStackIntegrationMethod deleteBrowserStackIntegrationMethod = new DeleteBrowserStackIntegrationMethod(projectId);
         apiExecutor.expectStatus(deleteBrowserStackIntegrationMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(deleteBrowserStackIntegrationMethod);
+
         GetBrowserStackIntegrationByProjectIdMethod getBrowserStackIntegrationByProjectIdMethod = new GetBrowserStackIntegrationByProjectIdMethod(projectId);
         apiExecutor.expectStatus(getBrowserStackIntegrationByProjectIdMethod,HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(getBrowserStackIntegrationByProjectIdMethod);
