@@ -3,5 +3,6 @@
   "hubUrl": "type:String",
   "username":"type:String",
   "accessKey": "type:String",
-  "enabled": "type:Boolean"
+  "enabled": "type:Boolean",
+  "encrypted": "type:Boolean"
 }

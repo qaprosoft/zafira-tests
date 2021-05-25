@@ -39,9 +39,18 @@ public class ProjectV1TestRunServiceImpl implements ProjectV1TestRunService {
     public String getProjectTestRunById(int testRunId) {
         GetProjectTestRunByTestRunIdMethod projectTestRunByTestRunIdMethod =
                 new GetProjectTestRunByTestRunIdMethod(testRunId);
-        apiExecutor.expectStatus(projectTestRunByTestRunIdMethod, HTTPStatusCodeType.OK);
+      //  apiExecutor.expectStatus(projectTestRunByTestRunIdMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(projectTestRunByTestRunIdMethod);
         return rs;
+    }
+
+    @Override
+    public int getAttachedToTestRunMilestoneId(int testRunId) {
+        GetProjectTestRunByTestRunIdMethod projectTestRunByTestRunIdMethod =
+                new GetProjectTestRunByTestRunIdMethod(testRunId);
+       apiExecutor.expectStatus(projectTestRunByTestRunIdMethod, HTTPStatusCodeType.OK);
+        String rs = apiExecutor.callApiMethod(projectTestRunByTestRunIdMethod);
+        return JsonPath.from(rs).getInt(JSONConstant.MILESTONE_ID);
     }
 
     @Override
