@@ -98,4 +98,31 @@ public class SauceLabsIntegrationTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(deleteSauceLabsIntegrationMethod);
     }
 
+    @Test
+    public void testGetSauceLabsStackIntegration() throws UnsupportedEncodingException {
+        sauceLabsIntegrationService.addIntegration(projectId);
+
+        GetSauceLabsIntegrationByProjectIdMethod getSauceLabsIntegrationByProjectIdMethod = new GetSauceLabsIntegrationByProjectIdMethod(projectId);
+        apiExecutor.expectStatus(getSauceLabsIntegrationByProjectIdMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getSauceLabsIntegrationByProjectIdMethod);
+        apiExecutor.validateResponse(getSauceLabsIntegrationByProjectIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test(description = "500 error", enabled = false)
+    public void testGetSauceLabsStackIntegrationWithoutQuery() throws UnsupportedEncodingException {
+        sauceLabsIntegrationService.addIntegration(projectId);
+
+        GetSauceLabsIntegrationByProjectIdMethod getSauceLabsIntegrationByProjectIdMethod = new GetSauceLabsIntegrationByProjectIdMethod(projectId);
+        AbstractAPIMethodUtil.deleteQuery(getSauceLabsIntegrationByProjectIdMethod);
+        apiExecutor.expectStatus(getSauceLabsIntegrationByProjectIdMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(getSauceLabsIntegrationByProjectIdMethod);
+    }
+
+    @Test
+    public void testGetSauceLabsStackIntegrationWithNonexistentProjectId() throws UnsupportedEncodingException {
+        GetSauceLabsIntegrationByProjectIdMethod getSauceLabsIntegrationByProjectIdMethod = new GetSauceLabsIntegrationByProjectIdMethod(projectId*(-1));
+        apiExecutor.expectStatus(getSauceLabsIntegrationByProjectIdMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(getSauceLabsIntegrationByProjectIdMethod);
+    }
+
 }
