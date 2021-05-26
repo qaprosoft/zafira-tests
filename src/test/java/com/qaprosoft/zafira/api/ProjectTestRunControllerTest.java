@@ -9,6 +9,7 @@ import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.manager.EmailManager;
 import com.qaprosoft.zafira.service.impl.*;
+import com.qaprosoft.zafira.util.AbstractAPIMethodUtil;
 import com.qaprosoft.zafira.util.CryptoUtil;
 import com.zebrunner.agent.core.annotation.Maintainer;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -17,7 +18,6 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.io.IOException;
 import java.util.Date;
 
 @Maintainer("obabich")
@@ -78,10 +78,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         String ciRunId = RandomStringUtils.randomAlphabetic(5);
         GetProjectTestRunByCiRunIdMethod getProjectTestRunByCiRunIdMethod =
                 new GetProjectTestRunByCiRunIdMethod(ciRunId);
-        getProjectTestRunByCiRunIdMethod
-                .setMethodPath(
-                        getProjectTestRunByCiRunIdMethod.getMethodPath()
-                                .split("\\?")[0]);
+        AbstractAPIMethodUtil.deleteQuery(getProjectTestRunByCiRunIdMethod);
         apiExecutor.expectStatus(getProjectTestRunByCiRunIdMethod, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(getProjectTestRunByCiRunIdMethod);
     }
@@ -498,10 +495,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         projectV1TestRunService.attachToMilestone(testRunId, milestoneId, projectId);
 
         DeleteTestRunFromMilestoneMethod deleteTestRunFromMilestoneMethod = new DeleteTestRunFromMilestoneMethod(testRunId, milestoneId, projectId);
-        deleteTestRunFromMilestoneMethod
-                .setMethodPath(
-                        deleteTestRunFromMilestoneMethod.getMethodPath()
-                                .split("\\?")[0]);
+        AbstractAPIMethodUtil.deleteQuery(deleteTestRunFromMilestoneMethod);
         apiExecutor.expectStatus(deleteTestRunFromMilestoneMethod, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(deleteTestRunFromMilestoneMethod);
     }

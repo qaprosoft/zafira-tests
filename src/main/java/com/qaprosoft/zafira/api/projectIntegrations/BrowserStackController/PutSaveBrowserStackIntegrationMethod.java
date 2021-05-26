@@ -18,9 +18,9 @@ public class PutSaveBrowserStackIntegrationMethod extends ZafiraBaseApiMethodWit
         replaceUrlPlaceholder("api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("projectId", String.valueOf(projectId));
 
-        addProperty("username", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.BROWSERSTACK_USERNAME)));
-        addProperty("accessKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.BROWSERSTACK_ACCESSKEY)));
-        addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.BROWSERSTACK_URL));
+        addProperty("username", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.BROWSER_STACK_USERNAME)));
+        addProperty("accessKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.BROWSER_STACK_ACCESS_KEY)));
+        addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.BROWSER_STACK_URL));
         addProperty("enabled", true);
     }
 
@@ -28,9 +28,9 @@ public class PutSaveBrowserStackIntegrationMethod extends ZafiraBaseApiMethodWit
         super(token);
         replaceUrlPlaceholder("api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("projectId", String.valueOf(projectId));
-        addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.BROWSERSTACK_URL));
-        addProperty("username", R.TESTDATA.get(ConfigConstant.BROWSERSTACK_USERNAME));
-        addProperty("accessKey", R.TESTDATA.get(ConfigConstant.BROWSERSTACK_ACCESSKEY));
+        addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.BROWSER_STACK_URL));
+        addProperty("username", R.TESTDATA.get(ConfigConstant.BROWSER_STACK_USERNAME));
+        addProperty("accessKey", R.TESTDATA.get(ConfigConstant.BROWSER_STACK_ACCESS_KEY));
         addProperty("enabled", true);
     }
 }
