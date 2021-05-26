@@ -49,7 +49,7 @@ public class BrowserStackIntegrationTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(checkConnection, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(description = "500 error", enabled = false)
+    @Test
     public void testGetBrowserStackIntegrationsWithoutQueryParams() throws UnsupportedEncodingException {
         browserStackIntegrationService.addIntegration(projectId);
 

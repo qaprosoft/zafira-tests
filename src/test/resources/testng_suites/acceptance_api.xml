@@ -235,6 +235,7 @@
     <test name="Project Integration Controllers">
         <classes>
             <class name="com.qaprosoft.zafira.api.projectIntegrations.BrowserStackIntegrationTest"/>
+            <class name="com.qaprosoft.zafira.api.projectIntegrations.SauceLabsIntegrationTest"/>
         </classes>
     </test>
 </suite>
