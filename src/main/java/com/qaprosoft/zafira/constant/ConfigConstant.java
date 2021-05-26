@@ -77,7 +77,10 @@ public class ConfigConstant {
     public static final String EMPTY_RQ_PATH = "empty_request_path";
 
 //#========================== Project Integration ========================#
-    public static final String BROWSERSTACK_URL = "browserStack_url";
-    public static final String BROWSERSTACK_USERNAME = "browserStack_username";
-    public static final String BROWSERSTACK_ACCESSKEY = "browserStack_accessKey";
+    public static final String BROWSER_STACK_URL = "browserStack_url";
+    public static final String BROWSER_STACK_USERNAME = "browserStack_username";
+    public static final String BROWSER_STACK_ACCESS_KEY = "browserStack_accessKey";
+    public static final String SAUCE_LABS_URL = "saucelabs_url";
+    public static final String SAUCE_LABS_USERNAME = "saucelabs_username";
+    public static final String SAUCE_LABS_ACCESS_KEY = "saucelabs_accessKey";
 }

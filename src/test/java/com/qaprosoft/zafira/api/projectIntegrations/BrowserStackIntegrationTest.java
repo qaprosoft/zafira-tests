@@ -5,6 +5,7 @@ import com.qaprosoft.zafira.api.ZafiraAPIBaseTest;
 import com.qaprosoft.zafira.api.projectIntegrations.BrowserStackController.*;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.projectIntegrations.BrowserStackIntegrationServiceImpl;
+import com.qaprosoft.zafira.util.AbstractAPIMethodUtil;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,10 +52,7 @@ public class BrowserStackIntegrationTest extends ZafiraAPIBaseTest {
         browserStackIntegrationService.addIntegration(projectId);
 
         GetBrowserStackIntegrationByProjectIdMethod checkConnection = new GetBrowserStackIntegrationByProjectIdMethod(projectId);
-        checkConnection
-                .setMethodPath(
-                        checkConnection.getMethodPath()
-                                .split("\\?")[0]);
+        AbstractAPIMethodUtil.deleteQuery(checkConnection);
         apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.BAD_REQUEST);
         apiExecutor.callApiMethod(checkConnection);
     }
