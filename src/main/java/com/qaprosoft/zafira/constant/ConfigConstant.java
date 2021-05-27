@@ -83,4 +83,7 @@ public class ConfigConstant {
     public static final String SAUCE_LABS_URL = "saucelabs_url";
     public static final String SAUCE_LABS_USERNAME = "saucelabs_username";
     public static final String SAUCE_LABS_ACCESS_KEY = "saucelabs_accessKey";
+    public static final String LAMBDA_TEST_URL = "lambdatest_url";
+    public static final String LAMBDA_TEST_USERNAME = "lambdatest_username";
+    public static final String LAMBDA_TEST_ACCESS_KEY = "lambdatest_accessKey";
 }
