@@ -1,9 +1,10 @@
 package com.qaprosoft.zafira.api.projectIntegrations;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
+import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.ZafiraAPIBaseTest;
 import com.qaprosoft.zafira.api.projectIntegrations.BrowserStackController.*;
-import com.qaprosoft.zafira.api.projectIntegrations.SauceLabsController.PostCheckConnectionSauceLabsIntegrationMethod;
+import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.projectIntegrations.BrowserStackIntegrationServiceImpl;
 import com.qaprosoft.zafira.util.AbstractAPIMethodUtil;
@@ -31,6 +32,29 @@ public class BrowserStackIntegrationTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(saveBrowserStackIntegrations, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(saveBrowserStackIntegrations);
         apiExecutor.validateResponse(saveBrowserStackIntegrations, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testSaveBrowserStackIntegrationsWithEmptyRq() {
+        PutSaveBrowserStackIntegrationMethod saveBrowserStackIntegrations = new PutSaveBrowserStackIntegrationMethod(projectId);
+        saveBrowserStackIntegrations.setRequestTemplate(R.TESTDATA.get(ConfigConstant.EMPTY_RQ_PATH));
+        apiExecutor.expectStatus(saveBrowserStackIntegrations, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(saveBrowserStackIntegrations);
+    }
+
+    @Test
+    public void testSaveBrowserStackIntegrationsWithoutNonexistentProjectId() {
+        PutSaveBrowserStackIntegrationMethod saveBrowserStackIntegrations = new PutSaveBrowserStackIntegrationMethod(projectId*(-1));
+        apiExecutor.expectStatus(saveBrowserStackIntegrations, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(saveBrowserStackIntegrations);
+    }
+
+    @Test
+    public void testSaveBrowserStackIntegrationsWithoutQueryParam() {
+        PutSaveBrowserStackIntegrationMethod saveBrowserStackIntegrations = new PutSaveBrowserStackIntegrationMethod(projectId);
+        AbstractAPIMethodUtil.deleteQuery(saveBrowserStackIntegrations);
+        apiExecutor.expectStatus(saveBrowserStackIntegrations, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(saveBrowserStackIntegrations);
     }
 
     @Test
