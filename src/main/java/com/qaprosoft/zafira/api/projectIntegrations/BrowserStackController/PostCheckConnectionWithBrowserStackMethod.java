@@ -21,6 +21,7 @@ public class PostCheckConnectionWithBrowserStackMethod extends ZafiraBaseApiMeth
         addProperty("username", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.BROWSER_STACK_USERNAME)));
         addProperty("accessKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.BROWSER_STACK_ACCESS_KEY)));
         addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.BROWSER_STACK_URL));
+        addProperty("reachable", true);
     }
 
     public PostCheckConnectionWithBrowserStackMethod(int projectId, String token) {
@@ -30,5 +31,6 @@ public class PostCheckConnectionWithBrowserStackMethod extends ZafiraBaseApiMeth
         addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.BROWSER_STACK_URL));
         addProperty("username", R.TESTDATA.get(ConfigConstant.BROWSER_STACK_USERNAME));
         addProperty("accessKey", R.TESTDATA.get(ConfigConstant.BROWSER_STACK_ACCESS_KEY));
+        addProperty("reachable", true);
     }
 }
