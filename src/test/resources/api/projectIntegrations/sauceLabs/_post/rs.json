@@ -1,4 +1,4 @@
 {
-  "reachable": true,
+  "reachable": ${reachable},
   "message": "type:String"
 }

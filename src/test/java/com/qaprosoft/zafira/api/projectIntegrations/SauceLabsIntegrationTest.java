@@ -3,13 +3,7 @@ package com.qaprosoft.zafira.api.projectIntegrations;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.ZafiraAPIBaseTest;
-import com.qaprosoft.zafira.api.projectIntegrations.BrowserStackController.DeleteBrowserStackIntegrationMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.BrowserStackController.GetBrowserStackIntegrationByProjectIdMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.BrowserStackController.PatchEnabledBrowserStackIntegrationMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.SauceLabsController.DeleteSauceLabsIntegrationMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.SauceLabsController.GetSauceLabsIntegrationByProjectIdMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.SauceLabsController.PatchEnabledSauceLabsIntegrationMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.SauceLabsController.PutSaveSauceLabsIntegrationMethod;
+import com.qaprosoft.zafira.api.projectIntegrations.SauceLabsController.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.projectIntegrations.SauceLabsIntegrationServiceImpl;
@@ -124,7 +118,7 @@ public class SauceLabsIntegrationTest extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetSauceLabsStackIntegrationWithNonexistentProjectId() throws UnsupportedEncodingException {
-        GetSauceLabsIntegrationByProjectIdMethod getSauceLabsIntegrationByProjectIdMethod = new GetSauceLabsIntegrationByProjectIdMethod(projectId*(-1));
+        GetSauceLabsIntegrationByProjectIdMethod getSauceLabsIntegrationByProjectIdMethod = new GetSauceLabsIntegrationByProjectIdMethod(projectId * (-1));
         apiExecutor.expectStatus(getSauceLabsIntegrationByProjectIdMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(getSauceLabsIntegrationByProjectIdMethod);
     }
@@ -147,7 +141,7 @@ public class SauceLabsIntegrationTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testCheckEnabledBrowserStackIntegrationWithoutQueryParam()  {
+    public void testCheckEnabledBrowserStackIntegrationWithoutQueryParam() {
         sauceLabsIntegrationService.addIntegration(projectId);
 
         PatchEnabledSauceLabsIntegrationMethod enabledSauceLabsIntegrationMethod = new PatchEnabledSauceLabsIntegrationMethod(projectId, true);
@@ -157,7 +151,7 @@ public class SauceLabsIntegrationTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testCheckEnabledInDeletedBrowserStackIntegration()  {
+    public void testCheckEnabledInDeletedBrowserStackIntegration() {
         sauceLabsIntegrationService.addIntegration(projectId);
         sauceLabsIntegrationService.deleteSauceLabsIntegration(projectId);
 
@@ -167,12 +161,38 @@ public class SauceLabsIntegrationTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testCheckEnabledBrowserStackIntegrationWithNonexistentProjectId()  {
+    public void testCheckEnabledBrowserStackIntegrationWithNonexistentProjectId() {
         sauceLabsIntegrationService.addIntegration(projectId);
 
-        PatchEnabledSauceLabsIntegrationMethod enabledSauceLabsIntegrationMethod = new PatchEnabledSauceLabsIntegrationMethod(projectId*(-1), true);
+        PatchEnabledSauceLabsIntegrationMethod enabledSauceLabsIntegrationMethod = new PatchEnabledSauceLabsIntegrationMethod(projectId * (-1), true);
         apiExecutor.expectStatus(enabledSauceLabsIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(enabledSauceLabsIntegrationMethod);
     }
 
+    @Test
+    public void testCheckConnectionWithBrowserStackIntegration() {
+        PostCheckConnectionSauceLabsIntegrationMethod checkConnection = new PostCheckConnectionSauceLabsIntegrationMethod(projectId);
+        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(checkConnection);
+        apiExecutor.validateResponse(checkConnection, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testCheckConnectionWithBrowserStackIntegrationWithInvalidCreds() {
+        PostCheckConnectionSauceLabsIntegrationMethod checkConnection = new PostCheckConnectionSauceLabsIntegrationMethod(projectId);
+        checkConnection.addProperty("username", "invalid_cred");
+        checkConnection.addProperty("accessKey", "invalid_cred");
+        checkConnection.addProperty("reachable", false);
+        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(checkConnection);
+        apiExecutor.validateResponse(checkConnection, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testCheckConnectionWithBrowserStackIntegrationWithEmptyRq() {
+        PostCheckConnectionSauceLabsIntegrationMethod checkConnection = new PostCheckConnectionSauceLabsIntegrationMethod(projectId);
+        checkConnection.setRequestTemplate(R.TESTDATA.get(ConfigConstant.EMPTY_RQ_PATH));
+        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(checkConnection);
+    }
 }

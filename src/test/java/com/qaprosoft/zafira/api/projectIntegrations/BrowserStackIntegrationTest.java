@@ -3,6 +3,7 @@ package com.qaprosoft.zafira.api.projectIntegrations;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.zafira.api.ZafiraAPIBaseTest;
 import com.qaprosoft.zafira.api.projectIntegrations.BrowserStackController.*;
+import com.qaprosoft.zafira.api.projectIntegrations.SauceLabsController.PostCheckConnectionSauceLabsIntegrationMethod;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.projectIntegrations.BrowserStackIntegrationServiceImpl;
 import com.qaprosoft.zafira.util.AbstractAPIMethodUtil;
@@ -11,6 +12,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -40,6 +42,17 @@ public class BrowserStackIntegrationTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    public void testCheckConnectionWithBrowserStackIntegrationWithInvalidCreds() {
+        PostCheckConnectionWithBrowserStackMethod checkConnection = new PostCheckConnectionWithBrowserStackMethod(projectId);
+        checkConnection.addProperty("username", "invalid_cred");
+        checkConnection.addProperty("accessKey", "invalid_cred");
+        checkConnection.addProperty("reachable", false);
+        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(checkConnection);
+        apiExecutor.validateResponse(checkConnection, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
     public void testGetBrowserStackIntegrations() throws UnsupportedEncodingException {
         browserStackIntegrationService.addIntegration(projectId);
 
@@ -59,11 +72,16 @@ public class BrowserStackIntegrationTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(checkConnection);
     }
 
-    @Test
-    public void testCheckEnabledBrowserStackIntegration() throws UnsupportedEncodingException {
+    @DataProvider(name = "enabledIntegration")
+    public Object[][] getEnabledType() {
+        return new Object[][]{{false}, {true}};
+    }
+
+    @Test(dataProvider = "enabledIntegration")
+    public void testCheckEnabledBrowserStackIntegration(Boolean value) throws UnsupportedEncodingException {
         browserStackIntegrationService.addIntegration(projectId);
 
-        Boolean expectedEnableValue = false;
+        Boolean expectedEnableValue = value;
         PatchEnabledBrowserStackIntegrationMethod checkConnection = new PatchEnabledBrowserStackIntegrationMethod(projectId, expectedEnableValue);
         apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(checkConnection);
