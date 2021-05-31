@@ -13,7 +13,7 @@ import com.qaprosoft.zafira.util.CryptoUtil;
 import java.io.UnsupportedEncodingException;
 
 @ResponseTemplatePath(path = "api/projectIntegrations/lambdaTest/_get/rs.json")
-@Endpoint(url = "${api_url}/v1/integrations/sauce-labs?projectId=${projectId}&onlyActive=false&decryptValues=true",
+@Endpoint(url = "${api_url}/v1/integrations/lambda-test?projectId=${projectId}&onlyActive=false&decryptValues=true",
         methodType = HttpMethodType.GET)
 public class GetLambdaTestIntegrationByProjectIdMethod extends AbstractApiMethodV2 {
     public GetLambdaTestIntegrationByProjectIdMethod(int projectId) throws UnsupportedEncodingException {

@@ -6,7 +6,7 @@ import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
 import com.qaprosoft.zafira.manager.APIContextManager;
 
 
-@Endpoint(url = "${api_url}/v1/integrations/sauce-labs?projectId=${projectId}", methodType = HttpMethodType.DELETE)
+@Endpoint(url = "${api_url}/v1/integrations/lambda-test?projectId=${projectId}", methodType = HttpMethodType.DELETE)
 public class DeleteLambdaTestIntegrationMethod extends ZafiraBaseApiMethodWithAuth {
     public DeleteLambdaTestIntegrationMethod(int projectId) {
         replaceUrlPlaceholder("api_url", APIContextManager.API_URL);
