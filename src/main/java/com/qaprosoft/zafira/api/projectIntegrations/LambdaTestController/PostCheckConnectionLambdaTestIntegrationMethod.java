@@ -10,27 +10,17 @@ import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.util.CryptoUtil;
 
-@RequestTemplatePath(path = "api/projectIntegrations/lambdaTest/_put/rq.json")
-@ResponseTemplatePath(path = "api/projectIntegrations/lambdaTest/_put/rs.json")
-@Endpoint(url = "${api_url}/v1/integrations/lambda-test?projectId=${projectId}", methodType = HttpMethodType.PUT)
-public class PutSaveLambdaTestIntegrationMethod extends ZafiraBaseApiMethodWithAuth {
-    public PutSaveLambdaTestIntegrationMethod(int projectId) {
+@RequestTemplatePath(path = "api/projectIntegrations/lambdaTest/_post/rq.json")
+@ResponseTemplatePath(path = "api/projectIntegrations/lambdaTest/_post/rs.json")
+@Endpoint(url = "${api_url}/v1/integrations/lambda-test/connectivity-checks?projectId=${projectId}", methodType = HttpMethodType.POST)
+public class PostCheckConnectionLambdaTestIntegrationMethod extends ZafiraBaseApiMethodWithAuth {
+    public PostCheckConnectionLambdaTestIntegrationMethod(int projectId) {
         replaceUrlPlaceholder("api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("projectId", String.valueOf(projectId));
 
         addProperty("username", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.LAMBDA_TEST_USERNAME)));
         addProperty("accessKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.LAMBDA_TEST_ACCESS_KEY)));
         addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.LAMBDA_TEST_URL));
-        addProperty("enabled", true);
-    }
-
-    public PutSaveLambdaTestIntegrationMethod(int projectId, String token) {
-        super(token);
-        replaceUrlPlaceholder("api_url", APIContextManager.API_URL);
-        replaceUrlPlaceholder("projectId", String.valueOf(projectId));
-        addProperty("username", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.LAMBDA_TEST_USERNAME)));
-        addProperty("accessKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.LAMBDA_TEST_ACCESS_KEY)));
-        addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.LAMBDA_TEST_URL));
-        addProperty("enabled", true);
+        addProperty("reachable", true);
     }
 }

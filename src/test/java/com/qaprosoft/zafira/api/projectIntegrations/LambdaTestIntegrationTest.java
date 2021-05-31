@@ -3,10 +3,7 @@ package com.qaprosoft.zafira.api.projectIntegrations;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.ZafiraAPIBaseTest;
-import com.qaprosoft.zafira.api.projectIntegrations.LambdaTestController.DeleteLambdaTestIntegrationMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.LambdaTestController.GetLambdaTestIntegrationByProjectIdMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.LambdaTestController.PutSaveLambdaTestIntegrationMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.SauceLabsController.*;
+import com.qaprosoft.zafira.api.projectIntegrations.LambdaTestController.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.projectIntegrations.LambdaTestIntegrationServiceImpl;
@@ -15,6 +12,8 @@ import com.zebrunner.agent.core.annotation.Maintainer;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -28,7 +27,7 @@ public class LambdaTestIntegrationTest extends ZafiraAPIBaseTest {
 
 
     @Test
-    public void testSaveSauceLabsIntegration() {
+    public void testSaveLambdaTestIntegration() {
         PutSaveLambdaTestIntegrationMethod putSaveLambdaTestIntegrationMethod = new PutSaveLambdaTestIntegrationMethod(projectId);
         apiExecutor.expectStatus(putSaveLambdaTestIntegrationMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putSaveLambdaTestIntegrationMethod);
@@ -36,7 +35,7 @@ public class LambdaTestIntegrationTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testSaveSauceLabsIntegrationWithEmptyRq() {
+    public void testSaveLambdaTestIntegrationWithEmptyRq() {
         PutSaveLambdaTestIntegrationMethod putSaveLambdaTestIntegrationMethod = new PutSaveLambdaTestIntegrationMethod(projectId);
         putSaveLambdaTestIntegrationMethod.setRequestTemplate(R.TESTDATA.get(ConfigConstant.EMPTY_RQ_PATH));
         apiExecutor.expectStatus(putSaveLambdaTestIntegrationMethod, HTTPStatusCodeType.BAD_REQUEST);
@@ -44,7 +43,7 @@ public class LambdaTestIntegrationTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testSaveSauceLabsIntegrationWithoutQueryParams() {
+    public void testSaveLambdaTestIntegrationWithoutQueryParams() {
         PutSaveLambdaTestIntegrationMethod putSaveLambdaTestIntegrationMethod = new PutSaveLambdaTestIntegrationMethod(projectId);
         AbstractAPIMethodUtil.deleteQuery(putSaveLambdaTestIntegrationMethod);
         apiExecutor.expectStatus(putSaveLambdaTestIntegrationMethod, HTTPStatusCodeType.BAD_REQUEST);
@@ -52,35 +51,35 @@ public class LambdaTestIntegrationTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testSaveSauceLabsIntegrationWithoutNonexistentProjectId() {
+    public void testSaveLambdaTestIntegrationWithoutNonexistentProjectId() {
         PutSaveLambdaTestIntegrationMethod putSaveLambdaTestIntegrationMethod = new PutSaveLambdaTestIntegrationMethod(projectId * (-1));
         apiExecutor.expectStatus(putSaveLambdaTestIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(putSaveLambdaTestIntegrationMethod);
     }
 
     @Test
-    public void testDeleteSauceLabsStackIntegration() throws UnsupportedEncodingException {
+    public void testDeleteLambdaTestStackIntegration() throws UnsupportedEncodingException {
         lambdaTestIntegrationService.addIntegration(projectId);
 
         DeleteLambdaTestIntegrationMethod deleteLambdaTestIntegrationMethod = new DeleteLambdaTestIntegrationMethod(projectId);
         apiExecutor.expectStatus(deleteLambdaTestIntegrationMethod, HTTPStatusCodeType.NO_CONTENT);
         apiExecutor.callApiMethod(deleteLambdaTestIntegrationMethod);
 
-        GetSauceLabsIntegrationByProjectIdMethod getSauceLabsIntegrationByProjectIdMethod = new GetSauceLabsIntegrationByProjectIdMethod(projectId);
-        apiExecutor.expectStatus(getSauceLabsIntegrationByProjectIdMethod, HTTPStatusCodeType.NOT_FOUND);
-        apiExecutor.callApiMethod(getSauceLabsIntegrationByProjectIdMethod);
+        GetLambdaTestIntegrationByProjectIdMethod getLambdaTestIntegrationByProjectIdMethod = new GetLambdaTestIntegrationByProjectIdMethod(projectId);
+        apiExecutor.expectStatus(getLambdaTestIntegrationByProjectIdMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(getLambdaTestIntegrationByProjectIdMethod);
     }
 
 
     @Test
-    public void testDeleteSauceLabsStackIntegrationsWithNonexistentProjectId() {
+    public void testDeleteLambdaTestStackIntegrationsWithNonexistentProjectId() {
         DeleteLambdaTestIntegrationMethod deleteLambdaTestIntegrationMethod = new DeleteLambdaTestIntegrationMethod(projectId * (-1));
         apiExecutor.expectStatus(deleteLambdaTestIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(deleteLambdaTestIntegrationMethod);
     }
 
     @Test
-    public void testDeleteNonexistentSauceLabsStackIntegration() {
+    public void testDeleteNonexistentLambdaTestIntegration() {
         lambdaTestIntegrationService.addIntegration(projectId);
         lambdaTestIntegrationService.deleteIntegration(projectId);
         DeleteLambdaTestIntegrationMethod deleteLambdaTestIntegrationMethod = new DeleteLambdaTestIntegrationMethod(projectId);
@@ -89,7 +88,7 @@ public class LambdaTestIntegrationTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testDeleteSauceLabsStackIntegrationWithoutQueryParams() {
+    public void testDeleteLambdaTestIntegrationWithoutQueryParams() {
         lambdaTestIntegrationService.addIntegration(projectId);
         DeleteLambdaTestIntegrationMethod deleteLambdaTestIntegrationMethod = new DeleteLambdaTestIntegrationMethod(projectId);
         AbstractAPIMethodUtil.deleteQuery(deleteLambdaTestIntegrationMethod);
@@ -98,7 +97,7 @@ public class LambdaTestIntegrationTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testGetSauceLabsStackIntegration() throws UnsupportedEncodingException {
+    public void testGetLambdaTestStackIntegration() throws UnsupportedEncodingException {
         lambdaTestIntegrationService.addIntegration(projectId);
 
         GetLambdaTestIntegrationByProjectIdMethod getLambdaTestIntegrationByProjectIdMethod = new GetLambdaTestIntegrationByProjectIdMethod(projectId);
@@ -108,7 +107,7 @@ public class LambdaTestIntegrationTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testGetSauceLabsStackIntegrationWithoutQuery() throws UnsupportedEncodingException {
+    public void testGetLambdaTestStackIntegrationWithoutQuery() throws UnsupportedEncodingException {
         lambdaTestIntegrationService.addIntegration(projectId);
 
         GetLambdaTestIntegrationByProjectIdMethod getLambdaTestIntegrationByProjectIdMethod = new GetLambdaTestIntegrationByProjectIdMethod(projectId);
@@ -118,82 +117,82 @@ public class LambdaTestIntegrationTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testGetSauceLabsStackIntegrationWithNonexistentProjectId() throws UnsupportedEncodingException {
+    public void testGetLambdaTestIntegrationWithNonexistentProjectId() throws UnsupportedEncodingException {
         GetLambdaTestIntegrationByProjectIdMethod getLambdaTestIntegrationByProjectIdMethod = new GetLambdaTestIntegrationByProjectIdMethod(projectId * (-1));
         apiExecutor.expectStatus(getLambdaTestIntegrationByProjectIdMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(getLambdaTestIntegrationByProjectIdMethod);
     }
 
-//    @DataProvider(name = "enabledIntegration")
-//    public Object[][] getEnabledType() {
-//        return new Object[][]{{false}, {true}};
-//    }
-//
-//    @Test(dataProvider = "enabledIntegration")
-//    public void testCheckEnabledBrowserStackIntegration(Boolean value) throws UnsupportedEncodingException {
-//        sauceLabsIntegrationService.addIntegration(projectId);
-//
-//        Boolean expectedEnableValue = value;
-//        PatchEnabledSauceLabsIntegrationMethod enabledSauceLabsIntegrationMethod = new PatchEnabledSauceLabsIntegrationMethod(projectId, expectedEnableValue);
-//        apiExecutor.expectStatus(enabledSauceLabsIntegrationMethod, HTTPStatusCodeType.NO_CONTENT);
-//        apiExecutor.callApiMethod(enabledSauceLabsIntegrationMethod);
-//        Boolean actualEnabled = sauceLabsIntegrationService.getEnabledSauceLabsIntegration(projectId);
-//        Assert.assertEquals(actualEnabled, expectedEnableValue, "Enabled was not updated!");
-//    }
-//
-//    @Test
-//    public void testCheckEnabledBrowserStackIntegrationWithoutQueryParam() {
-//        sauceLabsIntegrationService.addIntegration(projectId);
-//
-//        PatchEnabledSauceLabsIntegrationMethod enabledSauceLabsIntegrationMethod = new PatchEnabledSauceLabsIntegrationMethod(projectId, true);
-//        AbstractAPIMethodUtil.deleteQuery(enabledSauceLabsIntegrationMethod);
-//        apiExecutor.expectStatus(enabledSauceLabsIntegrationMethod, HTTPStatusCodeType.BAD_REQUEST);
-//        apiExecutor.callApiMethod(enabledSauceLabsIntegrationMethod);
-//    }
-//
-//    @Test
-//    public void testCheckEnabledInDeletedBrowserStackIntegration() {
-//        sauceLabsIntegrationService.addIntegration(projectId);
-//        sauceLabsIntegrationService.deleteSauceLabsIntegration(projectId);
-//
-//        PatchEnabledSauceLabsIntegrationMethod enabledSauceLabsIntegrationMethod = new PatchEnabledSauceLabsIntegrationMethod(projectId, true);
-//        apiExecutor.expectStatus(enabledSauceLabsIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
-//        apiExecutor.callApiMethod(enabledSauceLabsIntegrationMethod);
-//    }
-//
-//    @Test
-//    public void testCheckEnabledBrowserStackIntegrationWithNonexistentProjectId() {
-//        sauceLabsIntegrationService.addIntegration(projectId);
-//
-//        PatchEnabledSauceLabsIntegrationMethod enabledSauceLabsIntegrationMethod = new PatchEnabledSauceLabsIntegrationMethod(projectId * (-1), true);
-//        apiExecutor.expectStatus(enabledSauceLabsIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
-//        apiExecutor.callApiMethod(enabledSauceLabsIntegrationMethod);
-//    }
-//
-//    @Test
-//    public void testCheckConnectionWithBrowserStackIntegration() {
-//        PostCheckConnectionSauceLabsIntegrationMethod checkConnection = new PostCheckConnectionSauceLabsIntegrationMethod(projectId);
-//        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
-//        apiExecutor.callApiMethod(checkConnection);
-//        apiExecutor.validateResponse(checkConnection, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-//    }
-//
-//    @Test
-//    public void testCheckConnectionWithBrowserStackIntegrationWithInvalidCreds() {
-//        PostCheckConnectionSauceLabsIntegrationMethod checkConnection = new PostCheckConnectionSauceLabsIntegrationMethod(projectId);
-//        checkConnection.addProperty("username", "invalid_cred");
-//        checkConnection.addProperty("accessKey", "invalid_cred");
-//        checkConnection.addProperty("reachable", false);
-//        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
-//        apiExecutor.callApiMethod(checkConnection);
-//        apiExecutor.validateResponse(checkConnection, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-//    }
-//
-//    @Test
-//    public void testCheckConnectionWithBrowserStackIntegrationWithEmptyRq() {
-//        PostCheckConnectionSauceLabsIntegrationMethod checkConnection = new PostCheckConnectionSauceLabsIntegrationMethod(projectId);
-//        checkConnection.setRequestTemplate(R.TESTDATA.get(ConfigConstant.EMPTY_RQ_PATH));
-//        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.BAD_REQUEST);
-//        apiExecutor.callApiMethod(checkConnection);
-//    }
+    @DataProvider(name = "enabledIntegration")
+    public Object[][] getEnabledType() {
+        return new Object[][]{{false}, {true}};
+    }
+
+    @Test(dataProvider = "enabledIntegration")
+    public void testCheckEnabledLambdaTestIntegration(Boolean value) throws UnsupportedEncodingException {
+        lambdaTestIntegrationService.addIntegration(projectId);
+
+        Boolean expectedEnableValue = value;
+        PatchEnabledLambdaTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledLambdaTestIntegrationMethod(projectId, expectedEnableValue);
+        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
+        Boolean actualEnabled = lambdaTestIntegrationService.getEnabledIntegration(projectId);
+        Assert.assertEquals(actualEnabled, expectedEnableValue, "Enabled was not updated!");
+    }
+
+    @Test
+    public void testCheckEnabledLambdaTestIntegrationWithoutQueryParam() {
+        lambdaTestIntegrationService.addIntegration(projectId);
+
+        PatchEnabledLambdaTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledLambdaTestIntegrationMethod(projectId, true);
+        AbstractAPIMethodUtil.deleteQuery(patchEnabledIntegrationMethod);
+        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
+    }
+
+    @Test
+    public void testCheckEnabledInDeletedLambdaTestIntegration() {
+        lambdaTestIntegrationService.addIntegration(projectId);
+        lambdaTestIntegrationService.deleteIntegration(projectId);
+
+        PatchEnabledLambdaTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledLambdaTestIntegrationMethod(projectId, true);
+        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
+    }
+
+    @Test
+    public void testCheckEnabledLambdaTestIntegrationWithNonexistentProjectId() {
+        lambdaTestIntegrationService.addIntegration(projectId);
+
+        PatchEnabledLambdaTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledLambdaTestIntegrationMethod(projectId * (-1), true);
+        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
+    }
+
+    @Test
+    public void testCheckConnectionWithLambdaTestIntegration() {
+        PostCheckConnectionLambdaTestIntegrationMethod checkConnection = new PostCheckConnectionLambdaTestIntegrationMethod(projectId);
+        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(checkConnection);
+        apiExecutor.validateResponse(checkConnection, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testCheckConnectionWithLambdaTestIntegrationWithInvalidCreds() {
+        PostCheckConnectionLambdaTestIntegrationMethod checkConnection = new PostCheckConnectionLambdaTestIntegrationMethod(projectId);
+        checkConnection.addProperty("username", "invalid_cred");
+        checkConnection.addProperty("accessKey", "invalid_cred");
+        checkConnection.addProperty("reachable", false);
+        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(checkConnection);
+        apiExecutor.validateResponse(checkConnection, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testCheckConnectionWithLambdaTestIntegrationWithEmptyRq() {
+        PostCheckConnectionLambdaTestIntegrationMethod checkConnection = new PostCheckConnectionLambdaTestIntegrationMethod(projectId);
+        checkConnection.setRequestTemplate(R.TESTDATA.get(ConfigConstant.EMPTY_RQ_PATH));
+        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(checkConnection);
+    }
 }
