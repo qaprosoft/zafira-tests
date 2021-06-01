@@ -1,6 +1,4 @@
 {
-  <#if hubUrl??> "hubUrl": "${hubUrl}",</#if>
-  <#if username??> "username": "${username}",</#if>
-  <#if accessKey??> "accessKey": "${accessKey}"</#if>
-
+  <#if url??> "url": "${url}",</#if>
+  <#if token??> "token": "${token}"</#if>
 }

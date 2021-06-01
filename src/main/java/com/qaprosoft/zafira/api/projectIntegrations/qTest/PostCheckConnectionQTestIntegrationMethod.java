@@ -19,9 +19,8 @@ public class PostCheckConnectionQTestIntegrationMethod extends ZafiraBaseApiMeth
         replaceUrlPlaceholder("api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("projectId", String.valueOf(projectId));
 
-        addProperty("username", "QTest_username".concat(RandomStringUtils.randomAlphabetic(3)));
-        addProperty("accessKey", "QTest_accessKey".concat(RandomStringUtils.randomAlphabetic(3)));
-        addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.QTEST_TEST_URL));
+        addProperty("token", "QTest_accessKey".concat(RandomStringUtils.randomAlphabetic(3)));
+        addProperty("url", R.TESTDATA.get(ConfigConstant.QTEST_TEST_URL));
         addProperty("reachable", false);
     }
 }

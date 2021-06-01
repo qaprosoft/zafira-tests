@@ -3,10 +3,7 @@ package com.qaprosoft.zafira.api.projectIntegrations;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.ZafiraAPIBaseTest;
-import com.qaprosoft.zafira.api.projectIntegrations.qTest.DeleteQTestIntegrationMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.qTest.GetQTestIntegrationByProjectIdMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.qTest.PatchEnabledQTestIntegrationMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.qTest.PutSaveQTestIntegrationMethod;
+import com.qaprosoft.zafira.api.projectIntegrations.qTest.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.projectIntegrations.QTestIntegrationServiceImpl;
@@ -171,31 +168,20 @@ public class QTestIntegrationTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
     }
-//
-//    @Test
-//    public void testCheckConnectionWithLambdaTestIntegration() {
-//        PostCheckConnectionLambdaTestIntegrationMethod checkConnection = new PostCheckConnectionLambdaTestIntegrationMethod(projectId);
-//        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
-//        apiExecutor.callApiMethod(checkConnection);
-//        apiExecutor.validateResponse(checkConnection, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-//    }
-//
-//    @Test
-//    public void testCheckConnectionWithLambdaTestIntegrationWithInvalidCreds() {
-//        PostCheckConnectionLambdaTestIntegrationMethod checkConnection = new PostCheckConnectionLambdaTestIntegrationMethod(projectId);
-//        checkConnection.addProperty("username", "invalid_cred");
-//        checkConnection.addProperty("accessKey", "invalid_cred");
-//        checkConnection.addProperty("reachable", false);
-//        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
-//        apiExecutor.callApiMethod(checkConnection);
-//        apiExecutor.validateResponse(checkConnection, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-//    }
-//
-//    @Test
-//    public void testCheckConnectionWithLambdaTestIntegrationWithEmptyRq() {
-//        PostCheckConnectionLambdaTestIntegrationMethod checkConnection = new PostCheckConnectionLambdaTestIntegrationMethod(projectId);
-//        checkConnection.setRequestTemplate(R.TESTDATA.get(ConfigConstant.EMPTY_RQ_PATH));
-//        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.BAD_REQUEST);
-//        apiExecutor.callApiMethod(checkConnection);
-//    }
+
+    @Test
+    public void testCheckConnectionWithQTestIntegrationWithInvalidCreds() {
+        PostCheckConnectionQTestIntegrationMethod checkConnection = new PostCheckConnectionQTestIntegrationMethod(projectId);
+        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(checkConnection);
+        apiExecutor.validateResponse(checkConnection, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testCheckConnectionWithQTestIntegrationWithEmptyRq() {
+        PostCheckConnectionQTestIntegrationMethod checkConnection = new PostCheckConnectionQTestIntegrationMethod(projectId);
+        checkConnection.setRequestTemplate(R.TESTDATA.get(ConfigConstant.EMPTY_RQ_PATH));
+        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(checkConnection);
+    }
 }
