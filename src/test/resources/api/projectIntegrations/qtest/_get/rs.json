@@ -1,0 +1,8 @@
+{
+  "id": "regex:[\\d]",
+  "hubUrl": "type:String",
+  "username":"type:String",
+  "accessKey": "type:String",
+  "enabled": "type:Boolean",
+  "encrypted": "type:Boolean"
+}
