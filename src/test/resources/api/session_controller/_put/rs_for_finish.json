@@ -5,5 +5,7 @@
   "testIds": "type:JSONArray",
   "capabilities": "type:JSONObject",
   "desiredCapabilities":"type:JSONObject",
+  "initiatedAt":"type:String",
+  "status":"type:String",
   "startedAt":"type:String"
 }

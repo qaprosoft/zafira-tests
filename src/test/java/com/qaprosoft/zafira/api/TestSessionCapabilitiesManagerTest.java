@@ -225,7 +225,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         String actualBrowseName = capabilitiesManagerService.getTestsInSessionsBrowserName(testRunId, testSessionId);
-        Assert.assertNull(actualBrowseName, "Name is not as expected!");
+        Assert.assertEquals(actualBrowseName,ConstantName.BROWSER_NAME_IN_DESIRED_CAPABILITY, "Name is not as expected!");
     }
 
     @Test
@@ -322,7 +322,7 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         String actualBrowseName = capabilitiesManagerService.getTestsInSessionsBrowserVersion(testRunId, testSessionId);
-        Assert.assertNull(actualBrowseName, "Name is not as expected!");
+        Assert.assertEquals(actualBrowseName,ConstantName.BROWSER_VERSION_IN_DESIRED_CAPABILITY, "Name is not as expected!");
     }
 
     @Test

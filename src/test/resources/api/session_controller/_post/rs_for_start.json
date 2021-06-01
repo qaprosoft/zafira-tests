@@ -4,5 +4,7 @@
   "desiredCapabilities": "type:JSONObject",
   "sessionId": "type:String",
   "startedAt": "type:String",
+  "initiatedAt":"type:String",
+  "status":"type:String",
   "testIds":"type:JSONArray"
 }

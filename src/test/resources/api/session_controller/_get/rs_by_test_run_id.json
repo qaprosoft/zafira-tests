@@ -4,9 +4,12 @@
       "id":"regex:[\\d]",
       "name": "type:String",
       "testRunId": ${testRunId},
-      "sessionId": "type:String",
+      "sessionId":"type:String",
+      "initiatedAt":"type:String",
       "startedAt":"type:String",
-      "platformName": "type:String",
+      "status":"type:String",
+      "browserName":"type:String",
+      "platformName":"type:String",
       "artifactReferences": [
 
       ],
