@@ -86,4 +86,5 @@ public class ConfigConstant {
     public static final String LAMBDA_TEST_URL = "lambdatest_url";
     public static final String LAMBDA_TEST_USERNAME = "lambdatest_username";
     public static final String LAMBDA_TEST_ACCESS_KEY = "lambdatest_accessKey";
+    public static final String QTEST_TEST_URL = "qTest_url";
 }

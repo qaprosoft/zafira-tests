@@ -1,0 +1,7 @@
+{
+  "id": "regex:[\\d]",
+  "url": "type:String",
+  "token": "type:String",
+  "encrypted": "type:Boolean",
+  "enabled": false
+}
