@@ -3,6 +3,9 @@ package com.qaprosoft.zafira.api.projectIntegrations;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.ZafiraAPIBaseTest;
+import com.qaprosoft.zafira.api.projectIntegrations.qTest.DeleteQTestIntegrationMethod;
+import com.qaprosoft.zafira.api.projectIntegrations.qTest.GetQTestIntegrationByProjectIdMethod;
+import com.qaprosoft.zafira.api.projectIntegrations.qTest.PatchEnabledQTestIntegrationMethod;
 import com.qaprosoft.zafira.api.projectIntegrations.qTest.PutSaveQTestIntegrationMethod;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
@@ -12,8 +15,11 @@ import com.zebrunner.agent.core.annotation.Maintainer;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.invoke.MethodHandles;
 
 @Maintainer("obabich")
@@ -54,117 +60,117 @@ public class QTestIntegrationTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(putSaveQTestIntegrationMethod);
     }
 
-//    @Test
-//    public void testDeleteQTestStackIntegration() throws UnsupportedEncodingException {
-//        qTestIntegrationService.addIntegration(projectId);
-//
-//        DeleteLambdaTestIntegrationMethod deleteLambdaTestIntegrationMethod = new DeleteLambdaTestIntegrationMethod(projectId);
-//        apiExecutor.expectStatus(deleteLambdaTestIntegrationMethod, HTTPStatusCodeType.NO_CONTENT);
-//        apiExecutor.callApiMethod(deleteLambdaTestIntegrationMethod);
-//
-//        GetLambdaTestIntegrationByProjectIdMethod getLambdaTestIntegrationByProjectIdMethod = new GetLambdaTestIntegrationByProjectIdMethod(projectId);
-//        apiExecutor.expectStatus(getLambdaTestIntegrationByProjectIdMethod, HTTPStatusCodeType.NOT_FOUND);
-//        apiExecutor.callApiMethod(getLambdaTestIntegrationByProjectIdMethod);
-//    }
-//
-//
-//    @Test
-//    public void testDeleteLambdaTestStackIntegrationsWithNonexistentProjectId() {
-//        DeleteLambdaTestIntegrationMethod deleteLambdaTestIntegrationMethod = new DeleteLambdaTestIntegrationMethod(projectId * (-1));
-//        apiExecutor.expectStatus(deleteLambdaTestIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
-//        apiExecutor.callApiMethod(deleteLambdaTestIntegrationMethod);
-//    }
-//
-//    @Test
-//    public void testDeleteNonexistentLambdaTestIntegration() {
-//        qTestIntegrationService.addIntegration(projectId);
-//        qTestIntegrationService.deleteIntegration(projectId);
-//        DeleteLambdaTestIntegrationMethod deleteLambdaTestIntegrationMethod = new DeleteLambdaTestIntegrationMethod(projectId);
-//        apiExecutor.expectStatus(deleteLambdaTestIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
-//        apiExecutor.callApiMethod(deleteLambdaTestIntegrationMethod);
-//    }
-//
-//    @Test
-//    public void testDeleteLambdaTestIntegrationWithoutQueryParams() {
-//        qTestIntegrationService.addIntegration(projectId);
-//        DeleteLambdaTestIntegrationMethod deleteLambdaTestIntegrationMethod = new DeleteLambdaTestIntegrationMethod(projectId);
-//        AbstractAPIMethodUtil.deleteQuery(deleteLambdaTestIntegrationMethod);
-//        apiExecutor.expectStatus(deleteLambdaTestIntegrationMethod, HTTPStatusCodeType.BAD_REQUEST);
-//        apiExecutor.callApiMethod(deleteLambdaTestIntegrationMethod);
-//    }
-//
-//    @Test
-//    public void testGetLambdaTestStackIntegration() throws UnsupportedEncodingException {
-//        qTestIntegrationService.addIntegration(projectId);
-//
-//        GetLambdaTestIntegrationByProjectIdMethod getLambdaTestIntegrationByProjectIdMethod = new GetLambdaTestIntegrationByProjectIdMethod(projectId);
-//        apiExecutor.expectStatus(getLambdaTestIntegrationByProjectIdMethod, HTTPStatusCodeType.OK);
-//        apiExecutor.callApiMethod(getLambdaTestIntegrationByProjectIdMethod);
-//        apiExecutor.validateResponse(getLambdaTestIntegrationByProjectIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-//    }
-//
-//    @Test
-//    public void testGetLambdaTestStackIntegrationWithoutQuery() throws UnsupportedEncodingException {
-//        qTestIntegrationService.addIntegration(projectId);
-//
-//        GetLambdaTestIntegrationByProjectIdMethod getLambdaTestIntegrationByProjectIdMethod = new GetLambdaTestIntegrationByProjectIdMethod(projectId);
-//        AbstractAPIMethodUtil.deleteQuery(getLambdaTestIntegrationByProjectIdMethod);
-//        apiExecutor.expectStatus(getLambdaTestIntegrationByProjectIdMethod, HTTPStatusCodeType.BAD_REQUEST);
-//        apiExecutor.callApiMethod(getLambdaTestIntegrationByProjectIdMethod);
-//    }
-//
-//    @Test
-//    public void testGetLambdaTestIntegrationWithNonexistentProjectId() throws UnsupportedEncodingException {
-//        GetLambdaTestIntegrationByProjectIdMethod getLambdaTestIntegrationByProjectIdMethod = new GetLambdaTestIntegrationByProjectIdMethod(projectId * (-1));
-//        apiExecutor.expectStatus(getLambdaTestIntegrationByProjectIdMethod, HTTPStatusCodeType.NOT_FOUND);
-//        apiExecutor.callApiMethod(getLambdaTestIntegrationByProjectIdMethod);
-//    }
-//
-//    @DataProvider(name = "enabledIntegration")
-//    public Object[][] getEnabledType() {
-//        return new Object[][]{{false}, {true}};
-//    }
-//
-//    @Test(dataProvider = "enabledIntegration")
-//    public void testCheckEnabledLambdaTestIntegration(Boolean value) throws UnsupportedEncodingException {
-//        qTestIntegrationService.addIntegration(projectId);
-//
-//        Boolean expectedEnableValue = value;
-//        PatchEnabledLambdaTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledLambdaTestIntegrationMethod(projectId, expectedEnableValue);
-//        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NO_CONTENT);
-//        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
-//        Boolean actualEnabled = qTestIntegrationService.getEnabledIntegration(projectId);
-//        Assert.assertEquals(actualEnabled, expectedEnableValue, "Enabled was not updated!");
-//    }
-//
-//    @Test
-//    public void testCheckEnabledLambdaTestIntegrationWithoutQueryParam() {
-//        qTestIntegrationService.addIntegration(projectId);
-//
-//        PatchEnabledLambdaTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledLambdaTestIntegrationMethod(projectId, true);
-//        AbstractAPIMethodUtil.deleteQuery(patchEnabledIntegrationMethod);
-//        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.BAD_REQUEST);
-//        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
-//    }
-//
-//    @Test
-//    public void testCheckEnabledInDeletedLambdaTestIntegration() {
-//        qTestIntegrationService.addIntegration(projectId);
-//        qTestIntegrationService.deleteIntegration(projectId);
-//
-//        PatchEnabledLambdaTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledLambdaTestIntegrationMethod(projectId, true);
-//        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
-//        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
-//    }
-//
-//    @Test
-//    public void testCheckEnabledLambdaTestIntegrationWithNonexistentProjectId() {
-//        qTestIntegrationService.addIntegration(projectId);
-//
-//        PatchEnabledLambdaTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledLambdaTestIntegrationMethod(projectId * (-1), true);
-//        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
-//        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
-//    }
+    @Test
+    public void testDeleteQTestStackIntegration() throws UnsupportedEncodingException {
+        qTestIntegrationService.addIntegration(projectId);
+
+        DeleteQTestIntegrationMethod testIntegrationMethod = new DeleteQTestIntegrationMethod(projectId);
+        apiExecutor.expectStatus(testIntegrationMethod, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(testIntegrationMethod);
+
+        GetQTestIntegrationByProjectIdMethod qTestIntegrationByProjectIdMethod = new GetQTestIntegrationByProjectIdMethod(projectId);
+        apiExecutor.expectStatus(qTestIntegrationByProjectIdMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(qTestIntegrationByProjectIdMethod);
+    }
+
+
+    @Test
+    public void testDeleteQTestStackIntegrationsWithNonexistentProjectId() {
+        DeleteQTestIntegrationMethod deleteQTestIntegrationMethod = new DeleteQTestIntegrationMethod(projectId * (-1));
+        apiExecutor.expectStatus(deleteQTestIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(deleteQTestIntegrationMethod);
+    }
+
+    @Test
+    public void testDeleteNonexistentQTestIntegration() {
+        qTestIntegrationService.addIntegration(projectId);
+        qTestIntegrationService.deleteIntegration(projectId);
+        DeleteQTestIntegrationMethod deleteQTestIntegrationMethod = new DeleteQTestIntegrationMethod(projectId);
+        apiExecutor.expectStatus(deleteQTestIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(deleteQTestIntegrationMethod);
+    }
+
+    @Test
+    public void testDeleteQTestIntegrationWithoutQueryParams() {
+        qTestIntegrationService.addIntegration(projectId);
+        DeleteQTestIntegrationMethod deleteQTestIntegrationMethod = new DeleteQTestIntegrationMethod(projectId);
+        AbstractAPIMethodUtil.deleteQuery(deleteQTestIntegrationMethod);
+        apiExecutor.expectStatus(deleteQTestIntegrationMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(deleteQTestIntegrationMethod);
+    }
+
+    @Test
+    public void testGetQTestStackIntegration() throws UnsupportedEncodingException {
+        qTestIntegrationService.addIntegration(projectId);
+
+        GetQTestIntegrationByProjectIdMethod getQTestIntegrationByProjectIdMethod = new GetQTestIntegrationByProjectIdMethod(projectId);
+        apiExecutor.expectStatus(getQTestIntegrationByProjectIdMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getQTestIntegrationByProjectIdMethod);
+        apiExecutor.validateResponse(getQTestIntegrationByProjectIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testGetQTestStackIntegrationWithoutQuery() throws UnsupportedEncodingException {
+        qTestIntegrationService.addIntegration(projectId);
+
+        GetQTestIntegrationByProjectIdMethod getQTestIntegrationByProjectIdMethod = new GetQTestIntegrationByProjectIdMethod(projectId);
+        AbstractAPIMethodUtil.deleteQuery(getQTestIntegrationByProjectIdMethod);
+        apiExecutor.expectStatus(getQTestIntegrationByProjectIdMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(getQTestIntegrationByProjectIdMethod);
+    }
+
+    @Test
+    public void testGetQTestIntegrationWithNonexistentProjectId() throws UnsupportedEncodingException {
+        GetQTestIntegrationByProjectIdMethod getQTestIntegrationByProjectIdMethod = new GetQTestIntegrationByProjectIdMethod(projectId * (-1));
+        apiExecutor.expectStatus(getQTestIntegrationByProjectIdMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(getQTestIntegrationByProjectIdMethod);
+    }
+
+    @DataProvider(name = "enabledIntegration")
+    public Object[][] getEnabledType() {
+        return new Object[][]{{false}, {true}};
+    }
+
+    @Test(dataProvider = "enabledIntegration")
+    public void testCheckEnabledQTestIntegration(Boolean value) throws UnsupportedEncodingException {
+        qTestIntegrationService.addIntegration(projectId);
+
+        Boolean expectedEnableValue = value;
+        PatchEnabledQTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledQTestIntegrationMethod(projectId, expectedEnableValue);
+        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
+        Boolean actualEnabled = qTestIntegrationService.getEnabledIntegration(projectId);
+        Assert.assertEquals(actualEnabled, expectedEnableValue, "Enabled was not updated!");
+    }
+
+    @Test
+    public void testCheckEnabledQTestIntegrationWithoutQueryParam() {
+        qTestIntegrationService.addIntegration(projectId);
+
+        PatchEnabledQTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledQTestIntegrationMethod(projectId, true);
+        AbstractAPIMethodUtil.deleteQuery(patchEnabledIntegrationMethod);
+        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.BAD_REQUEST);
+        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
+    }
+
+    @Test
+    public void testCheckEnabledInDeletedQTestIntegration() {
+        qTestIntegrationService.addIntegration(projectId);
+        qTestIntegrationService.deleteIntegration(projectId);
+
+        PatchEnabledQTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledQTestIntegrationMethod(projectId, true);
+        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
+    }
+
+    @Test
+    public void testCheckEnabledQTestIntegrationWithNonexistentProjectId() {
+        qTestIntegrationService.addIntegration(projectId);
+
+        PatchEnabledQTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledQTestIntegrationMethod(projectId * (-1), true);
+        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
+    }
 //
 //    @Test
 //    public void testCheckConnectionWithLambdaTestIntegration() {
