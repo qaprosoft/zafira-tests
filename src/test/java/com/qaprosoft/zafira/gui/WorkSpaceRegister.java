@@ -13,7 +13,6 @@ public class WorkSpaceRegister extends BaseWorkSpaceRegister {
         landingPage.closeCookiesNotification();
         LandingRegistrationComp registrationComp = landingPage.getRegistrationComponent();
         registrationComp.createFreeWorkspace(orgName, ownerName,tenantEmail );
-        landingPage.clickOnCaptcha();
-        int i = 22+2;
+        //landingPage.clickOnCaptcha();
     }
 }
