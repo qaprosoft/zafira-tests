@@ -14,6 +14,6 @@ public class PatchMilestoneMethod extends ZafiraBaseApiMethodWithAuth {
         replaceUrlPlaceholder("id", String.valueOf(milestoneId));
         replaceUrlPlaceholder("projectId", String.valueOf(projectId));
         setProperties("api/milestone.properties");
-        addProperty("value", isCompleted);
+        addProperty("value", String.valueOf(isCompleted));
     }
 }

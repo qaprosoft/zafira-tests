@@ -24,7 +24,7 @@ public class PutMilestoneMethod extends ZafiraBaseApiMethodWithAuth {
         addProperty("dueDate", OffsetDateTime.now().plusMonths(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
         addProperty("projectId", projectId);
-        addProperty("completed",false);
+        addProperty("completed", false);
         addProperty("startDate", OffsetDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
     }

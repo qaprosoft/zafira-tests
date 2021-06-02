@@ -237,7 +237,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         return email.getContent().contains(expStatus);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testPostAIAnalysis() {
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();

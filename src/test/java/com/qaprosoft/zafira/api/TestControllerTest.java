@@ -104,72 +104,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testLinkWorkItemToTest() {
-        String expectedJiraIdValue = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
-        String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
-        int testSuiteId = new TestSuiteServiceImpl().create();
-        int jobId = new JobServiceImpl().create();
-        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(testCaseId, testRunId);
-        new TestServiceImpl().updateTestStatus(testId, testSuiteId, jobId, ConstantName.FAILED);
-        PostLinkWorkItemMethod postLinkWorkItemMethod = new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue,
-                testId, workItemType);
-        apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.OK);
-        String linkWorkItemRs = apiExecutor.callApiMethod(postLinkWorkItemMethod);
-        String jiraId = JsonPath.from(linkWorkItemRs).get(JSONConstant.JIRA_ID_KEY);
-        Assert.assertEquals(jiraId, expectedJiraIdValue, "Work item was not linked to test!");
-    }
-
-    @Test
-    public void testLinkWorkItemToTestWithStatusPASSED() {
-        String expectedJiraIdValue = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
-        String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
-        int testSuiteId = new TestSuiteServiceImpl().create();
-        int jobId = new JobServiceImpl().create();
-        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(testCaseId, testRunId);
-        new TestServiceImpl().updateTestStatus(testId, testSuiteId, jobId, ConstantName.PASSED);
-        PostLinkWorkItemMethod postLinkWorkItemMethod = new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue,
-                testId, workItemType);
-        apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.FORBIDDEN);
-    }
-
-    @Test
-    public void testGetWorkItem() {
-        String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
-        String jiraId = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
-        int testSuiteId = new TestSuiteServiceImpl().create();
-        int jobId = new JobServiceImpl().create();
-        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(testCaseId, testRunId);
-        new TestServiceImpl().updateTestStatus(testId, testSuiteId, jobId, ConstantName.FAILED);
-        apiExecutor.callApiMethod(new PostLinkWorkItemMethod(testCaseId, jiraId, testId, workItemType));
-        GetWorkItemMethod getWorkItemMethod = new GetWorkItemMethod(testId, workItemType);
-        apiExecutor.expectStatus(getWorkItemMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getWorkItemMethod);
-        apiExecutor.validateResponse(getWorkItemMethod,
-                JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-    }
-
-    @Test
-    public void testCreateBatchWorkItem() {
-        String jiraId = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
-        int testSuiteId = new TestSuiteServiceImpl().create();
-        int jobId = new JobServiceImpl().create();
-        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
-        int testId = new TestServiceImpl().create(testCaseId, testRunId);
-        new TestServiceImpl().updateTestStatus(testId, testSuiteId, jobId, ConstantName.FAILED);
-        PostCreateBatchWorkItemsMethod postCreateBatchWorkItemsMethod = new PostCreateBatchWorkItemsMethod(testRunId,testId, jiraId);
-        apiExecutor.expectStatus(postCreateBatchWorkItemsMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(postCreateBatchWorkItemsMethod);
-        apiExecutor.validateResponse(postCreateBatchWorkItemsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-    }
-
-    @Test
     public void testRetrieveTestBySearchCriteria() {
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();
@@ -183,29 +117,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey());
         int allTestId = JsonPath.from(testRs).get(JSONConstant.ALL_ID_FROM_RESULTS_KEY);
         LOGGER.info(String.format("Test Ids: %s", allTestId));
-    }
-
-    @Test
-    public void testDeleteWorkItem() {
-        String expectedJiraIdValue = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
-        String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
-        int testSuiteId = new TestSuiteServiceImpl().create();
-        int jobId = new JobServiceImpl().create();
-        int testCaseId = new TestCaseServiceImpl().create(testSuiteId);
-        int testRunId = new TestRunServiceAPIImpl().create(testSuiteId, jobId);
-        TestServiceImpl testServiсeImpl = new TestServiceImpl();
-        int testId = testServiсeImpl.create(testCaseId, testRunId);
-        new TestServiceImpl().updateTestStatus(testId, testSuiteId, jobId, ConstantName.FAILED);
-        String linkWorkItemRs = apiExecutor.callApiMethod(new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue,
-                testId, workItemType));
-        int workItemId = JsonPath.from(linkWorkItemRs).get(JSONConstant.ID_KEY);
-        String testRs = testServiсeImpl.getAllTest(testRunId);
-        int workItemIdRs = JsonPath.from(testRs).get(JSONConstant.WORK_ITEM_ID_CHECK_KEY);
-        Assert.assertNotEquals(0, workItemIdRs, "Work item was not linked!");
-        apiExecutor.callApiMethod(new DeleteWorkItemMethod(testId, workItemId));
-        String testRsAfterDelete = testServiсeImpl.getAllTest(testRunId);
-        List<Integer> workItemsAfterDelete = JsonPath.from(testRsAfterDelete).getList(JSONConstant.WORK_ITEMS_ARRAY_KEY);
-        Assert.assertTrue(workItemsAfterDelete.isEmpty(), "Work item was not deleted!");
     }
 
     @Test
