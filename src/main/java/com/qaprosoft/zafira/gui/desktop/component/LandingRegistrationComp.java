@@ -6,6 +6,8 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 public class LandingRegistrationComp extends AbstractUIObject {
 
     @FindBy(xpath = "//input[@name='name']")
