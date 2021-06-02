@@ -3,12 +3,18 @@ package com.qaprosoft.zafira.api;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.api.AbstractApiMethodV2;
+import com.qaprosoft.carina.core.foundation.utils.R;
+import com.qaprosoft.zafira.api.testController.DeleteWorkItemMethod;
+import com.qaprosoft.zafira.api.testController.GetWorkItemMethod;
+import com.qaprosoft.zafira.api.testController.PostCreateBatchWorkItemsMethod;
+import com.qaprosoft.zafira.api.testController.PostLinkWorkItemMethod;
 import com.qaprosoft.zafira.api.testRunController.PostAIAnalysisMethod;
 import com.qaprosoft.zafira.api.testRunController.PostMarkTestRunReviewedMethod;
 import com.qaprosoft.zafira.api.testRunController.v1.DeleteTestRunByIdV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.GetListTestRunsV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PostStartTestRunV1Method;
 import com.qaprosoft.zafira.api.testRunController.v1.PutFinishTestRunV1Method;
+import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
@@ -29,6 +35,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 /**
  * Test Run Controller v1
@@ -301,8 +308,9 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetTestRunStatusV1WithTestResultsFAILEDAndPASSED() {
+        String methodName = "NewMethodName".concat(RandomStringUtils.randomAlphabetic(5));
         testRunId = new TestRunServiceAPIImplV1().start();
-        int testId1 = new TestServiceV1Impl().startTest(testRunId);
+        int testId1 = new TestServiceV1Impl().startTestWithMethodName(testRunId, methodName);
         int testId2 = new TestServiceV1Impl().startTest(testRunId);
         new TestServiceV1Impl().finishTestAsResult(testRunId, testId1, RESULT_FAILED);
         new TestServiceV1Impl().finishTestAsResult(testRunId, testId2, RESULT_PASSED);
@@ -399,5 +407,4 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
         Assert.assertEquals(actualResult, RESULT_PASSED, "Result is not as expected!");
         new TestRunServiceAPIImplV1().deleteTestRun(testRunIdNew);
     }
-
 }

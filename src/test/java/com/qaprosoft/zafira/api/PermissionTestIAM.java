@@ -7,6 +7,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.Test;
 
 public class PermissionTestIAM extends ZafiraAPIBaseTest {
+
     @Test
     public void testGetAllPermissionIAM() {
         GetAllPermissionsMethodIAM getAllPermissionsMethod = new GetAllPermissionsMethodIAM();
