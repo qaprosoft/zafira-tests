@@ -17,7 +17,7 @@
 
     <test name="GSM arena web tests">
         <classes>
-            <class name="com.qaprosoft.zafira.gui.WorkSpaceRegister" />
+            <class name="com.qaprosoft.zafira.gui.captcha.WorkSpaceRegister" />
         </classes>
     </test>
 
