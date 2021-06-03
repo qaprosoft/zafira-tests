@@ -128,20 +128,7 @@
             <class name="com.qaprosoft.zafira.api.LauncherPresetTest"/>
         </classes>
     </test>
-
-<!--        <test name="Dashboard api controller tests">-->
-<!--            <classes>-->
-<!--                <class name="com.qaprosoft.zafira.api.DashboardTest"/>-->
-<!--            </classes>-->
-<!--        </test>-->
-
-<!--        <test name="Dashboard controller tests">-->
-<!--            <classes>-->
-<!--                <class name="com.qaprosoft.zafira.api.DashboardWidgetTest"/>-->
-<!--            </classes>-->
-<!--        </test>-->
-
-        <test name="Widget controller tests">
+            <test name="Widget controller tests">
             <classes>
                 <class name="com.qaprosoft.zafira.api.WidgetTest"/>
             </classes>
