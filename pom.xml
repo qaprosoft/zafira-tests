@@ -19,7 +19,7 @@
         <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
         <zebrunner-agent.version>LATEST</zebrunner-agent.version>
         <suite>acceptance_api</suite>
-        <httpclient.version>4.5.3</httpclient.version>
+        <httpclient.version>4.5.13</httpclient.version>
     </properties>
 
     <repositories>
