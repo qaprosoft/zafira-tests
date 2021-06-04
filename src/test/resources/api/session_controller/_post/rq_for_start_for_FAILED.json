@@ -1,0 +1,6 @@
+{
+  <#if initiatedAt??>"initiatedAt": "${initiatedAt}",</#if>
+  <#if status??>"status": "${status}",</#if>
+  <#if desiredCapabilities??> "desiredCapabilities": <#include "*/session_controller/desireCapabilities.json">,</#if>
+  "testIds": ${testId}
+}

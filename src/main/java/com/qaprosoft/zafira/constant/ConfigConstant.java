@@ -71,6 +71,8 @@ public class ConfigConstant {
     public static final String PATH_FOR_START_WITH_CAPABILITIES = "path_for_start_with_capability";
     public static final String PATH_TO_CHECK_SESSION_ARTIFACTS = "path_to_check_sessionArtifacts";
     public static final String PATH_TO_CHECK_VNC = "path_to_check_VNC";
+    public static final String RQ_PATH_TO_CHECK_FAILED_SESSION = "rq_for_start_for_FAILED";
+    public static final String RS_PATH_TO_CHECK_FAILED_SESSION = "rs_for_start_for_FAILED";
     public static final String TESTRAIL_TESTCASE_ID_LABEL = "testrail-testcase-id-label";
     public static final String EXISTING_PROJECT_KEY = "existing_project_key";
     public static final String EXISTING_PROJECT_ID = "existing_project_id";

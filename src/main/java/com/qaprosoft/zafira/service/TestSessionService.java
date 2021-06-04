@@ -5,6 +5,8 @@ import java.util.List;
 public interface TestSessionService {
     int create(int testRunId, int testId);
 
+    int startFailedSession(int testRunId, int testId);
+
     int create(int testRunId, List testIds);
 
     void finish(int testRunId, List testIds, int testSessionId);
