@@ -11,3 +11,5 @@ reports
 *.iml
 *.DS_Store
 email.json
+src/main/resources/crypto1.key
+src/main/resources/dataToEncrypt.txt

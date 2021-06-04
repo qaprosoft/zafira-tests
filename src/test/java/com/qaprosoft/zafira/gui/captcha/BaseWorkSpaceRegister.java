@@ -1,4 +1,4 @@
-package com.qaprosoft.zafira.gui;
+package com.qaprosoft.zafira.gui.captcha;
 
 import com.qaprosoft.carina.core.foundation.AbstractTest;
 import com.qaprosoft.carina.core.foundation.utils.R;

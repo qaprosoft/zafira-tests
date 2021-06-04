@@ -1,4 +1,4 @@
-package com.qaprosoft.zafira.gui;
+package com.qaprosoft.zafira.gui.captcha;
 
 import com.qaprosoft.zafira.gui.desktop.component.LandingRegistrationComp;
 import com.qaprosoft.zafira.gui.desktop.page.LandingPage;
