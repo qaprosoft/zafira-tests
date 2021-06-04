@@ -12,4 +12,11 @@ public class LauncherTest extends SignInTest {
         Launcher launcher = testRunsPage.openLauncherWindow();
         launcher.launchSuiteTests("carina-demo","Carina API");
     }
+
+    @Test
+    public void webJobRun(){
+        TestRunsPage testRunsPage = navigationMenu.toTestRunsPage();
+        Launcher launcher = testRunsPage.openLauncherWindow();
+        launcher.launchSuiteTests("carina-demo","Carina WEB");
+    }
 }
