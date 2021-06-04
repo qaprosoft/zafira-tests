@@ -3,8 +3,6 @@
     "id": "regex:[\\d]",
     "modifiedAt": "regex:[\\d]",
     "createdAt": "regex:[\\d]",
-    "jiraId":  "type:String",
-    "hashCode": "regex:[\\d]",
-    "testCaseId": "regex:[\\d]"
+    "jiraId":  "type:String"
   }
 ]
