@@ -4,7 +4,9 @@
     "workItems": [
       {
         "id": "regex:[\\d]",
-        "jiraId": "${jiraId}"
+        "jiraId": "${jiraId}",
+        "modifiedAt": "regex:[\\d]",
+        "createdAt": "regex:[\\d]"
       }
     ]
   }
