@@ -13,7 +13,26 @@ public class TestRunCard extends TestRunCardBase {
     @FindBy(xpath = "//span[contains(@class,'label-success')]")
     private ExtendedWebElement successTestsBox;
 
+    @FindBy (xpath = "//span[contains(@title,'Failed')]")
+    private ExtendedWebElement failedTestsBox;
+
+    @FindBy (xpath = "//span[contains(@title,'Skipped')]")
+    private ExtendedWebElement skippedTestBox;
+
+    @FindBy(xpath = "//div[@class='test-run-card__time light_text ng-scope']")
+    private ExtendedWebElement testDuration;
+
     public TestRunCard(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
+    }
+
+    public boolean isTestComplete(){
+        return testDuration.isPresent();
+    }
+
+    public String getRunResult(){
+        String failed = failedTestsBox.getText().replace('\n', ' ');
+        return String.format("Passed %s, Failure %s, Skipped %s",
+                successTestsBox.getText(), failed, skippedTestBox.getText());
     }
 }

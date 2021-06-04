@@ -10,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class Launcher extends AbstractUIObject {
+public class TestRunsLauncher extends AbstractUIObject {
 
 
     @FindBy(xpath = "//div[contains(@class,'folder-container_folder_name hide-phone')]")
@@ -25,7 +25,7 @@ public class Launcher extends AbstractUIObject {
     @FindBy(xpath = "//button[contains(text(),'Launch')]")
     private ExtendedWebElement launchSuiteButton;
 
-    public Launcher(WebDriver driver, SearchContext searchContext) {
+    public TestRunsLauncher(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
         setLoadingStrategy(ElementLoadingStrategy.BY_VISIBILITY);
     }

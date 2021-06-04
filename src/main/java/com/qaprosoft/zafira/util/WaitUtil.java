@@ -120,9 +120,10 @@ public class WaitUtil {
                 e.printStackTrace();
             }
         }
-
         return !list.isEmpty();
     }
+
+
 }
 
 
