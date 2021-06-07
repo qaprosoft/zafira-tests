@@ -2,6 +2,7 @@ package com.qaprosoft.zafira.gui.desktop.component;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
+import com.qaprosoft.zafira.gui.desktop.page.tenant.DashboardsPage;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunsPage;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -24,20 +25,21 @@ public class NavigationMenu extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public void toDashboardPage() {
+    public DashboardsPage toDashboardPage() {
         dashboardButton.click();
+        return new DashboardsPage(getDriver());
     }
 
-    public TestRunsPage toTestRunsPage(){
+    public TestRunsPage toTestRunsPage() {
         testRunsButton.click();
         return new TestRunsPage(getDriver());
     }
 
-    public void toIntegrationPage(){
+    public void toIntegrationPage() {
         integrationsButton.click();
     }
 
-    public void toMembersPage(){
+    public void toMembersPage() {
         membersButton.click();
     }
 }
