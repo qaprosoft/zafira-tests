@@ -152,6 +152,7 @@
             <class name="com.qaprosoft.zafira.api.TestSessionCapabilitiesManagerTest"/>
             <class name="com.qaprosoft.zafira.api.TestSessionArtifactReferencesTest"/>
             <class name="com.qaprosoft.zafira.api.TestSessionVNCArtifactReferenceTest"/>
+            <class name="com.qaprosoft.zafira.api.projectIntegrations.TestFailedSessionStartTest"/>
         </classes>
     </test>
     <test name="Service Metadata Controller Test">

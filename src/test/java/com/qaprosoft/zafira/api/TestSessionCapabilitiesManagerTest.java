@@ -139,52 +139,6 @@ public class TestSessionCapabilitiesManagerTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(sessionIdAct, actualName, "Name is not as expected!");
     }
 
-    @Test(enabled = false)
-    public void testCheckSessionNameWithNameInDesiredAndEmptyActualCapability() {
-        testRunId = new TestRunServiceAPIImplV1().start();
-        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
-        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
-        postSessionV1Method.setRequestTemplate(PATH_FOR_START_WITH_CAPABILITIES);
-
-        postSessionV1Method.addProperty(JSONConstant.DESIRED_CAPS_NAME, ConstantName.NAME_IN_DESIRED_CAPABILITY);
-        postSessionV1Method.addProperty(JSONConstant.ACTUAL_CAPS_NAME, ConstantName.EMPTY_NAME_IN_ACTUAL_CAPABILITY);
-
-        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.BAD_REQUEST);
-        String rs = apiExecutor.callApiMethod(postSessionV1Method);
-        apiExecutor.validateResponse(postSessionV1Method, JSONCompareMode.STRICT,
-                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-        String actualName = capabilitiesManagerService.getTestsInSessionsName(testRunId, testSessionId);
-        Assert.assertEquals(ConstantName.NAME_IN_DESIRED_CAPABILITY, actualName,
-                "Name is not as expected!");
-    }
-
-    @Test(enabled = false)
-    public void testCheckSessionNameWithEmptyNameInActualCapability() {
-        testRunId = new TestRunServiceAPIImplV1().start();
-        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
-        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
-        postSessionV1Method.setRequestTemplate(PATH_FOR_START_WITH_CAPABILITIES);
-
-        postSessionV1Method.addProperty(JSONConstant.ACTUAL_CAPS_NAME, ConstantName.EMPTY_NAME_IN_ACTUAL_CAPABILITY);
-
-        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.BAD_REQUEST);
-        apiExecutor.callApiMethod(postSessionV1Method);
-    }
-
-    @Test(enabled = false)
-    public void testCheckSessionNameWithEmptyNameInDesiredCapability() {
-        testRunId = new TestRunServiceAPIImplV1().start();
-        List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
-        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
-        postSessionV1Method.setRequestTemplate(PATH_FOR_START_WITH_CAPABILITIES);
-
-        postSessionV1Method.addProperty(JSONConstant.DESIRED_CAPS_NAME, ConstantName.EMPTY_NAME_IN_DESIRED_CAPABILITY);
-
-        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.BAD_REQUEST);
-        apiExecutor.callApiMethod(postSessionV1Method);
-    }
-
     /**
      * BROWSER_NAME_EXTRACTORS
      */

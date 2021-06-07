@@ -1,6 +1,8 @@
 {
   <#if sessionId??>"sessionId": "${sessionId}",</#if>
   <#if startedAt??>"startedAt": "${startedAt}",</#if>
+  <#if status??>"status": "${status}",</#if>
+  <#if initiatedAt??>"initiatedAt": "${initiatedAt}",</#if>
   "capabilities": {
     <#if browserNameAct??> "browserName": "${browserNameAct}",</#if>
     <#if browserVersionAct??> "browserVersion": "${browserVersionAct}",</#if>

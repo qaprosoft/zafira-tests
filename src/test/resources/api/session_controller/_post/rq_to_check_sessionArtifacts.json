@@ -1,6 +1,7 @@
 {
   <#if sessionId??>"sessionId": "${sessionId}",</#if>
   <#if startedAt??>"startedAt": "${startedAt}",</#if>
+  <#if status??>"status": "${status}",</#if>
   "capabilities": {
     <#if metadataLinkAct??>  "metadataLink": "${metadataLinkAct}",</#if>
     <#if logLinkAct??> "logLink": "${logLinkAct}",</#if>

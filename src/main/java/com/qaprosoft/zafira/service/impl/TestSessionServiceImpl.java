@@ -1,7 +1,9 @@
 package com.qaprosoft.zafira.service.impl;
 
+import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.testSessionController.GetSessionByTestRunIdAndTestIdV1Method;
 import com.qaprosoft.zafira.api.testSessionController.GetSessionByTestRunIdV1Method;
+import com.qaprosoft.zafira.constant.ConfigConstant;
 import io.restassured.path.json.JsonPath;
 import com.qaprosoft.zafira.api.testSessionController.PostSessionV1Method;
 import com.qaprosoft.zafira.api.testSessionController.PutSessionV1Method;
@@ -10,6 +12,9 @@ import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.TestSessionService;
 import org.apache.log4j.Logger;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -33,8 +38,37 @@ public class TestSessionServiceImpl implements TestSessionService {
     }
 
     @Override
+    public int startFailedSession(int testRunId, int testId) {
+        List<Integer> testIds = new ArrayList();
+        testIds.add(testId);
+
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        postSessionV1Method.setRequestTemplate(R.TESTDATA.get(ConfigConstant.RQ_PATH_TO_CHECK_FAILED_SESSION));
+        postSessionV1Method.setResponseTemplate(R.TESTDATA.get(ConfigConstant.RS_PATH_TO_CHECK_FAILED_SESSION));
+        postSessionV1Method.addProperty("status", "FAILED");
+        postSessionV1Method.addProperty("initiatedAt", OffsetDateTime.now(ZoneOffset.UTC).minusSeconds(3)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+        ;
+
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String response = apiExecutor.callApiMethod(postSessionV1Method);
+        return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
+    }
+
+    @Override
     public int create(int testRunId, List testIds) {
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String response = apiExecutor.callApiMethod(postSessionV1Method);
+        return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
+    }
+
+    /*  Agent version before 1.6 (without "status" in body request)  */
+
+    @Override
+    public int startWithoutStatus(int testRunId, List testIds) {
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        postSessionV1Method.removeProperty("status");
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(postSessionV1Method);
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
