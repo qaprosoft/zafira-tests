@@ -1,6 +1,7 @@
 {
   <#if sessionId??>"sessionId": "${sessionId}",</#if>
   <#if startedAt??>"startedAt": "${startedAt}",</#if>
+  <#if status??>"status": "${status}",</#if>
   <#if capabilities??> "capabilities": <#include "*/session_controller/capabilities.json">, </#if>
   <#if desiredCapabilities??> "desiredCapabilities": <#include "*/session_controller/desireCapabilities.json">,</#if>
   "testIds": ${testId}

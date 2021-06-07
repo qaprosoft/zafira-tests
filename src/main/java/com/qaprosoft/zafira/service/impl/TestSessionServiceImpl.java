@@ -45,9 +45,10 @@ public class TestSessionServiceImpl implements TestSessionService {
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         postSessionV1Method.setRequestTemplate(R.TESTDATA.get(ConfigConstant.RQ_PATH_TO_CHECK_FAILED_SESSION));
         postSessionV1Method.setResponseTemplate(R.TESTDATA.get(ConfigConstant.RS_PATH_TO_CHECK_FAILED_SESSION));
-        postSessionV1Method.addProperty("status","FAILED");
+        postSessionV1Method.addProperty("status", "FAILED");
         postSessionV1Method.addProperty("initiatedAt", OffsetDateTime.now(ZoneOffset.UTC).minusSeconds(3)
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")) );;
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+        ;
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(postSessionV1Method);
@@ -57,6 +58,17 @@ public class TestSessionServiceImpl implements TestSessionService {
     @Override
     public int create(int testRunId, List testIds) {
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
+        String response = apiExecutor.callApiMethod(postSessionV1Method);
+        return JsonPath.from(response).getInt(JSONConstant.ID_KEY);
+    }
+
+    /*  Agent version before 1.6 (without "status" in body request)  */
+
+    @Override
+    public int startWithoutStatus(int testRunId, List testIds) {
+        PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
+        postSessionV1Method.removeProperty("status");
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String response = apiExecutor.callApiMethod(postSessionV1Method);
         return JsonPath.from(response).getInt(JSONConstant.ID_KEY);

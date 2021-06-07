@@ -1,6 +1,7 @@
 {
   <#if sessionId??>"sessionId": "${sessionId}",</#if>
   <#if startedAt??>"startedAt": "${startedAt}",</#if>
+  <#if status??>"status": "${status}",</#if>
   "capabilities": {
       <#if enableVNC??> "enableVNC": ${enableVNC}, </#if>
       <#if vncLinkAct??> "vncLink": "${vncLinkAct}",</#if>

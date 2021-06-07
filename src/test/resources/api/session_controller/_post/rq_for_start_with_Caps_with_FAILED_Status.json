@@ -1,0 +1,14 @@
+{
+  "status": "FAILED",
+  <#if initiatedAt??>"initiatedAt": "${initiatedAt}",</#if>
+    "desiredCapabilities": {
+     <#if browserNameDes??> "browserName": "${browserNameDes}",</#if>
+     <#if browserVersionDes??> "browserVersion": "${browserVersionDes}",</#if>
+     <#if nameDes??> "name": "${nameDes}",</#if>
+     <#if sessionNameDes??> "sessionName": "${sessionNameDes}",</#if>
+     <#if platformNameDes??>: "${platformNameDes}", </#if>
+     <#if versionDes??> "version": "${versionDes}",</#if>
+     "proxy": {}
+},
+  "testIds": ${testId}
+}

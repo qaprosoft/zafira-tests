@@ -5,6 +5,6 @@
   "sessionId": "type:String",
   "startedAt": "type:String",
   "initiatedAt":"type:String",
-  "status":"type:String",
+  "status":"RUNNING",
   "testIds":"type:JSONArray"
 }

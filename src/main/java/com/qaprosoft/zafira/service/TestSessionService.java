@@ -9,6 +9,8 @@ public interface TestSessionService {
 
     int create(int testRunId, List testIds);
 
+    int startWithoutStatus(int testRunId, List testIds);
+
     void finish(int testRunId, List testIds, int testSessionId);
 
     void finish(int testRunId, int testId, int testSessionId);

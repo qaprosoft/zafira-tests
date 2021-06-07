@@ -1,6 +1,8 @@
 package com.qaprosoft.zafira.api.testSessionController;
 
+import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
+import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.manager.APIContextManager;
 
 import java.time.OffsetDateTime;
@@ -20,5 +22,6 @@ public class PostSessionV1Method extends ZafiraBaseApiMethodWithAuth {
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
         addProperty("testId", testIds);
         addProperty("sessionId", UUID.randomUUID());
+        addProperty("status", R.TESTDATA.get(ConfigConstant.STATUS_RUNNING));
     }
 }

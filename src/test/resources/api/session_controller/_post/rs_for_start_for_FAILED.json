@@ -3,6 +3,6 @@
   "capabilities": "type:JSONObject",
   "desiredCapabilities": "type:JSONObject",
   "initiatedAt":"type:String",
-  "status":"type:String",
+  "status":"FAILED",
   "testIds":"type:JSONArray"
 }
