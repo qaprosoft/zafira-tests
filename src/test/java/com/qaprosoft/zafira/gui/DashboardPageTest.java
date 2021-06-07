@@ -11,7 +11,6 @@ public class DashboardPageTest extends SignIn {
     public void addDashboard() {
 
         DashboardsPage dashboardsPage = navigationMenu.toDashboardPage();
-        dashboardsPage.addDashboard();
         Dashboard dashboard = dashboardsPage.addDashboard();
         dashboard.createDashboard("new dashboard");
         Assert.assertTrue(dashboardsPage.isPageOpened(), "DashboardPage is not opened!");
