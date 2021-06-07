@@ -10,7 +10,7 @@ import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunsPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 
-public class SignInTest extends AbstractTest {
+public class SignIn extends AbstractTest {
 
     private String signInUrl;
     protected NavigationMenu navigationMenu;

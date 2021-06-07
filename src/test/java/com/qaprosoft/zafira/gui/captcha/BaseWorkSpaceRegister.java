@@ -17,7 +17,7 @@ public class BaseWorkSpaceRegister extends AbstractTest {
         StringBuilder tenantBuilder = new StringBuilder(R.TESTDATA.get(WebConstant.TENANT_EMAIL));
         tenantBuilder.insert(tenantBuilder.indexOf("@"), "+" + RandomStringUtils.randomNumeric(1));
         tenantEmail = tenantBuilder.toString();
-        orgName = RandomStringUtils.randomAlphabetic(7);
+        orgName = R.TESTDATA.get(WebConstant.TENANT_NAME);
         ownerName = RandomStringUtils.randomAlphabetic(8);
     }
 }

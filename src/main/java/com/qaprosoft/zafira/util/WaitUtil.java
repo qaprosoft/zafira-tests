@@ -1,6 +1,7 @@
 package com.qaprosoft.zafira.util;
 
 
+import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.zafira.api.artifactsController.GetLogsV1Method;
 import com.qaprosoft.zafira.api.artifactsController.GetScreenshotsV1Method;
 import com.qaprosoft.zafira.api.testRunController.GetTestByTestRunIdMethod;
@@ -12,9 +13,13 @@ import io.restassured.path.json.JsonPath;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Sleeper;
 import org.openqa.selenium.support.ui.Wait;
 
+import java.time.Clock;
 import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -102,6 +107,23 @@ public class WaitUtil {
             throw new RuntimeException(String.format("Artifacts were not found!"));
         }
     }
+
+    public static boolean waitListToLoad(List<?> list, long timeout, long pollingEvery) {
+        Clock clock = Clock.systemDefaultZone();
+        Instant end = clock.instant().plusMillis(timeout);
+        Sleeper sleeper = Sleeper.SYSTEM_SLEEPER;
+        Duration interval = Duration.ofMillis(pollingEvery);
+        while (list.isEmpty() && end.isAfter(clock.instant())) {
+            try {
+                sleeper.sleep(interval);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return !list.isEmpty();
+    }
+
+
 }
 
 
