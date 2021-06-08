@@ -15,7 +15,7 @@ public class DashboardsPage extends AbstractPage {
     private NavigationMenu navigationMenu;
 
     @FindBy(xpath = "//div[@class='dashboards-table ng-scope']")
-    private List<Dashboard> dashboards;
+    private List<ExtendedWebElement> dashboards;
 
     @FindBy(xpath = "//div[@class='fixed-page-header-container']//div[contains(text(),'Dashboards')]")
     private ExtendedWebElement sectionHeader;
@@ -24,7 +24,7 @@ public class DashboardsPage extends AbstractPage {
     private ExtendedWebElement addDashboardButton;
 
     @FindBy(xpath = "//form[@name='dashboard_form']")
-    private Dashboard newDashboardForm;
+    private ExtendedWebElement newDashboardForm;
 
     @FindBy(xpath = "//*[@id='input_12']")
     private ExtendedWebElement search;
@@ -52,7 +52,7 @@ public class DashboardsPage extends AbstractPage {
         return new Dashboard(getDriver());
     }
 
-    public List<Dashboard> getAllDashboard() {
+    public List<ExtendedWebElement> getAllDashboard() {
         return dashboards;
     }
     public boolean isSubmitButtonActive(){
