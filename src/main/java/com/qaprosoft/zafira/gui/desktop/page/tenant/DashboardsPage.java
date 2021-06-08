@@ -7,9 +7,11 @@ import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
 import org.apache.tools.ant.taskdefs.Sleep;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Sleeper;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class DashboardsPage extends AbstractPage {
 
@@ -50,13 +52,15 @@ public class DashboardsPage extends AbstractPage {
     public Dashboard addDashboard(String dashboardName) {
         addDashboardButton.click();
         dashboardNameInput.type(dashboardName);
+        submitButton.pause(1);
         submitButton.click();
         return new Dashboard(getDriver());
-    }
+}
 
-    public List<ExtendedWebElement> getAllDashboard() throws InterruptedException {
-        navigationMenu.toDashboardPage().refresh();
-       Thread.sleep(5000);
+    public List<ExtendedWebElement> getAllDashboards() {
+        pause(3);
+        this.refresh();
+        pause(3);
         return dashboards;
     }
     public boolean isSubmitButtonActive(){
