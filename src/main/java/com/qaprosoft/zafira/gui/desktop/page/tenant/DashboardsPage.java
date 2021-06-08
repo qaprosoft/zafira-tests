@@ -4,8 +4,10 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
+import org.apache.tools.ant.taskdefs.Sleep;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Sleeper;
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ public class DashboardsPage extends AbstractPage {
     @FindBy(id = "nav")
     private NavigationMenu navigationMenu;
 
-    @FindBy(xpath = "//div[@class='dashboards-table ng-scope']")
+    @FindBy(xpath = "//a[@name='dashboardName']")
     private List<ExtendedWebElement> dashboards;
 
     @FindBy(xpath = "//div[@class='fixed-page-header-container']//div[contains(text(),'Dashboards')]")
@@ -52,7 +54,9 @@ public class DashboardsPage extends AbstractPage {
         return new Dashboard(getDriver());
     }
 
-    public List<ExtendedWebElement> getAllDashboard() {
+    public List<ExtendedWebElement> getAllDashboard() throws InterruptedException {
+        navigationMenu.toDashboardPage().refresh();
+       Thread.sleep(5000);
         return dashboards;
     }
     public boolean isSubmitButtonActive(){
