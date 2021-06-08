@@ -1,5 +1,5 @@
 reporting:
-  enabled: true
+  enabled: false
   project-key: ZEB
   server:
     hostname: https://automation.qaprosoft.farm
