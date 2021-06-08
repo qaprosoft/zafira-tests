@@ -3,7 +3,6 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.qaprosoft.carina.core.gui.AbstractPage;
-import com.qaprosoft.zafira.gui.desktop.component.Dashboard;
 import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -30,6 +29,12 @@ public class DashboardsPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='input_12']")
     private ExtendedWebElement search;
 
+    @FindBy(xpath = "//input[@name='title']")
+    private ExtendedWebElement dashboardNameInput;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private ExtendedWebElement submitButton;
+
     public DashboardsPage(WebDriver driver) {
         super(driver);
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
@@ -40,8 +45,17 @@ public class DashboardsPage extends AbstractPage {
         return navigationMenu;
     }
 
-    public Dashboard addDashboard() {
+    public Dashboard addDashboard(String dashboardName) {
         addDashboardButton.click();
-        return newDashboardForm;
+        dashboardNameInput.type(dashboardName);
+        submitButton.click();
+        return new Dashboard(getDriver());
+    }
+
+    public List<Dashboard> getAllDashboard() {
+        return dashboards;
+    }
+    public boolean isSubmitButtonActive(){
+        return submitButton.isClickable(5);
     }
 }
