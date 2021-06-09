@@ -1,5 +1,11 @@
 {
-  "items": [
+  "sortBy": "type:String",
+  "sortOrder": "type:String",
+  "page": "regex:[\\d]",
+  "pageSize": "regex:[\\d]",
+  "totalPages": "regex:[\\d]",
+  "totalResults": "regex:[\\d]",
+  "results": [
     {
       "id": "regex:[\\d]",
       "name": "type:String",
