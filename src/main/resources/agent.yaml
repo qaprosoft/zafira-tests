@@ -2,8 +2,8 @@ reporting:
   enabled: true
   project-key: ZEB
   server:
-    hostname: https://automation.qaprosoft.farm
-    access-token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwicGFzc3dvcmQiOiJmVllBK2o4SmpXUmVGRVVkajc1OU43TjZBQm1LYkkyNCIsInRlbmFudCI6ImF1dG9tYXRpb24iLCJpc3MiOiJpYW0iLCJleHAiOjM3NTQ4MTMxODh9.lasxeDXajHiNkfnmf5_mBVwoTud3Rx0162t0kAVOy5vZfsOb1UODkSlgkmaUHNg3NcQVvHPo-F0PLuaal_59Aw
+    hostname: https://automation1.zebrunner.org
+    access-token: eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWKi5NUrJSMlLSUSpILC4uzy9KAXKzqowDI5MTI8oMXKvKPUKNDKt80lzTioL0y_NDTPyMM4GqS1LzEvNKgGoTS0vycxNLMvPzDIHCmcXFQLHMxFwgO7WiQMnK2NzcwNDQwNzQoBYAEdXqvG0AAAA.Jeyz0xqfW2UV3qIhNL7R38Q6gjNSqSgL8VH4nKo8Rr520TtoDg2LWMkeZ_pLq0TMceackNlwOWuO7h83VqWqhA
   run:
     display-name: API Integration Tests
     build: 1.23.0.571-SNAPSHOT
