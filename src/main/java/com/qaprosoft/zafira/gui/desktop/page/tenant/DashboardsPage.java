@@ -1,19 +1,21 @@
 package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
+import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.qaprosoft.carina.core.gui.AbstractPage;
+import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
-import org.apache.tools.ant.taskdefs.Sleep;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Sleeper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class DashboardsPage extends AbstractPage {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @FindBy(id = "nav")
     private NavigationMenu navigationMenu;
@@ -52,18 +54,20 @@ public class DashboardsPage extends AbstractPage {
     public Dashboard addDashboard(String dashboardName) {
         addDashboardButton.click();
         dashboardNameInput.type(dashboardName);
-        submitButton.pause(1);
+        submitButton.pause(R.TESTDATA.getInt(ConfigConstant.TIME_TO_LOAD_PAGE));
         submitButton.click();
+        LOGGER.info("Dashboard with name " + dashboardName + " was created!");
         return new Dashboard(getDriver());
-}
+    }
 
     public List<ExtendedWebElement> getAllDashboards() {
-        pause(3);
+        pause(R.TESTDATA.getInt(ConfigConstant.TIME_TO_LOAD_PAGE));
         this.refresh();
-        pause(3);
+        pause(R.TESTDATA.getInt(ConfigConstant.TIME_TO_LOAD_PAGE) + 5);
         return dashboards;
     }
-    public boolean isSubmitButtonActive(){
+
+    public boolean isSubmitButtonActive() {
         return submitButton.isClickable(5);
     }
 }
