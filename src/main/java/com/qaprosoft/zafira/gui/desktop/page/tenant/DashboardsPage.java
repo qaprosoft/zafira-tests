@@ -32,7 +32,7 @@ public class DashboardsPage extends AbstractPage {
     @FindBy(xpath = "//form[@name='dashboard_form']")
     private ExtendedWebElement newDashboardForm;
 
-    @FindBy(xpath = "//*[@id='input_12']")
+    @FindBy(xpath = "//input[@type='text']")
     private ExtendedWebElement search;
 
     @FindBy(xpath = "//input[@name='title']")
@@ -40,6 +40,13 @@ public class DashboardsPage extends AbstractPage {
 
     @FindBy(xpath = "//button[@type='submit']")
     private ExtendedWebElement submitButton;
+
+    @FindBy(xpath = "//div[@class='dashboards-table__col _delete']//md-icon[@class='material-icons icon ng-scope']")
+    private ExtendedWebElement deleteButton;
+
+    @FindBy(xpath = "//*[@id=\"delete\"]")
+    private ExtendedWebElement deleteButtonOnPopup;
+
 
     public DashboardsPage(WebDriver driver) {
         super(driver);
@@ -57,6 +64,20 @@ public class DashboardsPage extends AbstractPage {
         submitButton.pause(R.TESTDATA.getInt(ConfigConstant.TIME_TO_LOAD_PAGE));
         submitButton.click();
         LOGGER.info("Dashboard with name " + dashboardName + " was created!");
+        return new Dashboard(getDriver());
+    }
+
+    public List<ExtendedWebElement> searchDashboard(String dashboardName) {
+        search.type(dashboardName);
+        LOGGER.info("Dashboard with name " + dashboardName + " was found!");
+        pause(R.TESTDATA.getInt(ConfigConstant.TIME_TO_LOAD_PAGE));
+        return dashboards;
+    }
+
+    public Dashboard deleteDashboard(String dashboardName) {
+        deleteButton.click(R.TESTDATA.getInt(ConfigConstant.TIME_TO_LOAD_PAGE));
+        deleteButtonOnPopup.click();
+        LOGGER.info("Dashboard with name " + dashboardName + " was deleted!");
         return new Dashboard(getDriver());
     }
 
