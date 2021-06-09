@@ -8,7 +8,6 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterGroups;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
@@ -19,7 +18,7 @@ public class DashboardPageTest extends SignIn {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static String title;
 
-    @AfterGroups("add-edit-search")
+    @AfterMethod(onlyForGroups = "add-edit-search")
     public void deleteExistingDashboard() {
         DashboardsPage dashboardsPage = navigationMenu.toDashboardPage();
         dashboardsPage.searchDashboard(title);

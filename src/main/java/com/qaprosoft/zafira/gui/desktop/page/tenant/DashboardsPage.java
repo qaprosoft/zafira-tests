@@ -82,7 +82,7 @@ public class DashboardsPage extends AbstractPage {
     }
 
     public List<ExtendedWebElement> getAllDashboards() {
-        pause(R.TESTDATA.getInt(ConfigConstant.TIME_TO_LOAD_PAGE));
+        pause(R.TESTDATA.getInt(ConfigConstant.TIME_TO_LOAD_PAGE) + 3);
         this.refresh();
         pause(R.TESTDATA.getInt(ConfigConstant.TIME_TO_LOAD_PAGE) + 5);
         return dashboards;
