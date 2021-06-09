@@ -65,7 +65,7 @@ public class MilestoneServiceImpl implements MilestoneService {
                 new GetMilestonesByProjectIdMethod(projectId);
         apiExecutor.expectStatus(getMilestonesByProjectIdMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(getMilestonesByProjectIdMethod);
-        List<Integer> milestoneIds = JsonPath.from(rs).getList(JSONConstant.ITEMS_ID);
+        List<Integer> milestoneIds = JsonPath.from(rs).getList(JSONConstant.RESULT_ID_KEY);
         LOGGER.info("Actual milestone ids:  " + milestoneIds);
         return milestoneIds;
     }
