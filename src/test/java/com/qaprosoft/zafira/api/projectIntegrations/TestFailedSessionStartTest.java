@@ -67,15 +67,15 @@ public class TestFailedSessionStartTest extends ZafiraAPIBaseTest {
         testIds.sort(Comparator.naturalOrder());
         Assert.assertEquals(actualTestIds, testIds,
                 "The number of tests is not as expected!");
-//        Assert.assertTrue(new TestSessionServiceImpl()
-//                .getSessionsByTestRunId(testRunId)
-//                .contains(sessionId));
-//        List<Integer> actualTestIdsList = new TestSessionServiceImpl()
-//               .getTestsInSessionsByTestRunId(testRunId);
-//       actualTestIdsList.sort(Comparator.naturalOrder());
-//        LOGGER.info("Actual testIds in test session " + actualTestIdsList.toString());
-//        Assert.assertEquals(testIds, actualTestIdsList,
-//                "The number of tests is not as expected!");
+        Assert.assertTrue(new TestSessionServiceImpl()
+                .getSessionsByTestRunId(testRunId)
+                .contains(sessionId));
+        List<Integer> actualTestIdsList = new TestSessionServiceImpl()
+               .getTestsInSessionsByTestRunId(testRunId);
+       actualTestIdsList.sort(Comparator.naturalOrder());
+        LOGGER.info("Actual testIds in test session " + actualTestIdsList.toString());
+        Assert.assertEquals(testIds, actualTestIdsList,
+                "The number of tests is not as expected!");
     }
 
     @Test
@@ -104,8 +104,8 @@ public class TestFailedSessionStartTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
 
-//        int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
-//        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsBrowserName(testRunId, testSessionId);
-//        Assert.assertEquals(actualBrowseName, ConstantName.BROWSER_NAME_IN_DESIRED_CAPABILITY, "Name is not as expected!");
+        int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
+        String actualBrowseName = capabilitiesManagerService.getTestsInSessionsBrowserName(testRunId, testSessionId);
+        Assert.assertEquals(actualBrowseName, ConstantName.BROWSER_NAME_IN_DESIRED_CAPABILITY, "Name is not as expected!");
     }
 }
