@@ -125,7 +125,7 @@ public class MilestoneControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(getMilestonesByProjectIdMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getMilestonesByProjectIdMethod);
         apiExecutor.validateResponse(getMilestonesByProjectIdMethod, JSONCompareMode.STRICT,
-                JsonCompareKeywords.ARRAY_CONTAINS.getKey() + "items");
+                JsonCompareKeywords.ARRAY_CONTAINS.getKey() + "results");
     }
 
     @Test(groups = {"negative"})
