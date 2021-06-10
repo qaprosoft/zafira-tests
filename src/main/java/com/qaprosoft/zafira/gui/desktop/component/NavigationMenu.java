@@ -20,6 +20,9 @@ public class NavigationMenu extends AbstractUIObject {
     @FindBy(xpath = "//li[contains(@class,'nav-item users')]")
     private ExtendedWebElement membersButton;
 
+    @FindBy(className = "project__selected ng-binding")
+    private ExtendedWebElement projectKey;
+
     public NavigationMenu(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
@@ -39,5 +42,9 @@ public class NavigationMenu extends AbstractUIObject {
 
     public void toMembersPage(){
         membersButton.click();
+    }
+
+    public String getProjectKey(){
+        return projectKey.getText();
     }
 }

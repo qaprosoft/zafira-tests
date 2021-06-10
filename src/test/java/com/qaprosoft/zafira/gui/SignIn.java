@@ -28,7 +28,7 @@ public class SignIn extends AbstractTest {
                 " because of empty input fields");
         TestRunsPage testRunsPage = loginPage.login(R.TESTDATA.get(WebConstant.USER_LOGIN), R.TESTDATA.get(WebConstant.USER_PASSWORD));
         testRunsPage.assertPageOpened();
+        Assert.assertEquals(navigationMenu.getProjectKey(),"DEF", "Actual project key differs from defaults");
         navigationMenu = testRunsPage.getNavigationMenu();
     }
-
 }
