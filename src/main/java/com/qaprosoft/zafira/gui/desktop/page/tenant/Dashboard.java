@@ -1,10 +1,8 @@
 package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
-import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.qaprosoft.carina.core.gui.AbstractPage;
-import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
 import org.openqa.selenium.WebDriver;
@@ -42,7 +40,7 @@ public class Dashboard extends AbstractPage {
         super(driver);
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
         setUiLoadedMarker(newWidgetButton);
-        pause(R.TESTDATA.getInt(ConfigConstant.TIME_TO_LOAD_PAGE));
+        pause(WebConstant.TIME_TO_LOAD_PAGE);
     }
 
     public void editDashboard(String newDashboardName) {
