@@ -15,9 +15,14 @@
     <parameter name="jenkinsJobExecutionMode" value="continue"/>
     <parameter name="jenkinsAutoScreenshot" value="true"/>
 
-    <test name="GSM arena web tests">
+    <test name="WorkSpaceRegister tests">
         <classes>
             <class name="com.qaprosoft.zafira.gui.captcha.WorkSpaceRegister" />
+        </classes>
+    </test>
+    <test name="Dashboards tests">
+        <classes>
+            <class name="com.qaprosoft.zafira.gui.DashboardPageTest" />
         </classes>
     </test>
 

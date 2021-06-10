@@ -5,6 +5,7 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.zafira.constant.ConfigConstant;
+import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -52,7 +53,7 @@ public class Dashboard extends AbstractPage {
     }
 
     public String getTitle() {
-        pause(5);
+        pause(WebConstant.TIME_TO_LOAD_PAGE + 3);
         return dashboardTitle.getText();
     }
 

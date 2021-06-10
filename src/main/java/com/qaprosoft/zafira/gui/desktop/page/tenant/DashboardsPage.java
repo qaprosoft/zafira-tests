@@ -1,10 +1,9 @@
 package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
-import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.qaprosoft.carina.core.gui.AbstractPage;
-import com.qaprosoft.zafira.constant.ConfigConstant;
+import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -61,7 +60,7 @@ public class DashboardsPage extends AbstractPage {
     public Dashboard addDashboard(String dashboardName) {
         addDashboardButton.click();
         dashboardNameInput.type(dashboardName);
-        submitButton.pause(R.TESTDATA.getInt(ConfigConstant.TIME_TO_LOAD_PAGE));
+        submitButton.pause(WebConstant.TIME_TO_LOAD_PAGE);
         submitButton.click();
         LOGGER.info("Dashboard with name " + dashboardName + " was created!");
         return new Dashboard(getDriver());
@@ -70,21 +69,21 @@ public class DashboardsPage extends AbstractPage {
     public List<ExtendedWebElement> searchDashboard(String dashboardName) {
         search.type(dashboardName);
         LOGGER.info("Dashboard with name " + dashboardName + " was found!");
-        pause(R.TESTDATA.getInt(ConfigConstant.TIME_TO_LOAD_PAGE));
+        pause(WebConstant.TIME_TO_LOAD_PAGE);
         return dashboards;
     }
 
     public Dashboard deleteDashboard(String dashboardName) {
-        deleteButton.click(R.TESTDATA.getInt(ConfigConstant.TIME_TO_LOAD_PAGE));
+        deleteButton.click(WebConstant.TIME_TO_LOAD_PAGE);
         deleteButtonOnPopup.click();
         LOGGER.info("Dashboard with name " + dashboardName + " was deleted!");
         return new Dashboard(getDriver());
     }
 
     public List<ExtendedWebElement> getAllDashboards() {
-        pause(R.TESTDATA.getInt(ConfigConstant.TIME_TO_LOAD_PAGE) + 3);
+        pause(WebConstant.TIME_TO_LOAD_PAGE + 3);
         this.refresh();
-        pause(R.TESTDATA.getInt(ConfigConstant.TIME_TO_LOAD_PAGE) + 5);
+        pause(WebConstant.TIME_TO_LOAD_PAGE + 5);
         return dashboards;
     }
 
