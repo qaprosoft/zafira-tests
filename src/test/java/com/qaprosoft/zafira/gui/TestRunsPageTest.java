@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.gui;
 
+import com.qaprosoft.zafira.gui.desktop.component.TestRunCard;
 import com.qaprosoft.zafira.gui.desktop.component.TestRunsLauncher;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunResultPage;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunsPage;
@@ -24,6 +25,18 @@ public class TestRunsPageTest extends SignIn {
     }
 
     @Test
+    public void checkElementOnTestRunsPage(){
+        TestRunsPage testRunsPage = navigationMenu.toTestRunsPage();
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(testRunsPage.isSearchFieldPresent());
+        softAssert.assertTrue(testRunsPage.isBrowserFilterButtonPresent());
+        softAssert.assertTrue(testRunsPage.isFilterMoreButtonPresent());
+        softAssert.assertTrue(testRunsPage.isPlatformFilterButtonPresent());
+        softAssert.assertTrue(testRunsPage.isShowAllSavedFiltersButtonPresent());
+        softAssert.assertAll();
+    }
+
+    @Test
     public void apiJobRun() {
         TestRunsPage testRunsPage = navigationMenu.toTestRunsPage();
         TestRunsLauncher testRunsLauncher = testRunsPage.openLauncherWindow();
@@ -33,9 +46,19 @@ public class TestRunsPageTest extends SignIn {
         Assert.assertTrue(testRunsPage.isTestLaunched(apiSuite),
                 "Suite wasn't launched or launch card didn't appear");
 
+        TestRunCard apiRunCard = testRunsPage.getTestRunCard(apiRunName, 90);
+        SoftAssert softAssert = new SoftAssert();
         final String expectedResult = "Passed 4, Failure 0 | 0, Skipped 0";
-        Assert.assertEquals(testRunsPage.getTestRunResult(apiRunName, 90), expectedResult,
+        softAssert.assertEquals(apiRunCard.getRunResult(), expectedResult,
                 "Test run result differ expected");
+        softAssert.assertTrue(apiRunCard.isApiTest(), "Can't find info about api");
+        final String expectedJobName = "launcher";
+        softAssert.assertEquals(apiRunCard.getJobName(), expectedJobName, "message?");
+        final String defaultAgoValue = "Started";
+        softAssert.assertTrue(apiRunCard.getHowLongAgoStarted().contains(defaultAgoValue));
+        softAssert.assertTrue(apiRunCard.isTestSettingsButtonPresent());
+        softAssert.assertTrue(apiRunCard.isCheckBoxActive());
+        softAssert.assertAll();
     }
 
     @Test
@@ -48,13 +71,23 @@ public class TestRunsPageTest extends SignIn {
         Assert.assertTrue(testRunsPage.isTestLaunched(webSuite),
                 "Suite wasn't launched or launch card didn't appear");
 
+        TestRunCard webRunCard = testRunsPage.getTestRunCard(webRunName, 100);
+        SoftAssert softAssert = new SoftAssert();
         final String expectedResult = "Passed 0, Failure 3 | 0, Skipped 0";
-        Assert.assertEquals(testRunsPage.getTestRunResult(webRunName, 100), expectedResult,
+        softAssert.assertEquals(webRunCard.getRunResult(), expectedResult,
                 "Test run result differ expected");
+        softAssert.assertTrue(webRunCard.isWebChromeTest(), "Can't find info about browser and version");
+        final String expectedJobName = "launcher";
+        softAssert.assertEquals(webRunCard.getJobName(), expectedJobName);
+        final String defaultAgoValue = "Started";
+        softAssert.assertTrue(webRunCard.getHowLongAgoStarted().contains(defaultAgoValue));
+        softAssert.assertTrue(webRunCard.isTestSettingsButtonPresent());
+        softAssert.assertTrue(webRunCard.isCheckBoxActive());
+        softAssert.assertAll();
     }
 
     @Test(dependsOnMethods = "webJobRun")
-    public void webTestRunPage() {
+    public void webRunTestVerificationOfResultPage() {
         TestRunsPage testRunsPage = navigationMenu.toTestRunsPage();
         testRunsPage.assertPageOpened();
         TestRunResultPage resultPage = testRunsPage.toTestRunResultPage(webRunName);

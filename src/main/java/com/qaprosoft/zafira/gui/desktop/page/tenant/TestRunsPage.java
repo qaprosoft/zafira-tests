@@ -8,6 +8,7 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Sleeper;
+import org.testng.Assert;
 
 import java.time.Clock;
 import java.time.Duration;
@@ -44,6 +45,21 @@ public class TestRunsPage extends AbstractPage {
 
     @FindBy(xpath = "//div[contains(@class,'test-runs__bulk')]//div[@class='md-container md-ink-ripple']")
     private ExtendedWebElement bulkCheckBox;
+
+    @FindBy(xpath = "//input[contains(@class,'runs-filter')]")
+    private ExtendedWebElement searchField;
+
+    @FindBy(xpath = "//md-select[@name='browser']")
+    private ExtendedWebElement browserFilterButton;
+
+    @FindBy(xpath = "//md-select[@name='platform']")
+    private ExtendedWebElement platformFilterButton;
+
+    @FindBy(xpath = "//button[contains(@class,'more-button')]")
+    private ExtendedWebElement filterMoreButton;
+
+    @FindBy(xpath = "//a[text()='Show all saved filters']")
+    private ExtendedWebElement showAllSavedFiltersButton;
 
     public TestRunsPage(WebDriver driver) {
         super(driver);
@@ -86,11 +102,11 @@ public class TestRunsPage extends AbstractPage {
         }
     }
 
-    public String getTestRunResult(String suiteName) {
-        return getTestRunResult(suiteName, 60);
+    public TestRunCard getTestRunCard(String suiteName) {
+        return getTestRunCard(suiteName, 60);
     }
 
-    public String getTestRunResult(String suiteName, long testRunWaitTime) {
+    public TestRunCard getTestRunCard(String suiteName, long testRunWaitTime) {
         Clock clock = Clock.systemDefaultZone();
         Instant end = clock.instant().plusSeconds(testRunWaitTime);
         Sleeper sleeper = Sleeper.SYSTEM_SLEEPER;
@@ -98,7 +114,7 @@ public class TestRunsPage extends AbstractPage {
         while (end.isAfter(clock.instant())) {
             for (TestRunCard card : testRunCards) {
                 if (card.getTitle().toLowerCase().contains(suiteName.toLowerCase()) && card.isTestComplete()) {
-                    return card.getRunResult();
+                    return card;
                 }
             }
             try {
@@ -108,7 +124,8 @@ public class TestRunsPage extends AbstractPage {
                 e.printStackTrace();
             }
         }
-        return "no result";
+        Assert.fail("Can't find test run with name: " + suiteName);
+        return null;
     }
 
     public TestRunResultPage toTestRunResultPage(String testRunName) {
@@ -117,7 +134,27 @@ public class TestRunsPage extends AbstractPage {
                 return card.toTestRunResultPage();
             }
         }
+        Assert.fail("Can't find such test run");
+        return null;
+    }
 
-        throw new RuntimeException("Can't find such test run");
+    public boolean isSearchFieldPresent() {
+        return searchField.isPresent();
+    }
+
+    public boolean isShowAllSavedFiltersButtonPresent() {
+        return showAllSavedFiltersButton.isVisible() && showAllSavedFiltersButton.isClickable();
+    }
+
+    public boolean isFilterMoreButtonPresent() {
+        return filterMoreButton.isVisible() && filterMoreButton.isClickable();
+    }
+
+    public boolean isBrowserFilterButtonPresent() {
+        return browserFilterButton.isVisible() && browserFilterButton.isClickable();
+    }
+
+    public boolean isPlatformFilterButtonPresent() {
+        return platformFilterButton.isVisible() && platformFilterButton.isClickable();
     }
 }

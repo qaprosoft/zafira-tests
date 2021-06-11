@@ -32,6 +32,18 @@ public class TestRunCard extends TestRunCardBase {
     @FindBy(xpath = "//span[@class='label label-default ng-binding ng-scope']")
     private ExtendedWebElement browserVersion;
 
+    @FindBy(xpath = "//span[@class='platform-icon api']")
+    private ExtendedWebElement apiIcon;
+
+    @FindBy(xpath = "//div[@class='test-run-card__job-name ng-scope']")
+    private ExtendedWebElement zebrunnerJobName;
+
+    @FindBy(xpath = "//div[@class='time']")
+    private ExtendedWebElement startedText;
+
+    @FindBy(xpath = "//button[@name='testRunSetting']")
+    private ExtendedWebElement testSettings;
+
     public TestRunCard(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
@@ -53,5 +65,21 @@ public class TestRunCard extends TestRunCardBase {
 
     public boolean isWebChromeTest(){
         return chromeIcon.isVisible() && browserVersion.isVisible();
+    }
+
+    public boolean isApiTest(){
+        return apiIcon.isVisible();
+    }
+
+    public String getJobName(){
+        return zebrunnerJobName.getText();
+    }
+
+    public String getHowLongAgoStarted(){
+        return startedText.getText();
+    }
+
+    public boolean isTestSettingsButtonPresent(){
+        return testSettings.isVisible() && testSettings.isClickable();
     }
 }

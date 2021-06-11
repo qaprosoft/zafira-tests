@@ -30,4 +30,8 @@ public abstract class TestRunCardBase extends AbstractUIObject {
         }
         return false;
     }
+
+    public boolean isCheckBoxActive(){
+        return checkBox.isClickable() && checkBox.isVisible();
+    }
 }
