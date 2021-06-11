@@ -97,6 +97,7 @@ public class DashboardPageTest extends SignIn {
         dashboard.getTitle();
         Assert.assertEquals( dashboard.getTitle(),"General", "Title is not as expected!");
         dashboard.sendByEmailButton().hover();
+
     //    LOGGER.info(dashboard.sendByEmailButton());
     }
 }

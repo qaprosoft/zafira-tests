@@ -64,7 +64,6 @@ public class Dashboard extends AbstractPage {
     }
 
     public ExtendedWebElement sendByEmailButton() {
-
         return sendByEmailButton;
     }
 }
