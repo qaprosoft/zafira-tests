@@ -420,7 +420,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(ciJobMethod);
     }
 
-    @Test
+    @Test(groups = {"negative"})
     public void testAbortCIJobWithNonexistentCiRunId() {
         testRunId = createTestRun(1);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
@@ -448,6 +448,26 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
+    public void testAttachTestRunToTwoMilestonesMethod() {
+        String projectKey = projectV1Service.getProjectKeyById(projectId);
+        testRunId = testRunServiceAPIImplV1.start(projectKey);
+        testRunServiceAPIImplV1.finishTestRun(testRunId);
+
+        int milestoneId = milestoneService.create(projectId);
+        projectV1TestRunService.attachToMilestone(testRunId, milestoneId, projectId);
+
+        int milestoneId1 = milestoneService.create(projectId);
+        AttachTestRunToMilestoneMethod attachTestRunToMilestoneMethod = new AttachTestRunToMilestoneMethod(testRunId, milestoneId1, projectId);
+        apiExecutor.expectStatus(attachTestRunToMilestoneMethod, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
+
+        int actualMilestoneId = projectV1TestRunService.getAttachedToTestRunMilestoneId(testRunId);
+        milestoneService.delete(projectId, milestoneId);
+        milestoneService.delete(projectId, milestoneId1);
+        Assert.assertEquals(actualMilestoneId, milestoneId1, "Milestone was not attached!");
+    }
+
+    @Test
     public void testAttachTestRunToCompletedMilestoneMethod() {
         String projectKey = projectV1Service.getProjectKeyById(projectId);
         testRunId = testRunServiceAPIImplV1.start(projectKey);
@@ -459,7 +479,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(attachTestRunToMilestoneMethod);
     }
 
-    @Test
+    @Test(groups = {"negative"})
     public void testAttachTestRunToMilestoneMethodWithNonexistentTestRunId() {
         testRunId = testRunServiceAPIImplV1.start(APIContextManager.PROJECT_NAME_KEY);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
@@ -485,7 +505,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         milestoneService.delete(projectId,milestoneId);
     }
 
-    @Test
+    @Test(groups = {"negative"})
     public void testDeAttachTestRunToMilestoneMethodWithoutQueryParams() {
         String projectKey = projectV1Service.getProjectKeyById(projectId);
         testRunId = testRunServiceAPIImplV1.start(projectKey);
@@ -500,7 +520,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(deleteTestRunFromMilestoneMethod);
     }
 
-    @Test
+    @Test(groups = {"negative"})
     public void testDeAttachTestRunToMilestoneMethodWithNonexistentTestRunId() {
         String projectKey = projectV1Service.getProjectKeyById(projectId);
         testRunId = testRunServiceAPIImplV1.start(projectKey);
@@ -530,7 +550,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(actualMilestoneId, anotherMilestoneId, "Test run was not re-attached!");
     }
 
-    @Test
+    @Test(groups = {"negative"})
     public void testDeAttachTestRunToMilestoneMethodWithNonexistentMilestoneId() {
         String projectKey = projectV1Service.getProjectKeyById(projectId);
         testRunId = testRunServiceAPIImplV1.start(projectKey);
