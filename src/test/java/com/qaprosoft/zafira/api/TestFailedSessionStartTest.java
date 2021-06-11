@@ -1,20 +1,17 @@
-package com.qaprosoft.zafira.api.projectIntegrations;
+package com.qaprosoft.zafira.api;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
-import com.qaprosoft.zafira.api.ZafiraAPIBaseTest;
 import com.qaprosoft.zafira.api.testSessionController.PostSessionV1Method;
 import com.qaprosoft.zafira.api.testSessionController.PutSessionV1Method;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.ConstantName;
 import com.qaprosoft.zafira.constant.JSONConstant;
-import com.qaprosoft.zafira.constant.TestRailConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.impl.CapabilitiesManagerServiceImpl;
 import com.qaprosoft.zafira.service.impl.TestRunServiceAPIImplV1;
 import com.qaprosoft.zafira.service.impl.TestServiceV1Impl;
 import com.qaprosoft.zafira.service.impl.TestSessionServiceImpl;
-import com.zebrunner.agent.core.annotation.TestLabel;
 import io.restassured.path.json.JsonPath;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
