@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
 
-public class Dashboard extends AbstractPage {
+public class DashboardPage extends AbstractPage {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @FindBy(id = "pageTitle")
@@ -40,7 +40,7 @@ public class Dashboard extends AbstractPage {
     private ExtendedWebElement sendByEmailButton;
 
 
-    public Dashboard(WebDriver driver) {
+    public DashboardPage(WebDriver driver) {
         super(driver);
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
         setUiLoadedMarker(newWidgetButton);

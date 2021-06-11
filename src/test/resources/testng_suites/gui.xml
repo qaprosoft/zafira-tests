@@ -22,7 +22,7 @@
     </test>
     <test name="Dashboards tests">
         <classes>
-            <class name="com.qaprosoft.zafira.gui.DashboardPageTest" />
+            <class name="com.qaprosoft.zafira.gui.DashboardPagePageTest" />
         </classes>
     </test>
 
