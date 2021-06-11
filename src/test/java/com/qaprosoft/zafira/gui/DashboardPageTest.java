@@ -88,4 +88,15 @@ public class DashboardPageTest extends SignIn {
         Assert.assertFalse(listOfDashboards.toString().contains(title),
                 "Dashboard with name " + title + " was not deleted!");
     }
+
+    @Test
+    public void checkDefaultDashboardGeneral() {
+
+        DashboardsPage dashboardsPage = navigationMenu.toDashboardPage();
+        Dashboard dashboard = dashboardsPage.getGeneralDashboard();
+        dashboard.getTitle();
+        Assert.assertEquals( dashboard.getTitle(),"General", "Title is not as expected!");
+        dashboard.sendByEmailButton().hover();
+    //    LOGGER.info(dashboard.sendByEmailButton());
+    }
 }

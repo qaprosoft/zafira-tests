@@ -36,6 +36,10 @@ public class Dashboard extends AbstractPage {
     @FindBy(id = "nav")
     private NavigationMenu navigationMenu;
 
+    @FindBy(xpath = "//i[@class='material-icons ng-scope']")
+    private ExtendedWebElement sendByEmailButton;
+
+
     public Dashboard(WebDriver driver) {
         super(driver);
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
@@ -57,5 +61,10 @@ public class Dashboard extends AbstractPage {
 
     public NavigationMenu getNavigationMenu() {
         return navigationMenu;
+    }
+
+    public ExtendedWebElement sendByEmailButton() {
+
+        return sendByEmailButton;
     }
 }

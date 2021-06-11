@@ -16,6 +16,7 @@ import java.util.List;
 public class DashboardsPage extends AbstractPage {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+
     @FindBy(id = "nav")
     private NavigationMenu navigationMenu;
 
@@ -46,6 +47,11 @@ public class DashboardsPage extends AbstractPage {
     @FindBy(xpath = "//*[@id=\"delete\"]")
     private ExtendedWebElement deleteButtonOnPopup;
 
+    @FindBy(xpath = "//a[@name='dashboardName' and contains(text(), 'General')]")
+    private ExtendedWebElement generalDashboard;
+
+   @FindBy(xpath = "//a[@name='dashboardName' and contains(text(), 'Personal')]")
+    private ExtendedWebElement personalDashboard;
 
     public DashboardsPage(WebDriver driver) {
         super(driver);
@@ -89,5 +95,22 @@ public class DashboardsPage extends AbstractPage {
 
     public boolean isSubmitButtonActive() {
         return submitButton.isClickable(5);
+    }
+
+//    public boolean isDefaultDashboardPresent(String defaultDashboardName) {
+//        for (ExtendedWebElement dashboard : dashboards) {
+//            if (dashboard.getText().equals(defaultDashboardName) && dashboard.isClickable())
+//                return true;
+//        }
+//        return false;
+//    }
+
+    public Dashboard getGeneralDashboard(){
+        generalDashboard.click();
+        return new Dashboard(getDriver());
+    }
+
+    public ExtendedWebElement getPersonalDashboard(){
+        return personalDashboard;
     }
 }
