@@ -1,14 +1,12 @@
 package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.zafira.gui.desktop.component.*;
 import com.qaprosoft.zafira.util.WaitUtil;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Sleeper;
 
 import java.time.Clock;
@@ -49,7 +47,6 @@ public class TestRunsPage extends AbstractPage {
 
     public TestRunsPage(WebDriver driver) {
         super(driver);
-        setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
         setUiLoadedMarker(sectionHeader);
     }
 
@@ -77,14 +74,14 @@ public class TestRunsPage extends AbstractPage {
     public void deleteAllTestRunCards() {
         while (!noDataField.isVisible(1)) {
             testRunCards.get(0).clickCheckBox();
-            bulkCheckBox.click();
-            if (waitUntil(ExpectedConditions.visibilityOf(bulkDeleteButton.getElement()), 3)) {
-                bulkDeleteButton.click();
-                try {
-                    driver.switchTo().alert().accept();
-                } catch (NoAlertPresentException ex) {
-                    ex.printStackTrace();
-                }
+            if (testRunCards.size() > 1) {
+                bulkCheckBox.click();
+            }
+            bulkDeleteButton.click();
+            try {
+                driver.switchTo().alert().accept();
+            } catch (NoAlertPresentException ex) {
+                ex.printStackTrace();
             }
         }
     }

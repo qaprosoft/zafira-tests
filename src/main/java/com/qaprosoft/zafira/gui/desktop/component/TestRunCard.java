@@ -26,6 +26,12 @@ public class TestRunCard extends TestRunCardBase {
     @FindBy(xpath = "//a[@class='test-run-card__clickable ng-scope']")
     private ExtendedWebElement resultReference;
 
+    @FindBy(xpath = "//span[@class='platform-icon chrome']")
+    private ExtendedWebElement chromeIcon;
+
+    @FindBy(xpath = "//span[@class='label label-default ng-binding ng-scope']")
+    private ExtendedWebElement browserVersion;
+
     public TestRunCard(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
@@ -43,5 +49,9 @@ public class TestRunCard extends TestRunCardBase {
     public TestRunResultPage toTestRunResultPage(){
         resultReference.click();
         return new TestRunResultPage(driver);
+    }
+
+    public boolean isWebChromeTest(){
+        return chromeIcon.isVisible() && browserVersion.isVisible();
     }
 }

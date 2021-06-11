@@ -10,6 +10,8 @@ import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunsPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 
+import static com.qaprosoft.zafira.constant.ConfigConstant.PROJECT_NAME_KEY;
+
 public class SignIn extends AbstractTest {
 
     protected NavigationMenu navigationMenu;
@@ -28,6 +30,6 @@ public class SignIn extends AbstractTest {
         TestRunsPage testRunsPage = loginPage.login(R.TESTDATA.get(WebConstant.USER_LOGIN), R.TESTDATA.get(WebConstant.USER_PASSWORD));
         testRunsPage.assertPageOpened();
         navigationMenu = testRunsPage.getNavigationMenu();
-        Assert.assertEquals(navigationMenu.getProjectKey(),"DEF", "Actual project key differs from defaults");
+        Assert.assertEquals(navigationMenu.getProjectKey(),R.TESTDATA.get(PROJECT_NAME_KEY), "Actual project key differs from defaults");
     }
 }

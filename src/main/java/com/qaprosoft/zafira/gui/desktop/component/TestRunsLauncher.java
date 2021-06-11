@@ -11,8 +11,6 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 public class TestRunsLauncher extends AbstractUIObject {
-
-
     @FindBy(xpath = "//div[contains(@class,'folder-container_folder_name hide-phone')]")
     private List<ExtendedWebElement> repositoryList;
 

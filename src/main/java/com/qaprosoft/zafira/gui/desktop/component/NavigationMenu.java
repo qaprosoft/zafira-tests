@@ -6,8 +6,6 @@ import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunsPage;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class NavigationMenu extends AbstractUIObject {
     @FindBy(xpath = "//li[contains(@class,'nav-item dashboards')]")
