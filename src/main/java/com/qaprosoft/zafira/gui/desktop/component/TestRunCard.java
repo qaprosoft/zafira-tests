@@ -8,40 +8,40 @@ import org.openqa.selenium.support.FindBy;
 
 public class TestRunCard extends TestRunCardBase {
 
-    @FindBy(xpath = "//div[@class='test-run-card__cell _platform']")
+    @FindBy(xpath = ".//div[@class='test-run-card__cell _platform']")
     private ExtendedWebElement platform;
 
-    @FindBy(xpath = "//span[contains(@class,'label-success')]")
+    @FindBy(xpath = ".//span[contains(@class,'label-success')]")
     private ExtendedWebElement successTestsBox;
 
-    @FindBy (xpath = "//span[contains(@title,'Failed')]")
+    @FindBy (xpath = ".//span[contains(@title,'Failed')]")
     private ExtendedWebElement failedTestsBox;
 
-    @FindBy (xpath = "//span[contains(@title,'Skipped')]")
+    @FindBy (xpath = ".//span[contains(@title,'Skipped')]")
     private ExtendedWebElement skippedTestBox;
 
-    @FindBy(xpath = "//div[@class='test-run-card__time light_text ng-scope']")
+    @FindBy(xpath = ".//div[@class='test-run-card__time light_text ng-scope']")
     private ExtendedWebElement testDuration;
 
-    @FindBy(xpath = "//a[@class='test-run-card__clickable ng-scope']")
+    @FindBy(xpath = ".//a[@class='test-run-card__clickable ng-scope']")
     private ExtendedWebElement resultReference;
 
-    @FindBy(xpath = "//span[@class='platform-icon chrome']")
+    @FindBy(xpath = ".//span[@class='platform-icon chrome']")
     private ExtendedWebElement chromeIcon;
 
-    @FindBy(xpath = "//span[@class='label label-default ng-binding ng-scope']")
+    @FindBy(xpath = ".//span[@class='label label-default ng-binding ng-scope']")
     private ExtendedWebElement browserVersion;
 
-    @FindBy(xpath = "//span[@class='platform-icon api']")
+    @FindBy(xpath = ".//span[@class='platform-icon api']")
     private ExtendedWebElement apiIcon;
 
-    @FindBy(xpath = "//div[@class='test-run-card__job-name ng-scope']")
+    @FindBy(xpath = ".//div[@class='test-run-card__job-name ng-scope']")
     private ExtendedWebElement zebrunnerJobName;
 
-    @FindBy(xpath = "//div[@class='time']")
+    @FindBy(xpath = ".//div[@class='time']")
     private ExtendedWebElement startedText;
 
-    @FindBy(xpath = "//button[@name='testRunSetting']")
+    @FindBy(xpath = ".//button[@name='testRunSetting']")
     private ExtendedWebElement testSettings;
 
     public TestRunCard(WebDriver driver, SearchContext searchContext) {

@@ -8,10 +8,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public abstract class TestRunCardBase extends AbstractUIObject {
-    @FindBy(xpath = "//span[@class='test-run-card__title-text ng-binding']")
+    @FindBy(xpath = ".//span[@class='test-run-card__title-text ng-binding']")
     private ExtendedWebElement title;
 
-    @FindBy(xpath = "//div[contains(@class,'test-run-card__cell _selection')]")
+    @FindBy(xpath = ".//div[contains(@class,'test-run-card__cell _selection')]")
     private ExtendedWebElement checkBox;
 
     public TestRunCardBase(WebDriver driver, SearchContext searchContext) {
