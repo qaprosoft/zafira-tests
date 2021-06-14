@@ -22,7 +22,7 @@ public class DashboardCard extends AbstractUIObject {
     @FindBy(xpath = "//div[@class='dashboards-table__col _edit']")
     private ExtendedWebElement dashboardEdit;
 
-    @FindBy(xpath = "//div[@class='dashboards-table__col _delete']")
+    @FindBy(xpath = "//md-icon[@class='material-icons icon ng-scope' and text()='delete_outline']")
     private ExtendedWebElement dashboardDelete;
 
 
@@ -44,8 +44,19 @@ public class DashboardCard extends AbstractUIObject {
 
     public Boolean isPresentCreatedDate() {
         String createdDate = dashboardCreatedDate.getText();
-        LOGGER.info("The name of dashboard is " + createdDate);
+        LOGGER.info("Created date is " + createdDate);
         return dashboardCreatedDate.isVisible(3);
+    }
+
+    public void clickEdit() {
+        String createdDate = dashboardCreatedDate.getText();
+        LOGGER.info("Edit dashboard");
+        dashboardEdit.isVisible(3);
+        dashboardEdit.click();
+    }
+
+    public Boolean isVisibleEdit() {
+        return dashboardEdit.isElementPresent()&dashboardEdit.isClickable();
     }
 
 }

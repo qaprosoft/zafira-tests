@@ -100,7 +100,6 @@ public class MainDashboardsPage extends AbstractPage {
 
     public DashboardCard getDashboardByName(String dashboardName) {
         Boolean loaded = WaitUtil.waitListToLoad(dashboards, 5000, 500);
-
         for (DashboardCard dashboardCard : dashboardCards) {
             if (dashboardCard.getDashboardName().toLowerCase().contains(dashboardName.toLowerCase()))
 
