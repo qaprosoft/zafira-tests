@@ -31,20 +31,20 @@ public class NavigationMenu extends AbstractUIObject {
         dashboardButton.click();
     }
 
-    public TestRunsPage toTestRunsPage(){
+    public TestRunsPage toTestRunsPage() {
         testRunsButton.click();
         return new TestRunsPage(getDriver());
     }
 
-    public void toIntegrationPage(){
+    public void toIntegrationPage() {
         integrationsButton.click();
     }
 
-    public void toMembersPage(){
+    public void toMembersPage() {
         membersButton.click();
     }
 
-    public String getProjectKey(){
+    public String getProjectKey() {
         return projectKey.getText();
     }
 }

@@ -14,10 +14,10 @@ public class TestRunCard extends TestRunCardBase {
     @FindBy(xpath = ".//span[contains(@class,'label-success')]")
     private ExtendedWebElement successTestsBox;
 
-    @FindBy (xpath = ".//span[contains(@title,'Failed')]")
+    @FindBy(xpath = ".//span[contains(@title,'Failed')]")
     private ExtendedWebElement failedTestsBox;
 
-    @FindBy (xpath = ".//span[contains(@title,'Skipped')]")
+    @FindBy(xpath = ".//span[contains(@title,'Skipped')]")
     private ExtendedWebElement skippedTestBox;
 
     @FindBy(xpath = ".//div[@class='test-run-card__time light_text ng-scope']")
@@ -48,38 +48,38 @@ public class TestRunCard extends TestRunCardBase {
         super(driver, searchContext);
     }
 
-    public boolean isTestComplete(){
+    public boolean isTestComplete() {
         return testDuration.isPresent();
     }
 
-    public String getRunResult(){
+    public String getRunResult() {
         String failed = failedTestsBox.getText().replace('\n', ' ');
         return String.format("Passed %s, Failure %s, Skipped %s",
                 successTestsBox.getText(), failed, skippedTestBox.getText());
     }
 
-    public TestRunResultPage toTestRunResultPage(){
+    public TestRunResultPage toTestRunResultPage() {
         resultReference.click();
         return new TestRunResultPage(driver);
     }
 
-    public boolean isWebChromeTest(){
+    public boolean isWebChromeTest() {
         return chromeIcon.isVisible() && browserVersion.isVisible();
     }
 
-    public boolean isApiTest(){
+    public boolean isApiTest() {
         return apiIcon.isVisible();
     }
 
-    public String getJobName(){
+    public String getJobName() {
         return zebrunnerJobName.getText();
     }
 
-    public String getHowLongAgoStarted(){
+    public String getHowLongAgoStarted() {
         return startedText.getText();
     }
 
-    public boolean isTestSettingsButtonPresent(){
+    public boolean isTestSettingsButtonPresent() {
         return testSettings.isVisible() && testSettings.isClickable();
     }
 }

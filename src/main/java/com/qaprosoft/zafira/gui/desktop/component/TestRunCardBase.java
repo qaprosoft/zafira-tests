@@ -18,12 +18,12 @@ public abstract class TestRunCardBase extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public String getTitle(){
+    public String getTitle() {
         waitUntil(ExpectedConditions.presenceOfElementLocated(title.getBy()), 5000);
         return title.getText();
     }
 
-    public boolean clickCheckBox(){
+    public boolean clickCheckBox() {
         if (checkBox.isClickable()) {
             checkBox.click();
             return true;
@@ -31,7 +31,7 @@ public abstract class TestRunCardBase extends AbstractUIObject {
         return false;
     }
 
-    public boolean isCheckBoxActive(){
+    public boolean isCheckBoxActive() {
         return checkBox.isClickable() && checkBox.isVisible();
     }
 }

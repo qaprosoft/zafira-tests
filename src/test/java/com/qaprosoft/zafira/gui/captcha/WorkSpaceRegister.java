@@ -15,6 +15,6 @@ public class WorkSpaceRegister extends BaseWorkSpaceRegister {
         LandingRegistrationComp registrationComp = landingPage.getRegistrationComponent();
         Assert.assertTrue("Registration component isn't present", registrationComp.isUIObjectPresent());
         registrationComp.createFreeWorkspace(orgName, ownerName, tenantEmail);
-       // landingPage.clickOnCaptcha();
+        // landingPage.clickOnCaptcha();
     }
 }

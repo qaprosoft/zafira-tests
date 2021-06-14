@@ -27,7 +27,7 @@ public class LandingRegistrationComp extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public void createFreeWorkspace(String orgName, String ownerName, String email){
+    public void createFreeWorkspace(String orgName, String ownerName, String email) {
         orgNameInput.type(orgName);
         ownerNameInput.type(ownerName);
         emailInput.type(email);

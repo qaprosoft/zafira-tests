@@ -25,7 +25,7 @@ public class TestRunsPageTest extends SignIn {
     }
 
     @Test
-    public void checkElementOnTestRunsPage(){
+    public void checkElementOnTestRunsPage() {
         TestRunsPage testRunsPage = navigationMenu.toTestRunsPage();
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(testRunsPage.isSearchFieldPresent());
