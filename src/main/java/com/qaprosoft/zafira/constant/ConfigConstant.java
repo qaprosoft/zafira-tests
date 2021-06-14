@@ -91,4 +91,5 @@ public class ConfigConstant {
     public static final String LAMBDA_TEST_ACCESS_KEY = "lambdatest_accessKey";
     public static final String QTEST_TEST_URL = "qTest_url";
     public static final String STATUS_RUNNING = "running";
+    public static final String TIME_TO_LOAD_PAGE = "time_to_load_page";
 }
