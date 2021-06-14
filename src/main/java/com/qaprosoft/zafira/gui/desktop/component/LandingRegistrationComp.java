@@ -8,26 +8,26 @@ import org.openqa.selenium.support.FindBy;
 
 public class LandingRegistrationComp extends AbstractUIObject {
 
-    @FindBy(xpath = "//input[@name='name']")
+    @FindBy(xpath = ".//input[@name='name']")
     private ExtendedWebElement orgNameInput;
 
-    @FindBy(xpath = "//input[@name='ownerName']")
+    @FindBy(xpath = ".//input[@name='ownerName']")
     private ExtendedWebElement ownerNameInput;
 
-    @FindBy(xpath = "//input[@name='email']")
+    @FindBy(xpath = ".//input[@name='email']")
     private ExtendedWebElement emailInput;
 
-    @FindBy(xpath = "//label[@for='form-subscribe-checkbox']")
+    @FindBy(xpath = ".//label[@for='form-subscribe-checkbox']")
     private ExtendedWebElement newsCheckbox;
 
-    @FindBy(xpath = "//div[@name='registration']//button[@type='submit']")
+    @FindBy(xpath = ".//div[@name='registration']//button[@type='submit']")
     private ExtendedWebElement submitButton;
 
     public LandingRegistrationComp(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 
-    public void createFreeWorkspace(String orgName, String ownerName, String email){
+    public void createFreeWorkspace(String orgName, String ownerName, String email) {
         orgNameInput.type(orgName);
         ownerNameInput.type(ownerName);
         emailInput.type(email);

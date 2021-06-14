@@ -20,11 +20,11 @@ public class LoginPage extends AbstractPage {
         super(driver);
     }
 
-    public boolean isSubmitButtonActive(){
+    public boolean isSubmitButtonActive() {
         return submitButton.isClickable(5);
     }
 
-    public TestRunsPage login(String username, String password){
+    public TestRunsPage login(String username, String password) {
         usernameField.type(username);
         passwordField.type(password);
         submitButton.click();

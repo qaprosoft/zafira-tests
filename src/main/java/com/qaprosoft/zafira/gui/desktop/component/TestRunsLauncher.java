@@ -11,18 +11,16 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 public class TestRunsLauncher extends AbstractUIObject {
-
-
-    @FindBy(xpath = "//div[contains(@class,'folder-container_folder_name hide-phone')]")
+    @FindBy(xpath = ".//div[contains(@class,'folder-container_folder_name hide-phone')]")
     private List<ExtendedWebElement> repositoryList;
 
-    @FindBy(xpath = "//li[contains(@class,'hide-phone')]//div[@class='folder-container_item_list_item-wrapper']")
+    @FindBy(xpath = ".//li[contains(@class,'hide-phone')]//div[@class='folder-container_item_list_item-wrapper']")
     private List<ExtendedWebElement> suitesList;
 
-    @FindBy(xpath = "//span[@class='ng-binding']")
+    @FindBy(xpath = ".//span[@class='ng-binding']")
     private List<ExtendedWebElement> defaultSuitesList;
 
-    @FindBy(xpath = "//button[contains(text(),'Launch')]")
+    @FindBy(xpath = ".//button[contains(text(),'Launch')]")
     private ExtendedWebElement launchSuiteButton;
 
     public TestRunsLauncher(WebDriver driver, SearchContext searchContext) {

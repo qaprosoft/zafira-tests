@@ -27,11 +27,11 @@ public class LandingPage extends AbstractPage {
         return registrationComponent;
     }
 
-    public void closeCookiesNotification(){
+    public void closeCookiesNotification() {
         cookiesNotificationCloseButton.click();
     }
 
-    public void clickOnCaptcha(){
+    public void clickOnCaptcha() {
         captchaCheckbox.get(1).click();
     }
 }
