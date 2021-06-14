@@ -13,16 +13,16 @@ import java.lang.invoke.MethodHandles;
 public class DashboardCard extends AbstractUIObject {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    @FindBy(xpath = "//a[@name='dashboardName']")
+    @FindBy(xpath = ".//div/a[@name='dashboardName']")
     private ExtendedWebElement dashboardName;
 
-    @FindBy(xpath = "//span[@class='dashboards-table__content ng-binding']")
+    @FindBy(xpath = ".//span[@class='dashboards-table__content ng-binding']")
     private ExtendedWebElement dashboardCreatedDate;
 
-    @FindBy(xpath = "//div[@class='dashboards-table__col _edit']")
+    @FindBy(xpath = ".//div[@class='dashboards-table__col _edit']/md-icon")
     private ExtendedWebElement dashboardEdit;
 
-    @FindBy(xpath = "//md-icon[@class='material-icons icon ng-scope' and text()='delete_outline']")
+    @FindBy(xpath = ".//md-icon[@class='material-icons icon ng-scope' and text()='delete_outline']")
     private ExtendedWebElement dashboardDelete;
 
 
@@ -31,6 +31,7 @@ public class DashboardCard extends AbstractUIObject {
     }
 
     public String getDashboardName() {
+        pause(5);
         String realDashboardName = dashboardName.getText();
         LOGGER.info("The name of dashboard is " + realDashboardName);
         return realDashboardName;
@@ -56,7 +57,8 @@ public class DashboardCard extends AbstractUIObject {
     }
 
     public Boolean isVisibleEdit() {
-        return dashboardEdit.isElementPresent()&dashboardEdit.isClickable();
+        LOGGER.info("isVisibleEdit " + dashboardName.getText());
+        return dashboardEdit.isElementPresent() & dashboardEdit.isClickable();
     }
 
 }

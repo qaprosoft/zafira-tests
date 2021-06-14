@@ -97,22 +97,21 @@ public class DashboardPagePageTest extends SignIn {
         dashboardPage.getTitle();
         Assert.assertEquals(dashboardPage.getTitle(), "General", "Title is not as expected!");
         dashboardPage.sendByEmailButton().hover();
-
-        //    LOGGER.info(dashboard.sendByEmailButton());
     }
 
     @Test
     public void getDashboardByName() {
-        String expected = "Personal";
-        String expectedDate = "Jun 4, 2021";
+        String expected = "рррр3";
+        String expectedDate = "Jun 10, 2021";
         MainDashboardsPage mainDashboardsPage = navigationMenu.toDashboardPage();
+
         String actual = mainDashboardsPage.getDashboardByName(expected).getDashboardName();
         Assert.assertEquals(actual, expected, "Name is not as expected!");
         Assert.assertTrue(mainDashboardsPage.getDashboardByName(expected).isPresentCreatedDate());
         String actualDate = mainDashboardsPage.getDashboardByName(expected).getCreatedDate();
         Assert.assertEquals(actualDate, expectedDate, "Created date is not as expected!");
         mainDashboardsPage.getDashboardByName(expected).clickEdit();
-        pause(5);
-        //    LOGGER.info(dashboard.sendByEmailButton());
+        Assert.assertTrue(mainDashboardsPage.getDashboardByName(expected).isVisibleEdit());
+
     }
 }
