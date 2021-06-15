@@ -1,7 +1,5 @@
 package com.qaprosoft.zafira.gui;
 
-import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.DashboardPage;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.MainDashboardsPage;
 import org.apache.commons.lang.RandomStringUtils;
@@ -12,7 +10,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.lang.invoke.MethodHandles;
-import java.util.List;
 
 public class DashboardPagePageTest extends SignIn {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -20,9 +17,10 @@ public class DashboardPagePageTest extends SignIn {
 
     @AfterMethod(onlyForGroups = "add-edit-search")
     public void deleteExistingDashboard() {
-        MainDashboardsPage mainDashboardsPage = navigationMenu.toDashboardPage();
+        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
         mainDashboardsPage.searchDashboard(title);
         mainDashboardsPage.deleteDashboard(title);
+        mainDashboardsPage.searchDashboard("");
     }
 
     @Test(groups = "add-edit-search")
@@ -30,13 +28,12 @@ public class DashboardPagePageTest extends SignIn {
 
         title = "Dashboard_Name_".concat(RandomStringUtils.randomAlphabetic(6));
 
-        MainDashboardsPage mainDashboardsPage = navigationMenu.toDashboardPage();
+        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
         DashboardPage dashboardPage = mainDashboardsPage.addDashboard(title);
 
         Assert.assertEquals(dashboardPage.getTitle(), title, "Title is not as expected!");
-        NavigationMenu navigationMenuFromDashboard = dashboardPage.getNavigationMenu();
-        mainDashboardsPage = navigationMenuFromDashboard.toDashboardPage();
-        Assert.assertTrue(mainDashboardsPage.getAllDashboards().toString().contains(title),
+        navigationMenu.toMainDashboardPage();
+        Assert.assertTrue(mainDashboardsPage.isDashboardPresentOnMainPage(title),
                 "Can't find newly created dashboard");
     }
 
@@ -44,7 +41,7 @@ public class DashboardPagePageTest extends SignIn {
     public void editDashboard() {
         title = "Dashboard_Name_".concat(RandomStringUtils.randomAlphabetic(6));
 
-        MainDashboardsPage mainDashboardsPage = navigationMenu.toDashboardPage();
+        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
         DashboardPage dashboardPage = mainDashboardsPage.addDashboard(title);
 
         title = "New_".concat(title);
@@ -52,10 +49,9 @@ public class DashboardPagePageTest extends SignIn {
 
         Assert.assertEquals(dashboardPage.getTitle(), title, "Title is not as expected!");
 
-        NavigationMenu navigationMenuFromDashboard = dashboardPage.getNavigationMenu();
-        mainDashboardsPage = navigationMenuFromDashboard.toDashboardPage();
+        navigationMenu.toMainDashboardPage();
 
-        Assert.assertTrue(mainDashboardsPage.getAllDashboards().toString().contains(title),
+        Assert.assertTrue(mainDashboardsPage.isDashboardPresentOnMainPage(title),
                 "Can't find newly created dashboard");
     }
 
@@ -63,14 +59,11 @@ public class DashboardPagePageTest extends SignIn {
     public void searchDashboard() {
         title = "Dashboard_Name_".concat(RandomStringUtils.randomAlphabetic(6));
 
-        MainDashboardsPage mainDashboardsPage = navigationMenu.toDashboardPage();
+        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
         DashboardPage dashboardPage = mainDashboardsPage.addDashboard(title);
-        navigationMenu.toDashboardPage();
+        navigationMenu.toMainDashboardPage();
 
-        List<ExtendedWebElement> listOfDashboards = mainDashboardsPage.searchDashboard(title);
-
-        LOGGER.info(listOfDashboards.toString());
-        Assert.assertEquals(listOfDashboards.get(0).getText(), title,
+        Assert.assertEquals(mainDashboardsPage.searchDashboard(title).get(0).getDashboardName(), title,
                 "Can't find necessary dashboard!");
     }
 
@@ -78,32 +71,23 @@ public class DashboardPagePageTest extends SignIn {
     public void deleteDashboard() {
         title = "Dashboard_Name_".concat(RandomStringUtils.randomAlphabetic(6));
 
-        MainDashboardsPage mainDashboardsPage = navigationMenu.toDashboardPage();
+        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
         mainDashboardsPage.addDashboard(title);
-        navigationMenu.toDashboardPage();
+        navigationMenu.toMainDashboardPage();
         mainDashboardsPage.searchDashboard(title);
 
         mainDashboardsPage.deleteDashboard(title);
-        List<ExtendedWebElement> listOfDashboards = mainDashboardsPage.getAllDashboards();
-        Assert.assertFalse(listOfDashboards.toString().contains(title),
+        mainDashboardsPage.searchDashboard("");
+        navigationMenu.toMainDashboardPage();
+        Assert.assertFalse(mainDashboardsPage.isDashboardPresentOnMainPage(title),
                 "Dashboard with name " + title + " was not deleted!");
-    }
-
-    @Test
-    public void checkDefaultDashboardGeneral() {
-
-        MainDashboardsPage mainDashboardsPage = navigationMenu.toDashboardPage();
-        DashboardPage dashboardPage = mainDashboardsPage.getGeneralDashboard();
-        dashboardPage.getTitle();
-        Assert.assertEquals(dashboardPage.getTitle(), "General", "Title is not as expected!");
-        dashboardPage.sendByEmailButton().hover();
     }
 
     @Test
     public void getDashboardByName() {
         String expected = "рррр3";
         String expectedDate = "Jun 10, 2021";
-        MainDashboardsPage mainDashboardsPage = navigationMenu.toDashboardPage();
+        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
 
         String actual = mainDashboardsPage.getDashboardByName(expected).getDashboardName();
         Assert.assertEquals(actual, expected, "Name is not as expected!");
@@ -112,6 +96,5 @@ public class DashboardPagePageTest extends SignIn {
         Assert.assertEquals(actualDate, expectedDate, "Created date is not as expected!");
         mainDashboardsPage.getDashboardByName(expected).clickEdit();
         Assert.assertTrue(mainDashboardsPage.getDashboardByName(expected).isVisibleEdit());
-
     }
 }
