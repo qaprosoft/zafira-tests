@@ -16,6 +16,6 @@ public class PatchFailureTagMethod extends ZafiraBaseApiMethodWithAuth {
     public PatchFailureTagMethod(Boolean fallbackValue, int tagId) {
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("id", String.valueOf(tagId));
-        addProperty("value", fallbackValue);
+        addProperty("value", String.valueOf(fallbackValue));
     }
 }

@@ -108,7 +108,7 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
         tagId = failureTagService.createFailureTag(name);
         PutFailureTagMethod putFailureTagMethod = new PutFailureTagMethod(tagId);
         putFailureTagMethod.addProperty(JSONConstant.NAME, "New_" + name);
-        putFailureTagMethod.addProperty(JSONConstant.FALLBACK, true);
+        putFailureTagMethod.addProperty(JSONConstant.FALLBACK, String.valueOf(true));
         putFailureTagMethod.addProperty(JSONConstant.DESCRIPTION, "New_description" + name);
         apiExecutor.expectStatus(putFailureTagMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(putFailureTagMethod);
@@ -126,7 +126,7 @@ public class FailureTagControllerTest extends ZafiraAPIBaseTest {
 
         PutFailureTagMethod putFailureTagMethod = new PutFailureTagMethod(tagId);
         putFailureTagMethod.addProperty(JSONConstant.NAME, "New_" + name);
-        putFailureTagMethod.addProperty(JSONConstant.FALLBACK, false);
+        putFailureTagMethod.addProperty(JSONConstant.FALLBACK, String.valueOf(false));
         putFailureTagMethod.addProperty(JSONConstant.DESCRIPTION, "New_description" + name);
         apiExecutor.expectStatus(putFailureTagMethod, HTTPStatusCodeType.FORBIDDEN);
         String rs = apiExecutor.callApiMethod(putFailureTagMethod);

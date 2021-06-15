@@ -21,7 +21,7 @@ public class PutSaveBrowserStackIntegrationMethod extends ZafiraBaseApiMethodWit
         addProperty("username", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.BROWSER_STACK_USERNAME)));
         addProperty("accessKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.BROWSER_STACK_ACCESS_KEY)));
         addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.BROWSER_STACK_URL));
-        addProperty("enabled", true);
+        addProperty("enabled", String.valueOf(true));
     }
 
     public PutSaveBrowserStackIntegrationMethod(int projectId, String token) {

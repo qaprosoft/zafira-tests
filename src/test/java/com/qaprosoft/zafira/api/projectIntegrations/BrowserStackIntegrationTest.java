@@ -70,7 +70,7 @@ public class BrowserStackIntegrationTest extends ZafiraAPIBaseTest {
         PostCheckConnectionWithBrowserStackMethod checkConnection = new PostCheckConnectionWithBrowserStackMethod(projectId);
         checkConnection.addProperty("username", "invalid_cred");
         checkConnection.addProperty("accessKey", "invalid_cred");
-        checkConnection.addProperty("reachable", false);
+        checkConnection.addProperty("reachable", String.valueOf(false));
         apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(checkConnection);
         apiExecutor.validateResponse(checkConnection, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());

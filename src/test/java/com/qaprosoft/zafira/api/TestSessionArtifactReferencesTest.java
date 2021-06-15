@@ -48,7 +48,7 @@ public class TestSessionArtifactReferencesTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_SESSION_ARTIFACTS);
 
         postSessionV1Method.addProperty(jsonConstantForLink, link);
-        postSessionV1Method.addProperty(jsonConstantForEnable, true);
+        postSessionV1Method.addProperty(jsonConstantForEnable, String.valueOf(true));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
@@ -72,7 +72,7 @@ public class TestSessionArtifactReferencesTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_SESSION_ARTIFACTS);
 
         postSessionV1Method.addProperty(jsonConstantForLink, link);
-        postSessionV1Method.addProperty(jsonConstantForEnable, false);
+        postSessionV1Method.addProperty(jsonConstantForEnable, String.valueOf(false));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
@@ -95,7 +95,7 @@ public class TestSessionArtifactReferencesTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_SESSION_ARTIFACTS);
 
         postSessionV1Method.addProperty(jsonConstantForLink, "");
-        postSessionV1Method.addProperty(jsonConstantForEnable, true);
+        postSessionV1Method.addProperty(jsonConstantForEnable, String.valueOf(true));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
@@ -116,7 +116,7 @@ public class TestSessionArtifactReferencesTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_SESSION_ARTIFACTS);
 
         postSessionV1Method.addProperty(jsonConstantForLink + "Act", link);
-        postSessionV1Method.addProperty(jsonConstantForEnable + "Act", true);
+        postSessionV1Method.addProperty(jsonConstantForEnable + "Act", String.valueOf(true));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
@@ -138,7 +138,7 @@ public class TestSessionArtifactReferencesTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_SESSION_ARTIFACTS);
 
         postSessionV1Method.addProperty(jsonConstantForLink, "<session-id>" + "/link/" + "<session-id>" + "/link");
-        postSessionV1Method.addProperty(jsonConstantForEnable, true);
+        postSessionV1Method.addProperty(jsonConstantForEnable, String.valueOf(true));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
@@ -162,7 +162,7 @@ public class TestSessionArtifactReferencesTest extends ZafiraAPIBaseTest {
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_SESSION_ARTIFACTS);
 
-        postSessionV1Method.addProperty(jsonConstantForEnable, true);
+        postSessionV1Method.addProperty(jsonConstantForEnable, String.valueOf(true));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);

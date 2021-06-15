@@ -21,6 +21,6 @@ public class PostCheckConnectionLambdaTestIntegrationMethod extends ZafiraBaseAp
         addProperty("username", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.LAMBDA_TEST_USERNAME)));
         addProperty("accessKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.LAMBDA_TEST_ACCESS_KEY)));
         addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.LAMBDA_TEST_URL));
-        addProperty("reachable", true);
+        addProperty("reachable", String.valueOf(true));
     }
 }

@@ -30,7 +30,7 @@ public class FailureTagServiceImpl implements FailureTagService {
     @Override
     public void updateFallbackFailureTag(int tagId, Boolean fallback, String name) {
         PutFailureTagMethod putFailureTagMethod = new PutFailureTagMethod(tagId);
-        putFailureTagMethod.addProperty(JSONConstant.FALLBACK, fallback);
+        putFailureTagMethod.addProperty(JSONConstant.FALLBACK, String.valueOf(fallback));
         putFailureTagMethod.addProperty(JSONConstant.NAME, name);
         apiExecutor.expectStatus(putFailureTagMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putFailureTagMethod);

@@ -13,7 +13,7 @@ public class PatchEnabledBrowserStackIntegrationMethod extends ZafiraBaseApiMeth
         replaceUrlPlaceholder("api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("projectId", String.valueOf(projectId));
 
-        addProperty("value", enabledValue);
+        addProperty("value", String.valueOf(enabledValue));
     }
 
     public PatchEnabledBrowserStackIntegrationMethod(int projectId, Boolean enabledValue,String token) {
@@ -21,6 +21,6 @@ public class PatchEnabledBrowserStackIntegrationMethod extends ZafiraBaseApiMeth
         replaceUrlPlaceholder("api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("projectId", String.valueOf(projectId));
 
-        addProperty("value", enabledValue);
+        addProperty("value", String.valueOf(enabledValue));
     }
 }

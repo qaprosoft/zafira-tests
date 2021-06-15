@@ -21,6 +21,6 @@ public class PostCheckConnectionSauceLabsIntegrationMethod extends ZafiraBaseApi
         addProperty("username", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.SAUCE_LABS_USERNAME)));
         addProperty("accessKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.SAUCE_LABS_ACCESS_KEY)));
         addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.SAUCE_LABS_URL));
-        addProperty("reachable", true);
+        addProperty("reachable", String.valueOf(true));
     }
 }

@@ -20,7 +20,7 @@ public class PostSessionV1Method extends ZafiraBaseApiMethodWithAuth {
         replaceUrlPlaceholder("testRunId", String.valueOf(testRunId));
         addProperty("startedAt", OffsetDateTime.now(ZoneOffset.UTC).minusSeconds(3)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
-        addProperty("testId", testIds);
+        addProperty("testId", String.valueOf(testIds));
         addProperty("sessionId", UUID.randomUUID());
         addProperty("status", R.TESTDATA.get(ConfigConstant.STATUS_RUNNING));
     }

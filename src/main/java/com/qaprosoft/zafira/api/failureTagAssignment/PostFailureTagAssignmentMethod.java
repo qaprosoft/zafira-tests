@@ -20,7 +20,7 @@ public class PostFailureTagAssignmentMethod extends ZafiraBaseApiMethodWithAuth 
     public PostFailureTagAssignmentMethod(int testId,int tagId) {
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         setProperties("api/failure-tag-assignment.properties");
-        addProperty("testId",testId);
-        addProperty("tagId",tagId);
+        addProperty("testId",String.valueOf(testId));
+        addProperty("tagId",String.valueOf(tagId));
     }
 }
