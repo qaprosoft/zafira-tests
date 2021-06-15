@@ -1,6 +1,6 @@
 [
   {
-    "testId": ${testId},
+    "testId": "${testId}",
     "workItems": [
       {
         "testCaseId": 1,

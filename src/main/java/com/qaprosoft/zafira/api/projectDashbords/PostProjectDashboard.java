@@ -15,6 +15,6 @@ public class PostProjectDashboard extends ZafiraBaseApiMethodWithAuth {
         replaceUrlPlaceholder("api_url", APIContextManager.API_URL);
         addProperty("projectId", String.valueOf(projectId));
         addProperty("title", title);
-        addProperty("hidden", false);
+        addProperty("hidden", String.valueOf(false));
     }
 }

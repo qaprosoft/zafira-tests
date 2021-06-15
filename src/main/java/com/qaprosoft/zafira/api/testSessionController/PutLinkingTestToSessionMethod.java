@@ -15,6 +15,6 @@ public class PutLinkingTestToSessionMethod extends ZafiraBaseApiMethodWithAuth {
         replaceUrlPlaceholder("base_api_url", APIContextManager.BASE_URL);
         replaceUrlPlaceholder("testRunId", String.valueOf(testRunId));
         replaceUrlPlaceholder("testSessionId", String.valueOf(sessionId));
-        addProperty("testIds", testIds);
+        addProperty("testIds", String.valueOf(testIds));
     }
 }

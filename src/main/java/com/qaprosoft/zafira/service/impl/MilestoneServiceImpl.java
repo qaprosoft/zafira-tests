@@ -35,7 +35,7 @@ public class MilestoneServiceImpl implements MilestoneService {
         String milestoneName = "MilestoneName".concat(RandomStringUtils.randomAlphabetic(7));
         PostMilestoneMethod postMilestoneMethod =
                 new PostMilestoneMethod(projectId, milestoneName);
-        postMilestoneMethod.addProperty(JSONConstant.COMPLETED, false);
+        postMilestoneMethod.addProperty(JSONConstant.COMPLETED, String.valueOf(false));
         apiExecutor.expectStatus(postMilestoneMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postMilestoneMethod);
         return JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
@@ -46,7 +46,7 @@ public class MilestoneServiceImpl implements MilestoneService {
         String milestoneName = "MilestoneName".concat(RandomStringUtils.randomAlphabetic(7));
         PostMilestoneMethod postMilestoneMethod =
                 new PostMilestoneMethod(projectId, milestoneName);
-        postMilestoneMethod.addProperty(JSONConstant.COMPLETED, true);
+        postMilestoneMethod.addProperty(JSONConstant.COMPLETED, String.valueOf(true));
         apiExecutor.expectStatus(postMilestoneMethod, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postMilestoneMethod);
         return JsonPath.from(rs).getInt(JSONConstant.ID_KEY);

@@ -13,7 +13,7 @@ public class GetSessionByTestRunIdAndTestIdV1Method extends ZafiraBaseApiMethodW
         replaceUrlPlaceholder("base_api_url", APIContextManager.BASE_URL);
         replaceUrlPlaceholder("testRunId", String.valueOf(testRunId));
         replaceUrlPlaceholder("testId", String.valueOf(testId));
-        addProperty("testRunId", testRunId);
-        addProperty("testId", testId);
+        addProperty("testRunId", String.valueOf(testRunId));
+        addProperty("testId", String.valueOf(testId));
     }
 }

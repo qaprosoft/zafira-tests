@@ -100,7 +100,7 @@ public class TestSessionGetTest extends ZafiraAPIBaseTest {
         int testId = new TestServiceV1Impl().startTest(testRunId);
         int sessionId = new TestSessionServiceImpl().create(testRunId, testId);
         GetSessionByTestRunIdV1Method getSessionByTestRunIdV1Method = new GetSessionByTestRunIdV1Method(testRunId);
-        getSessionByTestRunIdV1Method.addProperty("testId", testId);
+        getSessionByTestRunIdV1Method.addProperty("testId", String.valueOf(testId));
         apiExecutor.expectStatus(getSessionByTestRunIdV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(getSessionByTestRunIdV1Method);
         int actualSessionId = JsonPath.from(rs).getInt(JSONConstant.ITEMS_SESSION_ID);
@@ -161,7 +161,7 @@ public class TestSessionGetTest extends ZafiraAPIBaseTest {
         testIdList.add(testId);
         int sessionId = new TestSessionServiceImpl().startWithoutStatus(testRunId, testIdList);
         GetSessionByTestRunIdV1Method getSessionByTestRunIdV1Method = new GetSessionByTestRunIdV1Method(testRunId);
-        getSessionByTestRunIdV1Method.addProperty("testId", testId);
+        getSessionByTestRunIdV1Method.addProperty("testId", String.valueOf(testId));
         apiExecutor.expectStatus(getSessionByTestRunIdV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(getSessionByTestRunIdV1Method);
         int actualSessionId = JsonPath.from(rs).getInt(JSONConstant.ITEMS_SESSION_ID);

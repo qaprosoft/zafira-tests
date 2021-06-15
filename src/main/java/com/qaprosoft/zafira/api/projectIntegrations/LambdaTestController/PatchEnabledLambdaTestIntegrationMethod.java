@@ -13,13 +13,13 @@ public class PatchEnabledLambdaTestIntegrationMethod extends ZafiraBaseApiMethod
         replaceUrlPlaceholder("api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("projectId", String.valueOf(projectId));
 
-        addProperty("value", enabledValue);
+        addProperty("value", String.valueOf(enabledValue));
     }
 
     public PatchEnabledLambdaTestIntegrationMethod(int projectId, Boolean enabledValue, String token) {
         super(token);
         replaceUrlPlaceholder("api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("projectId", String.valueOf(projectId));
-        addProperty("value", enabledValue);
+        addProperty("value", String.valueOf(enabledValue));
     }
 }

@@ -21,7 +21,7 @@ public class PutSaveLambdaTestIntegrationMethod extends ZafiraBaseApiMethodWithA
         addProperty("username", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.LAMBDA_TEST_USERNAME)));
         addProperty("accessKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.LAMBDA_TEST_ACCESS_KEY)));
         addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.LAMBDA_TEST_URL));
-        addProperty("enabled", true);
+        addProperty("enabled", String.valueOf(true));
     }
 
     public PutSaveLambdaTestIntegrationMethod(int projectId, String token) {
@@ -31,6 +31,6 @@ public class PutSaveLambdaTestIntegrationMethod extends ZafiraBaseApiMethodWithA
         addProperty("username", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.LAMBDA_TEST_USERNAME)));
         addProperty("accessKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.LAMBDA_TEST_ACCESS_KEY)));
         addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.LAMBDA_TEST_URL));
-        addProperty("enabled", true);
+        addProperty("enabled", String.valueOf(true));
     }
 }

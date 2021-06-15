@@ -21,7 +21,8 @@ public class PutSaveSauceLabsIntegrationMethod extends ZafiraBaseApiMethodWithAu
         addProperty("username", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.SAUCE_LABS_USERNAME)));
         addProperty("accessKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.SAUCE_LABS_ACCESS_KEY)));
         addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.SAUCE_LABS_URL));
-        addProperty("enabled", true);
+        addProperty("enabled",
+                String.valueOf(true));
     }
 
     public PutSaveSauceLabsIntegrationMethod(int projectId, String token) {
@@ -31,6 +32,6 @@ public class PutSaveSauceLabsIntegrationMethod extends ZafiraBaseApiMethodWithAu
         addProperty("username", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.SAUCE_LABS_USERNAME)));
         addProperty("accessKey", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.SAUCE_LABS_ACCESS_KEY)));
         addProperty("hubUrl", R.TESTDATA.get(ConfigConstant.SAUCE_LABS_URL));
-        addProperty("enabled", true);
+        addProperty("enabled", String.valueOf(true));
     }
 }

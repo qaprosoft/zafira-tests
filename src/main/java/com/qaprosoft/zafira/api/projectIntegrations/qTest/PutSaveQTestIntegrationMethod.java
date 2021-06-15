@@ -21,7 +21,7 @@ public class PutSaveQTestIntegrationMethod extends ZafiraBaseApiMethodWithAuth {
 
         addProperty("token", "QTest_accessKey".concat(RandomStringUtils.randomAlphabetic(3)));
         addProperty("url", R.TESTDATA.get(ConfigConstant.QTEST_TEST_URL));
-        addProperty("encrypted", false);
+        addProperty("encrypted", String.valueOf(false));
     }
 
     public PutSaveQTestIntegrationMethod(int projectId, String token) {
@@ -31,6 +31,6 @@ public class PutSaveQTestIntegrationMethod extends ZafiraBaseApiMethodWithAuth {
 
         addProperty("token", "QTest_accessKey".concat(RandomStringUtils.randomAlphabetic(3)));
         addProperty("url", R.TESTDATA.get(ConfigConstant.QTEST_TEST_URL));
-        addProperty("encrypted", false);
+        addProperty("encrypted", String.valueOf(false));
     }
 }

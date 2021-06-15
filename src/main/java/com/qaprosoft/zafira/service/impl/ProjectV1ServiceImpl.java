@@ -76,7 +76,7 @@ public class ProjectV1ServiceImpl implements ProjectV1Service {
         String projectName = RandomStringUtils.randomAlphabetic(5).concat("_Project_name");
         String projectKey = projectName.substring(0, 4).concat("1").toUpperCase(Locale.ROOT);
         PostProjectV1Method postProjectV1Method = new PostProjectV1Method(projectName, projectKey);
-        postProjectV1Method.addProperty(JSONConstant.PUBLICLY_ACCESSIBLE, false);
+        postProjectV1Method.addProperty(JSONConstant.PUBLICLY_ACCESSIBLE, String.valueOf(false));
         apiExecutor.expectStatus(postProjectV1Method, HTTPStatusCodeType.CREATED);
         String rs = apiExecutor.callApiMethod(postProjectV1Method);
         return JsonPath.from(rs).getInt(JSONConstant.ID_KEY);

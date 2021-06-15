@@ -181,7 +181,7 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getRerunTestRunByIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test(dataProvider = "rerunFailuresDataProvider")
+    @Test(dataProvider = "rerunFailuresDataProvider",enabled = false)
     public void testRerunTestRunJob(boolean rerunFailures) {
         int testRunId = createTestRun(TESTS_TO_ADD);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);

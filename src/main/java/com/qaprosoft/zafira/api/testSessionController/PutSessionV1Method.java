@@ -17,6 +17,6 @@ public class PutSessionV1Method extends ZafiraBaseApiMethodWithAuth {
         replaceUrlPlaceholder("testRunId", String.valueOf(id));
         replaceUrlPlaceholder("testSessionId", String.valueOf(sessionId));
         addProperty("endedAt", OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
-        addProperty("testId", testId);
+        addProperty("testId", String.valueOf(testId));
     }
 }

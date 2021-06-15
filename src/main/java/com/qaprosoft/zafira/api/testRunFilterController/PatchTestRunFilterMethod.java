@@ -12,6 +12,6 @@ public class PatchTestRunFilterMethod extends ZafiraBaseApiMethodWithAuth {
         replaceUrlPlaceholder("base_api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("id", String.valueOf(id));
         addProperty("path", path);
-        addProperty("value", value);
+        addProperty("value", String.valueOf(value));
     }
 }

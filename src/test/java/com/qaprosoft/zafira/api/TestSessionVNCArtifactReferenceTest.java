@@ -41,7 +41,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
@@ -61,7 +61,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, false);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(false));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
@@ -80,7 +80,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_ACT_SLOT, JSONConstant.VNC_LINK_ACT_SLOT + link + "<session-id>");
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_ACT, JSONConstant.VNC_LINK_ACT + link);
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_DES_SLOT, JSONConstant.VNC_LINK_DES_SLOT + link);
@@ -103,7 +103,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_ACT, JSONConstant.VNC_LINK_ACT + link + "<session-id>");
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_DES_SLOT, JSONConstant.VNC_LINK_DES_SLOT + link);
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_DES, JSONConstant.VNC_LINK_DES + link);
@@ -125,7 +125,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_DES_SLOT, JSONConstant.VNC_LINK_DES_SLOT + link + "<session-id>");
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_DES, JSONConstant.VNC_LINK_DES + link);
 
@@ -149,7 +149,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
         postSessionV1Method.addProperty(position, position + link + "<session-id>");
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
@@ -168,7 +168,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postSessionV1Method);
@@ -185,7 +185,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
         postSessionV1Method.addProperty(JSONConstant.PROVIDER, provider);
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
@@ -207,7 +207,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
         postSessionV1Method.addProperty(JSONConstant.PROVIDER, provider.toLowerCase(Locale.ROOT));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
@@ -230,7 +230,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
         postSessionV1Method.addProperty(JSONConstant.PROVIDER, provider.toLowerCase(Locale.ROOT));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
@@ -248,7 +248,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
@@ -272,7 +272,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
         postSessionV1Method.removeProperty("status");
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
@@ -293,7 +293,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
         postSessionV1Method.removeProperty("status");
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, false);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(false));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
@@ -313,7 +313,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
         postSessionV1Method.removeProperty("status");
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_ACT_SLOT, JSONConstant.VNC_LINK_ACT_SLOT + link + "<session-id>");
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_ACT, JSONConstant.VNC_LINK_ACT + link);
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_DES_SLOT, JSONConstant.VNC_LINK_DES_SLOT + link);
@@ -337,7 +337,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
         postSessionV1Method.removeProperty("status");
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_ACT, JSONConstant.VNC_LINK_ACT + link + "<session-id>");
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_DES_SLOT, JSONConstant.VNC_LINK_DES_SLOT + link);
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_DES, JSONConstant.VNC_LINK_DES + link);
@@ -359,7 +359,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
         postSessionV1Method.removeProperty("status");
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_DES_SLOT, JSONConstant.VNC_LINK_DES_SLOT + link + "<session-id>");
         postSessionV1Method.addProperty(JSONConstant.VNC_LINK_DES, JSONConstant.VNC_LINK_DES + link);
 
@@ -380,7 +380,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
         postSessionV1Method.removeProperty("status");
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
         postSessionV1Method.addProperty(position, position + link + "<session-id>");
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
@@ -399,7 +399,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
         postSessionV1Method.removeProperty("status");
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postSessionV1Method);
@@ -416,7 +416,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
         postSessionV1Method.removeProperty("status");
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
         postSessionV1Method.addProperty(JSONConstant.PROVIDER, provider);
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
@@ -439,7 +439,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
         postSessionV1Method.removeProperty("status");
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
         postSessionV1Method.addProperty(JSONConstant.PROVIDER, provider.toLowerCase(Locale.ROOT));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
@@ -457,7 +457,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         postSessionV1Method.setRequestTemplate(PATH_TO_CHECK_VNC);
 
         postSessionV1Method.removeProperty("status");
-        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, true);
+        postSessionV1Method.addProperty(JSONConstant.ENABLE_VNC_DESIRED, String.valueOf(true));
 
         apiExecutor.expectStatus(postSessionV1Method, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postSessionV1Method);
