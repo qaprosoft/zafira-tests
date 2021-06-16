@@ -50,15 +50,20 @@ public class DashboardCard extends AbstractUIObject {
     }
 
     public void clickEdit() {
-        String createdDate = dashboardCreatedDate.getText();
         LOGGER.info("Edit dashboard");
         dashboardEdit.isVisible(3);
         dashboardEdit.click();
     }
 
     public Boolean isVisibleEdit() {
-        LOGGER.info("isVisibleEdit " + dashboardName.getText());
-        return dashboardEdit.isElementPresent() & dashboardEdit.isClickable();
+        Boolean isVisibleAndIsClickable = dashboardEdit.isElementPresent() & dashboardEdit.isClickable();
+        LOGGER.info("Edit button on dashboard with name " + dashboardName.getText() + " isVisibleAndClickable is " + isVisibleAndIsClickable);
+        return isVisibleAndIsClickable;
     }
 
+    public Boolean isVisibleDelete() {
+        Boolean isVisibleAndIsClickable = dashboardDelete.isElementPresent() & dashboardDelete.isClickable();
+        LOGGER.info("Delete button on dashboard with name " + dashboardName.getText() + " isVisibleAndClickable is " + isVisibleAndIsClickable);
+        return isVisibleAndIsClickable;
+    }
 }
