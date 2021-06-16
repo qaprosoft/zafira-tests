@@ -157,4 +157,8 @@ public class TestRunsPage extends AbstractPage {
     public boolean isPlatformFilterButtonPresent() {
         return platformFilterButton.isVisible() && platformFilterButton.isClickable();
     }
+
+    public int getNumberOfTestRunCards(){
+        return testRunCards.size();
+    }
 }

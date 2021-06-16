@@ -196,4 +196,18 @@ public class CommonUtils {
         //wait.until(ExpectedConditions.alertIsPresent());
     }
 
+    public static boolean isDate(String date) {
+        if (date.isEmpty()) {
+            return false;
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        dateFormat.setLenient(false);
+        try {
+            dateFormat.parse(date);
+        } catch (ParseException ex) {
+            System.out.println("Wrong date format");
+            return false;
+        }
+        return true;
+    }
 }
