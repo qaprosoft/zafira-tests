@@ -58,6 +58,10 @@ public class TestRunsPageTest extends SignIn {
         softAssert.assertTrue(apiRunCard.getHowLongAgoStarted().contains(defaultAgoValue));
         softAssert.assertTrue(apiRunCard.isTestSettingsButtonPresent());
         softAssert.assertTrue(apiRunCard.isCheckBoxActive());
+        softAssert.assertTrue(apiRunCard.isCopyTestNameButtonActive(),
+                "Copy button won't appeared when hovering test run name");
+        softAssert.assertEquals(testRunsPage.getNumberOfTestsOnThePage(), testRunsPage.getNumberOfTestRunCards(),
+                "Number of test cards differ to pagination info");
         softAssert.assertAll();
     }
 
@@ -83,6 +87,10 @@ public class TestRunsPageTest extends SignIn {
         softAssert.assertTrue(webRunCard.getHowLongAgoStarted().contains(defaultAgoValue));
         softAssert.assertTrue(webRunCard.isTestSettingsButtonPresent());
         softAssert.assertTrue(webRunCard.isCheckBoxActive());
+        softAssert.assertTrue(webRunCard.isCopyTestNameButtonActive(),
+                "Copy button won't appeared when hovering test run name");
+        softAssert.assertEquals(testRunsPage.getNumberOfTestsOnThePage(), testRunsPage.getNumberOfTestRunCards(),
+                "Number of test cards differ to pagination info");
         softAssert.assertAll();
     }
 
@@ -96,9 +104,30 @@ public class TestRunsPageTest extends SignIn {
         softAssert.assertEquals(resultPage.getPageTitle(), "Test results",
                 "Expected page title didn't match the actual");
         softAssert.assertTrue(resultPage.isBackButtonActive(), "Back button is not visible or clickable");
-        softAssert.assertEquals(resultPage.getTestRunName(), webRunName);
-        softAssert.assertEquals(resultPage.getTestRunJob(), "launcher");
-        softAssert.assertTrue(resultPage.isCopyTestNameButtonActive(),
+
+        TestRunCard resultPageCard = resultPage.getPageCard();
+        softAssert.assertEquals(resultPageCard.getTitle(), webRunName);
+        softAssert.assertEquals(resultPageCard.getJobName(), "launcher");
+        softAssert.assertTrue(resultPageCard.isCopyTestNameButtonActive(),
+                "Copy button won't appeared when hovering test run name");
+        softAssert.assertAll();
+    }
+
+    @Test(dependsOnMethods = "apiJobRun")
+    public void apiRunTestVerificationOfResultPage() {
+        TestRunsPage testRunsPage = navigationMenu.toTestRunsPage();
+        testRunsPage.assertPageOpened();
+        TestRunResultPage resultPage = testRunsPage.toTestRunResultPage(apiRunName);
+        resultPage.assertPageOpened();
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(resultPage.getPageTitle(), "Test results",
+                "Expected page title didn't match the actual");
+        softAssert.assertTrue(resultPage.isBackButtonActive(), "Back button is not visible or clickable");
+
+        TestRunCard resultPageCard = resultPage.getPageCard();
+        softAssert.assertEquals(resultPageCard.getTitle(), apiRunName);
+        softAssert.assertEquals(resultPageCard.getJobName(), "launcher");
+        softAssert.assertTrue(resultPageCard.isCopyTestNameButtonActive(),
                 "Copy button won't appeared when hovering test run name");
         softAssert.assertAll();
     }

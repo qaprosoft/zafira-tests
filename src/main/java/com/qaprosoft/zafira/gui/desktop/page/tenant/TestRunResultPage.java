@@ -4,6 +4,7 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
 import com.qaprosoft.zafira.gui.desktop.component.TenantHeader;
+import com.qaprosoft.zafira.gui.desktop.component.TestRunCard;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -15,20 +16,14 @@ public class TestRunResultPage extends AbstractPage {
     @FindBy(id = "header")
     private TenantHeader header;
 
-    @FindBy(xpath = "//div[@id='pageTitle']//span[text()='Test results']")
-    private ExtendedWebElement pageTitle;
+    @FindBy(xpath = "//div[contains(@class,'test-run-card ng-isolate-scope _single')]")
+    private TestRunCard testCard;
 
     @FindBy(xpath = "//a[contains(@class,'back_button')]//md-icon")
     private ExtendedWebElement backIcon;
 
-    @FindBy(xpath = "//span[@class='test-run-card__title-text ng-binding']")
-    private ExtendedWebElement testRunName;
-
-    @FindBy(xpath = "//div[@class='test-run-card__job-name ng-scope']")
-    private ExtendedWebElement zebrunnerJobName;
-
-    @FindBy(xpath = "//div[@class='test-run-card__title']//button[@title='Copy to clipboard']")
-    private ExtendedWebElement copyTestRunNameButton;
+    @FindBy(xpath = "//div[@id='pageTitle']//span[text()='Test results']")
+    private ExtendedWebElement pageTitle;
 
     public TestRunResultPage(WebDriver driver) {
         super(driver);
@@ -43,16 +38,7 @@ public class TestRunResultPage extends AbstractPage {
         return backIcon.isClickable() && backIcon.isVisible();
     }
 
-    public String getTestRunName() {
-        return testRunName.getText();
-    }
-
-    public String getTestRunJob() {
-        return zebrunnerJobName.getText();
-    }
-
-    public boolean isCopyTestNameButtonActive() {
-        testRunName.hover();
-        return copyTestRunNameButton.isClickable() && copyTestRunNameButton.isVisible();
+    public TestRunCard getPageCard(){
+        return testCard;
     }
 }

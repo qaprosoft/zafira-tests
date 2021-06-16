@@ -61,6 +61,9 @@ public class TestRunsPage extends AbstractPage {
     @FindBy(xpath = "//a[text()='Show all saved filters']")
     private ExtendedWebElement showAllSavedFiltersButton;
 
+    @FindBy(xpath = "//div[@class='label ng-binding']")
+    private ExtendedWebElement pagination;
+
     public TestRunsPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(sectionHeader);
@@ -158,7 +161,13 @@ public class TestRunsPage extends AbstractPage {
         return platformFilterButton.isVisible() && platformFilterButton.isClickable();
     }
 
-    public int getNumberOfTestRunCards(){
-        return testRunCards.size();
+    public String getNumberOfTestRunCards() {
+        return String.valueOf(testRunCards.size());
+    }
+
+    public String getNumberOfTestsOnThePage() {
+        //1 - 3 of 3
+        String[] arr = pagination.getText().split(" - | of ");
+        return arr[1];
     }
 }
