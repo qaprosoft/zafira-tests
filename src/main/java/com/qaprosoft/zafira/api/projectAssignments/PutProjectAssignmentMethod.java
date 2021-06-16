@@ -14,7 +14,7 @@ public class PutProjectAssignmentMethod extends ZafiraBaseApiMethodWithAuth {
     public PutProjectAssignmentMethod(int projectId, int userId, String role){
         replaceUrlPlaceholder("projects_url", APIContextManager.PROJECT_SERVICE_URL);
         replaceUrlPlaceholder("projectId", String.valueOf(projectId));
-        addProperty("userId", userId);
+        addProperty("userId", String.valueOf(userId));
         addProperty("role", role);
     }
 }
