@@ -5,7 +5,6 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrat
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.component.DashboardCard;
-import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
 import com.qaprosoft.zafira.util.WaitUtil;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -18,24 +17,11 @@ import java.util.List;
 public class MainDashboardsPage extends AbstractPage {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-
-    @FindBy(id = "nav")
-    private NavigationMenu navigationMenu;
-
-    @FindBy(xpath = "//a[@name='dashboardName']")
-    private List<ExtendedWebElement> dashboards;
-
     @FindBy(xpath = "//div[@class='dashboards-table__row ng-scope']")
     private List<DashboardCard> dashboardCards;
 
-    @FindBy(xpath = "//div[@class='fixed-page-header-container']//div[contains(text(),'Dashboards')]")
-    private ExtendedWebElement sectionHeader;
-
     @FindBy(xpath = "//span[@class='button__text ng-scope']")
     private ExtendedWebElement addDashboardButton;
-
-    @FindBy(xpath = "//form[@name='dashboard_form']")
-    private ExtendedWebElement newDashboardForm;
 
     @FindBy(xpath = "//input[@type='text']")
     private ExtendedWebElement search;
@@ -55,17 +41,11 @@ public class MainDashboardsPage extends AbstractPage {
     @FindBy(xpath = "//a[@name='dashboardName' and contains(text(), 'General')]")
     private ExtendedWebElement generalDashboard;
 
-    @FindBy(xpath = "//a[@name='dashboardName' and contains(text(), 'Personal')]")
-    private ExtendedWebElement personalDashboard;
 
     public MainDashboardsPage(WebDriver driver) {
         super(driver);
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
-        setUiLoadedMarker(sectionHeader);
-    }
-
-    public NavigationMenu getNavigationMenu() {
-        return navigationMenu;
+        setUiLoadedMarker(generalDashboard);
     }
 
     public DashboardPage addDashboard(String dashboardName) {
@@ -77,11 +57,11 @@ public class MainDashboardsPage extends AbstractPage {
         return new DashboardPage(getDriver());
     }
 
-    public List<ExtendedWebElement> searchDashboard(String dashboardName) {
+    public List<DashboardCard> searchDashboard(String dashboardName) {
         search.type(dashboardName);
         LOGGER.info("Dashboard with name " + dashboardName + " was found!");
         pause(WebConstant.TIME_TO_LOAD_PAGE);
-        return dashboards;
+        return dashboardCards;
     }
 
     public DashboardPage deleteDashboard(String dashboardName) {
@@ -91,15 +71,8 @@ public class MainDashboardsPage extends AbstractPage {
         return new DashboardPage(getDriver());
     }
 
-    public List<ExtendedWebElement> getAllDashboards() {
-        pause(WebConstant.TIME_TO_LOAD_PAGE + 3);
-        this.refresh();
-        pause(WebConstant.TIME_TO_LOAD_PAGE + 5);
-        return dashboards;
-    }
-
     public DashboardCard getDashboardByName(String dashboardName) {
-        Boolean loaded = WaitUtil.waitListToLoad(dashboards, 5000, 500);
+        Boolean loaded = WaitUtil.waitListToLoad(dashboardCards, 5000, 500);
         for (DashboardCard dashboardCard : dashboardCards) {
             if (dashboardCard.getDashboardName().toLowerCase().contains(dashboardName.toLowerCase()))
 
@@ -108,12 +81,14 @@ public class MainDashboardsPage extends AbstractPage {
         throw new RuntimeException("Can't find dashboard with name " + dashboardName + " !");
     }
 
-    public DashboardPage getGeneralDashboard() {
-        generalDashboard.click();
-        return new DashboardPage(getDriver());
-    }
+    public Boolean isDashboardPresentOnMainPage(String dashboardName) {
+        pause(WebConstant.TIME_TO_LOAD_PAGE);
+        for (DashboardCard dashboardCard : dashboardCards) {
+            if (dashboardCard.getDashboardName().toLowerCase().equals(dashboardName.toLowerCase())){
 
-    public ExtendedWebElement getPersonalDashboard() {
-        return personalDashboard;
+                return true;
+            }
+        }
+        return  false;
     }
 }

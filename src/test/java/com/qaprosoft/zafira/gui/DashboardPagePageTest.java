@@ -1,7 +1,6 @@
 package com.qaprosoft.zafira.gui;
 
-import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
+import com.qaprosoft.zafira.gui.desktop.component.DashboardCard;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.DashboardPage;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.MainDashboardsPage;
 import org.apache.commons.lang.RandomStringUtils;
@@ -12,7 +11,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.lang.invoke.MethodHandles;
-import java.util.List;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 public class DashboardPagePageTest extends SignIn {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -20,98 +21,88 @@ public class DashboardPagePageTest extends SignIn {
 
     @AfterMethod(onlyForGroups = "add-edit-search")
     public void deleteExistingDashboard() {
-        MainDashboardsPage mainDashboardsPage = navigationMenu.toDashboardPage();
-        mainDashboardsPage.searchDashboard(title);
-        mainDashboardsPage.deleteDashboard(title);
+        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
+        DashboardCard dashboardCard = mainDashboardsPage.getDashboardByName(title);
+        dashboardCard.deleteDashboard();
     }
 
     @Test(groups = "add-edit-search")
     public void addDashboard() {
-
         title = "Dashboard_Name_".concat(RandomStringUtils.randomAlphabetic(6));
+        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
 
-        MainDashboardsPage mainDashboardsPage = navigationMenu.toDashboardPage();
         DashboardPage dashboardPage = mainDashboardsPage.addDashboard(title);
-
         Assert.assertEquals(dashboardPage.getTitle(), title, "Title is not as expected!");
-        NavigationMenu navigationMenuFromDashboard = dashboardPage.getNavigationMenu();
-        mainDashboardsPage = navigationMenuFromDashboard.toDashboardPage();
-        Assert.assertTrue(mainDashboardsPage.getAllDashboards().toString().contains(title),
+
+        navigationMenu.toMainDashboardPage();
+        Assert.assertTrue(mainDashboardsPage.isDashboardPresentOnMainPage(title),
                 "Can't find newly created dashboard");
+
+        DashboardCard dashboardCard = mainDashboardsPage.getDashboardByName(title);
+        Assert.assertEquals(dashboardCard.getCreatedDate(), OffsetDateTime.now(ZoneOffset.UTC)
+                .format(DateTimeFormatter.ofPattern("MMM dd, yyyy")), "Create date is not as expected!");
+        Assert.assertTrue(dashboardCard.isVisibleEdit(), "Button edit is not present on this dashboard!");
+        Assert.assertTrue(dashboardCard.isVisibleDelete(), "Button delete is not present on this dashboard!");
     }
 
     @Test(groups = "add-edit-search")
     public void editDashboard() {
         title = "Dashboard_Name_".concat(RandomStringUtils.randomAlphabetic(6));
-
-        MainDashboardsPage mainDashboardsPage = navigationMenu.toDashboardPage();
+        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
         DashboardPage dashboardPage = mainDashboardsPage.addDashboard(title);
-
         title = "New_".concat(title);
-        dashboardPage.editDashboard(title);
 
+        dashboardPage.editDashboard(title);
         Assert.assertEquals(dashboardPage.getTitle(), title, "Title is not as expected!");
 
-        NavigationMenu navigationMenuFromDashboard = dashboardPage.getNavigationMenu();
-        mainDashboardsPage = navigationMenuFromDashboard.toDashboardPage();
-
-        Assert.assertTrue(mainDashboardsPage.getAllDashboards().toString().contains(title),
+        navigationMenu.toMainDashboardPage();
+        Assert.assertTrue(mainDashboardsPage.isDashboardPresentOnMainPage(title),
                 "Can't find newly created dashboard");
     }
 
     @Test(groups = "add-edit-search")
     public void searchDashboard() {
         title = "Dashboard_Name_".concat(RandomStringUtils.randomAlphabetic(6));
-
-        MainDashboardsPage mainDashboardsPage = navigationMenu.toDashboardPage();
+        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
         DashboardPage dashboardPage = mainDashboardsPage.addDashboard(title);
-        navigationMenu.toDashboardPage();
+        navigationMenu.toMainDashboardPage();
 
-        List<ExtendedWebElement> listOfDashboards = mainDashboardsPage.searchDashboard(title);
-
-        LOGGER.info(listOfDashboards.toString());
-        Assert.assertEquals(listOfDashboards.get(0).getText(), title,
+        Assert.assertEquals(mainDashboardsPage.searchDashboard(title).get(0).getDashboardName(), title,
                 "Can't find necessary dashboard!");
     }
 
     @Test
     public void deleteDashboard() {
         title = "Dashboard_Name_".concat(RandomStringUtils.randomAlphabetic(6));
-
-        MainDashboardsPage mainDashboardsPage = navigationMenu.toDashboardPage();
+        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
         mainDashboardsPage.addDashboard(title);
-        navigationMenu.toDashboardPage();
-        mainDashboardsPage.searchDashboard(title);
+        navigationMenu.toMainDashboardPage();
+        DashboardCard dashboardCard = mainDashboardsPage.getDashboardByName(title);
 
-        mainDashboardsPage.deleteDashboard(title);
-        List<ExtendedWebElement> listOfDashboards = mainDashboardsPage.getAllDashboards();
-        Assert.assertFalse(listOfDashboards.toString().contains(title),
+        dashboardCard.deleteDashboard();
+        Assert.assertFalse(mainDashboardsPage.isDashboardPresentOnMainPage(title),
                 "Dashboard with name " + title + " was not deleted!");
     }
 
     @Test
-    public void checkDefaultDashboardGeneral() {
-
-        MainDashboardsPage mainDashboardsPage = navigationMenu.toDashboardPage();
-        DashboardPage dashboardPage = mainDashboardsPage.getGeneralDashboard();
-        dashboardPage.getTitle();
-        Assert.assertEquals(dashboardPage.getTitle(), "General", "Title is not as expected!");
-        dashboardPage.sendByEmailButton().hover();
+    public void checkGeneralDashboard() {
+        String name = "General";
+        String date = "Jun 4, 2021";
+        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
+        DashboardCard dashboardCard = mainDashboardsPage.getDashboardByName(name);
+        Assert.assertEquals(dashboardCard.getCreatedDate(), date, "Create date is not as expected!");
+        Assert.assertFalse(dashboardCard.isVisibleEdit(), "Button edit is not present on this dashboard!");
+        Assert.assertFalse(dashboardCard.isVisibleDelete(), "Button delete is not present on this dashboard!");
     }
 
     @Test
-    public void getDashboardByName() {
-        String expected = "рррр3";
-        String expectedDate = "Jun 10, 2021";
-        MainDashboardsPage mainDashboardsPage = navigationMenu.toDashboardPage();
-
-        String actual = mainDashboardsPage.getDashboardByName(expected).getDashboardName();
-        Assert.assertEquals(actual, expected, "Name is not as expected!");
-        Assert.assertTrue(mainDashboardsPage.getDashboardByName(expected).isPresentCreatedDate());
-        String actualDate = mainDashboardsPage.getDashboardByName(expected).getCreatedDate();
-        Assert.assertEquals(actualDate, expectedDate, "Created date is not as expected!");
-        mainDashboardsPage.getDashboardByName(expected).clickEdit();
-        Assert.assertTrue(mainDashboardsPage.getDashboardByName(expected).isVisibleEdit());
-
+    public void checkPersonalDashboard() {
+        String name = "Personal";
+        String date = "Jun 4, 2021";
+        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
+        DashboardCard dashboardCard = mainDashboardsPage.getDashboardByName(name);
+        Assert.assertEquals(dashboardCard.getCreatedDate(), date, "Create date is not as expected!");
+        Assert.assertFalse(dashboardCard.isVisibleEdit(), "Button edit is not present on this dashboard!");
+        Assert.assertFalse(dashboardCard.isVisibleDelete(), "Button delete is not present on this dashboard!");
     }
 }
