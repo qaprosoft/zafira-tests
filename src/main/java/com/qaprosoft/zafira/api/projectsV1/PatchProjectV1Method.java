@@ -13,6 +13,6 @@ public class PatchProjectV1Method extends ZafiraBaseApiMethodWithAuth {
         replaceUrlPlaceholder("projects_url", APIContextManager.PROJECT_SERVICE_URL);
         replaceUrlPlaceholder("key", key);
         setProperties("api/projectV1.properties");
-        addProperty("leadId", leadId);
+        addProperty("leadId", String.valueOf(leadId));
     }
 }
