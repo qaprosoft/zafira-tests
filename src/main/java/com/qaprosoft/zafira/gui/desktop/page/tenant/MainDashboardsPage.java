@@ -5,7 +5,6 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrat
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.component.DashboardCard;
-import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
 import com.qaprosoft.zafira.util.WaitUtil;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -83,7 +82,7 @@ public class MainDashboardsPage extends AbstractPage {
     }
 
     public Boolean isDashboardPresentOnMainPage(String dashboardName) {
-         WaitUtil.waitListToLoad(dashboardCards, 5000, 500);
+        pause(WebConstant.TIME_TO_LOAD_PAGE);
         for (DashboardCard dashboardCard : dashboardCards) {
             if (dashboardCard.getDashboardName().toLowerCase().equals(dashboardName.toLowerCase())){
 

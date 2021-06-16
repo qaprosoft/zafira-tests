@@ -2,6 +2,7 @@ package com.qaprosoft.zafira.gui.desktop.component;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
+import com.qaprosoft.zafira.constant.WebConstant;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -25,6 +26,9 @@ public class DashboardCard extends AbstractUIObject {
     @FindBy(xpath = ".//md-icon[@class='material-icons icon ng-scope' and text()='delete_outline']")
     private ExtendedWebElement dashboardDelete;
 
+    @FindBy(xpath = "//*[@id=\"delete\"]")
+    private ExtendedWebElement deleteButtonOnPopup;
+
 
     public DashboardCard(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -43,12 +47,6 @@ public class DashboardCard extends AbstractUIObject {
         return createdDate;
     }
 
-    public Boolean isPresentCreatedDate() {
-        String createdDate = dashboardCreatedDate.getText();
-        LOGGER.info("Created date is " + createdDate);
-        return dashboardCreatedDate.isVisible(3);
-    }
-
     public void clickEdit() {
         LOGGER.info("Edit dashboard");
         dashboardEdit.isVisible(3);
@@ -65,5 +63,12 @@ public class DashboardCard extends AbstractUIObject {
         Boolean isVisibleAndIsClickable = dashboardDelete.isElementPresent() & dashboardDelete.isClickable();
         LOGGER.info("Delete button on dashboard with name " + dashboardName.getText() + " isVisibleAndClickable is " + isVisibleAndIsClickable);
         return isVisibleAndIsClickable;
+    }
+
+    public void deleteDashboard() {
+        LOGGER.info("Delete dashboard with name" + dashboardName.getText());
+        dashboardDelete.isVisible(3);
+        dashboardDelete.click();
+        deleteButtonOnPopup.click(WebConstant.TIME_TO_LOAD_PAGE);
     }
 }
