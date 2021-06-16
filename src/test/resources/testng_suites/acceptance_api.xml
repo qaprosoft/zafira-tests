@@ -10,7 +10,7 @@
     <parameter name="jenkinsJobType" value="api"/>
     <parameter name="jenkinsEnvironments" value="STAG"/>
     <parameter name="jenkinsRegressionPipeline" value="Carina-Demo-Regression-Pipeline"/>
-    <parameter name="jenkinsPipelineEnvironments" value="STAG"/>
+    <parameter name="jenkinsPipelineEnvironments" value="QA,DEV"/>
     <parameter name="jenkinsJobExecutionMode" value="continue"/>
     <parameter name="jenkinsMockHost" value="https://mockci.qaprosoft.farm"/>
 
