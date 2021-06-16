@@ -82,7 +82,7 @@ public class UpdateProjectLeadV1Test extends ZafiraAPIBaseTest {
 
         PutProjectV1Method putProjectV1Method = new PutProjectV1Method(projectKey, newName, newProjectKey);
         putProjectV1Method.addProperty(JSONConstant.LEAD_ID_KEY, userId);
-        putProjectV1Method.addProperty(JSONConstant.PUBLICLY_ACCESSIBLE, String.valueOf(false));
+        putProjectV1Method.addProperty(JSONConstant.PUBLICLY_ACCESSIBLE, false);
         apiExecutor.expectStatus(putProjectV1Method, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(putProjectV1Method);
         apiExecutor.validateResponse(putProjectV1Method, JSONCompareMode.STRICT);
