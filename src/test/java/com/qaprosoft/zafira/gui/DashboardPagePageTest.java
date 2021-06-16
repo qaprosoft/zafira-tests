@@ -10,6 +10,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.lang.invoke.MethodHandles;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 public class DashboardPagePageTest extends SignIn {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -86,15 +89,20 @@ public class DashboardPagePageTest extends SignIn {
     @Test
     public void getDashboardByName() {
         String expected = "рррр3";
-        String expectedDate = "Jun 10, 2021";
-        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
+        String expectedDate = "Jun 15, 2021";
+       String date= OffsetDateTime.now(ZoneOffset.UTC).minusSeconds(3)
+                .format(DateTimeFormatter.ofPattern("MMM dd, yyyy"));
+       LOGGER.info(date);
+       Assert.assertEquals(expectedDate,date);
+//        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
+//
+//        String actual = mainDashboardsPage.getDashboardByName(expected).getDashboardName();
+//        Assert.assertEquals(actual, expected, "Name is not as expected!");
+//        Assert.assertTrue(mainDashboardsPage.getDashboardByName(expected).isPresentCreatedDate());
+//        String actualDate = mainDashboardsPage.getDashboardByName(expected).getCreatedDate();
+//        Assert.assertEquals(actualDate, expectedDate, "Created date is not as expected!");
+//        mainDashboardsPage.getDashboardByName(expected).clickEdit();
+//        Assert.assertTrue(mainDashboardsPage.getDashboardByName(expected).isVisibleEdit());
 
-        String actual = mainDashboardsPage.getDashboardByName(expected).getDashboardName();
-        Assert.assertEquals(actual, expected, "Name is not as expected!");
-        Assert.assertTrue(mainDashboardsPage.getDashboardByName(expected).isPresentCreatedDate());
-        String actualDate = mainDashboardsPage.getDashboardByName(expected).getCreatedDate();
-        Assert.assertEquals(actualDate, expectedDate, "Created date is not as expected!");
-        mainDashboardsPage.getDashboardByName(expected).clickEdit();
-        Assert.assertTrue(mainDashboardsPage.getDashboardByName(expected).isVisibleEdit());
     }
 }
