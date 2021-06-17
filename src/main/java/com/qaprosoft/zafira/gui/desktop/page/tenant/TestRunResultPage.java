@@ -2,10 +2,11 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
-import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
-import com.qaprosoft.zafira.gui.desktop.component.TenantHeader;
+import com.qaprosoft.zafira.gui.desktop.component.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
 
 public class TestRunResultPage extends AbstractPage {
 
@@ -15,20 +16,29 @@ public class TestRunResultPage extends AbstractPage {
     @FindBy(id = "header")
     private TenantHeader header;
 
-    @FindBy(xpath = "//div[@id='pageTitle']//span[text()='Test results']")
-    private ExtendedWebElement pageTitle;
+    @FindBy(xpath = "//div[contains(@class,'test-run-card ng-isolate-scope _single')]")
+    private TestRunCard testCard;
+
+    @FindBy(xpath = "//*[@class='md-sidenav-right test-sessions-sidenav ng-isolate-scope _md md-whiteframe-1dp']")
+    private ResultSessionWindow resultSessionWindow;
+
+    @FindBy(xpath = "//test-card[@test='testItem']")
+    private List<ResultTestMethodCard> testMethods;
 
     @FindBy(xpath = "//a[contains(@class,'back_button')]//md-icon")
     private ExtendedWebElement backIcon;
 
-    @FindBy(xpath = "//span[@class='test-run-card__title-text ng-binding']")
-    private ExtendedWebElement testRunName;
+    @FindBy(xpath = "//div[@id='pageTitle']//span[text()='Test results']")
+    private ExtendedWebElement pageTitle;
 
-    @FindBy(xpath = "//div[@class='test-run-card__job-name ng-scope']")
-    private ExtendedWebElement zebrunnerJobName;
+    @FindBy(xpath = "//div[@class='test-run-group-row test-details__header-actions _default']")
+    private RunResultDetailsBar resultBar;
 
-    @FindBy(xpath = "//div[@class='test-run-card__title']//button[@title='Copy to clipboard']")
-    private ExtendedWebElement copyTestRunNameButton;
+    @FindBy(xpath = "//*[text()='Expand all labels']/parent::div")
+    private ExtendedWebElement expandAllLabel;
+
+    @FindBy(xpath = "//*[text()='Collapse all labels']/parent::div")
+    private ExtendedWebElement collapseAllLabel;
 
     public TestRunResultPage(WebDriver driver) {
         super(driver);
@@ -43,16 +53,71 @@ public class TestRunResultPage extends AbstractPage {
         return backIcon.isClickable() && backIcon.isVisible();
     }
 
-    public String getTestRunName() {
-        return testRunName.getText();
+    public TestRunCard getPageCard() {
+        return testCard;
     }
 
-    public String getTestRunJob() {
-        return zebrunnerJobName.getText();
+    public RunResultDetailsBar getResultBar() {
+        return resultBar;
     }
 
-    public boolean isCopyTestNameButtonActive() {
-        testRunName.hover();
-        return copyTestRunNameButton.isClickable() && copyTestRunNameButton.isVisible();
+    public boolean isCollapseAllLabelVisible() {
+        return collapseAllLabel.isVisible();
+    }
+
+    public boolean isExpandAllLabelVisible() {
+        return expandAllLabel.isVisible();
+    }
+
+    public boolean isNumberOfTestsAsExpected() {
+        return testMethods.size() == getNumberOfMethods();
+    }
+
+    public boolean isNumberOfTestsAsExpected(int expected) {
+        return (testMethods.size() == getNumberOfMethods()) && (testMethods.size() == expected);
+    }
+
+    private int getNumberOfMethods() {
+        String[] numbers = testCard.getRunResult().replaceAll("[^\\d\\s]", "")
+                .trim().replaceAll(" +", " ").split(" ");
+        int totalTests = 0;
+        for (int i = 0; i < numbers.length; i++) {
+            if (i != 2) {
+                totalTests += Integer.parseInt(numbers[i]);
+            }
+        }
+        return totalTests;
+    }
+
+    public List<ResultTestMethodCard> getTestMethods() {
+        return testMethods;
+    }
+
+    public boolean isAllFailedTestsHaveErrorTrace(){
+        resultBar.clickFailedButton();
+        for (ResultTestMethodCard testMethodCard: testMethods){
+            if (!testMethodCard.isErrorStacktracePresent()){
+                resultBar.clickResetButton();
+                return false;
+            }
+        }
+        resultBar.clickResetButton();
+        return true;
+    }
+
+    public boolean isAllPassedTestsHaveNoErrorTrace(){
+        resultBar.clickPassedButton();
+        for (ResultTestMethodCard testMethodCard: testMethods){
+            if (testMethodCard.isErrorStacktracePresent()){
+                resultBar.clickResetButton();
+                return false;
+            }
+        }
+        resultBar.clickResetButton();
+        return true;
+    }
+
+    public ResultSessionWindow getResultSessionWindow(){
+        return resultSessionWindow;
     }
 }

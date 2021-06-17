@@ -44,6 +44,9 @@ public class TestRunCard extends TestRunCardBase {
     @FindBy(xpath = ".//button[@name='testRunSetting']")
     private ExtendedWebElement testSettings;
 
+    @FindBy(xpath = ".//div[@class='test-run-card__title']//button[@title='Copy to clipboard']")
+    private ExtendedWebElement copyTestRunNameButton;
+
     public TestRunCard(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
@@ -81,5 +84,10 @@ public class TestRunCard extends TestRunCardBase {
 
     public boolean isTestSettingsButtonPresent() {
         return testSettings.isVisible() && testSettings.isClickable();
+    }
+
+    public boolean isCopyTestNameButtonActive() {
+        title.hover();
+        return copyTestRunNameButton.isClickable() && copyTestRunNameButton.isVisible();
     }
 }
