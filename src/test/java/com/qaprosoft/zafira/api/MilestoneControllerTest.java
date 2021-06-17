@@ -112,7 +112,7 @@ public class MilestoneControllerTest extends ZafiraAPIBaseTest {
 
         PostMilestoneMethod postMilestoneMethod =
                 new PostMilestoneMethod(nonexistentProjectId, milestoneName);
-        apiExecutor.expectStatus(postMilestoneMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.expectStatus(postMilestoneMethod, HTTPStatusCodeType.FORBIDDEN);
         apiExecutor.callApiMethod(postMilestoneMethod);
     }
 
@@ -132,7 +132,7 @@ public class MilestoneControllerTest extends ZafiraAPIBaseTest {
     public void testListMilestonesWithNonExistentProjectId() {
         GetMilestonesByProjectIdMethod getMilestonesByProjectIdMethod =
                 new GetMilestonesByProjectIdMethod(nonexistentProjectId);
-        apiExecutor.expectStatus(getMilestonesByProjectIdMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.expectStatus(getMilestonesByProjectIdMethod, HTTPStatusCodeType.FORBIDDEN);
         apiExecutor.callApiMethod(getMilestonesByProjectIdMethod);
     }
 
@@ -158,7 +158,7 @@ public class MilestoneControllerTest extends ZafiraAPIBaseTest {
 
         GetMilestonesByIdAndProjectIdMethod getMilestonesByIdAndProjectIdMethod =
                 new GetMilestonesByIdAndProjectIdMethod(nonexistentProjectId, milestoneId);
-        apiExecutor.expectStatus(getMilestonesByIdAndProjectIdMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.expectStatus(getMilestonesByIdAndProjectIdMethod, HTTPStatusCodeType.FORBIDDEN);
         apiExecutor.callApiMethod(getMilestonesByIdAndProjectIdMethod);
     }
 
@@ -193,7 +193,7 @@ public class MilestoneControllerTest extends ZafiraAPIBaseTest {
 
         DeleteMilestoneByIdAndProjectIdMethod deleteMilestoneByIdAndProjectId =
                 new DeleteMilestoneByIdAndProjectIdMethod(nonexistentProjectId, milestoneId);
-        apiExecutor.expectStatus(deleteMilestoneByIdAndProjectId, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.expectStatus(deleteMilestoneByIdAndProjectId, HTTPStatusCodeType.FORBIDDEN);
         apiExecutor.callApiMethod(deleteMilestoneByIdAndProjectId);
     }
 
@@ -321,7 +321,7 @@ public class MilestoneControllerTest extends ZafiraAPIBaseTest {
 
         PatchMilestoneMethod patchMilestoneMethod =
                 new PatchMilestoneMethod(nonexistentProjectId, milestoneId, false);
-        apiExecutor.expectStatus(patchMilestoneMethod, HTTPStatusCodeType.NOT_FOUND);
+        apiExecutor.expectStatus(patchMilestoneMethod, HTTPStatusCodeType.FORBIDDEN);
         apiExecutor.callApiMethod(patchMilestoneMethod);
     }
 }
