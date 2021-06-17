@@ -79,6 +79,7 @@ public class JSONConstant {
     public static final String DESIRED_CAPABILITIES = "desiredCapabilities";
     public static final String SESSION_ID = "sessionId";
     public static final String ITEMS_SESSION_NAME = "items[0].name";
+    public static final String ERROR_CODE = "code";
 
     //    Capability Manager
     public static final String ACTUAL_CAPS_NAME = "nameAct";

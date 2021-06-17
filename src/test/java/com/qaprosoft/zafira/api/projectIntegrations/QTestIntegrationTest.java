@@ -58,7 +58,7 @@ public class QTestIntegrationTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testDeleteQTestStackIntegration() throws UnsupportedEncodingException {
+    public void testDeleteQTestIntegration() throws UnsupportedEncodingException {
         qTestIntegrationService.addIntegration(projectId);
 
         DeleteQTestIntegrationMethod testIntegrationMethod = new DeleteQTestIntegrationMethod(projectId);
@@ -72,7 +72,7 @@ public class QTestIntegrationTest extends ZafiraAPIBaseTest {
 
 
     @Test
-    public void testDeleteQTestStackIntegrationsWithNonexistentProjectId() {
+    public void testDeleteQTestIntegrationsWithNonexistentProjectId() {
         DeleteQTestIntegrationMethod deleteQTestIntegrationMethod = new DeleteQTestIntegrationMethod(projectId * (-1));
         apiExecutor.expectStatus(deleteQTestIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
         apiExecutor.callApiMethod(deleteQTestIntegrationMethod);
@@ -97,7 +97,7 @@ public class QTestIntegrationTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testGetQTestStackIntegration() throws UnsupportedEncodingException {
+    public void testGetQTestIntegration() throws UnsupportedEncodingException {
         qTestIntegrationService.addIntegration(projectId);
 
         GetQTestIntegrationByProjectIdMethod getQTestIntegrationByProjectIdMethod = new GetQTestIntegrationByProjectIdMethod(projectId);
@@ -107,7 +107,7 @@ public class QTestIntegrationTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testGetQTestStackIntegrationWithoutQuery() throws UnsupportedEncodingException {
+    public void testGetQTestIntegrationWithoutQuery() throws UnsupportedEncodingException {
         qTestIntegrationService.addIntegration(projectId);
 
         GetQTestIntegrationByProjectIdMethod getQTestIntegrationByProjectIdMethod = new GetQTestIntegrationByProjectIdMethod(projectId);

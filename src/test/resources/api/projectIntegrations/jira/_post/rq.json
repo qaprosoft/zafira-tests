@@ -1,0 +1,4 @@
+{
+  <#if url??> "url": "${url}",</#if>
+  <#if token??> "token": "${token}"</#if>
+}
