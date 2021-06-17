@@ -122,7 +122,7 @@ public class TestRunsPage extends AbstractPage {
             }
             try {
                 sleeper.sleep(interval);
-                this.refresh();
+                driver.navigate().refresh();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -166,7 +166,6 @@ public class TestRunsPage extends AbstractPage {
     }
 
     public String getNumberOfTestsOnThePage() {
-        //1 - 3 of 3
         String[] arr = pagination.getText().split(" - | of ");
         return arr[1];
     }

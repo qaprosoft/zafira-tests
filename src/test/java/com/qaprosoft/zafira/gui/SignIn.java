@@ -14,7 +14,7 @@ import static com.qaprosoft.zafira.constant.ConfigConstant.PROJECT_NAME_KEY;
 
 public class SignIn extends AbstractTest {
 
-    protected NavigationMenu navigationMenu;
+    protected static NavigationMenu navigationMenu;
 
     @BeforeTest
     public void getSignInUrl() {

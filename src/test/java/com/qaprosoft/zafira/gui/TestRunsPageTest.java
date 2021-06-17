@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.gui;
 
+import com.qaprosoft.zafira.gui.desktop.component.ResultTestMethodCard;
 import com.qaprosoft.zafira.gui.desktop.component.RunResultDetailsBar;
 import com.qaprosoft.zafira.gui.desktop.component.TestRunCard;
 import com.qaprosoft.zafira.gui.desktop.component.TestRunsLauncher;
@@ -9,6 +10,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
+import java.util.List;
 
 public class TestRunsPageTest extends SignIn {
 
@@ -119,6 +122,7 @@ public class TestRunsPageTest extends SignIn {
         softAssert.assertTrue(resultPageCard.isTestSettingsButtonPresent());
         softAssert.assertTrue(resultPage.isCollapseAllLabelVisible());
         softAssert.assertTrue(resultPage.isExpandAllLabelVisible());
+        softAssert.assertTrue(resultPage.isNumberOfTestsAsExpected());
 
         RunResultDetailsBar resultBar = resultPage.getResultBar();
         softAssert.assertTrue(resultBar.icCheckboxPresent());
@@ -131,6 +135,8 @@ public class TestRunsPageTest extends SignIn {
         softAssert.assertTrue(resultBar.isGroupByPresent());
         softAssert.assertTrue(resultBar.isSortByPresent());
         softAssert.assertFalse(resultBar.isResetButtonPresent());
+
+        List<ResultTestMethodCard> methodCard = resultPage.getTestMethods();
         softAssert.assertAll();
     }
 

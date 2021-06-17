@@ -85,4 +85,32 @@ public class RunResultDetailsBar extends AbstractUIObject {
     private boolean isElementPresent(ExtendedWebElement element) {
         return element.isVisible(2) && element.isClickable(2);
     }
+
+    public void clickFailedButton(){
+        failedButton.click();
+    }
+
+    public void clickSkippedButton(){
+        skippedButton.click();
+    }
+
+    public void clickInProgressButton(){
+        inProgressButton.click();
+    }
+
+    public void clickPassedButton(){
+        passedButton.click();
+    }
+
+    public void clickAbortedButton(){
+        abortedButton.click();
+    }
+
+    public void clickResetButton(){
+        resetFiltersButton.clickIfPresent();
+    }
+
+    public void clickCheckbox(){
+        checkbox.click();
+    }
 }

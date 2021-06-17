@@ -2,12 +2,11 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
-import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
-import com.qaprosoft.zafira.gui.desktop.component.RunResultDetailsBar;
-import com.qaprosoft.zafira.gui.desktop.component.TenantHeader;
-import com.qaprosoft.zafira.gui.desktop.component.TestRunCard;
+import com.qaprosoft.zafira.gui.desktop.component.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
 
 public class TestRunResultPage extends AbstractPage {
 
@@ -19,6 +18,12 @@ public class TestRunResultPage extends AbstractPage {
 
     @FindBy(xpath = "//div[contains(@class,'test-run-card ng-isolate-scope _single')]")
     private TestRunCard testCard;
+
+    @FindBy(xpath = "//*[@class='md-sidenav-right test-sessions-sidenav ng-isolate-scope _md md-whiteframe-1dp']")
+    private ResultSessionWindow resultSessionWindow;
+
+    @FindBy(xpath = "//test-card[@test='testItem']")
+    private List<ResultTestMethodCard> testMethods;
 
     @FindBy(xpath = "//a[contains(@class,'back_button')]//md-icon")
     private ExtendedWebElement backIcon;
@@ -48,19 +53,71 @@ public class TestRunResultPage extends AbstractPage {
         return backIcon.isClickable() && backIcon.isVisible();
     }
 
-    public TestRunCard getPageCard(){
+    public TestRunCard getPageCard() {
         return testCard;
     }
 
-    public RunResultDetailsBar getResultBar(){
+    public RunResultDetailsBar getResultBar() {
         return resultBar;
     }
 
-    public boolean isCollapseAllLabelVisible(){
+    public boolean isCollapseAllLabelVisible() {
         return collapseAllLabel.isVisible();
     }
 
-    public boolean isExpandAllLabelVisible(){
+    public boolean isExpandAllLabelVisible() {
         return expandAllLabel.isVisible();
+    }
+
+    public boolean isNumberOfTestsAsExpected() {
+        return testMethods.size() == getNumberOfMethods();
+    }
+
+    public boolean isNumberOfTestsAsExpected(int expected) {
+        return (testMethods.size() == getNumberOfMethods()) && (testMethods.size() == expected);
+    }
+
+    private int getNumberOfMethods() {
+        String[] numbers = testCard.getRunResult().replaceAll("[^\\d\\s]", "")
+                .trim().replaceAll(" +", " ").split(" ");
+        int totalTests = 0;
+        for (int i = 0; i < numbers.length; i++) {
+            if (i != 2) {
+                totalTests += Integer.parseInt(numbers[i]);
+            }
+        }
+        return totalTests;
+    }
+
+    public List<ResultTestMethodCard> getTestMethods() {
+        return testMethods;
+    }
+
+    public boolean isAllFailedTestsHaveErrorTrace(){
+        resultBar.clickFailedButton();
+        for (ResultTestMethodCard testMethodCard: testMethods){
+            if (!testMethodCard.isErrorStacktracePresent()){
+                resultBar.clickResetButton();
+                return false;
+            }
+        }
+        resultBar.clickResetButton();
+        return true;
+    }
+
+    public boolean isAllPassedTestsHaveNoErrorTrace(){
+        resultBar.clickPassedButton();
+        for (ResultTestMethodCard testMethodCard: testMethods){
+            if (testMethodCard.isErrorStacktracePresent()){
+                resultBar.clickResetButton();
+                return false;
+            }
+        }
+        resultBar.clickResetButton();
+        return true;
+    }
+
+    public ResultSessionWindow getResultSessionWindow(){
+        return resultSessionWindow;
     }
 }
