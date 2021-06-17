@@ -79,7 +79,7 @@ public class ConfigConstant {
     public static final String EXISTING_PROJECT_ID = "existing_project_id";
     public static final String EMPTY_RQ_PATH = "empty_request_path";
 
-//#========================== Project Integration ========================#
+    //#========================== Project Integration ========================#
     public static final String BROWSER_STACK_URL = "browserStack_url";
     public static final String BROWSER_STACK_USERNAME = "browserStack_username";
     public static final String BROWSER_STACK_ACCESS_KEY = "browserStack_accessKey";
@@ -92,4 +92,11 @@ public class ConfigConstant {
     public static final String QTEST_TEST_URL = "qTest_url";
     public static final String STATUS_RUNNING = "running";
     public static final String TIME_TO_LOAD_PAGE = "time_to_load_page";
+    //#========================== Dashboards(Wed) ========================#
+    public static final String MAIN_DASHBOARD_PAGE_TITLE = "dashboards_title";
+    public static final String COLUMN_NAME_DASHBOARD_NAME = "dashboards_name_column_name";
+    public static final String COLUMN_NAME_CREATION_DATE = "creation_date_column_name";
+    public static final String DASHBOARD_NAME_PERSONAL = "dashboard_name_personal";
+    public static final String DASHBOARD_NAME_GENERAL = "dashboard_name_general";
+    public static final String DASHBOARD_CREATION_DATE = "dashboard_creation_date";
 }

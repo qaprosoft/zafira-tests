@@ -17,6 +17,9 @@ import java.util.List;
 public class MainDashboardsPage extends AbstractPage {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    @FindBy(id = "pageTitle")
+    private ExtendedWebElement mainDashboardsTitle;
+
     @FindBy(xpath = "//div[@class='dashboards-table__row ng-scope']")
     private List<DashboardCard> dashboardCards;
 
@@ -41,6 +44,11 @@ public class MainDashboardsPage extends AbstractPage {
     @FindBy(xpath = "//a[@name='dashboardName' and contains(text(), 'General')]")
     private ExtendedWebElement generalDashboard;
 
+    @FindBy(xpath = "//div[@class='dashboards-table__col _name']//span")
+    private ExtendedWebElement dashboardsTableColName;
+
+    @FindBy(xpath = "//div[@class='dashboards-table__col _created']/div/span")
+    private ExtendedWebElement dashboardsTableColCreationDate;
 
     public MainDashboardsPage(WebDriver driver) {
         super(driver);
@@ -84,11 +92,38 @@ public class MainDashboardsPage extends AbstractPage {
     public Boolean isDashboardPresentOnMainPage(String dashboardName) {
         pause(WebConstant.TIME_TO_LOAD_PAGE);
         for (DashboardCard dashboardCard : dashboardCards) {
-            if (dashboardCard.getDashboardName().toLowerCase().equals(dashboardName.toLowerCase())){
+            if (dashboardCard.getDashboardName().toLowerCase().equals(dashboardName.toLowerCase())) {
 
                 return true;
             }
         }
-        return  false;
+        return false;
+    }
+
+    public String getTitle() {
+        pause(WebConstant.TIME_TO_LOAD_PAGE);
+        return mainDashboardsTitle.getText();
+    }
+
+    public boolean isSearchPresentAndClickable() {
+        return search.isVisible(WebConstant.TIME_TO_LOAD_PAGE) && search.isClickable(WebConstant.TIME_TO_LOAD_PAGE);
+    }
+
+    public boolean isAddDashboardButtonPresentAndClickable() {
+        return addDashboardButton.isVisible(WebConstant.TIME_TO_LOAD_PAGE) && addDashboardButton.isClickable(WebConstant.TIME_TO_LOAD_PAGE);
+    }
+
+    public String getColonNameDASBOARD_NAME() {
+        pause(WebConstant.TIME_TO_LOAD_PAGE);
+        String dashboardNameColon = dashboardsTableColName.getText();
+        LOGGER.info("Dashboard name column name is  " + dashboardNameColon);
+        return dashboardNameColon;
+    }
+
+    public String getColonNameCREATION_DATE() {
+        pause(WebConstant.TIME_TO_LOAD_PAGE);
+        String creationDate = dashboardsTableColCreationDate.getText();
+        LOGGER.info("Creation date column name is  " + creationDate);
+        return creationDate;
     }
 }

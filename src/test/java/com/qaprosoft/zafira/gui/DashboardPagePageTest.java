@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.gui;
 
+import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.component.DashboardCard;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.DashboardPage;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.MainDashboardsPage;
@@ -86,23 +87,30 @@ public class DashboardPagePageTest extends SignIn {
 
     @Test
     public void checkGeneralDashboard() {
-        String name = "General";
-        String date = "Jun 4, 2021";
         MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
-        DashboardCard dashboardCard = mainDashboardsPage.getDashboardByName(name);
-        Assert.assertEquals(dashboardCard.getCreatedDate(), date, "Create date is not as expected!");
+        DashboardCard dashboardCard = mainDashboardsPage.getDashboardByName(WebConstant.DASHBOARD_NAME_GENERAL);
+        Assert.assertEquals(dashboardCard.getCreatedDate(), WebConstant.DASHBOARD_CREATION_DATE, "Create date is not as expected!");
         Assert.assertFalse(dashboardCard.isVisibleEdit(), "Button edit is not present on this dashboard!");
         Assert.assertFalse(dashboardCard.isVisibleDelete(), "Button delete is not present on this dashboard!");
     }
 
     @Test
     public void checkPersonalDashboard() {
-        String name = "Personal";
-        String date = "Jun 4, 2021";
         MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
-        DashboardCard dashboardCard = mainDashboardsPage.getDashboardByName(name);
-        Assert.assertEquals(dashboardCard.getCreatedDate(), date, "Create date is not as expected!");
+        DashboardCard dashboardCard = mainDashboardsPage.getDashboardByName(WebConstant.DASHBOARD_NAME_PERSONAL);
+        Assert.assertEquals(dashboardCard.getCreatedDate(), WebConstant.DASHBOARD_CREATION_DATE, "Create date is not as expected!");
         Assert.assertFalse(dashboardCard.isVisibleEdit(), "Button edit is not present on this dashboard!");
         Assert.assertFalse(dashboardCard.isVisibleDelete(), "Button delete is not present on this dashboard!");
+    }
+
+    @Test
+    public void checkMainDashboardPage() {
+        MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
+
+        Assert.assertEquals(mainDashboardsPage.getTitle(), WebConstant.MAIN_DASHBOARD_PAGE_TITLE, "Title is not as expected!");
+        Assert.assertTrue(mainDashboardsPage.isSearchPresentAndClickable(), "Search is not visible or clickable");
+        Assert.assertTrue(mainDashboardsPage.isAddDashboardButtonPresentAndClickable(), "AddDashboard button is not visible or clickable");
+        Assert.assertEquals(mainDashboardsPage.getColonNameDASBOARD_NAME(), WebConstant.COLUMN_NAME_DASHBOARD_NAME.toUpperCase(), "Colon name is not as expected!");
+        Assert.assertEquals(mainDashboardsPage.getColonNameCREATION_DATE(), WebConstant.COLUMN_NAME_CREATION_DATE.toUpperCase(), "Colon name is not as expected!");
     }
 }
