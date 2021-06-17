@@ -3,6 +3,7 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
+import com.qaprosoft.zafira.gui.desktop.component.RunResultDetailsBar;
 import com.qaprosoft.zafira.gui.desktop.component.TenantHeader;
 import com.qaprosoft.zafira.gui.desktop.component.TestRunCard;
 import org.openqa.selenium.WebDriver;
@@ -25,6 +26,15 @@ public class TestRunResultPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='pageTitle']//span[text()='Test results']")
     private ExtendedWebElement pageTitle;
 
+    @FindBy(xpath = "//div[@class='test-run-group-row test-details__header-actions _default']")
+    private RunResultDetailsBar resultBar;
+
+    @FindBy(xpath = "//*[text()='Expand all labels']/parent::div")
+    private ExtendedWebElement expandAllLabel;
+
+    @FindBy(xpath = "//*[text()='Collapse all labels']/parent::div")
+    private ExtendedWebElement collapseAllLabel;
+
     public TestRunResultPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(pageTitle);
@@ -40,5 +50,17 @@ public class TestRunResultPage extends AbstractPage {
 
     public TestRunCard getPageCard(){
         return testCard;
+    }
+
+    public RunResultDetailsBar getResultBar(){
+        return resultBar;
+    }
+
+    public boolean isCollapseAllLabelVisible(){
+        return collapseAllLabel.isVisible();
+    }
+
+    public boolean isExpandAllLabelVisible(){
+        return expandAllLabel.isVisible();
     }
 }
