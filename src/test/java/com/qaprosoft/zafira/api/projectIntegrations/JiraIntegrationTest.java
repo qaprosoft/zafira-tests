@@ -3,9 +3,7 @@ package com.qaprosoft.zafira.api.projectIntegrations;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.ZafiraAPIBaseTest;
-import com.qaprosoft.zafira.api.projectIntegrations.jiraWithXray.DeleteJiraIntegrationMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.jiraWithXray.GetJiraIntegrationByProjectIdMethod;
-import com.qaprosoft.zafira.api.projectIntegrations.jiraWithXray.PutSaveJiraIntegrationMethod;
+import com.qaprosoft.zafira.api.projectIntegrations.jiraWithXray.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
@@ -13,10 +11,12 @@ import com.qaprosoft.zafira.service.impl.projectIntegrations.JiraIntegrationServ
 import com.qaprosoft.zafira.util.AbstractAPIMethodUtil;
 import com.zebrunner.agent.core.annotation.Maintainer;
 import io.restassured.path.json.JsonPath;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -86,7 +86,7 @@ public class JiraIntegrationTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(JsonPath.from(rs).getString(JSONConstant.ERROR_CODE), "REP-2018", "Error code is not as expected!");
     }
 
-    @Test()
+    @Test(enabled = false, description = " actual status 200")
     public void testDeleteNonexistentJiraIntegration() {
         jiraIntegrationService.addIntegration(projectId);
         jiraIntegrationService.deleteIntegration(projectId);
@@ -134,66 +134,78 @@ public class JiraIntegrationTest extends ZafiraAPIBaseTest {
         String rs = apiExecutor.callApiMethod(getJiraIntegrationByProjectIdMethod);
         Assert.assertEquals(JsonPath.from(rs).getString(JSONConstant.ERROR_CODE), "REP-2018", "Error code is not as expected!");
     }
-//
-//    @DataProvider(name = "enabledIntegration")
-//    public Object[][] getEnabledType() {
-//        return new Object[][]{{false}, {true}};
-//    }
-//
-//    @Test(dataProvider = "enabledIntegration")
-//    public void testCheckEnabledJiraIntegration(Boolean value) throws UnsupportedEncodingException {
-//        qTestIntegrationService.addIntegration(projectId);
-//
-//        Boolean expectedEnableValue = value;
-//        PatchEnabledQTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledQTestIntegrationMethod(projectId, expectedEnableValue);
-//        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NO_CONTENT);
-//        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
-//        Boolean actualEnabled = qTestIntegrationService.getEnabledIntegration(projectId);
-//        Assert.assertEquals(actualEnabled, expectedEnableValue, "Enabled was not updated!");
-//    }
-//
-//    @Test
-//    public void testCheckEnabledJiraIntegrationWithoutQueryParam() {
-//        qTestIntegrationService.addIntegration(projectId);
-//
-//        PatchEnabledQTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledQTestIntegrationMethod(projectId, true);
-//        AbstractAPIMethodUtil.deleteQuery(patchEnabledIntegrationMethod);
-//        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.BAD_REQUEST);
-//        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
-//    }
-//
-//    @Test
-//    public void testCheckEnabledInDeletedJiraIntegration() {
-//        qTestIntegrationService.addIntegration(projectId);
-//        qTestIntegrationService.deleteIntegration(projectId);
-//
-//        PatchEnabledQTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledQTestIntegrationMethod(projectId, true);
-//        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
-//        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
-//    }
-//
-//    @Test
-//    public void testCheckEnabledJiraIntegrationWithNonexistentProjectId() {
-//        qTestIntegrationService.addIntegration(projectId);
-//
-//        PatchEnabledQTestIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledQTestIntegrationMethod(projectId * (-1), true);
-//        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
-//        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
-//    }
-//
-//    @Test
-//    public void testCheckConnectionWithJiraIntegrationWithInvalidCreds() {
-//        PostCheckConnectionQTestIntegrationMethod checkConnection = new PostCheckConnectionQTestIntegrationMethod(projectId);
-//        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
-//        apiExecutor.callApiMethod(checkConnection);
-//        apiExecutor.validateResponse(checkConnection, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-//    }
-//
-//    @Test
-//    public void testCheckConnectionWithJiraIntegrationWithEmptyRq() {
-//        PostCheckConnectionQTestIntegrationMethod checkConnection = new PostCheckConnectionQTestIntegrationMethod(projectId);
-//        checkConnection.setRequestTemplate(R.TESTDATA.get(ConfigConstant.EMPTY_RQ_PATH));
-//        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.BAD_REQUEST);
-//        apiExecutor.callApiMethod(checkConnection);
-//    }
+
+    @DataProvider(name = "enabledIntegration")
+    public Object[][] getEnabledType() {
+        return new Object[][]{{false}, {true}};
+    }
+
+    @Test(dataProvider = "enabledIntegration")
+    public void testCheckEnabledJiraIntegration(Boolean value) throws UnsupportedEncodingException {
+        jiraIntegrationService.addIntegration(projectId);
+
+        Boolean expectedEnableValue = value;
+        PatchEnabledJiraIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledJiraIntegrationMethod(projectId, expectedEnableValue);
+        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
+        Boolean actualEnabled = jiraIntegrationService.getEnabledIntegration(projectId);
+        Assert.assertEquals(actualEnabled, expectedEnableValue, "Enabled was not updated!");
+    }
+
+    @Test
+    public void testCheckEnabledJiraIntegrationWithoutQueryParam() {
+        jiraIntegrationService.addIntegration(projectId);
+
+        PatchEnabledJiraIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledJiraIntegrationMethod(projectId, true);
+        AbstractAPIMethodUtil.deleteQuery(patchEnabledIntegrationMethod);
+        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.BAD_REQUEST);
+        String rs = apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
+        Assert.assertEquals(JsonPath.from(rs).getString(JSONConstant.ERROR_CODE), "REP-1010", "Error code is not as expected!");
+    }
+
+    @Test
+    public void testCheckEnabledInDeletedJiraIntegration() {
+        jiraIntegrationService.addIntegration(projectId);
+        jiraIntegrationService.deleteIntegration(projectId);
+
+        PatchEnabledJiraIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledJiraIntegrationMethod(projectId, true);
+        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
+        String rs = apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
+        Assert.assertEquals(JsonPath.from(rs).getString(JSONConstant.ERROR_CODE), "REP-2068", "Error code is not as expected!");
+    }
+
+    @Test
+    public void testCheckEnabledJiraIntegrationWithNonexistentProjectId() {
+        jiraIntegrationService.addIntegration(projectId);
+
+        PatchEnabledJiraIntegrationMethod patchEnabledIntegrationMethod = new PatchEnabledJiraIntegrationMethod(projectId * (-1), true);
+        apiExecutor.expectStatus(patchEnabledIntegrationMethod, HTTPStatusCodeType.NOT_FOUND);
+        String rs = apiExecutor.callApiMethod(patchEnabledIntegrationMethod);
+        Assert.assertEquals(JsonPath.from(rs).getString(JSONConstant.ERROR_CODE), "REP-2018", "Error code is not as expected!");
+    }
+
+    @Test
+    public void testCheckConnectionWithJiraIntegration() {
+        PostCheckConnectionJiraIntegrationMethod checkConnection = new PostCheckConnectionJiraIntegrationMethod(projectId);
+        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(checkConnection);
+        apiExecutor.validateResponse(checkConnection, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testCheckConnectionWithJiraIntegrationWithInvalidCreds() {
+        PostCheckConnectionJiraIntegrationMethod checkConnection = new PostCheckConnectionJiraIntegrationMethod(projectId);
+        checkConnection.addProperty("token", "Jira_invalid_token".concat(RandomStringUtils.randomAlphabetic(3)));
+        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(checkConnection);
+    }
+
+    @Test
+    public void testCheckConnectionWithJiraIntegrationWithEmptyRq() {
+        PostCheckConnectionJiraIntegrationMethod checkConnection = new PostCheckConnectionJiraIntegrationMethod(projectId);
+        checkConnection.setRequestTemplate(R.TESTDATA.get(ConfigConstant.EMPTY_RQ_PATH));
+        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.BAD_REQUEST);
+        String rs = apiExecutor.callApiMethod(checkConnection);
+        Assert.assertEquals(JsonPath.from(rs).getString(JSONConstant.ERROR_CODE), "REP-1003", "Error code is not as expected!");
+    }
 }

@@ -4,7 +4,6 @@
   "username": "type:String",
   "token": "type:String",
   "encrypted": "type:Boolean",
-  "closedStatus": "type:String",
   "enabled": "type:Boolean",
   "type": "type:String"
 }

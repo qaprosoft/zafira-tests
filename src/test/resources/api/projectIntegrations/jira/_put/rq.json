@@ -3,7 +3,6 @@
   <#if url??> "url": "${url}",</#if>
   <#if token??> "token": "${token}",</#if>
   <#if type??> "type": "${type}", </#if>
-  <#if closedStatus??> "closedStatus": "${closedStatus}", </#if>
   <#if encrypted??> "encrypted": ${encrypted}, </#if>
   <#if enabled??> "enabled": ${enabled} </#if>
 }

@@ -6,7 +6,7 @@ public interface JiraIntegrationService {
 
     void addIntegration(int projectId);
 
-    //  Boolean getEnabledIntegration(int projectId) throws UnsupportedEncodingException;
+    Boolean getEnabledIntegration(int projectId) throws UnsupportedEncodingException;
 
     void deleteIntegration(int projectId);
 }

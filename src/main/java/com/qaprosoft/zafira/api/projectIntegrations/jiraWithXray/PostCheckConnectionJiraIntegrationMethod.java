@@ -9,20 +9,19 @@ import com.qaprosoft.zafira.api.ZafiraBaseApiMethodWithAuth;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.manager.APIContextManager;
 import com.qaprosoft.zafira.util.CryptoUtil;
+import org.apache.commons.lang3.RandomStringUtils;
 
-@RequestTemplatePath(path = "api/projectIntegrations/jira/_put/rq.json")
-@ResponseTemplatePath(path = "api/projectIntegrations/jira/_put/rs.json")
-@Endpoint(url = "${api_url}/v1/integrations/jira?projectId=${projectId}", methodType = HttpMethodType.PUT)
-public class PutSaveJiraIntegrationMethod extends ZafiraBaseApiMethodWithAuth {
-    public PutSaveJiraIntegrationMethod(int projectId) {
+@RequestTemplatePath(path = "api/projectIntegrations/jira/_post/rq.json")
+@ResponseTemplatePath(path = "api/projectIntegrations/jira/_post/rs.json")
+@Endpoint(url = "${api_url}/v1/integrations/jira/connectivity-checks?projectId=${projectId}", methodType = HttpMethodType.POST)
+public class PostCheckConnectionJiraIntegrationMethod extends ZafiraBaseApiMethodWithAuth {
+    public PostCheckConnectionJiraIntegrationMethod(int projectId) {
         replaceUrlPlaceholder("api_url", APIContextManager.API_URL);
         replaceUrlPlaceholder("projectId", String.valueOf(projectId));
 
         addProperty("username", R.TESTDATA.get(ConfigConstant.JIRA_USERNAME));
         addProperty("token", CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.JIRA_TOKEN)));
         addProperty("url", R.TESTDATA.get(ConfigConstant.JIRA_URL));
-        addProperty("encrypted", true);
-        addProperty("type", R.TESTDATA.get(ConfigConstant.JIRA_TYPE));
-        addProperty("enabled", true);
+        addProperty("reachable", String.valueOf(true));
     }
 }
