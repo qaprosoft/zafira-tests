@@ -1,11 +1,9 @@
-package com.qaprosoft.zafira.gui.desktop.component;
+package com.qaprosoft.zafira.gui.desktop.component.common;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
-import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.MainDashboardsPage;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunsPage;
-import com.qaprosoft.zafira.util.WaitUtil;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -31,7 +29,6 @@ public class NavigationMenu extends AbstractUIObject {
     }
 
     public MainDashboardsPage toMainDashboardPage() {
-        pause(WebConstant.TIME_TO_LOAD_PAGE);
         dashboardButton.click();
         return new MainDashboardsPage(getDriver());
     }

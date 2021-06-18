@@ -1,13 +1,13 @@
 package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.zafira.constant.WebConstant;
-import com.qaprosoft.zafira.gui.desktop.component.DashboardCard;
+import com.qaprosoft.zafira.gui.desktop.component.dashboard.DashboardCard;
 import com.qaprosoft.zafira.util.WaitUtil;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,10 +35,7 @@ public class MainDashboardsPage extends AbstractPage {
     @FindBy(xpath = "//button[@type='submit']")
     private ExtendedWebElement submitButton;
 
-    @FindBy(xpath = "//div[@class='dashboards-table__col _delete']//md-icon[@class='material-icons icon ng-scope']")
-    private ExtendedWebElement deleteButton;
-
-    @FindBy(xpath = "//*[@id=\"delete\"]")
+    @FindBy(id = "delete")
     private ExtendedWebElement deleteButtonOnPopup;
 
     @FindBy(xpath = "//a[@name='dashboardName' and contains(text(), 'General')]")
@@ -52,14 +49,12 @@ public class MainDashboardsPage extends AbstractPage {
 
     public MainDashboardsPage(WebDriver driver) {
         super(driver);
-        setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
         setUiLoadedMarker(generalDashboard);
     }
 
     public DashboardPage addDashboard(String dashboardName) {
         addDashboardButton.click();
         dashboardNameInput.type(dashboardName);
-        submitButton.pause(WebConstant.TIME_TO_LOAD_PAGE);
         submitButton.click();
         LOGGER.info("Dashboard with name " + dashboardName + " was created!");
         return new DashboardPage(getDriver());
@@ -72,28 +67,38 @@ public class MainDashboardsPage extends AbstractPage {
         return dashboardCards;
     }
 
-    public DashboardPage deleteDashboard(String dashboardName) {
-        deleteButton.click(WebConstant.TIME_TO_LOAD_PAGE);
-        deleteButtonOnPopup.click();
-        LOGGER.info("Dashboard with name " + dashboardName + " was deleted!");
-        return new DashboardPage(getDriver());
+    public void deleteDashboard(String dashboardName) {
+        if(!WaitUtil.waitListToLoad(dashboardCards, 5000, 2300)){
+            return;
+        }
+        for (DashboardCard card : dashboardCards) {
+            if (card.getDashboardName().equalsIgnoreCase(dashboardName)) {
+                card.clickDeleteDashboardButton();
+                waitUntil(ExpectedConditions.elementToBeClickable(deleteButtonOnPopup.getElement()), WebConstant.TIME_TO_LOAD_PAGE);
+                deleteButtonOnPopup.click();
+                LOGGER.info("Dashboard with name " + dashboardName + " was deleted!");
+                pause(WebConstant.TIME_TO_LOAD_PAGE + 1);
+                return;
+            }
+        }
     }
 
     public DashboardCard getDashboardByName(String dashboardName) {
         Boolean loaded = WaitUtil.waitListToLoad(dashboardCards, 5000, 500);
-        for (DashboardCard dashboardCard : dashboardCards) {
-            if (dashboardCard.getDashboardName().toLowerCase().contains(dashboardName.toLowerCase()))
-
-                return dashboardCard;
+        if (loaded) {
+            for (DashboardCard dashboardCard : dashboardCards) {
+                if (dashboardCard.getDashboardName().toLowerCase().contains(dashboardName.toLowerCase()))
+                    return dashboardCard;
+            }
+            throw new RuntimeException("Can't find dashboard with name " + dashboardName + " !");
         }
-        throw new RuntimeException("Can't find dashboard with name " + dashboardName + " !");
+        throw new RuntimeException("Dashboard page is empty, can't find dashboard with name " + dashboardName + " !");
     }
 
     public Boolean isDashboardPresentOnMainPage(String dashboardName) {
-        pause(WebConstant.TIME_TO_LOAD_PAGE);
+//        pause(WebConstant.TIME_TO_LOAD_PAGE + 1);
         for (DashboardCard dashboardCard : dashboardCards) {
-            if (dashboardCard.getDashboardName().toLowerCase().equals(dashboardName.toLowerCase())) {
-
+            if (dashboardCard.getDashboardName().equalsIgnoreCase(dashboardName)) {
                 return true;
             }
         }
@@ -101,7 +106,6 @@ public class MainDashboardsPage extends AbstractPage {
     }
 
     public String getTitle() {
-        pause(WebConstant.TIME_TO_LOAD_PAGE);
         return mainDashboardsTitle.getText();
     }
 

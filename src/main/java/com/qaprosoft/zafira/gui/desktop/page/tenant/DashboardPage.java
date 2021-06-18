@@ -1,10 +1,9 @@
 package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.zafira.constant.WebConstant;
-import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
+import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
@@ -39,12 +38,9 @@ public class DashboardPage extends AbstractPage {
     @FindBy(xpath = "//i[@class='material-icons ng-scope']")
     private ExtendedWebElement sendByEmailButton;
 
-
     public DashboardPage(WebDriver driver) {
         super(driver);
-        setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
         setUiLoadedMarker(newWidgetButton);
-        pause(WebConstant.TIME_TO_LOAD_PAGE);
     }
 
     public void editDashboard(String newDashboardName) {
@@ -52,10 +48,10 @@ public class DashboardPage extends AbstractPage {
         editInputField.type(newDashboardName);
         saveEditButton.click();
         LOGGER.info("The dashboard name has been changed to " + newDashboardName + "!");
+        pause(WebConstant.TIME_TO_LOAD_PAGE);
     }
 
     public String getTitle() {
-        pause(WebConstant.TIME_TO_LOAD_PAGE + 3);
         return dashboardTitle.getText();
     }
 

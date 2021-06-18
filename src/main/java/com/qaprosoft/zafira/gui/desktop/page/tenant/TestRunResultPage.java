@@ -2,7 +2,13 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
-import com.qaprosoft.zafira.gui.desktop.component.*;
+import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
+import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
+import com.qaprosoft.zafira.gui.desktop.component.testresult.LinkIssueWindow;
+import com.qaprosoft.zafira.gui.desktop.component.testresult.ResultSessionWindow;
+import com.qaprosoft.zafira.gui.desktop.component.testresult.ResultTestMethodCard;
+import com.qaprosoft.zafira.gui.desktop.component.testresult.RunResultDetailsBar;
+import com.qaprosoft.zafira.gui.desktop.component.testrun.TestRunCard;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -98,14 +104,14 @@ public class TestRunResultPage extends AbstractPage {
         return testMethods;
     }
 
-    public boolean isAllFailedTestsHaveErrorTrace(){
+    public boolean isAllFailedTestsHaveErrorTrace() {
         resultBar.clickFailedButton();
-        if (noTestsMessage.isVisible(2)){
+        if (noTestsMessage.isVisible(2)) {
             resultBar.clickResetButton();
             return true;
         }
-        for (ResultTestMethodCard testMethodCard: testMethods){
-            if (!testMethodCard.isErrorStacktracePresent()){
+        for (ResultTestMethodCard testMethodCard : testMethods) {
+            if (!testMethodCard.isErrorStacktracePresent()) {
                 resultBar.clickResetButton();
                 return false;
             }
@@ -114,14 +120,14 @@ public class TestRunResultPage extends AbstractPage {
         return true;
     }
 
-    public boolean isAllPassedTestsHaveNoErrorTrace(){
+    public boolean isAllPassedTestsHaveNoErrorTrace() {
         resultBar.clickPassedButton();
-        if (noTestsMessage.isVisible(2)){
+        if (noTestsMessage.isVisible(2)) {
             resultBar.clickResetButton();
             return true;
         }
-        for (ResultTestMethodCard testMethodCard: testMethods){
-            if (testMethodCard.isErrorStacktracePresent()){
+        for (ResultTestMethodCard testMethodCard : testMethods) {
+            if (testMethodCard.isErrorStacktracePresent()) {
                 resultBar.clickResetButton();
                 return false;
             }

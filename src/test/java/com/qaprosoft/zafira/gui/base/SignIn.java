@@ -1,11 +1,11 @@
-package com.qaprosoft.zafira.gui;
+package com.qaprosoft.zafira.gui.base;
 
 import com.qaprosoft.carina.core.foundation.AbstractTest;
 import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.constant.WebConstant;
-import com.qaprosoft.zafira.gui.desktop.component.NavigationMenu;
-import com.qaprosoft.zafira.gui.desktop.page.LoginPage;
+import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
+import com.qaprosoft.zafira.gui.desktop.page.accountManagement.LoginPage;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunsPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;

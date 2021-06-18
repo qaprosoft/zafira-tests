@@ -1,8 +1,8 @@
-package com.qaprosoft.zafira.gui.desktop.page;
+package com.qaprosoft.zafira.gui.desktop.page.accountManagement;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
-import com.qaprosoft.zafira.gui.desktop.component.LandingRegistrationComp;
+import com.qaprosoft.zafira.gui.desktop.component.landing.LandingRegistrationComp;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
