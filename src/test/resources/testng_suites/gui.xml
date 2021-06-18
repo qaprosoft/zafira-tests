@@ -15,10 +15,15 @@
     <parameter name="jenkinsJobExecutionMode" value="continue"/>
     <parameter name="jenkinsAutoScreenshot" value="true"/>
 
-    <test name="WorkSpaceRegister tests">
+    <test name="Workspace register test">
         <classes>
-            <class name="com.qaprosoft.zafira.gui.DashboardPagePageTest" />
+            <class name="com.qaprosoft.zafira.gui.captcha.WorkSpaceRegister"/>
+        </classes>
+    </test>
+    <test name="Smoke gui tests">
+        <classes>
             <class name="com.qaprosoft.zafira.gui.TestRunsPageTest" />
+            <class name="com.qaprosoft.zafira.gui.DashboardPagePageTest" />
         </classes>
     </test>
 

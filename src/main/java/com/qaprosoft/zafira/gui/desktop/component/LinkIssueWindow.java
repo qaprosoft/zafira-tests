@@ -6,11 +6,11 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class ResultSessionWindow extends AbstractUIObject {
-    @FindBy(xpath = "//md-icon[@aria-label='Close sidenav']")
+public class LinkIssueWindow extends AbstractUIObject {
+    @FindBy(xpath = "//md-icon[@aria-label='Close dialog']")
     private ExtendedWebElement closeButton;
 
-    public ResultSessionWindow(WebDriver driver, SearchContext searchContext) {
+    public LinkIssueWindow(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 
