@@ -9,7 +9,6 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 public class TestRunResultPage extends AbstractPage {
-
     @FindBy(id = "nav-container")
     private NavigationMenu navigationMenu;
 
@@ -19,11 +18,14 @@ public class TestRunResultPage extends AbstractPage {
     @FindBy(xpath = "//div[contains(@class,'test-run-card ng-isolate-scope _single')]")
     private TestRunCard testCard;
 
+    @FindBy(xpath = "//test-card[@test='testItem']")
+    private List<ResultTestMethodCard> testMethods;
+
     @FindBy(xpath = "//*[@class='md-sidenav-right test-sessions-sidenav ng-isolate-scope _md md-whiteframe-1dp']")
     private ResultSessionWindow resultSessionWindow;
 
-    @FindBy(xpath = "//test-card[@test='testItem']")
-    private List<ResultTestMethodCard> testMethods;
+    @FindBy(xpath = "//md-dialog[@class='issue-modal styled-modal _md flex-50 background-clear-white md-transition-in']")
+    private LinkIssueWindow linkIssueWindow;
 
     @FindBy(xpath = "//a[contains(@class,'back_button')]//md-icon")
     private ExtendedWebElement backIcon;
@@ -39,6 +41,9 @@ public class TestRunResultPage extends AbstractPage {
 
     @FindBy(xpath = "//*[text()='Collapse all labels']/parent::div")
     private ExtendedWebElement collapseAllLabel;
+
+    @FindBy(xpath = "//div[@class='test-details__table-col ng-binding']")
+    private ExtendedWebElement noTestsMessage;
 
     public TestRunResultPage(WebDriver driver) {
         super(driver);
@@ -95,6 +100,10 @@ public class TestRunResultPage extends AbstractPage {
 
     public boolean isAllFailedTestsHaveErrorTrace(){
         resultBar.clickFailedButton();
+        if (noTestsMessage.isVisible(2)){
+            resultBar.clickResetButton();
+            return true;
+        }
         for (ResultTestMethodCard testMethodCard: testMethods){
             if (!testMethodCard.isErrorStacktracePresent()){
                 resultBar.clickResetButton();
@@ -107,6 +116,10 @@ public class TestRunResultPage extends AbstractPage {
 
     public boolean isAllPassedTestsHaveNoErrorTrace(){
         resultBar.clickPassedButton();
+        if (noTestsMessage.isVisible(2)){
+            resultBar.clickResetButton();
+            return true;
+        }
         for (ResultTestMethodCard testMethodCard: testMethods){
             if (testMethodCard.isErrorStacktracePresent()){
                 resultBar.clickResetButton();
@@ -117,7 +130,18 @@ public class TestRunResultPage extends AbstractPage {
         return true;
     }
 
-    public ResultSessionWindow getResultSessionWindow(){
+    public TenantHeader getHeader() {
+        return header;
+    }
+
+    public ResultSessionWindow openResultSessionWindow(ResultTestMethodCard card) {
+        card.clickTestSessionInfoRef();
         return resultSessionWindow;
     }
+
+    public LinkIssueWindow openLinkIssueWindow(ResultTestMethodCard card) {
+        card.clickLinkIssueButton();
+        return linkIssueWindow;
+    }
+
 }

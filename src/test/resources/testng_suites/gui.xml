@@ -17,8 +17,9 @@
 
     <test name="WorkSpaceRegister tests">
         <classes>
-            <class name="com.qaprosoft.zafira.gui.DashboardPagePageTest" />
+            <class name="com.qaprosoft.zafira.gui.captcha.WorkSpaceRegister"></class>
             <class name="com.qaprosoft.zafira.gui.TestRunsPageTest" />
+            <class name="com.qaprosoft.zafira.gui.DashboardPagePageTest" />
         </classes>
     </test>
 

@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 public class RunResultDetailsBar extends AbstractUIObject {
-
     @FindBy(xpath = ".//div[@class='md-container md-ink-ripple']")
     private ExtendedWebElement checkbox;
 
@@ -46,39 +45,39 @@ public class RunResultDetailsBar extends AbstractUIObject {
         return isElementPresent(checkbox);
     }
 
-    public boolean isSearchFieldPresent(){
+    public boolean isSearchFieldPresent() {
         return isElementPresent(searchField);
     }
 
-    public boolean isGroupByPresent(){
+    public boolean isGroupByPresent() {
         return isElementPresent(groupBy);
     }
 
-    public boolean isSortByPresent(){
+    public boolean isSortByPresent() {
         return isElementPresent(sortBy);
     }
 
-    public boolean isFailedButtonPresent(){
+    public boolean isFailedButtonPresent() {
         return isElementPresent(failedButton);
     }
 
-    public boolean isSkippedButtonPresent(){
+    public boolean isSkippedButtonPresent() {
         return isElementPresent(skippedButton);
     }
 
-    public boolean isPassedButtonPresent(){
+    public boolean isPassedButtonPresent() {
         return isElementPresent(passedButton);
     }
 
-    public boolean isAbortedButtonPresent(){
+    public boolean isAbortedButtonPresent() {
         return isElementPresent(abortedButton);
     }
 
-    public boolean isInProgressButtonPresent(){
+    public boolean isInProgressButtonPresent() {
         return isElementPresent(inProgressButton);
     }
 
-    public boolean isResetButtonPresent(){
+    public boolean isResetButtonPresent() {
         return isElementPresent(resetFiltersButton);
     }
 
@@ -86,31 +85,31 @@ public class RunResultDetailsBar extends AbstractUIObject {
         return element.isVisible(2) && element.isClickable(2);
     }
 
-    public void clickFailedButton(){
+    public void clickFailedButton() {
         failedButton.click();
     }
 
-    public void clickSkippedButton(){
+    public void clickSkippedButton() {
         skippedButton.click();
     }
 
-    public void clickInProgressButton(){
+    public void clickInProgressButton() {
         inProgressButton.click();
     }
 
-    public void clickPassedButton(){
+    public void clickPassedButton() {
         passedButton.click();
     }
 
-    public void clickAbortedButton(){
+    public void clickAbortedButton() {
         abortedButton.click();
     }
 
-    public void clickResetButton(){
+    public void clickResetButton() {
         resetFiltersButton.clickIfPresent();
     }
 
-    public void clickCheckbox(){
+    public void clickCheckbox() {
         checkbox.click();
     }
 }

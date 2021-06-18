@@ -122,7 +122,6 @@ public class TestRunsPage extends AbstractPage {
             }
             try {
                 sleeper.sleep(interval);
-                driver.navigate().refresh();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
