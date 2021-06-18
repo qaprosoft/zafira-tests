@@ -3,5 +3,8 @@
   "url": "type:String",
   "token": "type:String",
   "enabled": "type:Boolean",
-  "encrypted": "type:Boolean"
+  "encrypted": "type:Boolean",
+  "closedStatus": "type:String",
+  "type": "type:String",
+  "username": "type:String"
 }
