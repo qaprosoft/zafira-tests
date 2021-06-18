@@ -226,6 +226,7 @@
             <class name="com.qaprosoft.zafira.api.projectIntegrations.SauceLabsIntegrationTest"/>
             <class name="com.qaprosoft.zafira.api.projectIntegrations.LambdaTestIntegrationTest"/>
             <class name="com.qaprosoft.zafira.api.projectIntegrations.QTestIntegrationTest"/>
+            <class name="com.qaprosoft.zafira.api.projectIntegrations.JiraIntegrationTest"/>
         </classes>
     </test>
 </suite>
