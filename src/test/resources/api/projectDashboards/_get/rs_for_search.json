@@ -1,6 +1,8 @@
 {
   "page": "regex:[\\d]",
   "pageSize": 1000,
+  "query": "type:String",
+  "sortBy": "type:String",
   "results": [
     {
       "id": "regex:[\\d]",
