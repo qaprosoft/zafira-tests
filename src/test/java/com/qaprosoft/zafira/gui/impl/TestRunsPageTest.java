@@ -60,7 +60,7 @@ public class TestRunsPageTest extends SignIn {
         Assert.assertTrue(testRunsPage.isTestLaunched(apiSuite),
                 "Suite wasn't launched or launch card didn't appear");
 
-        TestRunCard apiRunCard = testRunsPage.getTestRunCard(apiRunName, 90);
+        TestRunCard apiRunCard = testRunsPage.wainTestRun(apiRunName, 90);
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(apiRunCard.getRunResult(), expectedApiResult,
                 "Test run result differ expected");
@@ -93,7 +93,7 @@ public class TestRunsPageTest extends SignIn {
         Assert.assertTrue(testRunsPage.isTestLaunched(webSuite),
                 "Suite wasn't launched or launch card didn't appear");
 
-        TestRunCard webRunCard = testRunsPage.getTestRunCard(webRunName, 100);
+        TestRunCard webRunCard = testRunsPage.wainTestRun(webRunName, 100);
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(webRunCard.getRunResult(), expectedWebResult,
                 "Test run result differ expected");

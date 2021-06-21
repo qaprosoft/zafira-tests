@@ -106,7 +106,7 @@ public class MainDashboardsPage extends AbstractPage {
     }
 
     public String getTitle() {
-        return mainDashboardsTitle.getText();
+        return mainDashboardsTitle.getText().trim();
     }
 
     public boolean isSearchPresentAndClickable() {
@@ -119,14 +119,14 @@ public class MainDashboardsPage extends AbstractPage {
 
     public String getColonNameDASBOARD_NAME() {
         pause(WebConstant.TIME_TO_LOAD_PAGE);
-        String dashboardNameColon = dashboardsTableColName.getText();
+        String dashboardNameColon = dashboardsTableColName.getText().trim();
         LOGGER.info("Dashboard name column name is  " + dashboardNameColon);
         return dashboardNameColon;
     }
 
     public String getColonNameCREATION_DATE() {
         pause(WebConstant.TIME_TO_LOAD_PAGE);
-        String creationDate = dashboardsTableColCreationDate.getText();
+        String creationDate = dashboardsTableColCreationDate.getText().trim();
         LOGGER.info("Creation date column name is  " + creationDate);
         return creationDate;
     }

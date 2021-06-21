@@ -33,11 +33,11 @@ public class TestRunsLauncher extends AbstractUIObject {
         long defaultPolling = 500;
         WaitUtil.waitListToLoad(repositoryList, defaultTimeout, defaultPolling);
         for (ExtendedWebElement repository : repositoryList) {
-            if (repository.getText().contains(repoName)) {
+            if (repository.getText().trim().contains(repoName)) {
                 repository.click();
                 WaitUtil.waitListToLoad(defaultSuitesList, defaultTimeout, defaultPolling);
                 for (ExtendedWebElement suite : defaultSuitesList) {
-                    if (suite.getText().contains(suiteName)) {
+                    if (suite.getText().trim().contains(suiteName)) {
                         suite.click();
                         launchSuiteButton.click();
                         break;

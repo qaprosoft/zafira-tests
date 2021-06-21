@@ -52,7 +52,7 @@ public class DashboardPage extends AbstractPage {
     }
 
     public String getTitle() {
-        return dashboardTitle.getText();
+        return dashboardTitle.getText().trim();
     }
 
     public NavigationMenu getNavigationMenu() {

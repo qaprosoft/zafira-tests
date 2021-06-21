@@ -35,13 +35,13 @@ public class DashboardCard extends AbstractUIObject {
     }
 
     public String getDashboardName() {
-        String realDashboardName = dashboardName.getText();
+        String realDashboardName = dashboardName.getText().trim();
         LOGGER.info("The name of dashboard is " + realDashboardName);
         return realDashboardName;
     }
 
     public String getCreatedDate() {
-        String createdDate = dashboardCreatedDate.getText();
+        String createdDate = dashboardCreatedDate.getText().trim();
         LOGGER.info("Created date is " + createdDate);
         return createdDate;
     }
@@ -54,13 +54,13 @@ public class DashboardCard extends AbstractUIObject {
 
     public Boolean isVisibleEdit() {
         Boolean isVisibleAndIsClickable = dashboardEdit.isClickable(WebConstant.TIME_TO_LOAD_PAGE);
-        LOGGER.info("Edit button on dashboard with name " + dashboardName.getText() + " isVisibleAndClickable is " + isVisibleAndIsClickable);
+        LOGGER.info("Edit button on dashboard with name " + dashboardName.getText().trim() + " isVisibleAndClickable is " + isVisibleAndIsClickable);
         return isVisibleAndIsClickable;
     }
 
     public Boolean isVisibleDelete() {
         Boolean isVisibleAndIsClickable = dashboardDelete.isClickable(WebConstant.TIME_TO_LOAD_PAGE);
-        LOGGER.info("Delete button on dashboard with name " + dashboardName.getText() + " isVisibleAndClickable is " + isVisibleAndIsClickable);
+        LOGGER.info("Delete button on dashboard with name " + dashboardName.getText().trim() + " isVisibleAndClickable is " + isVisibleAndIsClickable);
         return isVisibleAndIsClickable;
     }
 

@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.gui.desktop.component.testrun;
 
+import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunResultPage;
 import org.openqa.selenium.SearchContext;
@@ -56,9 +57,12 @@ public class TestRunCard extends TestRunCardBase {
     }
 
     public String getRunResult() {
-        String failed = failedTestsBox.getText().replace('\n', ' ');
+        String failed = failedTestsBox.getText().trim().replace('\n', ' ');
+        if (Configuration.get(Configuration.Parameter.BROWSER).equalsIgnoreCase("safari") || Configuration.getCapability("browserName").equals("safari")) {
+            failed = failedTestsBox.getText().trim().replace("|", " | ");
+        }
         return String.format("Passed %s, Failure %s, Skipped %s",
-                successTestsBox.getText(), failed, skippedTestBox.getText());
+                successTestsBox.getText().trim(), failed, skippedTestBox.getText());
     }
 
     public TestRunResultPage toTestRunResultPage() {
@@ -75,11 +79,11 @@ public class TestRunCard extends TestRunCardBase {
     }
 
     public String getJobName() {
-        return zebrunnerJobName.getText();
+        return zebrunnerJobName.getText().trim();
     }
 
     public String getHowLongAgoStarted() {
-        return startedText.getText();
+        return startedText.getText().trim();
     }
 
     public boolean isTestSettingsButtonPresent() {
