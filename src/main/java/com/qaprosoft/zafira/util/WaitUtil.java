@@ -1,7 +1,6 @@
 package com.qaprosoft.zafira.util;
 
 
-import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.zafira.api.artifactsController.GetLogsV1Method;
 import com.qaprosoft.zafira.api.artifactsController.GetScreenshotsV1Method;
 import com.qaprosoft.zafira.api.testRunController.GetTestByTestRunIdMethod;

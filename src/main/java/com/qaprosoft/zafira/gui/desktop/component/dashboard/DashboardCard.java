@@ -1,4 +1,4 @@
-package com.qaprosoft.zafira.gui.desktop.component;
+package com.qaprosoft.zafira.gui.desktop.component.dashboard;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
@@ -35,7 +35,6 @@ public class DashboardCard extends AbstractUIObject {
     }
 
     public String getDashboardName() {
-        pause(5);
         String realDashboardName = dashboardName.getText();
         LOGGER.info("The name of dashboard is " + realDashboardName);
         return realDashboardName;
@@ -54,21 +53,18 @@ public class DashboardCard extends AbstractUIObject {
     }
 
     public Boolean isVisibleEdit() {
-        Boolean isVisibleAndIsClickable = dashboardEdit.isElementPresent() & dashboardEdit.isClickable();
+        Boolean isVisibleAndIsClickable = dashboardEdit.isClickable(WebConstant.TIME_TO_LOAD_PAGE);
         LOGGER.info("Edit button on dashboard with name " + dashboardName.getText() + " isVisibleAndClickable is " + isVisibleAndIsClickable);
         return isVisibleAndIsClickable;
     }
 
     public Boolean isVisibleDelete() {
-        Boolean isVisibleAndIsClickable = dashboardDelete.isElementPresent() & dashboardDelete.isClickable();
+        Boolean isVisibleAndIsClickable = dashboardDelete.isClickable(WebConstant.TIME_TO_LOAD_PAGE);
         LOGGER.info("Delete button on dashboard with name " + dashboardName.getText() + " isVisibleAndClickable is " + isVisibleAndIsClickable);
         return isVisibleAndIsClickable;
     }
 
-    public void deleteDashboard() {
-        LOGGER.info("Delete dashboard with name" + dashboardName.getText());
-        dashboardDelete.isVisible(3);
+    public void clickDeleteDashboardButton() {
         dashboardDelete.click();
-        deleteButtonOnPopup.click(WebConstant.TIME_TO_LOAD_PAGE);
     }
 }

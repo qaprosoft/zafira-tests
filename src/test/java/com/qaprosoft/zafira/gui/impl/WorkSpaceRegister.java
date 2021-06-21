@@ -1,7 +1,8 @@
-package com.qaprosoft.zafira.gui.captcha;
+package com.qaprosoft.zafira.gui.impl;
 
-import com.qaprosoft.zafira.gui.desktop.component.LandingRegistrationComp;
-import com.qaprosoft.zafira.gui.desktop.page.LandingPage;
+import com.qaprosoft.zafira.gui.base.BaseWorkSpaceRegister;
+import com.qaprosoft.zafira.gui.desktop.component.landing.LandingRegistrationComp;
+import com.qaprosoft.zafira.gui.desktop.page.accountManagement.LandingPage;
 import org.junit.Assert;
 import org.testng.annotations.Test;
 

@@ -1,7 +1,8 @@
-package com.qaprosoft.zafira.gui.desktop.component;
+package com.qaprosoft.zafira.gui.desktop.component.testresult;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
+import com.qaprosoft.zafira.constant.WebConstant;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -48,35 +49,35 @@ public class ResultTestMethodCard extends AbstractUIObject {
     }
 
     public boolean isErrorStacktracePresent() {
-        return errorStacktrace.isPresent(2);
+        return errorStacktrace.isPresent(WebConstant.TIME_TO_LOAD_PAGE);
     }
 
     public boolean isCheckboxPresent() {
-        return checkbox.isPresent() && checkbox.isVisible();
+        return checkbox.isPresent(WebConstant.TIME_TO_LOAD_PAGE) && checkbox.isVisible(WebConstant.TIME_TO_LOAD_PAGE);
     }
 
     public boolean isMarkAsPassedButtonPresent() {
         settingButton.click();
-        boolean present = markAsPassedButton.isVisible() && markAsPassedButton.isClickable();
-        markAsPassedButton.click(4);
+        boolean present = markAsPassedButton.isVisible(WebConstant.TIME_TO_LOAD_PAGE) && markAsPassedButton.isClickable(WebConstant.TIME_TO_LOAD_PAGE);
+        markAsPassedButton.click(WebConstant.TIME_TO_LOAD_PAGE);
         driver.switchTo().alert().dismiss();
         return present;
     }
 
-    public boolean isMarkAsFailedButtonPresent(){
+    public boolean isMarkAsFailedButtonPresent() {
         settingButton.click();
         boolean present = markAsFailedButton.isVisible() && markAsFailedButton.isClickable();
-        markAsFailedButton.click(4);
+        markAsFailedButton.click(WebConstant.TIME_TO_LOAD_PAGE);
         return present;
     }
 
-    public boolean isLinkIssueButtonPresent(){
-        return linkIssueButton.isPresent(5);
+    public boolean isLinkIssueButtonPresent() {
+        return linkIssueButton.isPresent(WebConstant.TIME_TO_LOAD_PAGE);
     }
 
-    public void clickLinkIssueButton(){
+    public void clickLinkIssueButton() {
         settingButton.click();
-        waitUntil(ExpectedConditions.presenceOfElementLocated(linkIssueButton.getBy()),5);
+        waitUntil(ExpectedConditions.presenceOfElementLocated(linkIssueButton.getBy()), WebConstant.TIME_TO_LOAD_PAGE);
         findExtendedWebElement(linkIssueButton.getBy()).click();
     }
 
@@ -92,11 +93,15 @@ public class ResultTestMethodCard extends AbstractUIObject {
         return testOwner.getText();
     }
 
-    public void clickTestSessionInfoRef(){
+    public void clickTestSessionInfoRef() {
         testSessionInfoRef.click();
     }
 
     public String getLabelsText() {
-        return labels.toString();
+        StringBuilder labelsStr = new StringBuilder();
+        for (ExtendedWebElement el : labels) {
+            labelsStr.append(el.getText()).append(" ");
+        }
+        return labelsStr.toString();
     }
 }

@@ -2,7 +2,11 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
-import com.qaprosoft.zafira.gui.desktop.component.*;
+import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
+import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
+import com.qaprosoft.zafira.gui.desktop.component.testrun.TestRunCard;
+import com.qaprosoft.zafira.gui.desktop.component.testrun.TestRunLaunchCard;
+import com.qaprosoft.zafira.gui.desktop.component.testrun.TestRunsLauncher;
 import com.qaprosoft.zafira.util.WaitUtil;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;

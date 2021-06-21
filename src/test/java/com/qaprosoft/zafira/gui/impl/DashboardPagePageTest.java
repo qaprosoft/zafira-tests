@@ -1,7 +1,8 @@
-package com.qaprosoft.zafira.gui;
+package com.qaprosoft.zafira.gui.impl;
 
 import com.qaprosoft.zafira.constant.WebConstant;
-import com.qaprosoft.zafira.gui.desktop.component.DashboardCard;
+import com.qaprosoft.zafira.gui.base.SignIn;
+import com.qaprosoft.zafira.gui.desktop.component.dashboard.DashboardCard;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.DashboardPage;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.MainDashboardsPage;
 import org.apache.commons.lang.RandomStringUtils;
@@ -23,8 +24,9 @@ public class DashboardPagePageTest extends SignIn {
     @AfterMethod(onlyForGroups = "add-edit-search")
     public void deleteExistingDashboard() {
         MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
-        DashboardCard dashboardCard = mainDashboardsPage.getDashboardByName(title);
-        dashboardCard.deleteDashboard();
+        mainDashboardsPage.deleteDashboard(title);
+        Assert.assertFalse(mainDashboardsPage.isDashboardPresentOnMainPage(title),
+                "Dashboard with name " + title + " was not deleted!");
     }
 
     @Test(groups = "add-edit-search")
@@ -33,9 +35,10 @@ public class DashboardPagePageTest extends SignIn {
         MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
 
         DashboardPage dashboardPage = mainDashboardsPage.addDashboard(title);
+        dashboardPage.assertPageOpened();
         Assert.assertEquals(dashboardPage.getTitle(), title, "Title is not as expected!");
 
-        navigationMenu.toMainDashboardPage();
+        mainDashboardsPage = navigationMenu.toMainDashboardPage();
         Assert.assertTrue(mainDashboardsPage.isDashboardPresentOnMainPage(title),
                 "Can't find newly created dashboard");
 
@@ -54,9 +57,10 @@ public class DashboardPagePageTest extends SignIn {
         title = "New_".concat(title);
 
         dashboardPage.editDashboard(title);
+
         Assert.assertEquals(dashboardPage.getTitle(), title, "Title is not as expected!");
 
-        navigationMenu.toMainDashboardPage();
+        mainDashboardsPage = navigationMenu.toMainDashboardPage();
         Assert.assertTrue(mainDashboardsPage.isDashboardPresentOnMainPage(title),
                 "Can't find newly created dashboard");
     }
@@ -66,21 +70,26 @@ public class DashboardPagePageTest extends SignIn {
         title = "Dashboard_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
         DashboardPage dashboardPage = mainDashboardsPage.addDashboard(title);
-        navigationMenu.toMainDashboardPage();
+        dashboardPage.assertPageOpened();
+
+        mainDashboardsPage = navigationMenu.toMainDashboardPage();
 
         Assert.assertEquals(mainDashboardsPage.searchDashboard(title).get(0).getDashboardName(), title,
                 "Can't find necessary dashboard!");
+        mainDashboardsPage.searchDashboard("");
     }
 
     @Test
     public void deleteDashboard() {
         title = "Dashboard_Name_".concat(RandomStringUtils.randomAlphabetic(6));
         MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
-        mainDashboardsPage.addDashboard(title);
-        navigationMenu.toMainDashboardPage();
-        DashboardCard dashboardCard = mainDashboardsPage.getDashboardByName(title);
+        DashboardPage dashboardPage = mainDashboardsPage.addDashboard(title);
+        dashboardPage.assertPageOpened();
 
-        dashboardCard.deleteDashboard();
+        mainDashboardsPage = navigationMenu.toMainDashboardPage();
+
+        mainDashboardsPage.assertPageOpened();
+        mainDashboardsPage.deleteDashboard(title);
         Assert.assertFalse(mainDashboardsPage.isDashboardPresentOnMainPage(title),
                 "Dashboard with name " + title + " was not deleted!");
     }

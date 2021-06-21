@@ -1,6 +1,12 @@
-package com.qaprosoft.zafira.gui;
+package com.qaprosoft.zafira.gui.impl;
 
-import com.qaprosoft.zafira.gui.desktop.component.*;
+import com.qaprosoft.zafira.gui.base.SignIn;
+import com.qaprosoft.zafira.gui.desktop.component.testresult.LinkIssueWindow;
+import com.qaprosoft.zafira.gui.desktop.component.testresult.ResultSessionWindow;
+import com.qaprosoft.zafira.gui.desktop.component.testresult.ResultTestMethodCard;
+import com.qaprosoft.zafira.gui.desktop.component.testresult.RunResultDetailsBar;
+import com.qaprosoft.zafira.gui.desktop.component.testrun.TestRunCard;
+import com.qaprosoft.zafira.gui.desktop.component.testrun.TestRunsLauncher;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunResultPage;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunsPage;
 import org.testng.Assert;
@@ -173,6 +179,9 @@ public class TestRunsPageTest extends SignIn {
         final String expectedOwner = "anonymous";
         List<ResultTestMethodCard> methodCards = resultPage.getTestMethods();
         for (ResultTestMethodCard methodCard : methodCards) {
+            System.out.println(methodCard.getLabelsText());
+            softAssert.assertFalse(methodCard.getLabelsText().isEmpty(),
+                    "Web methods cards should have labels" + methodCard.getTitle());
             softAssert.assertTrue(methodCard.isCheckboxPresent(),
                     "Can't find checkbox on method card " + methodCard.getTitle());
             softAssert.assertTrue(methodCard.isDurationPresent(),

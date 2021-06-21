@@ -1,4 +1,4 @@
-package com.qaprosoft.zafira.gui.desktop.component;
+package com.qaprosoft.zafira.gui.desktop.component.testresult;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;

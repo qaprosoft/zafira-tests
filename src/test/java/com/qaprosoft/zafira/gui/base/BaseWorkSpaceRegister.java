@@ -1,4 +1,4 @@
-package com.qaprosoft.zafira.gui.captcha;
+package com.qaprosoft.zafira.gui.base;
 
 import com.qaprosoft.carina.core.foundation.AbstractTest;
 import com.qaprosoft.carina.core.foundation.utils.R;
@@ -13,7 +13,7 @@ public class BaseWorkSpaceRegister extends AbstractTest {
     protected String tenantEmail;
 
     @BeforeSuite
-    public void generateNames(){
+    public void generateNames() {
         StringBuilder tenantBuilder = new StringBuilder(R.TESTDATA.get(WebConstant.TENANT_EMAIL));
         tenantBuilder.insert(tenantBuilder.indexOf("@"), "+" + RandomStringUtils.randomNumeric(1));
         tenantEmail = tenantBuilder.toString();
