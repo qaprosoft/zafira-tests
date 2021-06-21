@@ -47,6 +47,6 @@ public class NavigationMenu extends AbstractUIObject {
     }
 
     public String getProjectKey() {
-        return projectKey.getText();
+        return projectKey.getText().trim();
     }
 }

@@ -21,7 +21,7 @@ public class LoginPage extends AbstractPage {
     }
 
     public boolean isSubmitButtonActive() {
-        return submitButton.isClickable(5);
+        return submitButton.isClickable(2);
     }
 
     public TestRunsPage login(String username, String password) {

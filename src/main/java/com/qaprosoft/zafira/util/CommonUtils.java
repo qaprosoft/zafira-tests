@@ -33,7 +33,7 @@ public class CommonUtils {
 
     public static String getSelectValue(ExtendedWebElement select) {
         ExtendedWebElement valueLabel = select.findExtendedWebElement(By.xpath(".//md-select-value/span"));
-        return valueLabel.getText();
+        return valueLabel.getText().trim();
     }
 
     public static void pastTo(ExtendedWebElement element) {
@@ -166,7 +166,7 @@ public class CommonUtils {
 
     public static String getTooltipText(WebDriver driver) {
         WebElement webElement = driver.findElement(By.className("md-panel-outer-wrapper"));
-        return webElement.getText();
+        return webElement.getText().trim();
     }
 
     public static Date parseDate(String textDate, String formatterString) {

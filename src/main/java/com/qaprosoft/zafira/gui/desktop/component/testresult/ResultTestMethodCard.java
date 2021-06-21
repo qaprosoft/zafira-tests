@@ -1,8 +1,10 @@
 package com.qaprosoft.zafira.gui.desktop.component.testresult;
 
+import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
 import com.qaprosoft.zafira.constant.WebConstant;
+import com.qaprosoft.zafira.util.WaitUtil;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -17,14 +19,11 @@ public class ResultTestMethodCard extends AbstractUIObject {
     @FindBy(xpath = ".//button[contains(@class,'test-card__menu-btn')]")
     private ExtendedWebElement settingButton;
 
-    @FindBy(xpath = "//div[@aria-hidden='false' and @class='_md md-open-menu-container md-whiteframe-z2 md-active md-clickable']//button[contains(text(),'Mark as passed')]")
+    @FindBy(xpath = "//div[contains(@class,'md-open-menu-container md-whiteframe-z2 md-active md-clickable')]//button[contains(text(),'Mark as passed')]")
     private ExtendedWebElement markAsPassedButton;
 
-    @FindBy(xpath = "//div[@aria-hidden='false' and @class='_md md-open-menu-container md-whiteframe-z2 md-active md-clickable']//button[contains(text(),'Mark as failed')]")
+    @FindBy(xpath = "//div[contains(@class,'md-open-menu-container md-whiteframe-z2 md-active md-clickable')]//button[contains(text(),'Mark as failed')]")
     private ExtendedWebElement markAsFailedButton;
-
-    @FindBy(xpath = "//div[@aria-hidden='false' and @class='_md md-open-menu-container md-whiteframe-z2 md-active md-clickable']//button[contains(text(),'Link issue')]")
-    private ExtendedWebElement linkIssueButton;
 
     @FindBy(xpath = ".//div[@name='testName']//div")
     private ExtendedWebElement title;
@@ -57,7 +56,7 @@ public class ResultTestMethodCard extends AbstractUIObject {
     }
 
     public boolean isMarkAsPassedButtonPresent() {
-        settingButton.click();
+        clickSettings();
         boolean present = markAsPassedButton.isVisible(WebConstant.TIME_TO_LOAD_PAGE) && markAsPassedButton.isClickable(WebConstant.TIME_TO_LOAD_PAGE);
         markAsPassedButton.click(WebConstant.TIME_TO_LOAD_PAGE);
         driver.switchTo().alert().dismiss();
@@ -65,24 +64,23 @@ public class ResultTestMethodCard extends AbstractUIObject {
     }
 
     public boolean isMarkAsFailedButtonPresent() {
-        settingButton.click();
+        clickSettings();
         boolean present = markAsFailedButton.isVisible() && markAsFailedButton.isClickable();
         markAsFailedButton.click(WebConstant.TIME_TO_LOAD_PAGE);
+        driver.switchTo().alert().dismiss();
         return present;
     }
 
-    public boolean isLinkIssueButtonPresent() {
-        return linkIssueButton.isPresent(WebConstant.TIME_TO_LOAD_PAGE);
-    }
-
-    public void clickLinkIssueButton() {
+    public void clickSettings() {
+        if (Configuration.get(Configuration.Parameter.BROWSER).equalsIgnoreCase("safari")
+                || Configuration.getCapability("browserName").equals("safari")) {
+            pause(1);
+        }
         settingButton.click();
-        waitUntil(ExpectedConditions.presenceOfElementLocated(linkIssueButton.getBy()), WebConstant.TIME_TO_LOAD_PAGE);
-        findExtendedWebElement(linkIssueButton.getBy()).click();
     }
 
     public String getTitle() {
-        return title.getText();
+        return title.getText().trim();
     }
 
     public boolean isDurationPresent() {
@@ -90,18 +88,25 @@ public class ResultTestMethodCard extends AbstractUIObject {
     }
 
     public String getTestOwner() {
-        return testOwner.getText();
+        return testOwner.getText().trim();
     }
 
     public void clickTestSessionInfoRef() {
+        if (Configuration.get(Configuration.Parameter.BROWSER).equalsIgnoreCase("safari")
+                || Configuration.getCapability("browserName").equals("safari")) {
+            pause(1);
+        } else {
+            waitUntil(ExpectedConditions.visibilityOf(testSessionInfoRef.getElement()), 3);
+        }
         testSessionInfoRef.click();
     }
 
     public String getLabelsText() {
         StringBuilder labelsStr = new StringBuilder();
+        WaitUtil.waitListToLoad(labels, 400, 100);
         for (ExtendedWebElement el : labels) {
-            labelsStr.append(el.getText()).append(" ");
+            labelsStr.append(el.getText().trim()).append(" ");
         }
-        return labelsStr.toString();
+        return labelsStr.toString().replaceAll("\n", " ").replaceAll(" +", " ").trim();
     }
 }

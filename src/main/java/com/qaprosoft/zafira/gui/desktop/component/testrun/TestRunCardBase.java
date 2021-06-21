@@ -20,7 +20,7 @@ public abstract class TestRunCardBase extends AbstractUIObject {
 
     public String getTitle() {
         waitUntil(ExpectedConditions.presenceOfElementLocated(title.getBy()), 5000);
-        return title.getText();
+        return title.getText().trim();
     }
 
     public boolean clickCheckBox() {

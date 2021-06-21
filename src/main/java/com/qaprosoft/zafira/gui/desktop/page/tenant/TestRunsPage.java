@@ -41,7 +41,7 @@ public class TestRunsPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='fixed-page-header-container']//div[contains(text(),'Test runs')]")
     private ExtendedWebElement sectionHeader;
 
-    @FindBy(xpath = "//span[text()='Launcher']")
+    @FindBy(xpath = "//span[text()='Launcher']/ancestor::button")
     private ExtendedWebElement launcherButton;
 
     @FindBy(xpath = "//button[@id='bulkDeleteTestRuns']")
@@ -78,6 +78,7 @@ public class TestRunsPage extends AbstractPage {
     }
 
     public TestRunsLauncher openLauncherWindow() {
+        pause(1);
         launcherButton.click();
         return testRunsLauncher;
     }
@@ -109,11 +110,11 @@ public class TestRunsPage extends AbstractPage {
         }
     }
 
-    public TestRunCard getTestRunCard(String suiteName) {
-        return getTestRunCard(suiteName, 60);
+    public TestRunCard wainTestRun(String suiteName) {
+        return wainTestRun(suiteName, 60);
     }
 
-    public TestRunCard getTestRunCard(String suiteName, long testRunWaitTime) {
+    public TestRunCard wainTestRun(String suiteName, long testRunWaitTime) {
         Clock clock = Clock.systemDefaultZone();
         Instant end = clock.instant().plusSeconds(testRunWaitTime);
         Sleeper sleeper = Sleeper.SYSTEM_SLEEPER;
@@ -121,6 +122,7 @@ public class TestRunsPage extends AbstractPage {
         while (end.isAfter(clock.instant())) {
             for (TestRunCard card : testRunCards) {
                 if (card.getTitle().toLowerCase().contains(suiteName.toLowerCase()) && card.isTestComplete()) {
+                    pause(2);
                     return card;
                 }
             }
@@ -169,7 +171,7 @@ public class TestRunsPage extends AbstractPage {
     }
 
     public String getNumberOfTestsOnThePage() {
-        String[] arr = pagination.getText().split(" - | of ");
+        String[] arr = pagination.getText().trim().split(" - | of ");
         return arr[1];
     }
 }

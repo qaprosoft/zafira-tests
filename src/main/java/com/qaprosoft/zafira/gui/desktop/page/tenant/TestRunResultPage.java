@@ -1,7 +1,9 @@
 package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
+import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
+import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
 import com.qaprosoft.zafira.gui.desktop.component.testresult.LinkIssueWindow;
@@ -9,8 +11,10 @@ import com.qaprosoft.zafira.gui.desktop.component.testresult.ResultSessionWindow
 import com.qaprosoft.zafira.gui.desktop.component.testresult.ResultTestMethodCard;
 import com.qaprosoft.zafira.gui.desktop.component.testresult.RunResultDetailsBar;
 import com.qaprosoft.zafira.gui.desktop.component.testrun.TestRunCard;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -30,7 +34,7 @@ public class TestRunResultPage extends AbstractPage {
     @FindBy(xpath = "//*[@class='md-sidenav-right test-sessions-sidenav ng-isolate-scope _md md-whiteframe-1dp']")
     private ResultSessionWindow resultSessionWindow;
 
-    @FindBy(xpath = "//md-dialog[@class='issue-modal styled-modal _md flex-50 background-clear-white md-transition-in']")
+    @FindBy(xpath = "//md-dialog[contains(@class,'issue-modal')]")
     private LinkIssueWindow linkIssueWindow;
 
     @FindBy(xpath = "//a[contains(@class,'back_button')]//md-icon")
@@ -51,13 +55,16 @@ public class TestRunResultPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='test-details__table-col ng-binding']")
     private ExtendedWebElement noTestsMessage;
 
+    @FindBy(xpath = "//div[contains(@class,'md-open-menu-container md-whiteframe-z2 md-active')]//button[contains(text(),'Link issue')]")
+    private ExtendedWebElement linkIssueButton;
+
     public TestRunResultPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(pageTitle);
     }
 
     public String getPageTitle() {
-        return pageTitle.getText();
+        return pageTitle.getText().trim();
     }
 
     public boolean isBackButtonActive() {
@@ -90,7 +97,7 @@ public class TestRunResultPage extends AbstractPage {
 
     private int getNumberOfMethods() {
         String[] numbers = testCard.getRunResult().replaceAll("[^\\d\\s]", "")
-                .trim().replaceAll(" +", " ").split(" ");
+                .replaceAll(" +", " ").trim().split(" ");
         int totalTests = 0;
         for (int i = 0; i < numbers.length; i++) {
             if (i != 2) {
@@ -146,7 +153,14 @@ public class TestRunResultPage extends AbstractPage {
     }
 
     public LinkIssueWindow openLinkIssueWindow(ResultTestMethodCard card) {
-        card.clickLinkIssueButton();
+        if (Configuration.getCapability("browserName").equals("safari")){
+            card.clickSettings();
+            pause(1);
+            driver.findElement(linkIssueButton.getBy()).click();
+        } else {
+            card.clickSettings();
+            findExtendedWebElement(linkIssueButton.getBy()).click();
+        }
         return linkIssueWindow;
     }
 
