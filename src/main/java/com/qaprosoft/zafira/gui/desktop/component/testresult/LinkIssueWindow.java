@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.gui.desktop.component.testresult;
 
+import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
 import com.qaprosoft.zafira.constant.WebConstant;
@@ -17,8 +18,12 @@ public class LinkIssueWindow extends AbstractUIObject {
     }
 
     public void closeWindow() {
-        waitUntil(ExpectedConditions.elementToBeClickable(closeButton.getElement()), WebConstant.TIME_TO_LOAD_PAGE);
-
+        if (Configuration.get(Configuration.Parameter.BROWSER).equalsIgnoreCase("safari")
+                || Configuration.getCapability("browserName").equals("safari")) {
+            pause(1);
+        } else {
+            waitUntil(ExpectedConditions.elementToBeClickable(closeButton.getElement()), WebConstant.TIME_TO_LOAD_PAGE);
+        }
         closeButton.click();
     }
 }

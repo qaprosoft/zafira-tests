@@ -1,8 +1,10 @@
 package com.qaprosoft.zafira.gui.desktop.component.testresult;
 
+import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
 import com.qaprosoft.zafira.constant.WebConstant;
+import com.qaprosoft.zafira.util.WaitUtil;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -54,7 +56,7 @@ public class ResultTestMethodCard extends AbstractUIObject {
     }
 
     public boolean isMarkAsPassedButtonPresent() {
-        settingButton.click();
+        clickSettings();
         boolean present = markAsPassedButton.isVisible(WebConstant.TIME_TO_LOAD_PAGE) && markAsPassedButton.isClickable(WebConstant.TIME_TO_LOAD_PAGE);
         markAsPassedButton.click(WebConstant.TIME_TO_LOAD_PAGE);
         driver.switchTo().alert().dismiss();
@@ -62,7 +64,7 @@ public class ResultTestMethodCard extends AbstractUIObject {
     }
 
     public boolean isMarkAsFailedButtonPresent() {
-        settingButton.click();
+        clickSettings();
         boolean present = markAsFailedButton.isVisible() && markAsFailedButton.isClickable();
         markAsFailedButton.click(WebConstant.TIME_TO_LOAD_PAGE);
         driver.switchTo().alert().dismiss();
@@ -70,6 +72,10 @@ public class ResultTestMethodCard extends AbstractUIObject {
     }
 
     public void clickSettings() {
+        if (Configuration.get(Configuration.Parameter.BROWSER).equalsIgnoreCase("safari")
+                || Configuration.getCapability("browserName").equals("safari")) {
+            pause(1);
+        }
         settingButton.click();
     }
 
@@ -86,15 +92,21 @@ public class ResultTestMethodCard extends AbstractUIObject {
     }
 
     public void clickTestSessionInfoRef() {
-        waitUntil(ExpectedConditions.visibilityOf(testSessionInfoRef.getElement()), 3);
+        if (Configuration.get(Configuration.Parameter.BROWSER).equalsIgnoreCase("safari")
+                || Configuration.getCapability("browserName").equals("safari")) {
+            pause(1);
+        } else {
+            waitUntil(ExpectedConditions.visibilityOf(testSessionInfoRef.getElement()), 3);
+        }
         testSessionInfoRef.click();
     }
 
     public String getLabelsText() {
         StringBuilder labelsStr = new StringBuilder();
+        WaitUtil.waitListToLoad(labels, 400, 100);
         for (ExtendedWebElement el : labels) {
             labelsStr.append(el.getText().trim()).append(" ");
         }
-        return labelsStr.toString();
+        return labelsStr.toString().replace("\n", " ").trim();
     }
 }

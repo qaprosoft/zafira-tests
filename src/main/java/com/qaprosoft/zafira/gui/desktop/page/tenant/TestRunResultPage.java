@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
+import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.zafira.constant.WebConstant;
@@ -10,6 +11,7 @@ import com.qaprosoft.zafira.gui.desktop.component.testresult.ResultSessionWindow
 import com.qaprosoft.zafira.gui.desktop.component.testresult.ResultTestMethodCard;
 import com.qaprosoft.zafira.gui.desktop.component.testresult.RunResultDetailsBar;
 import com.qaprosoft.zafira.gui.desktop.component.testrun.TestRunCard;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -151,8 +153,14 @@ public class TestRunResultPage extends AbstractPage {
     }
 
     public LinkIssueWindow openLinkIssueWindow(ResultTestMethodCard card) {
-        card.clickSettings();
-        findExtendedWebElement(linkIssueButton.getBy()).click();
+        if (Configuration.getCapability("browserName").equals("safari")){
+            card.clickSettings();
+            pause(1);
+            driver.findElement(linkIssueButton.getBy()).click();
+        } else {
+            card.clickSettings();
+            findExtendedWebElement(linkIssueButton.getBy()).click();
+        }
         return linkIssueWindow;
     }
 
