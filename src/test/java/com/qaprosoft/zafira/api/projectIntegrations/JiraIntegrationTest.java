@@ -26,6 +26,8 @@ import java.lang.invoke.MethodHandles;
 public class JiraIntegrationTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static JiraIntegrationServiceImpl jiraIntegrationService = new JiraIntegrationServiceImpl();
+    private static final String EXISTING_ISSUE = "ZEB-2787";
+    private static final String NONEXISTENT_ISSUE = "ZEB--FOR-API";
     private static int projectId = 1;
 
 
@@ -207,5 +209,50 @@ public class JiraIntegrationTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.BAD_REQUEST);
         String rs = apiExecutor.callApiMethod(checkConnection);
         Assert.assertEquals(JsonPath.from(rs).getString(JSONConstant.ERROR_CODE), "REP-1003", "Error code is not as expected!");
+    }
+
+    @Test
+    public void testCheckConnectionWithXRayWithInvalidCreds() {
+        PostCheckXRayConnectionIntegrationMethod checkConnection = new PostCheckXRayConnectionIntegrationMethod(projectId);
+        checkConnection.addProperty("token", "Xray_invalid_token".concat(RandomStringUtils.randomAlphabetic(3)));
+        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(checkConnection);
+    }
+
+    @Test
+    public void testCheckConnectionWithXRayWithEmptyRq() {
+        PostCheckXRayConnectionIntegrationMethod checkConnection = new PostCheckXRayConnectionIntegrationMethod(projectId);
+        checkConnection.setRequestTemplate(R.TESTDATA.get(ConfigConstant.EMPTY_RQ_PATH));
+        apiExecutor.expectStatus(checkConnection, HTTPStatusCodeType.BAD_REQUEST);
+        String rs = apiExecutor.callApiMethod(checkConnection);
+        Assert.assertEquals(JsonPath.from(rs).getString(JSONConstant.ERROR_CODE), "REP-1003", "Error code is not as expected!");
+    }
+
+    @Test
+    public void testExistingJiraIssueByIssueId() {
+        jiraIntegrationService.addIntegration(projectId);
+        GetJiraIssueByProjectIdMethod getJiraIssueByProjectIdMethod = new GetJiraIssueByProjectIdMethod(projectId,EXISTING_ISSUE);
+        apiExecutor.expectStatus(getJiraIssueByProjectIdMethod, HTTPStatusCodeType.OK);
+        apiExecutor.callApiMethod(getJiraIssueByProjectIdMethod);
+        apiExecutor.validateResponse(getJiraIssueByProjectIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+    }
+
+    @Test
+    public void testNonExistentJiraIssueByIssueId() {
+        jiraIntegrationService.addIntegration(projectId);
+        GetJiraIssueByProjectIdMethod getJiraIssueByProjectIdMethod = new GetJiraIssueByProjectIdMethod(projectId,NONEXISTENT_ISSUE);
+        apiExecutor.expectStatus(getJiraIssueByProjectIdMethod, HTTPStatusCodeType.NOT_FOUND);
+        String rs = apiExecutor.callApiMethod(getJiraIssueByProjectIdMethod);
+        Assert.assertEquals(JsonPath.from(rs).getString(JSONConstant.ERROR_CODE), "REP-2076", "Error code is not as expected!");
+    }
+
+    @Test
+    public void testExistingJiraIssueByIssueIdWithoutIntegration() {
+        jiraIntegrationService.deleteIntegration(projectId);
+        GetJiraIssueByProjectIdMethod getJiraIssueByProjectIdMethod = new GetJiraIssueByProjectIdMethod(projectId,EXISTING_ISSUE);
+        apiExecutor.expectStatus(getJiraIssueByProjectIdMethod, HTTPStatusCodeType.NOT_FOUND);
+        String rs = apiExecutor.callApiMethod(getJiraIssueByProjectIdMethod);
+        Assert.assertEquals(JsonPath.from(rs).getString(JSONConstant.ERROR_CODE), "REP-2068", "Error code is not as expected!");
+
     }
 }

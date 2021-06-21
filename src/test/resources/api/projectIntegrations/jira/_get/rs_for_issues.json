@@ -1,0 +1,10 @@
+{
+  "projectName": "type:String",
+  "status": "type:String",
+  "priority": "type:String",
+  "issueType": "type:String",
+  "assignee": "type:String",
+  "reporter": "type:String",
+  "summary": "type:String",
+  "description": "type:String"
+}
