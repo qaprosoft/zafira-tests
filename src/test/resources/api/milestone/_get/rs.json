@@ -1,6 +1,5 @@
 {
-  "sortBy": "type:String",
-  "sortOrder": "type:String",
+  "query": "type:String",
   "page": "regex:[\\d]",
   "pageSize": "regex:[\\d]",
   "totalPages": "regex:[\\d]",
