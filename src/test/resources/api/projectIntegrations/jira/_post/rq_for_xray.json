@@ -1,0 +1,6 @@
+{
+  "xrayClientId": "${xrayClientId}",
+  "xrayClientSecret": "${xrayClientSecret}",
+  "xrayHost": "${xrayHost}"
+}
+
