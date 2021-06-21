@@ -107,6 +107,6 @@ public class ResultTestMethodCard extends AbstractUIObject {
         for (ExtendedWebElement el : labels) {
             labelsStr.append(el.getText().trim()).append(" ");
         }
-        return labelsStr.toString().replace("\n", " ").trim();
+        return labelsStr.toString().replaceAll("\n", " ").replaceAll(" +", " ").trim();
     }
 }
