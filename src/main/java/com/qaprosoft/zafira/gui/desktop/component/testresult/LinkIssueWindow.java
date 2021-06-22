@@ -9,9 +9,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.List;
+
 public class LinkIssueWindow extends AbstractUIObject {
     @FindBy(xpath = ".//md-icon[@aria-label='Close dialog']")
     private ExtendedWebElement closeButton;
+
+    @FindBy(xpath = "//div[@class='test-sessions__header ng-scope']")
+    private List<TestSession> testSessions;
+
+    @FindBy(xpath = "//h2[@class='test-sessions-sidenav__title']")
+    private ExtendedWebElement title;
 
     public LinkIssueWindow(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);

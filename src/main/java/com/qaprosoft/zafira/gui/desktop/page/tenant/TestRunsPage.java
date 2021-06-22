@@ -50,6 +50,24 @@ public class TestRunsPage extends AbstractPage {
     @FindBy(xpath = "//div[contains(@class,'test-runs__bulk')]//div[@class='md-container md-ink-ripple']")
     private ExtendedWebElement bulkCheckBox;
 
+    @FindBy(xpath = "//span[contains(text(),'Send as email')]/ancestor::button")
+    private ExtendedWebElement bulkSendAsEmail;
+
+    @FindBy(xpath = "//span[contains(text(),'More')]/ancestor::div[@class='menu__button']")
+    private ExtendedWebElement bulkMoreButton;
+
+    @FindBy(xpath = "//span[contains(text(),'Rerun')]/ancestor::button")
+    private ExtendedWebElement bulkRerun;
+
+    @FindBy(xpath = "//span[contains(text(),'Abort')]/ancestor::button")
+    private ExtendedWebElement bulkAbortButton;
+
+    @FindBy(xpath = "//span[contains(text(),'Compare')]/ancestor::button")
+    private ExtendedWebElement bulkCompareButton;
+
+    @FindBy(xpath = "//md-icon[contains(@aria-label,'Reset selection')]/ancestor::button")
+    private ExtendedWebElement bulkExitButton;
+
     @FindBy(xpath = "//input[contains(@class,'runs-filter')]")
     private ExtendedWebElement searchField;
 
@@ -59,14 +77,46 @@ public class TestRunsPage extends AbstractPage {
     @FindBy(xpath = "//md-select[@name='platform']")
     private ExtendedWebElement platformFilterButton;
 
+    //more button and subsequence list in more
     @FindBy(xpath = "//button[contains(@class,'more-button')]")
     private ExtendedWebElement filterMoreButton;
+
+    @FindBy(xpath = "//div[contains(text(),'Status')]/ancestor::md-menu-item[@class='runs-filter__more-menu-item ng-scope']")
+    private ExtendedWebElement statusFilter;
+
+    @FindBy(xpath = "//div[contains(text(),'Env')]/ancestor::md-menu-item[@class='runs-filter__more-menu-item ng-scope']")
+    private ExtendedWebElement envFilter;
+
+    @FindBy(xpath = "//div[contains(text(),'Locale')]/ancestor::md-menu-item[@class='runs-filter__more-menu-item ng-scope']")
+    private ExtendedWebElement localeFilter;
+
+    @FindBy(xpath = "//div[contains(text(),'Date')]/ancestor::md-menu-item[@class='runs-filter__more-menu-item ng-scope']")
+    private ExtendedWebElement dateFilter;
+
+    @FindBy(xpath = "//div[contains(text(),'Date')]/ancestor::md-menu-item[@class='runs-filter__more-menu-item ng-scope']")
+    private ExtendedWebElement reviewedFilter;
+
+    @FindBy(xpath = "//button[contains(@aria-label,'Close menu')]")
+    private ExtendedWebElement closeMoreFilterMenu;
 
     @FindBy(xpath = "//a[text()='Show all saved filters']")
     private ExtendedWebElement showAllSavedFiltersButton;
 
+    //pagination elements
     @FindBy(xpath = "//div[@class='label ng-binding']")
     private ExtendedWebElement pagination;
+
+    @FindBy(xpath = "//button[@aria-label='Last']")
+    private ExtendedWebElement toLastPagePagination;
+
+    @FindBy(xpath = "//button[@aria-label='Next']")
+    private ExtendedWebElement toNextPagePagination;
+
+    @FindBy(xpath = "//button[@aria-label='Previous']")
+    private ExtendedWebElement toPreviousPagePagination;
+
+    @FindBy(xpath = "//button[@aria-label='First']")
+    private ExtendedWebElement toFirstPagePagination;
 
     public TestRunsPage(WebDriver driver) {
         super(driver);
