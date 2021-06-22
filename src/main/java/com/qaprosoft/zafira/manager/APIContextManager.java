@@ -1,10 +1,12 @@
 package com.qaprosoft.zafira.manager;
 
 import com.qaprosoft.carina.core.foundation.utils.R;
+import com.qaprosoft.zafira.api.authIAM.PostGenerateAuthTokenMethodIAM;
 import com.qaprosoft.zafira.api.authIAM.PostRefreshTokenMethodIAM;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.service.impl.ExecutionServiceImpl;
+import com.qaprosoft.zafira.util.CryptoUtil;
 import io.restassured.path.json.JsonPath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,8 @@ public class APIContextManager {
     public static final int SCM_ACCOUNT_TYPE_ID_VALUE = R.TESTDATA.getInt(ConfigConstant.SCM_ACCOUNT_TYPE_KEY);
     public static final int EXISTING_SCM_ID = R.TESTDATA.getInt(ConfigConstant.EXISTING_SCM_ID);
     public static final String PROJECT_NAME_KEY = R.TESTDATA.get(ConfigConstant.PROJECT_NAME_KEY);
+    private static String username = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AUTH_USERNAME_KEY));
+    private static String password = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AUTTH_PASSWORD_KEY));
 
 
     public APIContextManager() {
@@ -41,7 +45,7 @@ public class APIContextManager {
 
     public void setAccessToken() {
         ExecutionServiceImpl executor = new ExecutionServiceImpl();
-        String rsString = executor.callApiMethod(new PostRefreshTokenMethodIAM());
+        String rsString = executor.callApiMethod(new PostGenerateAuthTokenMethodIAM(username, password));
         accessToken = JsonPath.from(rsString).get(JSONConstant.AUTH_TOKEN_KEY);
         LOGGER.info("Zebrunner Access Token: ".concat(accessToken));
     }
