@@ -3,18 +3,12 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
-import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
-import com.qaprosoft.zafira.gui.desktop.component.testresult.LinkIssueWindow;
-import com.qaprosoft.zafira.gui.desktop.component.testresult.ResultSessionWindow;
-import com.qaprosoft.zafira.gui.desktop.component.testresult.ResultTestMethodCard;
-import com.qaprosoft.zafira.gui.desktop.component.testresult.RunResultDetailsBar;
+import com.qaprosoft.zafira.gui.desktop.component.testresult.*;
 import com.qaprosoft.zafira.gui.desktop.component.testrun.TestRunCard;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -27,6 +21,12 @@ public class TestRunResultPage extends AbstractPage {
 
     @FindBy(xpath = "//div[contains(@class,'test-run-card ng-isolate-scope _single')]")
     private TestRunCard testCard;
+
+    @FindBy(xpath = "//div[@class='test-run-group-row test-details__header-actions _default']")
+    private RunResultDetailsBar resultBar;
+
+    @FindBy(xpath = "//div[contains(@class,'test-details__header-actions _bulk')]")
+    private RunResultActionBar actionBar;
 
     @FindBy(xpath = "//test-card[@test='testItem']")
     private List<ResultTestMethodCard> testMethods;
@@ -42,9 +42,6 @@ public class TestRunResultPage extends AbstractPage {
 
     @FindBy(xpath = "//div[@id='pageTitle']//span[text()='Test results']")
     private ExtendedWebElement pageTitle;
-
-    @FindBy(xpath = "//div[@class='test-run-group-row test-details__header-actions _default']")
-    private RunResultDetailsBar resultBar;
 
     @FindBy(xpath = "//*[text()='Expand all labels']/parent::div")
     private ExtendedWebElement expandAllLabel;
