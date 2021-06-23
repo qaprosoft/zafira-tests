@@ -3,6 +3,7 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
+import com.qaprosoft.zafira.gui.desktop.component.common.Pagination;
 import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
 import com.qaprosoft.zafira.gui.desktop.component.testrun.TestRunCard;
 import com.qaprosoft.zafira.gui.desktop.component.testrun.TestRunLaunchCard;
@@ -34,6 +35,9 @@ public class TestRunsPage extends AbstractPage {
 
     @FindBy(className = "md-dialog-content")
     private TestRunsLauncher testRunsLauncher;
+
+    @FindBy(id = "pagination")
+    private Pagination pagination;
 
     @FindBy(id = "noDataYet")
     private ExtendedWebElement noDataField;
@@ -102,21 +106,6 @@ public class TestRunsPage extends AbstractPage {
     @FindBy(xpath = "//a[text()='Show all saved filters']")
     private ExtendedWebElement showAllSavedFiltersButton;
 
-    //pagination elements
-    @FindBy(xpath = "//div[@class='label ng-binding']")
-    private ExtendedWebElement pagination;
-
-    @FindBy(xpath = "//button[@aria-label='Last']")
-    private ExtendedWebElement toLastPagePagination;
-
-    @FindBy(xpath = "//button[@aria-label='Next']")
-    private ExtendedWebElement toNextPagePagination;
-
-    @FindBy(xpath = "//button[@aria-label='Previous']")
-    private ExtendedWebElement toPreviousPagePagination;
-
-    @FindBy(xpath = "//button[@aria-label='First']")
-    private ExtendedWebElement toFirstPagePagination;
 
     public TestRunsPage(WebDriver driver) {
         super(driver);
@@ -221,7 +210,7 @@ public class TestRunsPage extends AbstractPage {
     }
 
     public String getNumberOfTestsOnThePage() {
-        String[] arr = pagination.getText().trim().split(" - | of ");
+        String[] arr = pagination.getPages().split(" - | of ");
         return arr[1];
     }
 }
