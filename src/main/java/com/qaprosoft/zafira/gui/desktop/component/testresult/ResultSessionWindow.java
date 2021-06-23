@@ -7,8 +7,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 public class ResultSessionWindow extends AbstractUIObject {
-    @FindBy(xpath = "//md-icon[@aria-label='Close sidenav']")
+    @FindBy(xpath = ".//md-icon[@aria-label='Close sidenav']")
     private ExtendedWebElement closeButton;
+
+    @FindBy(xpath = "//v-accordion[@class='test-sessions__accordion ng-scope ng-isolate-scope']")
+    private TestSession session;
+
+    @FindBy(xpath = "//h2[@class='test-sessions-sidenav__title']")
+    private ExtendedWebElement title;
 
     public ResultSessionWindow(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);

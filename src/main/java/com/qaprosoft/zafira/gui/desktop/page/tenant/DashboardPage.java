@@ -32,7 +32,7 @@ public class DashboardPage extends AbstractPage {
     @FindBy(id = "cancel")
     private ExtendedWebElement cancelEditButton;
 
-    @FindBy(id = "nav")
+    @FindBy(id = "nav-container")
     private NavigationMenu navigationMenu;
 
     @FindBy(xpath = "//i[@class='material-icons ng-scope']")

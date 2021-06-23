@@ -8,6 +8,7 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
+//id = "nav-container"
 public class NavigationMenu extends AbstractUIObject {
     @FindBy(xpath = ".//li[contains(@class,'nav-item dashboards')]")
     private ExtendedWebElement dashboardButton;
@@ -23,6 +24,12 @@ public class NavigationMenu extends AbstractUIObject {
 
     @FindBy(xpath = ".//div[@class='project__selected ng-binding']")
     private ExtendedWebElement projectKey;
+
+    @FindBy(xpath = "//div[@class='main-nav__button-icon-wrapper']")
+    private ExtendedWebElement extendSideBarButton;
+
+    @FindBy(xpath = "//span[contains(@class,'profile-photo')]")
+    private ExtendedWebElement profilePhoto;
 
     public NavigationMenu(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);

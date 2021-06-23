@@ -41,14 +41,17 @@ public class ResultTestMethodCard extends AbstractUIObject {
     private List<ExtendedWebElement> labels;
 
     @FindBy(xpath = ".//div[@class='test-card__stacktrace-title-text ng-binding']")
-    private ExtendedWebElement errorStacktrace;
+    private ExtendedWebElement errorStacktracePreview;
+
+    @FindBy(xpath = "//div[@class='test-card__stacktrace-message ng-binding ng-scope']")
+    private ExtendedWebElement errorStacktraceFull;
 
     public ResultTestMethodCard(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 
     public boolean isErrorStacktracePresent() {
-        return errorStacktrace.isPresent(WebConstant.TIME_TO_LOAD_PAGE);
+        return errorStacktracePreview.isPresent(WebConstant.TIME_TO_LOAD_PAGE);
     }
 
     public boolean isCheckboxPresent() {
