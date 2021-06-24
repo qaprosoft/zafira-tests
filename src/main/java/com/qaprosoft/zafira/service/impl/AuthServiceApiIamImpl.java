@@ -1,11 +1,14 @@
 package com.qaprosoft.zafira.service.impl;
 
+import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.authIAM.PostGenerateAuthTokenMethodIAM;
 import com.qaprosoft.zafira.api.authIAM.PostRefreshTokenMethodIAM;
 import com.qaprosoft.zafira.api.permissions.GetAllPermissionsMethodIAM;
+import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
 import com.qaprosoft.zafira.service.AuthServiceApiIAM;
+import com.qaprosoft.zafira.util.CryptoUtil;
 import io.restassured.path.json.JsonPath;
 
 import java.util.List;
@@ -15,9 +18,13 @@ public class AuthServiceApiIamImpl implements AuthServiceApiIAM {
 
     @Override
     public String getRefreshToken() {
-        PostRefreshTokenMethodIAM postRefreshTokenMethodIAM = new PostRefreshTokenMethodIAM();
-        String response = apiExecutor.callApiMethod(postRefreshTokenMethodIAM);
-        return JsonPath.from(response).get(JSONConstant.AUTH_TOKEN_KEY);
+        String username = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AUTH_USERNAME_KEY));
+        String password = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AUTTH_PASSWORD_KEY));
+        PostGenerateAuthTokenMethodIAM postGenerateAuthTokenMethodIAM
+                = new PostGenerateAuthTokenMethodIAM(username, password);
+        apiExecutor.expectStatus(postGenerateAuthTokenMethodIAM, HTTPStatusCodeType.OK);
+        String response=apiExecutor.callApiMethod(postGenerateAuthTokenMethodIAM);
+        return JsonPath.from(response).get("refreshToken");
     }
 
     @Override
@@ -47,8 +54,12 @@ public class AuthServiceApiIamImpl implements AuthServiceApiIAM {
 
     @Override
     public String getTenantName() {
-        PostRefreshTokenMethodIAM postRefreshTokenMethodIAM = new PostRefreshTokenMethodIAM();
-        String response = apiExecutor.callApiMethod(postRefreshTokenMethodIAM);
+        String username = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AUTH_USERNAME_KEY));
+        String password = CryptoUtil.decrypt(R.TESTDATA.get(ConfigConstant.AUTTH_PASSWORD_KEY));
+        PostGenerateAuthTokenMethodIAM postGenerateAuthTokenMethodIAM
+                = new PostGenerateAuthTokenMethodIAM(username, password);
+        apiExecutor.expectStatus(postGenerateAuthTokenMethodIAM, HTTPStatusCodeType.OK);
+        String response=apiExecutor.callApiMethod(postGenerateAuthTokenMethodIAM);
         return JsonPath.from(response).get(JSONConstant.TENANT_NAME_KEY);
     }
 }

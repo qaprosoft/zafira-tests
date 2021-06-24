@@ -23,7 +23,7 @@ public class NotificationControllerTest extends ZafiraAPIBaseTest {
         new TestRunServiceAPIImplV1().deleteTestRun(testRunId);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testSendSlackNotificationFinishTestRun() {
         testRunId = new TestRunServiceAPIImplV1().start();
         String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
@@ -36,7 +36,7 @@ public class NotificationControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getSlackNotificationFinishTestRunByCiRunIdMethod);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testSendSlackNotificationReviewedTestRun() {
         TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
         testRunId = testRunServiceAPIImplV1.start();
@@ -49,7 +49,7 @@ public class NotificationControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(reviewedByTestRunIdMethod);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testSendNotificationFinishTestRun() {
         testRunId = new TestRunServiceAPIImplV1().start();
         String ciRunId = new TestRunServiceAPIImplV1().getCiRunId(testRunId);
@@ -61,7 +61,7 @@ public class NotificationControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(getNotificationFinishTestRun);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testSendNotificationReviewedTestRun() {
         testRunId = new TestRunServiceAPIImplV1().start();
         new TestServiceV1Impl().startTest(testRunId);

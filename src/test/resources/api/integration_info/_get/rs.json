@@ -1,23 +1,5 @@
 {
   "AUTOMATION_SERVER": {
     "JENKINS": "type:JSONArray"
-  },
-  "NOTIFICATION_SERVICE": {
-    "SLACK": "type:JSONArray",
-    "MICROSOFT_TEAMS": "type:JSONArray"
-  },
-  "TEST_CASE_MANAGEMENT": {
-    "JIRA": "type:JSONArray",
-    "TESTRAIL": "type:JSONArray",
-    "QTEST": "type:JSONArray"
-  },
-  "TEST_AUTOMATION_TOOL": {
-    "MCLOUD": "type:JSONArray",
-    "LAMBDATEST": "type:JSONArray",
-    "AEROKUBE": "type:JSONArray",
-    "ZEBRUNNER": "type:JSONArray",
-    "SAUCELABS": "type:JSONArray",
-    "SELENIUM": "type:JSONArray",
-    "BROWSERSTACK": "type:JSONArray"
   }
 }

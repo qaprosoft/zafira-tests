@@ -1,5 +1,6 @@
 package com.qaprosoft.zafira.api;
 
+import com.qaprosoft.zafira.api.user.v1.PatchUserV1Method;
 import com.qaprosoft.zafira.service.impl.AuthServiceApiIamImpl;
 import com.qaprosoft.zafira.service.impl.UserV1ServiceAPIImpl;
 import io.restassured.path.json.JsonPath;
@@ -72,6 +73,10 @@ public class WidgetTest extends ZafiraAPIBaseTest {
         PostWidgetMethod postWidgetMethod = new PostWidgetMethod(widgetName, token, widgetTemplateId);
         apiExecutor.expectStatus(postWidgetMethod, HTTPStatusCodeType.FORBIDDEN);
         apiExecutor.callApiMethod(postWidgetMethod);
+        //*deactivate user
+        PatchUserV1Method patchUserV1Method = new PatchUserV1Method(userId, "/status", "INACTIVE");
+        apiExecutor.expectStatus(patchUserV1Method, HTTPStatusCodeType.NO_CONTENT);
+        apiExecutor.callApiMethod(patchUserV1Method);
     }
 
     @Test

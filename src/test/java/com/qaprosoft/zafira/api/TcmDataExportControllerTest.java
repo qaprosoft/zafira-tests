@@ -24,7 +24,7 @@ public class TcmDataExportControllerTest extends ZafiraAPIBaseTest {
         return new Object[][]{{ConfigConstant.QTEST_KEY}, {ConfigConstant.TESTRAIL_KEY}};
     }
 
-    @Test(dataProvider = "data-provider-tools")
+    @Test(dataProvider = "data-provider-tools",enabled = false)
     public void testGetIntegrationInformationByTag(String data) {
         int testSuiteId = new TestSuiteServiceImpl().create();
         int jobId = new JobServiceImpl().create();

@@ -55,6 +55,7 @@ public class AuthIAMTest extends ZafiraAPIBaseTest {
     public void testRefreshToken() {
         PostRefreshTokenMethodIAM postRefreshTokenMethodIAM
                 = new PostRefreshTokenMethodIAM();
+        postRefreshTokenMethodIAM.addProperty("refreshToken",authServiceApiIam.getRefreshToken());
         apiExecutor.expectStatus(postRefreshTokenMethodIAM, HTTPStatusCodeType.OK);
         String rs = apiExecutor.callApiMethod(postRefreshTokenMethodIAM);
         apiExecutor.validateResponse(postRefreshTokenMethodIAM, JSONCompareMode.STRICT,

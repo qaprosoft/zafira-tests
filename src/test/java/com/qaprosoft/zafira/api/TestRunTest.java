@@ -147,25 +147,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getTestByTestRunIdMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
-    public void testBuildTestRunJob() {
-        int testRunId = createTestRun(TESTS_TO_ADD);
-        new TestRunServiceAPIImpl().finishTestRun(testRunId);
-        PostTestRunByJobMethod postTestRunByJobMethod = new PostTestRunByJobMethod(testRunId);
-        apiExecutor.expectStatus(postTestRunByJobMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(postTestRunByJobMethod);
-    }
-
-    @Test
-    public void testGetTestRunJobParameters() {
-        int testRunId = createTestRun(TESTS_TO_ADD);
-        new TestRunServiceAPIImpl().finishTestRun(testRunId);
-        GetTestRunJobParametersMethod getTestRunJobParametersMethod = new GetTestRunJobParametersMethod(testRunId);
-        apiExecutor.expectStatus(getTestRunJobParametersMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(getTestRunJobParametersMethod);
-        apiExecutor.validateResponse(getTestRunJobParametersMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-    }
-
     @DataProvider(name = "rerunFailuresDataProvider")
     public Object[][] getRerunFailuresFlag() {
         return new Object[][]{{true}, {false}};
@@ -188,17 +169,6 @@ public class TestRunTest extends ZafiraAPIBaseTest {
         PostRerunTestRunJobsMethod postRerunTestRunJobsMethod = new PostRerunTestRunJobsMethod(rerunFailures);
         apiExecutor.expectStatus(postRerunTestRunJobsMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postRerunTestRunJobsMethod);
-    }
-
-    @Test
-    public void testAbortTestRun() {
-        int testRunId = createTestRun(TESTS_TO_ADD);
-        String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);
-        PostAbortTestRunMethod postAbortTestRunMethod = new PostAbortTestRunMethod(testRunId, ciRunId);
-        apiExecutor.expectStatus(postAbortTestRunMethod, HTTPStatusCodeType.OK);
-        apiExecutor.callApiMethod(postAbortTestRunMethod);
-        apiExecutor.validateResponse(postAbortTestRunMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-
     }
 
     @Test(enabled = false)

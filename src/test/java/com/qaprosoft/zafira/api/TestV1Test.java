@@ -17,6 +17,7 @@ import com.qaprosoft.zafira.service.impl.TestServiceV1Impl;
 import com.qaprosoft.zafira.service.impl.TestServiceImpl;
 import com.zebrunner.agent.core.annotation.TestLabel;
 import io.restassured.path.json.JsonPath;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -263,10 +264,11 @@ public class TestV1Test extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "testResult")
     public void testGetTestsByTestRunIdV1WithQueryStatuses(String result) {
+        String methodName = "NewMethodName".concat(RandomStringUtils.randomAlphabetic(5));
         TestRunServiceAPIImplV1 testRunServiceAPIImplV1 = new TestRunServiceAPIImplV1();
         testRunId = testRunServiceAPIImplV1.start();
         String ciRunId = testRunServiceAPIImplV1.getCiRunId(testRunId);
-        int testId = new TestServiceV1Impl().startTest(testRunId);
+        int testId = testServiceV1.startTestWithMethodName(testRunId, methodName);
         int testId1 = new TestServiceV1Impl().startTest(testRunId);
         new TestServiceV1Impl().finishTestAsResult(testRunId, testId, result);
         GetTestsByCiRunIdV1Method getTestsByCiRunIdV1Method = new GetTestsByCiRunIdV1Method(ciRunId);
@@ -333,11 +335,12 @@ public class TestV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testLinkWorkItemToTest() {
+        String methodName = "NewMethodName".concat(RandomStringUtils.randomAlphabetic(5));
         String expectedJiraIdValue = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
         String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
         testRunId = startTestRunV1();
-        int testId=startTestV1(testRunId);
-        new TestServiceV1Impl().finishTestAsResult(testRunId,testId,"FAILED");
+        int testId = testServiceV1.startTestWithMethodName(testRunId, methodName);
+        new TestServiceV1Impl().finishTestAsResult(testRunId, testId, "FAILED");
         PostLinkWorkItemMethod postLinkWorkItemMethod = new PostLinkWorkItemMethod(1, expectedJiraIdValue,
                 testId, workItemType);
         apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.OK);
@@ -348,11 +351,12 @@ public class TestV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testLinkWorkItemToTestWithStatusPASSED() {
+        String methodName = "NewMethodName".concat(RandomStringUtils.randomAlphabetic(5));
         String expectedJiraIdValue = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
         String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
         testRunId = startTestRunV1();
-        int testId=startTestV1(testRunId);
-        new TestServiceV1Impl().finishTestAsResult(testRunId,testId,"PASSED");
+        int testId = testServiceV1.startTestWithMethodName(testRunId, methodName);
+        new TestServiceV1Impl().finishTestAsResult(testRunId, testId, "PASSED");
         PostLinkWorkItemMethod postLinkWorkItemMethod = new PostLinkWorkItemMethod(1, expectedJiraIdValue,
                 testId, workItemType);
         apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.FORBIDDEN);
@@ -360,11 +364,12 @@ public class TestV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testGetWorkItem() {
+        String methodName = "NewMethodName".concat(RandomStringUtils.randomAlphabetic(5));
         String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
         String jiraId = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
         testRunId = startTestRunV1();
-        int testId=startTestV1(testRunId);
-        new TestServiceV1Impl().finishTestAsResult(testRunId,testId,"FAILED");
+        int testId = testServiceV1.startTestWithMethodName(testRunId, methodName);
+        new TestServiceV1Impl().finishTestAsResult(testRunId, testId, "FAILED");
         apiExecutor.callApiMethod(new PostLinkWorkItemMethod(1, jiraId, testId, workItemType));
         GetWorkItemMethod getWorkItemMethod = new GetWorkItemMethod(testId, workItemType);
         apiExecutor.expectStatus(getWorkItemMethod, HTTPStatusCodeType.OK);
@@ -375,11 +380,12 @@ public class TestV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testCreateBatchWorkItem() {
+        String methodName = "NewMethodName".concat(RandomStringUtils.randomAlphabetic(5));
         String jiraId = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
         testRunId = startTestRunV1();
-        int testId=startTestV1(testRunId);
-        new TestServiceV1Impl().finishTestAsResult(testRunId,testId,"FAILED");
-        PostCreateBatchWorkItemsMethod postCreateBatchWorkItemsMethod = new PostCreateBatchWorkItemsMethod(testRunId,testId, jiraId);
+        int testId = testServiceV1.startTestWithMethodName(testRunId, methodName);
+        new TestServiceV1Impl().finishTestAsResult(testRunId, testId, "FAILED");
+        PostCreateBatchWorkItemsMethod postCreateBatchWorkItemsMethod = new PostCreateBatchWorkItemsMethod(testRunId, testId, jiraId);
         apiExecutor.expectStatus(postCreateBatchWorkItemsMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(postCreateBatchWorkItemsMethod);
         apiExecutor.validateResponse(postCreateBatchWorkItemsMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
@@ -387,16 +393,17 @@ public class TestV1Test extends ZafiraAPIBaseTest {
 
     @Test
     public void testDeleteWorkItem() {
-        TestServiceImpl testServiсeImpl =  new TestServiceImpl();
+        String methodName = "NewMethodName".concat(RandomStringUtils.randomAlphabetic(5));
+        TestServiceImpl testServiсeImpl = new TestServiceImpl();
         String expectedJiraIdValue = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
         String workItemType = R.TESTDATA.get(ConfigConstant.WORK_ITEM_TYPE_KEY);
         testRunId = startTestRunV1();
-        int testId=startTestV1(testRunId);
-        new TestServiceV1Impl().finishTestAsResult(testRunId,testId,"FAILED");
+        int testId = testServiceV1.startTestWithMethodName(testRunId, methodName);
+        new TestServiceV1Impl().finishTestAsResult(testRunId, testId, "FAILED");
         String linkWorkItemRs = apiExecutor.callApiMethod(new PostLinkWorkItemMethod(1, expectedJiraIdValue,
                 testId, workItemType));
         int workItemId = JsonPath.from(linkWorkItemRs).get(JSONConstant.ID_KEY);
-        String testRs =testServiсeImpl.getAllTest(testRunId);
+        String testRs = testServiсeImpl.getAllTest(testRunId);
         int workItemIdRs = JsonPath.from(testRs).get(JSONConstant.WORK_ITEM_ID_CHECK_KEY);
         Assert.assertNotEquals(0, workItemIdRs, "Work item was not linked!");
         apiExecutor.callApiMethod(new DeleteWorkItemMethod(testId, workItemId));

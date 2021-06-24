@@ -15,25 +15,5 @@
   "knownIssue": "type:Boolean",
   "reviewed": "type:Boolean",
   "artifacts": "type:JSONArray",
-  "labels": [
-    {
-      "id":"regex:[\\d]",
-      "modifiedAt": null,
-      "createdAt": null,
-      "key": "type:String",
-      "value": "type:String"
-    },{
-      "id":"regex:[\\d]",
-      "modifiedAt": null,
-      "createdAt": null,
-      "key": "type:String",
-      "value": "type:String"
-    },{
-      "id":"regex:[\\d]",
-      "modifiedAt": null,
-      "createdAt": null,
-      "key": "type:String",
-      "value": "type:String"
-    }
-  ]
+  "labels": "type:JSONArray"
 }

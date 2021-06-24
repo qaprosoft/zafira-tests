@@ -167,7 +167,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
     }
 
 
-    @Test
+    @Test(enabled = false)
     public void testBuildProjectTestRun() {
         testRunId = createTestRun(1);
         testRunServiceAPIImplV1.finishTestRun(testRunId);
@@ -264,7 +264,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(exportTestRunHTMLMethod);
     }
 
-    @Test
+    @Test()
     public void testGetJobParametersMethod() {
         testRunId = createTestRun(1);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
@@ -410,7 +410,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(actualComment, comment, "Comment is not as expected!");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testAbortCIJob() {
         testRunId = createTestRun(1);
         String ciRunId = new TestRunServiceAPIImpl().getCiRunId(testRunId);

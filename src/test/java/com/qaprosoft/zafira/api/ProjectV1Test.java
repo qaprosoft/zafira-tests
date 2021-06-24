@@ -43,7 +43,7 @@ public class ProjectV1Test extends ZafiraAPIBaseTest {
 
         apiExecutor.expectStatus(getAllProjectsMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getAllProjectsMethod);
-        apiExecutor.validateResponse(getAllProjectsMethod, JSONCompareMode.STRICT,
+        apiExecutor.validateResponse(getAllProjectsMethod, JSONCompareMode.LENIENT,
                 JsonCompareKeywords.ARRAY_CONTAINS.getKey() + "results");
     }
 
