@@ -81,9 +81,10 @@ public class CapabilitiesManagerDataProvider {
     @DataProvider(name = "test-environment-provider")
     public static Object[][] getProvider() {
         return new Object[][]{
-                {"ZEBRUNNER"},
-                {"SELENIUM"},
-                {"MCLOUD"}};
+                {"ZEBRUNNER", "https://hub.zebrunner.dev/wd/hub"},
+//                {"SELENIUM"},
+//                {"MCLOUD"}
+        };
     }
 
 }
