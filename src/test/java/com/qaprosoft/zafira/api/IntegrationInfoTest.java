@@ -17,7 +17,7 @@ public class IntegrationInfoTest extends ZafiraAPIBaseTest {
         apiExecutor.expectStatus(getIntegrationInfoMethod, HTTPStatusCodeType.OK);
         apiExecutor.callApiMethod(getIntegrationInfoMethod);
         apiExecutor.validateResponse(getIntegrationInfoMethod,
-                JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
+                JSONCompareMode.LENIENT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
     @Test
