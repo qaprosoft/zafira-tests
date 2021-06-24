@@ -1,16 +1,15 @@
 package com.qaprosoft.zafira.api;
 
-import com.qaprosoft.zafira.api.user.v1.PatchUserV1Method;
-import com.qaprosoft.zafira.service.impl.AuthServiceApiIamImpl;
-import com.qaprosoft.zafira.service.impl.UserV1ServiceAPIImpl;
-import io.restassured.path.json.JsonPath;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.api.widget.*;
 import com.qaprosoft.zafira.constant.ConfigConstant;
 import com.qaprosoft.zafira.constant.JSONConstant;
 import com.qaprosoft.zafira.enums.HTTPStatusCodeType;
+import com.qaprosoft.zafira.service.impl.AuthServiceApiIamImpl;
+import com.qaprosoft.zafira.service.impl.UserV1ServiceAPIImpl;
 import com.qaprosoft.zafira.service.impl.WidgetServiceImpl;
+import io.restassured.path.json.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
@@ -73,10 +72,6 @@ public class WidgetTest extends ZafiraAPIBaseTest {
         PostWidgetMethod postWidgetMethod = new PostWidgetMethod(widgetName, token, widgetTemplateId);
         apiExecutor.expectStatus(postWidgetMethod, HTTPStatusCodeType.FORBIDDEN);
         apiExecutor.callApiMethod(postWidgetMethod);
-        //*deactivate user
-        PatchUserV1Method patchUserV1Method = new PatchUserV1Method(userId, "/status", "INACTIVE");
-        apiExecutor.expectStatus(patchUserV1Method, HTTPStatusCodeType.NO_CONTENT);
-        apiExecutor.callApiMethod(patchUserV1Method);
     }
 
     @Test

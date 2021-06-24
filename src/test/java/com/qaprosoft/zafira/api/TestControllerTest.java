@@ -120,15 +120,6 @@ public class TestControllerTest extends ZafiraAPIBaseTest {
     }
 
     @Test
-    public void testGetJiraIssueByItsId() {
-        GetJiraIssueByItsIdMethod getJiraIssueByItsIdMethod = new GetJiraIssueByItsIdMethod(EXISTING_ISSUE);
-        apiExecutor.callApiMethod(getJiraIssueByItsIdMethod);
-        apiExecutor.expectStatus(getJiraIssueByItsIdMethod, HTTPStatusCodeType.OK);
-        apiExecutor.validateResponse(getJiraIssueByItsIdMethod, JSONCompareMode.STRICT,
-                JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-    }
-
-    @Test
     public void testUpdateBatchPatchesOfTestStatus() {
         String expectedTestStatusValue = R.TESTDATA.get(ConfigConstant.TEST_STATUS_EXPECTED_UPDATE_KEY);
         int testSuiteId = new TestSuiteServiceImpl().create();

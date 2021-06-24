@@ -24,6 +24,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
 
     private final CapabilitiesManagerServiceImpl capabilitiesManagerService = new CapabilitiesManagerServiceImpl();
     private static final String PATH_TO_CHECK_VNC = R.TESTDATA.get(ConfigConstant.PATH_TO_CHECK_VNC);
+    private static final String urlZebrunner = "https://hub.zebrunner.dev/wd/hub";
 
     private int testRunId;
 
@@ -48,7 +49,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         String sessionId = JsonPath.from(rs).getString(JSONConstant.SESSION_ID);
         String actualLink = capabilitiesManagerService.getVNCLink(testRunId, testSessionId);
-        String url = new IntegrationInfoServiceImpl().getURLByIntegrationName("ZEBRUNNER");
+        String url = urlZebrunner;
         String expectedLink = url.replace("/wd/hub", "").replaceFirst("http", "ws")
                 + "/ws/vnc/" + sessionId;
         Assert.assertEquals(actualLink, expectedLink, "Link is not as expected!");
@@ -179,7 +180,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "test-environment-provider", dataProviderClass = CapabilitiesManagerDataProvider.class)
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40066")
-    public void testCheckVNCLinkWithProviderInBodyRq(String provider) {
+    public void testCheckVNCLinkWithProviderInBodyRq(String provider, String url) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
@@ -193,7 +194,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         String sessionId = JsonPath.from(rs).getString(JSONConstant.SESSION_ID);
         String actualLink = capabilitiesManagerService.getVNCLink(testRunId, testSessionId);
-        String url = new IntegrationInfoServiceImpl().getURLByIntegrationName(provider);
+        // String url = new IntegrationInfoServiceImpl().getURLByIntegrationName(provider);
         String expectedLink = url.replace("/wd/hub", "").replaceFirst("http", "ws")
                 + "/ws/vnc/" + sessionId;
         Assert.assertEquals(actualLink, expectedLink, "Link is not as expected!");
@@ -201,7 +202,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
 
     @Test(dataProvider = "test-environment-provider", dataProviderClass = CapabilitiesManagerDataProvider.class)
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40067")
-    public void testCheckVNCLinkWithProviderToLowerCaseInBodyRq(String provider) {
+    public void testCheckVNCLinkWithProviderToLowerCaseInBodyRq(String provider, String url) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
@@ -215,7 +216,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         String sessionId = JsonPath.from(rs).getString(JSONConstant.SESSION_ID);
         String actualLink = capabilitiesManagerService.getVNCLink(testRunId, testSessionId);
-        String url = new IntegrationInfoServiceImpl().getURLByIntegrationName(provider);
+        // String url = new IntegrationInfoServiceImpl().getURLByIntegrationName(provider);
         String expectedLink = url.replace("/wd/hub", "").replaceFirst("http", "ws")
                 + "/ws/vnc/" + sessionId;
         Assert.assertEquals(actualLink, expectedLink, "Link is not as expected!");
@@ -279,7 +280,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         String sessionId = JsonPath.from(rs).getString(JSONConstant.SESSION_ID);
         String actualLink = capabilitiesManagerService.getVNCLink(testRunId, testSessionId);
-        String url = new IntegrationInfoServiceImpl().getURLByIntegrationName("ZEBRUNNER");
+        String url = urlZebrunner;
         String expectedLink = url.replace("/wd/hub", "").replaceFirst("http", "ws")
                 + "/ws/vnc/" + sessionId;
         Assert.assertEquals(actualLink, expectedLink, "Link is not as expected!");
@@ -409,7 +410,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
     }
 
     @Test(dataProvider = "test-environment-provider", dataProviderClass = CapabilitiesManagerDataProvider.class)
-    public void testCheckVNCLinkWithProviderInBodyRqWithoutStatusInRq(String provider) {
+    public void testCheckVNCLinkWithProviderInBodyRqWithoutStatusInRq(String provider, String url) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
         PostSessionV1Method postSessionV1Method = new PostSessionV1Method(testRunId, testIds);
@@ -424,7 +425,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         int testSessionId = JsonPath.from(rs).getInt(JSONConstant.ID_KEY);
         String sessionId = JsonPath.from(rs).getString(JSONConstant.SESSION_ID);
         String actualLink = capabilitiesManagerService.getVNCLink(testRunId, testSessionId);
-        String url = new IntegrationInfoServiceImpl().getURLByIntegrationName(provider);
+        //      String url = new IntegrationInfoServiceImpl().getURLByIntegrationName(provider);
         String expectedLink = url.replace("/wd/hub", "").replaceFirst("http", "ws")
                 + "/ws/vnc/" + sessionId;
         Assert.assertEquals(actualLink, expectedLink, "Link is not as expected!");
