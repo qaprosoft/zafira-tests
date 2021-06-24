@@ -2,6 +2,7 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
+import com.qaprosoft.zafira.gui.desktop.component.common.HelpMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.Pagination;
 import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
@@ -38,6 +39,12 @@ public class TestRunsPage extends AbstractPage {
 
     @FindBy(id = "pagination")
     private Pagination pagination;
+
+    @FindBy(xpath = "//div[@data-embed='helpCenterForm']")
+    private HelpMenu helpMenu;
+
+    @FindBy(xpath = "//button[@aria-label='Help']")
+    private ExtendedWebElement helpButton;
 
     @FindBy(id = "noDataYet")
     private ExtendedWebElement noDataField;

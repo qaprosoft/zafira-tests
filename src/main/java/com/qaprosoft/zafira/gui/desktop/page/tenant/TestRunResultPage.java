@@ -3,6 +3,7 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
+import com.qaprosoft.zafira.gui.desktop.component.common.HelpMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
 import com.qaprosoft.zafira.gui.desktop.component.testresult.*;
@@ -36,6 +37,12 @@ public class TestRunResultPage extends AbstractPage {
 
     @FindBy(xpath = "//md-dialog[contains(@class,'issue-modal')]")
     private LinkIssueWindow linkIssueWindow;
+
+    @FindBy(xpath = "//div[@data-embed='helpCenterForm']")
+    private HelpMenu helpMenu;
+
+    @FindBy(xpath = "//button[@aria-label='Help']")
+    private ExtendedWebElement helpButton;
 
     @FindBy(xpath = "//a[contains(@class,'back_button')]//md-icon")
     private ExtendedWebElement backIcon;
