@@ -396,7 +396,27 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
         int testId1 = new TestServiceV1Impl().startTestWithMethodName(testRunId, methodName);
         new TestServiceV1Impl().finishTestAsResult(testRunId, testId1, RESULT_FAILED);
         new TestRunServiceAPIImplV1().finishTestRun(testRunId);
-        new TestServiceImpl().linkWorkItem(testId1, 5);
+        new TestServiceImpl().linkWorkItem(testId1, 5,"ZEB-2787");
+
+        int testRunIdNew = new TestRunServiceAPIImplV1().start();
+        int testId2 = new TestServiceV1Impl().startTestWithMethodName(testRunIdNew, methodName);
+        new TestServiceV1Impl().finishTestAsResult(testRunIdNew, testId2, RESULT_FAILED);
+        new TestRunServiceAPIImplV1().finishTestRun(testRunIdNew);
+        String actualResult = new TestRunServiceAPIImplV1().getTestRunResult(testRunIdNew);
+
+        Assert.assertEquals(actualResult, RESULT_PASSED, "Result is not as expected!");
+        new TestRunServiceAPIImplV1().deleteTestRun(testRunIdNew);
+    }
+
+    @Test
+    public void testGetTestRunStatusV1WithLinkedWithInvalidWorkItem() {
+        String methodName = "NewMethodName".concat(RandomStringUtils.randomAlphabetic(5));
+
+        testRunId = new TestRunServiceAPIImplV1().start();
+        int testId1 = new TestServiceV1Impl().startTestWithMethodName(testRunId, methodName);
+        new TestServiceV1Impl().finishTestAsResult(testRunId, testId1, RESULT_FAILED);
+        new TestRunServiceAPIImplV1().finishTestRun(testRunId);
+        new TestServiceImpl().linkWorkItem(testId1, 5,"INVALID_ZEB-2787");
 
         int testRunIdNew = new TestRunServiceAPIImplV1().start();
         int testId2 = new TestServiceV1Impl().startTestWithMethodName(testRunIdNew, methodName);

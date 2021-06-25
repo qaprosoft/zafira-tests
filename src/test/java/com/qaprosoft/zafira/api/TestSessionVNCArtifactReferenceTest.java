@@ -34,7 +34,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
     }
 
 
-    @Test()
+    @Test(enabled = false)
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40055")
     public void testCheckVNCLinkWithoutVNCLinksAndProviderInBodyRq() {
         testRunId = new TestRunServiceAPIImplV1().start();
@@ -178,7 +178,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         Assert.assertTrue(actualName.matches(expectedName));
     }
 
-    @Test(dataProvider = "test-environment-provider", dataProviderClass = CapabilitiesManagerDataProvider.class)
+    @Test(enabled = false,dataProvider = "test-environment-provider", dataProviderClass = CapabilitiesManagerDataProvider.class)
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40066")
     public void testCheckVNCLinkWithProviderInBodyRq(String provider, String url) {
         testRunId = new TestRunServiceAPIImplV1().start();
@@ -200,7 +200,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         Assert.assertEquals(actualLink, expectedLink, "Link is not as expected!");
     }
 
-    @Test(dataProvider = "test-environment-provider", dataProviderClass = CapabilitiesManagerDataProvider.class)
+    @Test(enabled = false,dataProvider = "test-environment-provider", dataProviderClass = CapabilitiesManagerDataProvider.class)
     @TestLabel(name = TestRailConstant.TESTCASE_ID, value = "40067")
     public void testCheckVNCLinkWithProviderToLowerCaseInBodyRq(String provider, String url) {
         testRunId = new TestRunServiceAPIImplV1().start();
@@ -265,7 +265,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
 
     /*  Checking VNC (agent version before 1.6) without "status" in body request  */
 
-    @Test()
+    @Test(enabled = false)
     public void testCheckVNCLinkWithoutVNCLinksAndProviderInBodyRqWithoutStatusInRq() {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -409,7 +409,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         Assert.assertTrue(actualName.matches(expectedName));
     }
 
-    @Test(dataProvider = "test-environment-provider", dataProviderClass = CapabilitiesManagerDataProvider.class)
+    @Test(enabled = false,dataProvider = "test-environment-provider", dataProviderClass = CapabilitiesManagerDataProvider.class)
     public void testCheckVNCLinkWithProviderInBodyRqWithoutStatusInRq(String provider, String url) {
         testRunId = new TestRunServiceAPIImplV1().start();
         List<Integer> testIds = new TestServiceV1Impl().startTests(testRunId, 1);
@@ -471,5 +471,4 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
         String actualNameAfterFinish = capabilitiesManagerService.getVNCArtifactName(testRunId);
         Assert.assertNull(actualNameAfterFinish, "Link is not deleted!");
     }
-
 }
