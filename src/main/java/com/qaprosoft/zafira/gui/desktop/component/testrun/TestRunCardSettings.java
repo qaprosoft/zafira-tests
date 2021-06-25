@@ -8,6 +8,18 @@ import org.openqa.selenium.support.FindBy;
 
 //div[contains(@class,'md-open-menu-container md-whiteframe-z2 md-active md-clickable')]
 public class TestRunCardSettings extends AbstractUIObject {
+    @FindBy(xpath = "//form[@name='comments_form']")
+    private ReviewForm reviewForm;
+
+    @FindBy(xpath = "//md-dialog[@aria-label='Email']")
+    private EmailForm emailForm;
+
+    @FindBy(xpath = "//md-dialog[@aria-label='Rebuild testrun']")
+    private RerunForm rerunForm;
+
+    @FindBy(xpath = "//form[@name='build_now_form']")
+    private BuildNowForm buildNowForm;
+
     @FindBy(xpath = ".//button[@name='open']")
     private ExtendedWebElement openInANewTab;
 

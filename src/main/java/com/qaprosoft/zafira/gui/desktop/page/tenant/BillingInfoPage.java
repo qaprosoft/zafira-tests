@@ -2,6 +2,7 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
+import com.qaprosoft.zafira.gui.desktop.component.billing.CreatePaymentWindow;
 import com.qaprosoft.zafira.gui.desktop.component.common.HelpMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
 import org.openqa.selenium.WebDriver;
@@ -10,6 +11,9 @@ import org.openqa.selenium.support.FindBy;
 public class BillingInfoPage extends AbstractPage {
     @FindBy(id = "header")
     private TenantHeader header;
+
+    @FindBy(xpath = "//md-dialog[@class='billing-add-card-modal styled-modal _md md-dialog-fullscreen background-clear-white md-transition-in']")
+    private CreatePaymentWindow paymentWindow;
 
     @FindBy(xpath = "//div[@data-embed='helpCenterForm']")
     private HelpMenu helpMenu;
@@ -51,9 +55,16 @@ public class BillingInfoPage extends AbstractPage {
     private ExtendedWebElement paymentInfoTitle;
 
     @FindBy(xpath = "//button[contains(@class,'zebrunner-billing__card-modal-button ng-binding')]")
-    private ExtendedWebElement addPaymentButton;
+    private ExtendedWebElement addEditPaymentButton;
 
+    @FindBy(xpath = "//div[@class='zebrunner-billing__payment-card-number ng-binding ng-scope']")
+    private ExtendedWebElement currentPaymentMethodInfo;
 
+    @FindBy(xpath = "//div[text()='Payment history']")
+    private ExtendedWebElement paymentHistory;
+
+    @FindBy(xpath = "//div[text()='No payment history yet']")
+    private ExtendedWebElement noPaymentHistoryYet;
 
     public BillingInfoPage(WebDriver driver) {
         super(driver);

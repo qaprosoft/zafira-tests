@@ -9,7 +9,6 @@ import org.openqa.selenium.support.FindBy;
 
 //div[contains(@class,'test-run-card ng-isolate-scope _single')]
 public class TestRunCard extends TestRunCardBase {
-
     @FindBy(xpath = ".//div[@class='test-run-card__cell _platform']")
     private ExtendedWebElement platform;
 
