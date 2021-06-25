@@ -24,7 +24,7 @@ public class TestSessionVNCArtifactReferenceTest extends ZafiraAPIBaseTest {
 
     private final CapabilitiesManagerServiceImpl capabilitiesManagerService = new CapabilitiesManagerServiceImpl();
     private static final String PATH_TO_CHECK_VNC = R.TESTDATA.get(ConfigConstant.PATH_TO_CHECK_VNC);
-    private static final String urlZebrunner = "https://hub.zebrunner.dev/wd/hub";
+    private static final String urlZebrunner = "https://hub.zebrunner.org/wd/hub";
 
     private int testRunId;
 
