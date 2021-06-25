@@ -14,12 +14,6 @@
     <parameter name="jenkinsJobExecutionMode" value="continue"/>
     <parameter name="jenkinsMockHost" value="https://mockci.qaprosoft.farm"/>
 
-    <test name="Integration-info controller tests">
-        <classes>
-            <class name="com.qaprosoft.zafira.api.IntegrationInfoTest"/>
-        </classes>
-    </test>
-
     <test name="Job controller tests">
         <classes>
             <class name="com.qaprosoft.zafira.api.JobTest"/>

@@ -1,7 +1,0 @@
-{
-  "integrationId": "regex:[\\d]",
-  "integrationBackReferenceId": null,
-  "connected": "type:Boolean",
-  "enabled": "type:Boolean",
-  "default": "type:Boolean"
-}

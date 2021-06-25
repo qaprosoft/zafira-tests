@@ -58,7 +58,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public void linkWorkItem(int testId, int testCaseId) {
-        String expectedJiraIdValue = "ZEB-2787";
+        String expectedJiraIdValue = R.TESTDATA.get(ConfigConstant.EXPECTED_JIRA_ID_KEY);
         PostLinkWorkItemMethod postLinkWorkItemMethod = new PostLinkWorkItemMethod(testCaseId, expectedJiraIdValue,
                 testId, "BUG");
         apiExecutor.expectStatus(postLinkWorkItemMethod, HTTPStatusCodeType.OK);
