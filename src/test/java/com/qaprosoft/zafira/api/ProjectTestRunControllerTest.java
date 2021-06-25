@@ -264,7 +264,7 @@ public class ProjectTestRunControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.callApiMethod(exportTestRunHTMLMethod);
     }
 
-    @Test()
+    @Test(enabled = false)
     public void testGetJobParametersMethod() {
         testRunId = createTestRun(1);
         new TestRunServiceAPIImpl().finishTestRun(testRunId);
