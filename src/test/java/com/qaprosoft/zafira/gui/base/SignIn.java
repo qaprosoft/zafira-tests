@@ -5,6 +5,8 @@ import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
+import com.qaprosoft.zafira.gui.desktop.component.common.ProjectsMenu;
+import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
 import com.qaprosoft.zafira.gui.desktop.page.accountManagement.LoginPage;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunsPage;
 import org.testng.Assert;
@@ -30,6 +32,9 @@ public class SignIn extends AbstractTest {
         TestRunsPage testRunsPage = loginPage.login(R.TESTDATA.get(WebConstant.USER_LOGIN), R.TESTDATA.get(WebConstant.USER_PASSWORD));
         testRunsPage.assertPageOpened();
         navigationMenu = testRunsPage.getNavigationMenu();
+        TenantHeader header = testRunsPage.getHeader();
+        ProjectsMenu projectsMenu = header.openProjectsWindow();
+        projectsMenu.toProjectByKey("DEF");
         Assert.assertEquals(navigationMenu.getProjectKey(), R.TESTDATA.get(PROJECT_NAME_KEY), "Actual project key differs from defaults");
     }
 }

@@ -220,4 +220,8 @@ public class TestRunsPage extends AbstractPage {
         String[] arr = pagination.getPages().split(" - | of ");
         return arr[1];
     }
+
+    public TenantHeader getHeader() {
+        return header;
+    }
 }

@@ -53,11 +53,7 @@ public class TenantHeader extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public void openProjectsWindow(){
-        showProjectButton.click();
-    }
-
-    public ProjectsMenu getProjectsMenu() {
+    public ProjectsMenu openProjectsWindow() {
         showProjectButton.click();
         return projectsMenu;
     }
