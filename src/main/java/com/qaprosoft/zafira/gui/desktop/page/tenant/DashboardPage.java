@@ -3,7 +3,9 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.zafira.constant.WebConstant;
+import com.qaprosoft.zafira.gui.desktop.component.common.HelpMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
+import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
@@ -13,6 +15,18 @@ import java.lang.invoke.MethodHandles;
 
 public class DashboardPage extends AbstractPage {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    @FindBy(id = "nav-container")
+    private NavigationMenu navigationMenu;
+
+    @FindBy(id = "header")
+    private TenantHeader header;
+
+    @FindBy(xpath = "//div[@data-embed='helpCenterForm']")
+    private HelpMenu helpMenu;
+
+    @FindBy(xpath = "//button[@aria-label='Help']")
+    private ExtendedWebElement helpButton;
 
     @FindBy(id = "pageTitle")
     private ExtendedWebElement dashboardTitle;
@@ -31,9 +45,6 @@ public class DashboardPage extends AbstractPage {
 
     @FindBy(id = "cancel")
     private ExtendedWebElement cancelEditButton;
-
-    @FindBy(id = "nav-container")
-    private NavigationMenu navigationMenu;
 
     @FindBy(xpath = "//i[@class='material-icons ng-scope']")
     private ExtendedWebElement sendByEmailButton;

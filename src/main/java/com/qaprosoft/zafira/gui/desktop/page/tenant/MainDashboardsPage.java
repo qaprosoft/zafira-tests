@@ -3,6 +3,9 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.zafira.constant.WebConstant;
+import com.qaprosoft.zafira.gui.desktop.component.common.HelpMenu;
+import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
+import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
 import com.qaprosoft.zafira.gui.desktop.component.dashboard.DashboardCard;
 import com.qaprosoft.zafira.util.WaitUtil;
 import org.openqa.selenium.WebDriver;
@@ -17,11 +20,23 @@ import java.util.List;
 public class MainDashboardsPage extends AbstractPage {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    @FindBy(id = "pageTitle")
-    private ExtendedWebElement mainDashboardsTitle;
-
     @FindBy(xpath = "//div[@class='dashboards-table__row ng-scope']")
     private List<DashboardCard> dashboardCards;
+
+    @FindBy(id = "nav-container")
+    private NavigationMenu navigationMenu;
+
+    @FindBy(id = "header")
+    private TenantHeader header;
+
+    @FindBy(xpath = "//div[@data-embed='helpCenterForm']")
+    private HelpMenu helpMenu;
+
+    @FindBy(xpath = "//button[@aria-label='Help']")
+    private ExtendedWebElement helpButton;
+
+    @FindBy(id = "pageTitle")
+    private ExtendedWebElement mainDashboardsTitle;
 
     @FindBy(xpath = "//span[@class='button__text ng-scope']")
     private ExtendedWebElement addDashboardButton;

@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
+//test-card[@test='testItem']
 public class ResultTestMethodCard extends AbstractUIObject {
     @FindBy(xpath = ".//div[@class='md-container md-ink-ripple']")
     private ExtendedWebElement checkbox;

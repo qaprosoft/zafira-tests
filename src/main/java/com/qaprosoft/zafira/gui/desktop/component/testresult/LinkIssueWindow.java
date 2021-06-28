@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
+//md-dialog[contains(@class,'issue-modal')]
 public class LinkIssueWindow extends AbstractUIObject {
     @FindBy(xpath = ".//md-icon[@aria-label='Close dialog']")
     private ExtendedWebElement closeButton;

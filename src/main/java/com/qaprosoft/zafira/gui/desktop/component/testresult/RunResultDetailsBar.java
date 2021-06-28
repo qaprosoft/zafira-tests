@@ -6,6 +6,7 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
+//div[@class='test-run-group-row test-details__header-actions _default']
 public class RunResultDetailsBar extends AbstractUIObject {
     @FindBy(xpath = ".//div[@class='md-container md-ink-ripple']")
     private ExtendedWebElement checkbox;

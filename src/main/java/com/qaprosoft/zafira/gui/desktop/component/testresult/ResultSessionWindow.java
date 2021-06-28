@@ -6,6 +6,7 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
+//*[@class='md-sidenav-right test-sessions-sidenav ng-isolate-scope _md md-whiteframe-1dp']
 public class ResultSessionWindow extends AbstractUIObject {
     @FindBy(xpath = ".//md-icon[@aria-label='Close sidenav']")
     private ExtendedWebElement closeButton;
