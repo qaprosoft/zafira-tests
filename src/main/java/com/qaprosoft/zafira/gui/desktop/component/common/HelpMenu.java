@@ -18,16 +18,16 @@ public class HelpMenu extends AbstractUIObject {
     @FindBy(xpath = ".//button[@aria-label='Minimise widget']")
     private ExtendedWebElement minimizeWidget;
 
-    @FindBy(xpath = "//div[@data-garden-id='forms.field']")
+    @FindBy(xpath = ".//div[@data-garden-id='forms.field']")
     private ExtendedWebElement inputField;
 
-    @FindBy(xpath = "//button[@aria-label='Clear search']")
+    @FindBy(xpath = ".//button[@aria-label='Clear search']")
     private ExtendedWebElement clearInputFieldButton;
 
-    @FindBy(xpath = "//button[@data-garden-id='buttons.button']")
+    @FindBy(xpath = ".//button[@data-garden-id='buttons.button']")
     private ExtendedWebElement submitNewSuggestionButton;
 
-    @FindBy(xpath = "//div//li//a")
+    @FindBy(xpath = ".//div//li//a")
     private List<ExtendedWebElement> suggestionsList;
 
     public HelpMenu(WebDriver driver, SearchContext searchContext) {

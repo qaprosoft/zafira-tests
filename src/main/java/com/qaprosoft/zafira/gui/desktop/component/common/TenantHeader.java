@@ -14,7 +14,7 @@ public class TenantHeader extends AbstractUIObject {
     @FindBy(className = "app-header__logo-icon")
     private ExtendedWebElement logoImage;
 
-    @FindBy(xpath = ".//div[@class='app-header__project']//span[@class='md-select-icon']")
+    @FindBy(xpath = ".//div[@class='app-header__logo']/following-sibling::div[@class='app-header__project']")
     private ExtendedWebElement showProjectButton;
 
     //4 buttons on the left of a header

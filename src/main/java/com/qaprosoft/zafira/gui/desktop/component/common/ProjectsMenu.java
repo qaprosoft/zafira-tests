@@ -20,10 +20,10 @@ public class ProjectsMenu extends AbstractUIObject {
     @FindBy(xpath = ".//div[contains(@class,'md-text')]//span[contains(@class,'profile-photo')]")
     private List<ExtendedWebElement> projectPhotos;
 
-    @FindBy(xpath = "//div[@class='project-settings__button']")
+    @FindBy(xpath = ".//div[@class='project-settings__button']")
     private ExtendedWebElement viewAllProjectsButton;
 
-    @FindBy(xpath = "//span[text()='Create a Project']")
+    @FindBy(xpath = ".//span[text()='Create a Project']")
     private ExtendedWebElement createNewProjectButton;
 
     public ProjectsMenu(WebDriver driver, SearchContext searchContext) {

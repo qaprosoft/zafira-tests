@@ -6,8 +6,10 @@ import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.component.common.HelpMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
+import com.qaprosoft.zafira.gui.desktop.component.dashboard.CreateWidgetForm;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +26,9 @@ public class DashboardPage extends AbstractPage {
 
     @FindBy(xpath = "//div[@data-embed='helpCenterForm']")
     private HelpMenu helpMenu;
+
+    @FindBy(xpath = "//form[@name='form-validation styled-modal__form ng-pristine ng-valid']")
+    private CreateWidgetForm createWidgetForm;
 
     @FindBy(xpath = "//button[@aria-label='Help']")
     private ExtendedWebElement helpButton;
@@ -56,7 +61,8 @@ public class DashboardPage extends AbstractPage {
 
     public void editDashboard(String newDashboardName) {
         editButton.click();
-        editInputField.type(newDashboardName);
+        editInputField.type(newDashboardName,
+                10, ExpectedConditions.textToBePresentInElement(editInputField.getElement(),newDashboardName));
         saveEditButton.click();
         LOGGER.info("The dashboard name has been changed to " + newDashboardName + "!");
         pause(WebConstant.TIME_TO_LOAD_PAGE);

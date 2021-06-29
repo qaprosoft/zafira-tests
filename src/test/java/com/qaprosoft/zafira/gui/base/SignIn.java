@@ -34,7 +34,7 @@ public class SignIn extends AbstractTest {
         navigationMenu = testRunsPage.getNavigationMenu();
         TenantHeader header = testRunsPage.getHeader();
         ProjectsMenu projectsMenu = header.openProjectsWindow();
-        projectsMenu.toProjectByKey("DEF");
+        projectsMenu.toProjectByKey(R.TESTDATA.get(PROJECT_NAME_KEY));
         Assert.assertEquals(navigationMenu.getProjectKey(), R.TESTDATA.get(PROJECT_NAME_KEY), "Actual project key differs from defaults");
     }
 }
