@@ -119,7 +119,7 @@ public class DashboardPagePageTest extends SignIn {
         Assert.assertEquals(mainDashboardsPage.getTitle(), WebConstant.MAIN_DASHBOARD_PAGE_TITLE, "Title is not as expected!");
         Assert.assertTrue(mainDashboardsPage.isSearchPresentAndClickable(), "Search is not visible or clickable");
         Assert.assertTrue(mainDashboardsPage.isAddDashboardButtonPresentAndClickable(), "AddDashboard button is not visible or clickable");
-        Assert.assertEquals(mainDashboardsPage.getColonNameDASBOARD_NAME(), WebConstant.COLUMN_NAME_DASHBOARD_NAME.toUpperCase(), "Colon name is not as expected!");
-        Assert.assertEquals(mainDashboardsPage.getColonNameCREATION_DATE(), WebConstant.COLUMN_NAME_CREATION_DATE.toUpperCase(), "Colon name is not as expected!");
+        Assert.assertEquals(mainDashboardsPage.getColonNameDASBOARD_NAME(), WebConstant.COLUMN_NAME_DASHBOARD_NAME, "Colon name is not as expected!");
+        Assert.assertEquals(mainDashboardsPage.getColonNameCREATION_DATE(), WebConstant.COLUMN_NAME_CREATION_DATE, "Colon creation date is not as expected!");
     }
 }

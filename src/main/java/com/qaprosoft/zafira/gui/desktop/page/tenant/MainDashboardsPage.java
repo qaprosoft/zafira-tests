@@ -69,7 +69,8 @@ public class MainDashboardsPage extends AbstractPage {
 
     public DashboardPage addDashboard(String dashboardName) {
         addDashboardButton.click();
-        dashboardNameInput.type(dashboardName);
+        dashboardNameInput.type(dashboardName,
+                10, ExpectedConditions.textToBePresentInElement(dashboardNameInput.getElement(), dashboardName));
         submitButton.click();
         LOGGER.info("Dashboard with name " + dashboardName + " was created!");
         return new DashboardPage(getDriver());
@@ -83,7 +84,7 @@ public class MainDashboardsPage extends AbstractPage {
     }
 
     public void deleteDashboard(String dashboardName) {
-        if(!WaitUtil.waitListToLoad(dashboardCards, 5000, 2300)){
+        if (!WaitUtil.waitListToLoad(dashboardCards, 5000, 2300)) {
             return;
         }
         for (DashboardCard card : dashboardCards) {
