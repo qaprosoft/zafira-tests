@@ -30,7 +30,6 @@ public class DashboardCard extends AbstractUIObject {
     @FindBy(xpath = "//*[@id=\"delete\"]")
     private ExtendedWebElement deleteButtonOnPopup;
 
-
     public DashboardCard(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }

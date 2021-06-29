@@ -115,7 +115,6 @@ public class DashboardPagePageTest extends SignIn {
     @Test
     public void checkMainDashboardPage() {
         MainDashboardsPage mainDashboardsPage = navigationMenu.toMainDashboardPage();
-
         Assert.assertEquals(mainDashboardsPage.getTitle(), WebConstant.MAIN_DASHBOARD_PAGE_TITLE, "Title is not as expected!");
         Assert.assertTrue(mainDashboardsPage.isSearchPresentAndClickable(), "Search is not visible or clickable");
         Assert.assertTrue(mainDashboardsPage.isAddDashboardButtonPresentAndClickable(), "AddDashboard button is not visible or clickable");

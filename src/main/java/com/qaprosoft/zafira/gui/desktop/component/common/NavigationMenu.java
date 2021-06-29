@@ -25,10 +25,10 @@ public class NavigationMenu extends AbstractUIObject {
     @FindBy(xpath = ".//div[@class='project__selected ng-binding']")
     private ExtendedWebElement projectKey;
 
-    @FindBy(xpath = "//div[@class='main-nav__button-icon-wrapper']")
+    @FindBy(xpath = "//.div[@class='main-nav__button-icon-wrapper']")
     private ExtendedWebElement extendSideBarButton;
 
-    @FindBy(xpath = "//span[contains(@class,'profile-photo')]")
+    @FindBy(xpath = ".//span[contains(@class,'profile-photo')]")
     private ExtendedWebElement profilePhoto;
 
     public NavigationMenu(WebDriver driver, SearchContext searchContext) {

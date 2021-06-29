@@ -10,7 +10,7 @@ import java.util.List;
 
 //md-dialog[@class='billing-add-card-modal styled-modal _md md-dialog-fullscreen background-clear-white md-transition-in']
 public class CreatePaymentWindow extends AbstractUIObject {
-    @FindBy(xpath = "//div[contains(@class,'billing-modal__cards-item ng-scope')]")
+    @FindBy(xpath = ".//div[contains(@class,'billing-modal__cards-item ng-scope')]")
     private List<BillingCards> billingCards;
 
     @FindBy(xpath = ".//h2[@class='modal-header__title ng-binding']")
@@ -19,13 +19,13 @@ public class CreatePaymentWindow extends AbstractUIObject {
     @FindBy(xpath = ".//button[@class='md-icon-button _default-md-style md-button md-ink-ripple']")
     private ExtendedWebElement closeButton;
 
-    @FindBy(xpath = "//span[@class='billing-modal__cards-button-text']")
+    @FindBy(xpath = ".//span[@class='billing-modal__cards-button-text']")
     private ExtendedWebElement addNewPaymentMethod;
 
-    @FindBy(xpath = "//span[@class='billing-modal__card-description']")
+    @FindBy(xpath = ".//span[@class='billing-modal__card-description']")
     private ExtendedWebElement currentPaymentTitle;
 
-    @FindBy(xpath = "//div[@class='billing-modal__card-number ng-binding ng-scope']")
+    @FindBy(xpath = ".//div[@class='billing-modal__card-number ng-binding ng-scope']")
     private ExtendedWebElement currentPaymentInfo;
 
     @FindBy(xpath = ".//div[@class='braintree-option braintree-option__card']")

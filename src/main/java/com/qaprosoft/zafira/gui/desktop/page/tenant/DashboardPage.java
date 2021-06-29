@@ -1,12 +1,12 @@
 package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
-import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.component.common.HelpMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
+import com.qaprosoft.zafira.gui.desktop.component.dashboard.CreateWidgetForm;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -26,6 +26,9 @@ public class DashboardPage extends AbstractPage {
 
     @FindBy(xpath = "//div[@data-embed='helpCenterForm']")
     private HelpMenu helpMenu;
+
+    @FindBy(xpath = "//form[@name='form-validation styled-modal__form ng-pristine ng-valid']")
+    private CreateWidgetForm createWidgetForm;
 
     @FindBy(xpath = "//button[@aria-label='Help']")
     private ExtendedWebElement helpButton;
