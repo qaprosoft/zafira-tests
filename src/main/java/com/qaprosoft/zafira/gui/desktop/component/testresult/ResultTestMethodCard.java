@@ -18,7 +18,7 @@ public class ResultTestMethodCard extends AbstractUIObject {
     private ExtendedWebElement checkbox;
 
     @FindBy(xpath = ".//button[contains(@class,'test-card__menu-btn')]")
-    private ExtendedWebElement settingButton;
+    private ExtendedWebElement settingsButton;
 
     @FindBy(xpath = "//div[contains(@class,'md-open-menu-container md-whiteframe-z2 md-active md-clickable')]//button[contains(text(),'Mark as passed')]")
     private ExtendedWebElement markAsPassedButton;
@@ -41,10 +41,10 @@ public class ResultTestMethodCard extends AbstractUIObject {
     @FindBy(xpath = ".//*[@test-label='testLabel']")
     private List<ExtendedWebElement> labels;
 
-    @FindBy(xpath = ".//div[@class='test-card__stacktrace-title-text ng-binding']")
+    @FindBy(xpath = ".//div[@class='test-card__stacktrace _failed _isBorder']//div[@class='test-card__stacktrace-title-text ng-binding']")
     private ExtendedWebElement errorStacktracePreview;
 
-    @FindBy(xpath = "//div[@class='test-card__stacktrace-message ng-binding ng-scope']")
+    @FindBy(xpath = ".//div[@class='test-card__stacktrace-message ng-binding ng-scope']")
     private ExtendedWebElement errorStacktraceFull;
 
     public ResultTestMethodCard(WebDriver driver, SearchContext searchContext) {
@@ -52,7 +52,7 @@ public class ResultTestMethodCard extends AbstractUIObject {
     }
 
     public boolean isErrorStacktracePresent() {
-        return errorStacktracePreview.isPresent(WebConstant.TIME_TO_LOAD_PAGE);
+        return errorStacktracePreview.isVisible(WebConstant.TIME_TO_LOAD_PAGE);
     }
 
     public boolean isCheckboxPresent() {
@@ -80,7 +80,7 @@ public class ResultTestMethodCard extends AbstractUIObject {
                 || Configuration.getCapability("browserName").equals("safari")) {
             pause(1);
         }
-        settingButton.click();
+        settingsButton.click();
     }
 
     public String getTitle() {

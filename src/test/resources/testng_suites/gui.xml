@@ -20,10 +20,15 @@
             <class name="com.qaprosoft.zafira.gui.impl.WorkSpaceRegister"/>
         </classes>
     </test>
-    <test name="Smoke gui tests">
+    <test name="Test runs gui test">
         <classes>
             <class name="com.qaprosoft.zafira.gui.impl.TestRunsPageTest" />
             <class name="com.qaprosoft.zafira.gui.impl.DashboardPagePageTest" />
+        </classes>
+    </test>
+    <test name="Projects gui test">
+        <classes>
+            <class name="com.qaprosoft.zafira.gui.impl.ProjectsTest"></class>
         </classes>
     </test>
 

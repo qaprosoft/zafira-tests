@@ -2,6 +2,7 @@ package com.qaprosoft.zafira.gui.desktop.component.common;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
+import com.qaprosoft.zafira.gui.desktop.page.tenant.ProjectsPage;
 import com.qaprosoft.zafira.util.WaitUtil;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -50,5 +51,40 @@ public class ProjectsMenu extends AbstractUIObject {
             }
         }
         throw new RuntimeException("Can't find project title " + projectKey);
+    }
+
+    public boolean isCreateNewProjectButtonPresent() {
+        return createNewProjectButton.isVisible();
+    }
+
+    public boolean isViewAllProjectsButtonPresent() {
+        return viewAllProjectsButton.isVisible();
+    }
+
+    public boolean areProjectsPresent() {
+        WaitUtil.waitListToLoad(projectTitles, 1000, 100);
+        if (projectTitles.size() < 1) {
+            return false;
+        }
+
+        if (projectTitles.size() != projectKeys.size() || projectTitles.size() != projectPhotos.size()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean isEveryProjectHasTitleKeyPhoto() {
+        WaitUtil.waitListToLoad(projectTitles, 1000, 100);
+        boolean isHas = true;
+        for (int i = 0; i < projectTitles.size() && isHas; i++) {
+            isHas = projectKeys.get(i).isVisible() && projectTitles.get(i).isVisible() && projectPhotos.get(i).isVisible();
+        }
+        return isHas;
+    }
+
+    public ProjectsPage toProjectsPage() {
+        viewAllProjectsButton.click();
+        return new ProjectsPage(driver);
     }
 }

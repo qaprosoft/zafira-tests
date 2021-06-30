@@ -49,8 +49,8 @@ public class TestRunsPage extends AbstractPage {
     @FindBy(id = "noDataYet")
     private ExtendedWebElement noDataField;
 
-    @FindBy(xpath = "//div[@class='fixed-page-header-container']//div[contains(text(),'Test runs')]")
-    private ExtendedWebElement sectionHeader;
+    @FindBy(id = "pageTitle")
+    private ExtendedWebElement pageTitle;
 
     @FindBy(xpath = "//span[text()='Launcher']/ancestor::button")
     private ExtendedWebElement launcherButton;
@@ -116,7 +116,7 @@ public class TestRunsPage extends AbstractPage {
 
     public TestRunsPage(WebDriver driver) {
         super(driver);
-        setUiLoadedMarker(sectionHeader);
+        setUiLoadedMarker(launcherButton);
     }
 
     public NavigationMenu getNavigationMenu() {
@@ -156,11 +156,11 @@ public class TestRunsPage extends AbstractPage {
         }
     }
 
-    public TestRunCard wainTestRun(String suiteName) {
-        return wainTestRun(suiteName, 60);
+    public TestRunCard waitTestRun(String suiteName) {
+        return waitTestRun(suiteName, 60);
     }
 
-    public TestRunCard wainTestRun(String suiteName, long testRunWaitTime) {
+    public TestRunCard waitTestRun(String suiteName, long testRunWaitTime) {
         Clock clock = Clock.systemDefaultZone();
         Instant end = clock.instant().plusSeconds(testRunWaitTime);
         Sleeper sleeper = Sleeper.SYSTEM_SLEEPER;
@@ -216,12 +216,11 @@ public class TestRunsPage extends AbstractPage {
         return String.valueOf(testRunCards.size());
     }
 
-    public String getNumberOfTestsOnThePage() {
-        String[] arr = pagination.getPages().split(" - | of ");
-        return arr[1];
-    }
-
     public TenantHeader getHeader() {
         return header;
+    }
+
+    public Pagination getPagination() {
+        return pagination;
     }
 }

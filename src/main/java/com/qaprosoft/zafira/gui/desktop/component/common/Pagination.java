@@ -20,7 +20,7 @@ public class Pagination extends AbstractUIObject {
     @FindBy(xpath = ".//button[@aria-label='First']")
     private ExtendedWebElement toFirstPagePagination;
 
-    @FindBy(xpath = ".//div[@class='label ng-binding']")
+    @FindBy(xpath = ".//div[@class='buttons']//div[@class='label ng-binding']")
     private ExtendedWebElement pages;
 
     @FindBy(xpath = ".//md-select[@aria-label='Rows']")
@@ -41,5 +41,10 @@ public class Pagination extends AbstractUIObject {
 
     public String getPages() {
         return pages.getText().trim();
+    }
+
+    public String getNumberOfItemsOnThePage() {
+        String[] arr = getPages().split(" - | of ");
+        return arr[1];
     }
 }

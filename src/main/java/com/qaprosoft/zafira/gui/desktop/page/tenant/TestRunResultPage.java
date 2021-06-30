@@ -3,6 +3,7 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
+import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.component.common.HelpMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
@@ -44,10 +45,7 @@ public class TestRunResultPage extends AbstractPage {
     @FindBy(xpath = "//button[@aria-label='Help']")
     private ExtendedWebElement helpButton;
 
-    @FindBy(xpath = "//a[contains(@class,'back_button')]//md-icon")
-    private ExtendedWebElement backIcon;
-
-    @FindBy(xpath = "//div[@id='pageTitle']//span[text()='Test results']")
+    @FindBy(id = "pageTitle")
     private ExtendedWebElement pageTitle;
 
     @FindBy(xpath = "//*[text()='Expand all labels']/parent::div")
@@ -94,15 +92,12 @@ public class TestRunResultPage extends AbstractPage {
 
     public TestRunResultPage(WebDriver driver) {
         super(driver);
-        setUiLoadedMarker(pageTitle);
+        setUiLoadedMarker(expandAllLabel);
     }
 
     public String getPageTitle() {
+        System.out.println(pageTitle.getText().trim());
         return pageTitle.getText().trim();
-    }
-
-    public boolean isBackButtonActive() {
-        return backIcon.isClickable() && backIcon.isVisible();
     }
 
     public TestRunCard getPageCard() {
@@ -153,6 +148,7 @@ public class TestRunResultPage extends AbstractPage {
         }
         for (ResultTestMethodCard testMethodCard : testMethods) {
             if (!testMethodCard.isErrorStacktracePresent()) {
+                System.out.println(!testMethodCard.isErrorStacktracePresent() + " " + testMethodCard.getTitle());
                 resultBar.clickResetButton();
                 return false;
             }
@@ -187,14 +183,9 @@ public class TestRunResultPage extends AbstractPage {
     }
 
     public LinkIssueWindow openLinkIssueWindow(ResultTestMethodCard card) {
-        if (Configuration.getCapability("browserName").equals("safari")){
-            card.clickSettings();
-            pause(1);
-            driver.findElement(linkIssueButton.getBy()).click();
-        } else {
-            card.clickSettings();
-            findExtendedWebElement(linkIssueButton.getBy()).click();
-        }
+        card.clickSettings();
+        pause(WebConstant.TIME_TO_LOAD_ELEMENT);
+        driver.findElement(linkIssueButton.getBy()).click();
         return linkIssueWindow;
     }
 

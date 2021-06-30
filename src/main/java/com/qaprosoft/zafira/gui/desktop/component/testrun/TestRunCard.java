@@ -53,7 +53,7 @@ public class TestRunCard extends TestRunCardBase {
     }
 
     public boolean isTestComplete() {
-        return testDuration.isPresent() && testDuration.isVisible();
+        return testDuration.isVisible();
     }
 
     public String getRunResult() {

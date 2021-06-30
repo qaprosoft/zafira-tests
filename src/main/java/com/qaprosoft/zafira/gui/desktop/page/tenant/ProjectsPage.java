@@ -3,9 +3,11 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.zafira.gui.desktop.component.common.HelpMenu;
+import com.qaprosoft.zafira.gui.desktop.component.common.Pagination;
 import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
 import com.qaprosoft.zafira.gui.desktop.component.project.ProjectCard;
 import com.qaprosoft.zafira.gui.desktop.component.project.ProjectProcessWindow;
+import com.qaprosoft.zafira.util.WaitUtil;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -14,6 +16,9 @@ import java.util.List;
 public class ProjectsPage extends AbstractPage {
     @FindBy(id = "header")
     private TenantHeader header;
+
+    @FindBy(id = "pagination")
+    private Pagination pagination;
 
     @FindBy(xpath = "//div[@data-embed='helpCenterForm']")
     private HelpMenu helpMenu;
@@ -24,8 +29,11 @@ public class ProjectsPage extends AbstractPage {
     @FindBy(xpath = "//md-dialog[contains(@class,'project-modal')]")
     private ProjectProcessWindow projectProcessWindow; //delete or edit window
 
-    @FindBy(xpath = "//button[@aria-label='Help']")
+    @FindBy(xpath = "//span[contains(text(),'Help')]")
     private ExtendedWebElement helpButton;
+
+    @FindBy(id = "pageTitle")
+    private ExtendedWebElement pageTitle;
 
     @FindBy(xpath = "//div[@class='input__container']//input")
     private ExtendedWebElement searchField;
@@ -50,5 +58,49 @@ public class ProjectsPage extends AbstractPage {
 
     public ProjectsPage(WebDriver driver) {
         super(driver);
+        setUiLoadedMarker(newProjectButton);
+    }
+
+    public String getTitle(){
+        return pageTitle.getText().trim();
+    }
+
+    public boolean isSearchFieldPresent(){
+        return searchField.isVisible();
+    }
+
+    public boolean isNewProjectButtonPresent(){
+        return newProjectButton.isVisible();
+    }
+
+    public TenantHeader getHeader() {
+        return header;
+    }
+
+    public HelpMenu getHelpMenu() {
+        return helpMenu;
+    }
+
+    public List<ProjectCard> getProjectCards() {
+        return projectCards;
+    }
+
+    public ProjectProcessWindow openNewProjectWindow(){
+        newProjectButton.click();
+        return projectProcessWindow;
+    }
+
+    public Pagination getPagination() {
+        return pagination;
+    }
+
+    public String getNumberOfProjectCards(){
+        WaitUtil.waitListToLoad(projectCards);
+        return String.valueOf(projectCards.size());
+    }
+
+    public HelpMenu openHelpWindow(){
+        helpButton.click();
+        return helpMenu;
     }
 }

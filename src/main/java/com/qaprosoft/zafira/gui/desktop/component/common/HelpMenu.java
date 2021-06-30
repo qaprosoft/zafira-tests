@@ -33,4 +33,8 @@ public class HelpMenu extends AbstractUIObject {
     public HelpMenu(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
+
+    public void closeWindow(){
+        minimizeWidget.click();
+    }
 }
