@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 public class IntegrationGroupsTest extends ZafiraAPIBaseTest {
 
-    @Test
+    @Test(enabled = false)
     public void testGetAllIntegrationGroups(){
         GetAllIntegrationGroupsMethod getAllIntegrationGroupsMethod = new GetAllIntegrationGroupsMethod();
         apiExecutor.expectStatus(getAllIntegrationGroupsMethod, HTTPStatusCodeType.OK);
