@@ -107,6 +107,11 @@ public class WaitUtil {
         }
     }
 
+    public static boolean waitListToLoad(List<?> list) {
+        return waitListToLoad(list, 1000, 100);
+    }
+
+
     public static boolean waitListToLoad(List<?> list, long timeout, long pollingEvery) {
         Clock clock = Clock.systemDefaultZone();
         Instant end = clock.instant().plusMillis(timeout);

@@ -56,4 +56,8 @@ public class NavigationMenu extends AbstractUIObject {
     public String getProjectKey() {
         return projectKey.getText().trim();
     }
+
+    public boolean isProjectPhotoPresent(){
+        return profilePhoto.isVisible();
+    }
 }

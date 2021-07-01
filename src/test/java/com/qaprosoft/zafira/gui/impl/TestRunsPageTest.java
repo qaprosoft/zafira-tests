@@ -1,6 +1,7 @@
 package com.qaprosoft.zafira.gui.impl;
 
 import com.qaprosoft.zafira.gui.base.SignIn;
+import com.qaprosoft.zafira.gui.desktop.component.common.Pagination;
 import com.qaprosoft.zafira.gui.desktop.component.testresult.LinkIssueWindow;
 import com.qaprosoft.zafira.gui.desktop.component.testresult.ResultSessionWindow;
 import com.qaprosoft.zafira.gui.desktop.component.testresult.ResultTestMethodCard;
@@ -23,7 +24,7 @@ public class TestRunsPageTest extends SignIn {
     private static final String webSuite = "Carina WEB";
     private static final String apiRunName = "Carina Demo Tests - API Sample";
     private static final String webRunName = "Carina Demo Tests - Web Sample";
-    private static final String expectedWebResult = "Passed 0, Failure 3 | 0, Skipped 0";
+    private static final String expectedWebResult = "Passed 2, Failure 1 | 0, Skipped 0";
     private static final String expectedApiResult = "Passed 4, Failure 0 | 0, Skipped 0";
 
     @BeforeTest
@@ -60,7 +61,7 @@ public class TestRunsPageTest extends SignIn {
         Assert.assertTrue(testRunsPage.isTestLaunched(apiSuite),
                 "Suite wasn't launched or launch card didn't appear");
 
-        TestRunCard apiRunCard = testRunsPage.wainTestRun(apiRunName, 90);
+        TestRunCard apiRunCard = testRunsPage.waitTestRun(apiRunName, 90);
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(apiRunCard.getRunResult(), expectedApiResult,
                 "Test run result differ expected");
@@ -78,7 +79,8 @@ public class TestRunsPageTest extends SignIn {
                 "Checkbox of api test card is no active");
         softAssert.assertTrue(apiRunCard.isCopyTestNameButtonActive(),
                 "Copy button won't appeared when hovering test run name");
-        softAssert.assertEquals(testRunsPage.getNumberOfTestsOnThePage(), testRunsPage.getNumberOfTestRunCards(),
+        Pagination testRunsPagination = testRunsPage.getPagination();
+        softAssert.assertEquals(testRunsPagination.getNumberOfItemsOnThePage(), testRunsPage.getNumberOfTestRunCards(),
                 "Number of test cards differ to pagination info");
         softAssert.assertAll();
     }
@@ -93,7 +95,7 @@ public class TestRunsPageTest extends SignIn {
         Assert.assertTrue(testRunsPage.isTestLaunched(webSuite),
                 "Suite wasn't launched or launch card didn't appear");
 
-        TestRunCard webRunCard = testRunsPage.wainTestRun(webRunName, 100);
+        TestRunCard webRunCard = testRunsPage.waitTestRun(webRunName, 300);
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(webRunCard.getRunResult(), expectedWebResult,
                 "Test run result differ expected");
@@ -111,7 +113,8 @@ public class TestRunsPageTest extends SignIn {
                 "Checkbox of web test card is not active");
         softAssert.assertTrue(webRunCard.isCopyTestNameButtonActive(),
                 "Copy button won't appeared when hovering test run name");
-        softAssert.assertEquals(testRunsPage.getNumberOfTestsOnThePage(), testRunsPage.getNumberOfTestRunCards(),
+        Pagination testRunsPagination = testRunsPage.getPagination();
+        softAssert.assertEquals(testRunsPagination.getNumberOfItemsOnThePage(), testRunsPage.getNumberOfTestRunCards(),
                 "Number of test cards differ to pagination info");
         softAssert.assertAll();
     }
@@ -125,7 +128,6 @@ public class TestRunsPageTest extends SignIn {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(resultPage.getPageTitle(), "Test results",
                 "Expected page title didn't match the actual");
-        softAssert.assertTrue(resultPage.isBackButtonActive(), "Back button is not visible or clickable");
 
         TestRunCard resultPageCard = resultPage.getPageCard();
         softAssert.assertEquals(resultPageCard.getTitle(), webRunName,
@@ -188,12 +190,17 @@ public class TestRunsPageTest extends SignIn {
                     "Can't find test duration on method card" + methodCard.getTitle());
             softAssert.assertEquals(methodCard.getTestOwner(), expectedOwner,
                     "Unexpected test owner on method card " + methodCard.getTitle());
-            softAssert.assertTrue(methodCard.isMarkAsPassedButtonPresent(),
-                    "Can't find mark as passed on method card " + methodCard.getTitle());
-            LinkIssueWindow issueWindow = resultPage.openLinkIssueWindow(methodCard);
-            softAssert.assertTrue(issueWindow.isUIObjectPresent(),
-                    "Can't open link issue window for test method " + methodCard.getTitle());
-            issueWindow.closeWindow();
+            if (methodCard.isErrorStacktracePresent()) {
+                softAssert.assertTrue(methodCard.isMarkAsPassedButtonPresent(),
+                        "Can't find mark as passed on method card " + methodCard.getTitle());
+                LinkIssueWindow issueWindow = resultPage.openLinkIssueWindow(methodCard);
+                softAssert.assertTrue(issueWindow.isUIObjectPresent(),
+                        "Can't open link issue window for test method " + methodCard.getTitle());
+                issueWindow.closeWindow();
+            } else {
+                softAssert.assertTrue(methodCard.isMarkAsFailedButtonPresent(),
+                        "Can't find mark as failed on method card " + methodCard.getTitle());
+            }
             ResultSessionWindow sessionWindow = resultPage.openResultSessionWindow(methodCard);
             softAssert.assertTrue(sessionWindow.isUIObjectPresent(),
                     "Can't open session info window for test method" + methodCard.getTitle());
@@ -211,7 +218,6 @@ public class TestRunsPageTest extends SignIn {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(resultPage.getPageTitle(), "Test results",
                 "Expected page title didn't match the actual");
-        softAssert.assertTrue(resultPage.isBackButtonActive(), "Back button is not visible or clickable");
 
         TestRunCard resultPageCard = resultPage.getPageCard();
         softAssert.assertEquals(resultPageCard.getTitle(), apiRunName,
@@ -271,8 +277,13 @@ public class TestRunsPageTest extends SignIn {
                     "Can't find test duration on method card" + methodCard.getTitle());
             softAssert.assertEquals(methodCard.getTestOwner(), expectedOwner,
                     "Unexpected test owner on method card " + methodCard.getTitle());
-            softAssert.assertTrue(methodCard.isMarkAsFailedButtonPresent(),
-                    "Can't find mark as failed on method card " + methodCard.getTitle());
+            if (methodCard.isErrorStacktracePresent()) {
+                softAssert.assertTrue(methodCard.isMarkAsPassedButtonPresent(),
+                        "Can't find mark as passed on method card " + methodCard.getTitle());
+            } else {
+                softAssert.assertTrue(methodCard.isMarkAsFailedButtonPresent(),
+                        "Can't find mark as failed on method card " + methodCard.getTitle());
+            }
         }
         softAssert.assertAll();
     }

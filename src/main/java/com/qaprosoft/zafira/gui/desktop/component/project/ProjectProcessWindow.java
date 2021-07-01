@@ -53,4 +53,8 @@ public class ProjectProcessWindow extends AbstractUIObject {
     public boolean isProjectPublic(){
         return Boolean.getBoolean(projectVisibility.getAttribute("aria-checked").trim());
     }
+
+    public void closeWindow(){
+        closeButton.click();
+    }
 }
