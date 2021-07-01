@@ -7,6 +7,7 @@ import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunsPage;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 //id = "nav-container"
 public class NavigationMenu extends AbstractUIObject {
@@ -41,6 +42,7 @@ public class NavigationMenu extends AbstractUIObject {
     }
 
     public TestRunsPage toTestRunsPage() {
+        waitUntil(ExpectedConditions.elementToBeClickable(testRunsButton.getElement()), 3);
         testRunsButton.click();
         return new TestRunsPage(getDriver());
     }
