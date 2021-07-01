@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 public class IntegrationTest extends ZafiraAPIBaseTest {
     private static final Logger LOGGER = Logger.getLogger(IntegrationTest.class);
 
-    @Test
+    @Test(enabled = false)
     public void testGetAllIntegrations() {
 
         GetAllIntegrationsMethod getAllIntegrationsMethod = new GetAllIntegrationsMethod();

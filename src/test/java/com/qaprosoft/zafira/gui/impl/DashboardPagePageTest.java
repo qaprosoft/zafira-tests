@@ -44,7 +44,7 @@ public class DashboardPagePageTest extends SignIn {
 
         DashboardCard dashboardCard = mainDashboardsPage.getDashboardByName(title);
         Assert.assertEquals(dashboardCard.getCreatedDate(), OffsetDateTime.now(ZoneOffset.UTC)
-                .format(DateTimeFormatter.ofPattern("MMM dd, yyyy")), "Create date is not as expected!");
+                .format(DateTimeFormatter.ofPattern("MMM d, yyyy")), "Create date is not as expected!");
         Assert.assertTrue(dashboardCard.isVisibleEdit(), "Button edit is not present on this dashboard!");
         Assert.assertTrue(dashboardCard.isVisibleDelete(), "Button delete is not present on this dashboard!");
     }

@@ -396,7 +396,7 @@ public class TestRunV1Test extends ZafiraAPIBaseTest {
         int testId1 = new TestServiceV1Impl().startTestWithMethodName(testRunId, methodName);
         new TestServiceV1Impl().finishTestAsResult(testRunId, testId1, RESULT_FAILED);
         new TestRunServiceAPIImplV1().finishTestRun(testRunId);
-        new TestServiceImpl().linkWorkItem(testId1, 5,"ZEB-2787");
+        new TestServiceImpl().linkWorkItem(testId1, 5,"ZEB-3347");
 
         int testRunIdNew = new TestRunServiceAPIImplV1().start();
         int testId2 = new TestServiceV1Impl().startTestWithMethodName(testRunIdNew, methodName);

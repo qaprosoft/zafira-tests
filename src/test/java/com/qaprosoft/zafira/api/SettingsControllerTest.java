@@ -12,7 +12,7 @@ public class SettingsControllerTest extends ZafiraAPIBaseTest {
     private static final String TOOL = "ZEBRUNNER";
     private static final String SETTING_NAME = "string";
 
-    @Test
+    @Test(enabled = false)
     public void testGetCompanyLogoURL() {
         GetCompanyLogoURLMethod getCompanyLogoURLMethod = new GetCompanyLogoURLMethod();
         apiExecutor.expectStatus(getCompanyLogoURLMethod, HTTPStatusCodeType.OK);
@@ -20,7 +20,7 @@ public class SettingsControllerTest extends ZafiraAPIBaseTest {
         apiExecutor.validateResponse(getCompanyLogoURLMethod, JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGetSettingsByTool() {
         GetSettingsByToolMethod getSettingsByToolMethod = new GetSettingsByToolMethod(TOOL);
         apiExecutor.expectStatus(getSettingsByToolMethod, HTTPStatusCodeType.OK);
