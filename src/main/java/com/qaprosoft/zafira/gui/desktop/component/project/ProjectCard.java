@@ -6,9 +6,13 @@ import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunsPage;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
-//div[@class='projects-table__row ng-scope']
+//div[@class='projects-table ng-scope _extended']//div[contains(@class,'projects-table__row')]
 public class ProjectCard extends AbstractUIObject {
+    @FindBy(xpath = "//md-dialog[contains(@class,'project-modal')]")
+    private ProcessProjectWindow editWindow;
+
     @FindBy(xpath = ".//span[@class='projects-photo__icon-wrapper _squared ng-scope']")
     private ExtendedWebElement img;
 
@@ -41,12 +45,17 @@ public class ProjectCard extends AbstractUIObject {
         return key.getText().trim();
     }
 
-    public String getName(){
+    public String getName() {
         return projectName.getText().trim();
     }
 
     public TestRunsPage toTestRunsPage() {
         projectName.click();
         return new TestRunsPage(driver);
+    }
+
+    public ProcessProjectWindow editCard() {
+        edit.click();
+        return editWindow;
     }
 }

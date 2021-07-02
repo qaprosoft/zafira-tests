@@ -24,7 +24,7 @@ public class ProjectsPage extends AbstractPage {
     @FindBy(xpath = "//div[@data-embed='helpCenterForm']")
     private HelpMenu helpMenu;
 
-    @FindBy(xpath = "//div[@class='projects-table__row ng-scope']")
+    @FindBy(xpath = "//div[contains(@class,'projects-table ng-scope')]//div[contains(@class,'projects-table__row')]")
     private List<ProjectCard> projectCards;
 
     @FindBy(xpath = "//md-dialog[contains(@class,'project-modal')]")
@@ -108,6 +108,7 @@ public class ProjectsPage extends AbstractPage {
     }
 
     public TestRunsPage toCertainProject(String projectKey) {
+        pause(WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
         WaitUtil.waitListToLoad(projectCards);
         for (ProjectCard projectCard : projectCards) {
             if (projectCard.getKey().equalsIgnoreCase(projectKey)) {
@@ -129,10 +130,22 @@ public class ProjectsPage extends AbstractPage {
         return false;
     }
 
-    public TestRunsPage toProjectByTitle(String projectName) {
+    public boolean isProjectWithKeyExists(String key) {
         WaitUtil.waitListToLoad(projectCards);
         for (ProjectCard projectCard : projectCards) {
-            if (projectCard.getTitle().contains(projectName)) {
+            System.out.println("Searching");
+            if (projectCard.getKey().equalsIgnoreCase(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public TestRunsPage toProjectByTitle(String projectName) {
+        pause(WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
+        WaitUtil.waitListToLoad(projectCards);
+        for (ProjectCard projectCard : projectCards) {
+            if (projectCard.getName().equalsIgnoreCase(projectName)) {
                 projectCard.toTestRunsPage();
                 return new TestRunsPage(driver);
             }
@@ -143,11 +156,48 @@ public class ProjectsPage extends AbstractPage {
     public TestRunsPage toProjectByKey(String projectKey) {
         WaitUtil.waitListToLoad(projectCards);
         for (ProjectCard projectCard : projectCards) {
-            if (projectCard.getKey().contains(projectKey)) {
+            if (projectCard.getKey().equalsIgnoreCase(projectKey)) {
                 projectCard.toTestRunsPage();
                 return new TestRunsPage(driver);
             }
         }
         throw new RuntimeException("Can't find project by key " + projectKey);
+    }
+
+    public boolean deleteProjectByKey(String projectKey) {
+        pause(WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
+        WaitUtil.waitListToLoad(projectCards);
+        for (ProjectCard projectCard : projectCards) {
+            if (projectCard.getKey().equalsIgnoreCase(projectKey)) {
+                ProcessProjectWindow editWindow = projectCard.editCard();
+                return editWindow.deleteProject();
+            }
+        }
+
+        return false;
+    }
+
+    public boolean deleteProjectByTitle(String projectName) {
+        pause(WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
+        WaitUtil.waitListToLoad(projectCards);
+        for (ProjectCard projectCard : projectCards) {
+            if (projectCard.getName().equalsIgnoreCase(projectName)) {
+                ProcessProjectWindow editWindow = projectCard.editCard();
+                return editWindow.deleteProject();
+            }
+        }
+        return false;
+    }
+
+    public boolean deleteProjectByNameAndKey(String name, String key) {
+        pause(WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
+        WaitUtil.waitListToLoad(projectCards);
+        for (ProjectCard projectCard : projectCards) {
+            if (projectCard.getName().equalsIgnoreCase(name) && projectCard.getKey().equalsIgnoreCase(key)) {
+                ProcessProjectWindow editWindow = projectCard.editCard();
+                return editWindow.deleteProject();
+            }
+        }
+        return false;
     }
 }

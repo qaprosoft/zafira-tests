@@ -87,6 +87,7 @@ public class ProcessProjectWindow extends AbstractUIObject {
     }
 
     public boolean isSubmitButtonActive() {
+        waitUntil(ExpectedConditions.visibilityOf(submitButton.getElement()), WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
         return submitButton.isClickable(WebConstant.TIME_TO_LOAD_ELEMENT)
                 && submitButton.isVisible(WebConstant.TIME_TO_LOAD_ELEMENT);
     }
@@ -100,16 +101,25 @@ public class ProcessProjectWindow extends AbstractUIObject {
     }
 
     public void typeProjectName(String name) {
+        waitUntil(ExpectedConditions.visibilityOf(projectNameField.getElement()), WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
         projectNameField.type(name);
     }
 
     public void typeProjectKey(String key) {
+        waitUntil(ExpectedConditions.visibilityOf(projectKeyField.getElement()), WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
         projectKeyField.type(key);
     }
 
     public TestRunsPage clickCreateButton() {
+        waitUntil(ExpectedConditions.visibilityOf(submitButton.getElement()), WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
         submitButton.click();
         return new TestRunsPage(driver);
+    }
+
+    public boolean deleteProject() {
+        deleteProjectButton.clickIfPresent();
+        pause(WebConstant.TIME_TO_LOAD_ELEMENT);
+        return deleteProjectButton.clickIfPresent();
     }
 
 }

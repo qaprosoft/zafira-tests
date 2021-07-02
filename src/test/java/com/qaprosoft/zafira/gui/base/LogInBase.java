@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeTest;
 
 import static com.qaprosoft.zafira.constant.ConfigConstant.PROJECT_NAME_KEY;
 
-public class SignIn extends AbstractTest {
+public class LogInBase extends AbstractTest {
 
     protected static NavigationMenu navigationMenu;
     protected static TenantHeader header;

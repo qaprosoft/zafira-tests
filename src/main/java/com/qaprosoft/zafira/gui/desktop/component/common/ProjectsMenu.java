@@ -10,6 +10,7 @@ import com.qaprosoft.zafira.util.WaitUtil;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -90,6 +91,7 @@ public class ProjectsMenu extends AbstractUIObject {
     }
 
     public ProjectsPage toProjectsPage() {
+        waitUntil(ExpectedConditions.visibilityOf(viewAllProjectsButton.getElement()), WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
         viewAllProjectsButton.click();
         return new ProjectsPage(driver);
     }

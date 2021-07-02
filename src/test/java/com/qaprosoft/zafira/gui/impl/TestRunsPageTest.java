@@ -1,6 +1,6 @@
 package com.qaprosoft.zafira.gui.impl;
 
-import com.qaprosoft.zafira.gui.base.SignIn;
+import com.qaprosoft.zafira.gui.base.LogInBase;
 import com.qaprosoft.zafira.gui.desktop.component.common.Pagination;
 import com.qaprosoft.zafira.gui.desktop.component.testresult.LinkIssueWindow;
 import com.qaprosoft.zafira.gui.desktop.component.testresult.ResultSessionWindow;
@@ -17,7 +17,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
-public class TestRunsPageTest extends SignIn {
+public class TestRunsPageTest extends LogInBase {
 
     private static final String repository = "carina-demo";
     private static final String apiSuite = "Carina API";

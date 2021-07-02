@@ -113,7 +113,6 @@ public class TestRunsPage extends AbstractPage {
     @FindBy(xpath = "//a[text()='Show all saved filters']")
     private ExtendedWebElement showAllSavedFiltersButton;
 
-
     public TestRunsPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(launcherButton);
@@ -164,7 +163,7 @@ public class TestRunsPage extends AbstractPage {
         Clock clock = Clock.systemDefaultZone();
         Instant end = clock.instant().plusSeconds(testRunWaitTime);
         Sleeper sleeper = Sleeper.SYSTEM_SLEEPER;
-        Duration interval = Duration.ofSeconds(testRunWaitTime / 4);
+        Duration interval = Duration.ofSeconds(testRunWaitTime / 8);
         while (end.isAfter(clock.instant())) {
             for (TestRunCard card : testRunCards) {
                 if (card.getTitle().toLowerCase().contains(suiteName.toLowerCase()) && card.isTestComplete()) {
