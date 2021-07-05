@@ -200,4 +200,23 @@ public class ProjectsPage extends AbstractPage {
         }
         return false;
     }
+
+    public ProjectCard getCertainProjectCard(String projectKey) {
+        pause(WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
+        WaitUtil.waitListToLoad(projectCards);
+        for (ProjectCard projectCard : projectCards) {
+            if (projectCard.getKey().equalsIgnoreCase(projectKey)) {
+                return projectCard;
+            }
+        }
+
+        throw new RuntimeException("Can't find project by key");
+    }
+
+    public TestRunsPage createProject(String name, String key){
+        openNewProjectWindow();
+        projectProcessWindow.typeProjectName(name);
+        projectProcessWindow.typeProjectKey(key);
+        return projectProcessWindow.clickCreateButton();
+    }
 }

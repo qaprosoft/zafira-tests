@@ -116,10 +116,27 @@ public class ProcessProjectWindow extends AbstractUIObject {
         return new TestRunsPage(driver);
     }
 
+    public void clickSaveButton(){
+        waitUntil(ExpectedConditions.visibilityOf(submitButton.getElement()), WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
+        submitButton.click();
+    }
+
     public boolean deleteProject() {
         deleteProjectButton.clickIfPresent();
         pause(WebConstant.TIME_TO_LOAD_ELEMENT);
         return deleteProjectButton.clickIfPresent();
+    }
+
+    public boolean isSelectLeadMenuPresent(){
+        return selectLeadMenu.isVisible() && selectLeadMenu.isClickable();
+    }
+
+    public boolean isProjectMembersButtonPresent(){
+        return projectMembersButton.isVisible() && projectMembersButton.isClickable();
+    }
+
+    public boolean isDeleteButtonPresent(){
+        return deleteProjectButton.isVisible() && deleteProjectButton.isClickable();
     }
 
 }
