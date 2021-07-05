@@ -8,6 +8,7 @@ public class WebConstant {
     public static String USER_LOGIN = "user_login";
     public static String USER_PASSWORD = "user_password";
     public static int TIME_TO_LOAD_PAGE = 3;
+    public static int TIME_TO_LOAD_HEAVY_ELEMENT = 3;
     public static int TIME_TO_LOAD_ELEMENT = 1;
     //#========================== Dashboards(Wed) ========================#
     public static final String MAIN_DASHBOARD_PAGE_TITLE = R.TESTDATA.get(ConfigConstant.MAIN_DASHBOARD_PAGE_TITLE);

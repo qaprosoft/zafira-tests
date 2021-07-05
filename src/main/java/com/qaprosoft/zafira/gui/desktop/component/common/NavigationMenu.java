@@ -2,11 +2,13 @@ package com.qaprosoft.zafira.gui.desktop.component.common;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
+import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.MainDashboardsPage;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunsPage;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 //id = "nav-container"
 public class NavigationMenu extends AbstractUIObject {
@@ -41,6 +43,7 @@ public class NavigationMenu extends AbstractUIObject {
     }
 
     public TestRunsPage toTestRunsPage() {
+        waitUntil(ExpectedConditions.elementToBeClickable(testRunsButton.getElement()), 3);
         testRunsButton.click();
         return new TestRunsPage(getDriver());
     }
@@ -57,7 +60,12 @@ public class NavigationMenu extends AbstractUIObject {
         return projectKey.getText().trim();
     }
 
-    public boolean isProjectPhotoPresent(){
+    public boolean isProjectPhotoPresent() {
         return profilePhoto.isVisible();
     }
+
+    public boolean waitUntilProjectKeyToBE(String key) {
+        return waitUntil(ExpectedConditions.textToBePresentInElement(projectKey.getElement(), key), WebConstant.TIME_TO_LOAD_PAGE);
+    }
+
 }

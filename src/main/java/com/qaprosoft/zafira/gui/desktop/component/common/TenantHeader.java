@@ -2,9 +2,11 @@ package com.qaprosoft.zafira.gui.desktop.component.common;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
+import com.qaprosoft.zafira.constant.WebConstant;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 //id = "header"
 public class TenantHeader extends AbstractUIObject {
@@ -54,6 +56,7 @@ public class TenantHeader extends AbstractUIObject {
     }
 
     public ProjectsMenu openProjectsWindow() {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(showProjectButton.getBy()), WebConstant.TIME_TO_LOAD_PAGE);
         showProjectButton.click();
         return projectsMenu;
     }

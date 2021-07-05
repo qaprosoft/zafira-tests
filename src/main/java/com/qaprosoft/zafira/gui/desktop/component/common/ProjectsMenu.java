@@ -2,16 +2,23 @@ package com.qaprosoft.zafira.gui.desktop.component.common;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
+import com.qaprosoft.zafira.constant.WebConstant;
+import com.qaprosoft.zafira.gui.desktop.component.project.ProcessProjectWindow;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.ProjectsPage;
+import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunsPage;
 import com.qaprosoft.zafira.util.WaitUtil;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
 //div[contains(@class,'md-select-menu-container project-settings__select md-active md-clickable')]
 public class ProjectsMenu extends AbstractUIObject {
+    @FindBy(xpath = "//md-dialog[contains(@class,'project-modal')]")
+    private ProcessProjectWindow createProjectWindow;
+
     @FindBy(xpath = ".//div[contains(@class,'md-text')]//span[@class='project-settings__item-name ng-binding']")
     private List<ExtendedWebElement> projectTitles;
 
@@ -31,23 +38,23 @@ public class ProjectsMenu extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public void toProjectByTitle(String projectName) {
+    public TestRunsPage toProjectByTitle(String projectName) {
         WaitUtil.waitListToLoad(projectTitles, 1000, 100);
         for (ExtendedWebElement element : projectTitles) {
             if (element.getText().contains(projectName)) {
                 element.click();
-                return;
+                return new TestRunsPage(driver);
             }
         }
         throw new RuntimeException("Can't find project title " + projectName);
     }
 
-    public void toProjectByKey(String projectKey) {
+    public TestRunsPage toProjectByKey(String projectKey) {
         WaitUtil.waitListToLoad(projectKeys, 1000, 100);
         for (ExtendedWebElement element : projectKeys) {
             if (element.getText().contains(projectKey)) {
                 element.click();
-                return;
+                return new TestRunsPage(driver);
             }
         }
         throw new RuntimeException("Can't find project title " + projectKey);
@@ -84,7 +91,15 @@ public class ProjectsMenu extends AbstractUIObject {
     }
 
     public ProjectsPage toProjectsPage() {
+        waitUntil(ExpectedConditions.visibilityOf(viewAllProjectsButton.getElement()), WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
         viewAllProjectsButton.click();
         return new ProjectsPage(driver);
     }
+
+    public ProcessProjectWindow openNewProjectWindow() {
+        createNewProjectButton.click();
+        pause(WebConstant.TIME_TO_LOAD_PAGE);
+        return createProjectWindow;
+    }
+
 }

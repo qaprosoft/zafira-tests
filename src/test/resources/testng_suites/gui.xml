@@ -28,7 +28,8 @@
     </test>
     <test name="Projects gui test">
         <classes>
-            <class name="com.qaprosoft.zafira.gui.impl.ProjectsTest"></class>
+            <class name="com.qaprosoft.zafira.gui.impl.ProjectPageElementsTest"/>
+            <class name="com.qaprosoft.zafira.gui.impl.ProjectProcessTest"></class>
         </classes>
     </test>
 

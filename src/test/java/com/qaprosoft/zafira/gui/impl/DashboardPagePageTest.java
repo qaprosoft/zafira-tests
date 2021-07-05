@@ -1,7 +1,7 @@
 package com.qaprosoft.zafira.gui.impl;
 
 import com.qaprosoft.zafira.constant.WebConstant;
-import com.qaprosoft.zafira.gui.base.SignIn;
+import com.qaprosoft.zafira.gui.base.LogInBase;
 import com.qaprosoft.zafira.gui.desktop.component.dashboard.DashboardCard;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.DashboardPage;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.MainDashboardsPage;
@@ -17,7 +17,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-public class DashboardPagePageTest extends SignIn {
+public class DashboardPagePageTest extends LogInBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static String title;
 
