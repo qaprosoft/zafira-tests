@@ -94,7 +94,7 @@ public class MembersPage extends AbstractPage {
         return pagination;
     }
 
-    public AddMemberWindow openAddMemberWindow(){
+    public AddMemberWindow openAddMemberWindow() {
         addMemberButton.click();
         return addMemberWindow;
     }
@@ -105,5 +105,23 @@ public class MembersPage extends AbstractPage {
 
     public NavigationMenu getNavigationMenu() {
         return navigationMenu;
+    }
+
+    public boolean isMemberPresent(String username) {
+        for (MemberCard card : memberCards) {
+            if (card.getUsername().equalsIgnoreCase(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean deleteMember(String username) {
+        for (MemberCard card : memberCards) {
+            if (card.getUsername().equalsIgnoreCase(username)) {
+                return card.delete();
+            }
+        }
+        return false;
     }
 }

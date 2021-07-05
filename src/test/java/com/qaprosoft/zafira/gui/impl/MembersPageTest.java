@@ -52,6 +52,7 @@ public class MembersPageTest extends LogInBase {
         softAssert.assertTrue(addMemberWindow.isCloseButtonPresent(), "Can't fin close button");
         softAssert.assertFalse(addMemberWindow.isSaveButtonActive(),
                 "Save button should be inactive because of empty fields");
+        softAssert.assertTrue(addMemberWindow.isCancelButtonPresent(), "Can't find cancel button");
         softAssert.assertTrue(addMemberWindow.isUsernameFieldPresent(), "Can't find username field");
         softAssert.assertTrue(addMemberWindow.isRoleFieldPresent(), "Can't find role field");
         softAssert.assertEquals(addMemberWindow.getRoles(), expectedRoles, "Some roles differ expected");
