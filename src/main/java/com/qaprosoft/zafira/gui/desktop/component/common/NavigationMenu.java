@@ -4,6 +4,7 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
 import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.MainDashboardsPage;
+import com.qaprosoft.zafira.gui.desktop.page.tenant.MembersPage;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunsPage;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -52,8 +53,9 @@ public class NavigationMenu extends AbstractUIObject {
         integrationsButton.click();
     }
 
-    public void toMembersPage() {
+    public MembersPage toMembersPage() {
         membersButton.click();
+        return new MembersPage(driver);
     }
 
     public String getProjectKey() {

@@ -51,13 +51,59 @@ public class MembersPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='users-table users-table__header']//div[contains(@class,'users-table__col _username')]")
     private ExtendedWebElement usernameTableHeader;
 
-    @FindBy(xpath = "//div[@class='users-table users-table__header']//div[contains(@class,'users-table__col _role')]")
+    @FindBy(xpath = "//div[@class='users-table users-table__header']//div[contains(@class,'users-table__col _role')]//span")
     private ExtendedWebElement roleTableHeader;
 
-    @FindBy(xpath = "//div[@class='users-table users-table__header']//div[contains(@class,'users-table__col _added')]")
+    @FindBy(xpath = "//div[@class='users-table users-table__header']//div[contains(@class,'users-table__col _added')]//span")
     private ExtendedWebElement addedTableHeader;
 
     public MembersPage(WebDriver driver) {
         super(driver);
+        setUiLoadedMarker(addMemberButton);
+    }
+
+    public String getTitle() {
+        return pageTitle.getText().trim();
+    }
+
+    public boolean isSearchFieldPresent() {
+        return searchField.isVisible() && searchField.isClickable();
+    }
+
+    public boolean isAddMemberButtonActive() {
+        return addMemberButton.isClickable() && addMemberButton.isVisible();
+    }
+
+    public String getUsernameTableTitle() {
+        return usernameTableHeader.getText().trim();
+    }
+
+    public String getRoleTableTitle() {
+        return roleTableHeader.getText().trim().replace("unfold_more", "");
+    }
+
+    public String getAddingDate() {
+        return addedTableHeader.getText().trim().replace("unfold_more", "");
+    }
+
+    public List<MemberCard> getMemberCards() {
+        return memberCards;
+    }
+
+    public Pagination getPagination() {
+        return pagination;
+    }
+
+    public AddMemberWindow openAddMemberWindow(){
+        addMemberButton.click();
+        return addMemberWindow;
+    }
+
+    public TenantHeader getHeader() {
+        return header;
+    }
+
+    public NavigationMenu getNavigationMenu() {
+        return navigationMenu;
     }
 }
