@@ -1,9 +1,10 @@
 {
   "id": "regex:[\\d]",
   "url": "type:String",
+  "username": "type:String",
   "token": "type:String",
-  "enabled": "type:Boolean",
   "encrypted": "type:Boolean",
+  "enabled": "type:Boolean",
   "type": "type:String",
-  "username": "type:String"
+  "xrayEncrypted": "type:Boolean"
 }

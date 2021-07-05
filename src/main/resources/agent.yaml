@@ -1,12 +1,12 @@
 reporting:
-    enabled: false
+    enabled: true
     project-key: ZEB
     notification:
         slack-channels: qatests
     server:
-        hostname: https://automation1.zebrunner.org
-        access-token: Gyf49fDP2bIgN7pq39LapUrcEPch6DhpoN54Prqe7R6XwLpBIl
+        hostname: https://dhrynevich1.zebrunner.org
+        access-token: OgPZy1Eonh3TARgnIp45QGiKngYWPmlyppnrWvxCrArWeRdYyz
     run:
-        display-name: API Integration Tests
-        build: 1.23.0.571-SNAPSHOT
+        display-name: Web Smoke Tests
+        build: 1.25.0.134-SNAPSHOT
         environment: QA

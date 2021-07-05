@@ -134,7 +134,8 @@ public class ProjectProcessTest extends LogInBase {
         pause(WebConstant.TIME_TO_LOAD_PAGE);
 
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertTrue(projectsPage.isProjectWithNameAndKeyExists(changeName, projectKey));
+        softAssert.assertTrue(projectsPage.isProjectWithNameAndKeyExists(changeName, projectKey),
+                "Can't find edited project with name: " + changeName + ", and key: " + projectKey);
         softAssert.assertFalse(projectsPage.isProjectWithNameAndKeyExists(projectName, oldKey));
         softAssert.assertAll();
     }
