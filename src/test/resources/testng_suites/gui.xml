@@ -10,7 +10,8 @@
     <parameter name="jenkinsRegressionPipeline" value="web_regression, full_regression"/>
     <parameter name="jenkinsPipelineEnvironments" value="DEMO"/>
 
-    <parameter name="jenkinsRegressionMatrix_full_regression" value="browser: chrome; browser: firefox; browser: opera"/>
+    <parameter name="jenkinsRegressionMatrix_full_regression"
+               value="browser: chrome; browser: firefox; browser: opera"/>
     <parameter name="jenkinsJobExecutionOrder" value="1"/>
     <parameter name="jenkinsJobExecutionMode" value="continue"/>
     <parameter name="jenkinsAutoScreenshot" value="true"/>
@@ -22,14 +23,24 @@
     </test>
     <test name="Test runs gui test">
         <classes>
-            <class name="com.qaprosoft.zafira.gui.impl.TestRunsPageTest" />
-            <class name="com.qaprosoft.zafira.gui.impl.DashboardPagePageTest" />
+            <class name="com.qaprosoft.zafira.gui.impl.TestRunsPageTest"/>
+        </classes>
+    </test>
+    <test name="Dashboards gui test">
+        <classes>
+            <class name="com.qaprosoft.zafira.gui.impl.DashboardPagePageTest"/>
         </classes>
     </test>
     <test name="Projects gui test">
         <classes>
             <class name="com.qaprosoft.zafira.gui.impl.ProjectPageElementsTest"/>
-            <class name="com.qaprosoft.zafira.gui.impl.ProjectProcessTest"></class>
+            <class name="com.qaprosoft.zafira.gui.impl.ProjectProcessTest"/>
+        </classes>
+    </test>
+    <test name="Members gui test">
+        <classes>
+            <class name="com.qaprosoft.zafira.gui.impl.MembersPageTest"/>
+            <class name="com.qaprosoft.zafira.gui.impl.MemberProcessTest"/>
         </classes>
     </test>
 

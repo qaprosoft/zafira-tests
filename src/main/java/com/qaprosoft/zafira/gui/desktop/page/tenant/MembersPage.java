@@ -2,6 +2,7 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
+import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.component.common.HelpMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.Pagination;
@@ -9,6 +10,7 @@ import com.qaprosoft.zafira.gui.desktop.component.common.TenantHeader;
 import com.qaprosoft.zafira.gui.desktop.component.member.AddMemberWindow;
 import com.qaprosoft.zafira.gui.desktop.component.member.DeleteMemberWindow;
 import com.qaprosoft.zafira.gui.desktop.component.member.MemberCard;
+import com.qaprosoft.zafira.util.WaitUtil;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -33,7 +35,7 @@ public class MembersPage extends AbstractPage {
     @FindBy(xpath = "//md-dialog[@class='users-modal styled-modal _md background-clear-white md-transition-in']")
     private DeleteMemberWindow deleteMemberWindow;
 
-    @FindBy(xpath = "//div[@class='users-table__row ng-scope']")
+    @FindBy(xpath = "//div[@class='users-table']//div[contains(@class,'users-table__row')]")
     private List<MemberCard> memberCards;
 
     @FindBy(xpath = "//button[@aria-label='Help']")
@@ -108,6 +110,7 @@ public class MembersPage extends AbstractPage {
     }
 
     public boolean isMemberPresent(String username) {
+        WaitUtil.waitListToLoad(memberCards);
         for (MemberCard card : memberCards) {
             if (card.getUsername().equalsIgnoreCase(username)) {
                 return true;
@@ -117,11 +120,26 @@ public class MembersPage extends AbstractPage {
     }
 
     public boolean deleteMember(String username) {
+        WaitUtil.waitListToLoad(memberCards);
         for (MemberCard card : memberCards) {
             if (card.getUsername().equalsIgnoreCase(username)) {
                 return card.delete();
             }
         }
         return false;
+    }
+
+    public MemberCard getMemberByName(String username) {
+        pause(WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
+        for (MemberCard card : memberCards) {
+            if (card.getUsername().equalsIgnoreCase(username)) {
+                return card;
+            }
+        }
+        throw new RuntimeException("Can't find user with username " + username);
+    }
+
+    public void typeInSearchField(String username) {
+        searchField.type(username);
     }
 }

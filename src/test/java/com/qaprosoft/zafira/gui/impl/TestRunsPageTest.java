@@ -181,7 +181,6 @@ public class TestRunsPageTest extends LogInBase {
         final String expectedOwner = "anonymous";
         List<ResultTestMethodCard> methodCards = resultPage.getTestMethods();
         for (ResultTestMethodCard methodCard : methodCards) {
-            System.out.println(methodCard.getLabelsText());
             softAssert.assertFalse(methodCard.getLabelsText().isEmpty(),
                     "Web methods cards should have labels" + methodCard.getTitle());
             softAssert.assertTrue(methodCard.isCheckboxPresent(),

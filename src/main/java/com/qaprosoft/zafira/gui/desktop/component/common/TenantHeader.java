@@ -56,7 +56,7 @@ public class TenantHeader extends AbstractUIObject {
     }
 
     public ProjectsMenu openProjectsWindow() {
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(showProjectButton.getBy()), WebConstant.TIME_TO_LOAD_PAGE);
+        pause(WebConstant.TIME_TO_LOAD_ELEMENT);
         showProjectButton.click();
         return projectsMenu;
     }

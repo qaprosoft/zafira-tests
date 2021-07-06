@@ -219,4 +219,8 @@ public class ProjectsPage extends AbstractPage {
         projectProcessWindow.typeProjectKey(key);
         return projectProcessWindow.clickCreateButton();
     }
+
+    public void typeInSearchField(String projectName){
+        searchField.type(projectName);
+    }
 }

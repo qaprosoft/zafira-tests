@@ -81,7 +81,7 @@ public class AddMemberWindow extends AbstractUIObject {
 
     public void typeUsername(String username) {
         enterUsernameField.type(username);
-        pause(WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
+        pause(WebConstant.TIME_TO_LOAD_ELEMENT);
         waitUntil(ExpectedConditions.visibilityOf(firstSuggestedUser.getElement()), WebConstant.TIME_TO_LOAD_HEAVY_ELEMENT);
         firstSuggestedUser.click();
         pause(WebConstant.TIME_TO_LOAD_ELEMENT);
@@ -113,6 +113,7 @@ public class AddMemberWindow extends AbstractUIObject {
         typeUsername(username);
         chooseRole(role);
         clickSaveButton();
+        pause(WebConstant.TIME_TO_LOAD_PAGE);
     }
 
     public void clickSaveButton() {
