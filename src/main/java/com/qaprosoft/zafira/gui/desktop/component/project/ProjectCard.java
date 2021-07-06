@@ -60,7 +60,6 @@ public class ProjectCard extends AbstractUIObject {
     }
 
     public boolean isProjectPublic() {
-        System.out.println(category.getText().trim());
         return category.getText().trim().equalsIgnoreCase("Public");
     }
 }

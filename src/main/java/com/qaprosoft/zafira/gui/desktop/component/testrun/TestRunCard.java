@@ -2,6 +2,7 @@ package com.qaprosoft.zafira.gui.desktop.component.testrun;
 
 import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
+import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.page.tenant.TestRunResultPage;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -67,6 +68,7 @@ public class TestRunCard extends TestRunCardBase {
 
     public TestRunResultPage toTestRunResultPage() {
         resultReference.click();
+        pause(WebConstant.TIME_TO_LOAD_PAGE);
         return new TestRunResultPage(driver);
     }
 

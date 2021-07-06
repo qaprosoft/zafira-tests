@@ -133,7 +133,6 @@ public class ProjectsPage extends AbstractPage {
     public boolean isProjectWithKeyExists(String key) {
         WaitUtil.waitListToLoad(projectCards);
         for (ProjectCard projectCard : projectCards) {
-            System.out.println("Searching");
             if (projectCard.getKey().equalsIgnoreCase(key)) {
                 return true;
             }

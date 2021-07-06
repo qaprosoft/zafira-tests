@@ -96,7 +96,6 @@ public class TestRunResultPage extends AbstractPage {
     }
 
     public String getPageTitle() {
-        System.out.println(pageTitle.getText().trim());
         return pageTitle.getText().trim();
     }
 
@@ -148,7 +147,6 @@ public class TestRunResultPage extends AbstractPage {
         }
         for (ResultTestMethodCard testMethodCard : testMethods) {
             if (!testMethodCard.isErrorStacktracePresent()) {
-                System.out.println(!testMethodCard.isErrorStacktracePresent() + " " + testMethodCard.getTitle());
                 resultBar.clickResetButton();
                 return false;
             }

@@ -2,6 +2,7 @@ package com.qaprosoft.zafira.gui.desktop.page.tenant;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
+import com.qaprosoft.zafira.constant.WebConstant;
 import com.qaprosoft.zafira.gui.desktop.component.common.HelpMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.NavigationMenu;
 import com.qaprosoft.zafira.gui.desktop.component.common.Pagination;
