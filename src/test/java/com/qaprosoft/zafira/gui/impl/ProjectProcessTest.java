@@ -121,6 +121,10 @@ public class ProjectProcessTest extends LogInBase {
         pause(WebConstant.TIME_TO_LOAD_PAGE);
         projectsPage = runsPage.getHeader().openProjectsWindow().toProjectsPage();
         ProjectCard projectCard = projectsPage.getCertainProjectCard(projectKey);
+
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(projectCard.isProjectPublic(), "New project should be public by default");
+
         ProcessProjectWindow editWindow = projectCard.editCard();
 
         String oldKey = projectKey;
@@ -133,10 +137,69 @@ public class ProjectProcessTest extends LogInBase {
         editWindow.clickSaveButton();
         pause(WebConstant.TIME_TO_LOAD_PAGE);
 
-        SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(projectsPage.isProjectWithNameAndKeyExists(changeName, projectKey),
                 "Can't find edited project with name: " + changeName + ", and key: " + projectKey);
         softAssert.assertFalse(projectsPage.isProjectWithNameAndKeyExists(projectName, oldKey));
+        ProjectCard updatedCard = projectsPage.getCertainProjectCard(projectKey);
+        softAssert.assertFalse(updatedCard.isProjectPublic(), "Updated project should be private");
+        softAssert.assertAll();
+    }
+
+    @Test
+    public void deleteProjectTest() {
+        String projectName = "Automation".concat(RandomStringUtils.randomAlphabetic(5));
+        projectKey = ("aut".concat(RandomStringUtils.randomAlphabetic(3))).toUpperCase();
+
+        ProjectsPage projectsPage = header.openProjectsWindow().toProjectsPage();
+        TestRunsPage runsPage = projectsPage.createProject(projectName, projectKey);
+        pause(WebConstant.TIME_TO_LOAD_PAGE);
+        projectsPage = runsPage.getHeader().openProjectsWindow().toProjectsPage();
+        ProjectCard projectCard = projectsPage.getCertainProjectCard(projectKey);
+        ProcessProjectWindow editWindow = projectCard.editCard();
+
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(editWindow.isDeleteButtonPresent(), "Can't find delete button");
+        editWindow.clickDeleteButton();
+
+        String expectedTitle = "Delete Project";
+        String expectedRedWarning = "Are you sure you want to delete the project?";
+        String expectedWhitWarning = "Please note! This project will be deleted immediately. You can’t undo this action.";
+        softAssert.assertEquals(editWindow.getDeleteWarningTitleText(), expectedTitle);
+        softAssert.assertEquals(editWindow.getRedDeleteWarningMsg(), expectedRedWarning);
+        softAssert.assertEquals(editWindow.getWhiteDeleteWarningMsg(), expectedWhitWarning);
+        softAssert.assertTrue(editWindow.isDeleteButtonPresent(), "Can't find delete button on delete window");
+        softAssert.assertTrue(editWindow.isCloseButtonPresent(), "Can't find close button on delete window");
+        softAssert.assertTrue(editWindow.isDeleteWarningIconPresent(), "Can't find delete warning icon");
+        editWindow.clickDeleteButton();
+        softAssert.assertFalse(projectsPage.isProjectWithNameAndKeyExists(projectName, projectKey),
+                "Project with name: " + projectName + ", and key: " + projectKey + " was not deleted");
+        softAssert.assertAll();
+    }
+
+    @Test(groups = "add-edit-search")
+    public void searchFieldTest() {
+        String projectName = "Automation".concat(RandomStringUtils.randomAlphabetic(5));
+        projectKey = ("aut".concat(RandomStringUtils.randomAlphabetic(3))).toUpperCase();
+
+        ProjectsPage projectsPage = header.openProjectsWindow().toProjectsPage();
+        TestRunsPage runsPage = projectsPage.createProject(projectName, projectKey);
+        pause(WebConstant.TIME_TO_LOAD_PAGE);
+        projectsPage = runsPage.getHeader().openProjectsWindow().toProjectsPage();
+
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(projectsPage.isSearchFieldPresent(), "Can't find search field");
+        projectsPage.typeInSearchField(projectName);
+        pause(WebConstant.TIME_TO_LOAD_PAGE);
+
+        List<ProjectCard> projectCards = projectsPage.getProjectCards();
+        for (ProjectCard card : projectCards) {
+            softAssert.assertTrue(card.getName().contains(projectName),
+                    "All project titles should contain string from search field, card: " + card.getName() + ", search field: " + projectName);
+        }
+        softAssert.assertTrue(projectsPage.isProjectWithNameAndKeyExists(projectName, projectKey),
+                "Can't find project after search field filter");
+
+        projectsPage.typeInSearchField("");
         softAssert.assertAll();
     }
 }

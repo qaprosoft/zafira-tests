@@ -43,11 +43,23 @@ public class ProcessProjectWindow extends AbstractUIObject {
     @FindBy(xpath = ".//span[text()='delete']/ancestor::button")
     private ExtendedWebElement deleteProjectButton;
 
-    @FindBy(xpath = "//span[text()='cancel']/ancestor::button")
+    @FindBy(xpath = ".//span[text()='cancel']/ancestor::button")
     private ExtendedWebElement cancelProcessButton;
 
-    @FindBy(xpath = "//span[text()='save' or text()='create']/ancestor::button")
+    @FindBy(xpath = ".//span[text()='save' or text()='create']/ancestor::button")
     private ExtendedWebElement submitButton;
+
+    @FindBy(xpath = ".//h2[@class='modal-header__title _warning ng-scope']")
+    private ExtendedWebElement deleteWarningTitle;
+
+    @FindBy(xpath = ".//div[@class='modal-content__message _warning']")
+    private ExtendedWebElement deleteRedWarningMsg;
+
+    @FindBy(xpath = ".//div[@class='modal-content__message']")
+    private ExtendedWebElement deleteWhiteWarningMsg;
+
+    @FindBy(xpath = ".//md-icon[@aria-label='warning']")
+    private ExtendedWebElement deleteIcon;
 
     public ProcessProjectWindow(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -139,4 +151,24 @@ public class ProcessProjectWindow extends AbstractUIObject {
         return deleteProjectButton.isVisible() && deleteProjectButton.isClickable();
     }
 
+    public void clickDeleteButton(){
+        deleteProjectButton.click();
+    }
+
+    public String getDeleteWarningTitleText(){
+        String title = deleteWarningTitle.getText().trim().replace("warning","");
+        return title;
+    }
+
+    public String getRedDeleteWarningMsg(){
+        return deleteRedWarningMsg.getText().trim();
+    }
+
+    public String getWhiteDeleteWarningMsg(){
+        return deleteWhiteWarningMsg.getText().trim();
+    }
+
+    public boolean isDeleteWarningIconPresent(){
+        return deleteIcon.isVisible();
+    }
 }

@@ -58,4 +58,8 @@ public class ProjectCard extends AbstractUIObject {
         edit.click();
         return editWindow;
     }
+
+    public boolean isProjectPublic() {
+        return category.getText().trim().equalsIgnoreCase("Public");
+    }
 }

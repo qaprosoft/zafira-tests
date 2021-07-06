@@ -27,12 +27,12 @@ public class TestRunsPageTest extends LogInBase {
     private static final String expectedWebResult = "Passed 2, Failure 1 | 0, Skipped 0";
     private static final String expectedApiResult = "Passed 4, Failure 0 | 0, Skipped 0";
 
-    @BeforeTest
-    public void ClearTestRuns() {
-        TestRunsPage testRunsPage = navigationMenu.toTestRunsPage();
-        testRunsPage.assertPageOpened();
-        testRunsPage.deleteAllTestRunCards();
-    }
+//    @BeforeTest
+//    public void ClearTestRuns() {
+//        TestRunsPage testRunsPage = navigationMenu.toTestRunsPage();
+//        testRunsPage.assertPageOpened();
+//        testRunsPage.deleteAllTestRunCards();
+//    }
 
     @Test
     public void checkElementOnTestRunsPage() {
@@ -119,14 +119,14 @@ public class TestRunsPageTest extends LogInBase {
         softAssert.assertAll();
     }
 
-    @Test(dependsOnMethods = "webJobRun")
+    @Test()
     public void webRunTestVerificationOfResultPage() {
         TestRunsPage testRunsPage = navigationMenu.toTestRunsPage();
         testRunsPage.assertPageOpened();
         TestRunResultPage resultPage = testRunsPage.toTestRunResultPage(webRunName);
         resultPage.assertPageOpened();
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(resultPage.getPageTitle(), "Test results",
+        softAssert.assertEquals(resultPage.getPageTitle(), webRunName,
                 "Expected page title didn't match the actual");
 
         TestRunCard resultPageCard = resultPage.getPageCard();
@@ -181,7 +181,6 @@ public class TestRunsPageTest extends LogInBase {
         final String expectedOwner = "anonymous";
         List<ResultTestMethodCard> methodCards = resultPage.getTestMethods();
         for (ResultTestMethodCard methodCard : methodCards) {
-            System.out.println(methodCard.getLabelsText());
             softAssert.assertFalse(methodCard.getLabelsText().isEmpty(),
                     "Web methods cards should have labels" + methodCard.getTitle());
             softAssert.assertTrue(methodCard.isCheckboxPresent(),
@@ -209,14 +208,14 @@ public class TestRunsPageTest extends LogInBase {
         softAssert.assertAll();
     }
 
-    @Test(dependsOnMethods = "apiJobRun")
+    @Test()
     public void apiRunTestVerificationOfResultPage() {
         TestRunsPage testRunsPage = navigationMenu.toTestRunsPage();
         testRunsPage.assertPageOpened();
         TestRunResultPage resultPage = testRunsPage.toTestRunResultPage(apiRunName);
         resultPage.assertPageOpened();
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(resultPage.getPageTitle(), "Test results",
+        softAssert.assertEquals(resultPage.getPageTitle(), apiRunName,
                 "Expected page title didn't match the actual");
 
         TestRunCard resultPageCard = resultPage.getPageCard();
