@@ -95,11 +95,4 @@ public class ConfigConstant {
     public static final String JIRA_URL = "jira_url";
     public static final String JIRA_TOKEN = "jira_token";
     public static final String JIRA_USERNAME = "jira_username";
-    //#========================== Dashboards(Wed) ========================#
-    public static final String MAIN_DASHBOARD_PAGE_TITLE = "dashboards_title";
-    public static final String COLUMN_NAME_DASHBOARD_NAME = "dashboards_name_column_name";
-    public static final String COLUMN_NAME_CREATION_DATE = "creation_date_column_name";
-    public static final String DASHBOARD_NAME_PERSONAL = "dashboard_name_personal";
-    public static final String DASHBOARD_NAME_GENERAL = "dashboard_name_general";
-    public static final String DASHBOARD_CREATION_DATE = "dashboard_creation_date";
 }
