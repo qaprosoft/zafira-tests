@@ -1,10 +1,4 @@
 {
   "id": "regex:[\\d]",
-  "title": null,
-  "description": null,
-  "paramsConfig": null,
-  "legendConfig": null,
-  "type": null,
-  "location":"type:String",
-  "widgetTemplate": null
+  "location":"type:String"
 }
