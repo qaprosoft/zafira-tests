@@ -4,8 +4,8 @@ reporting:
     notification:
         slack-channels: qatests
     server:
-        hostname: https://automation1.zebrunner.org
-        access-token: eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWKi5NUrJSMlLSUSpILC4uzy9KAXKzqowDI5MTI8oMXKvKPUKNDKt80lzTioL0y_NDTPyMM4GqS1LzEvNKgGoTS0vycxNLMvPzDIHCmcXFQLHMxFwgO7WiQMnK2NzcwNDQwNzQoBYAEdXqvG0AAAA.Jeyz0xqfW2UV3qIhNL7R38Q6gjNSqSgL8VH4nKo8Rr520TtoDg2LWMkeZ_pLq0TMceackNlwOWuO7h83VqWqhA
+        hostname: https://qps.zebrunner.com
+        access-token: YMknXOU6YWAzDS7L1Q0ufsUvBWogbmwzwJE6bdrBIcfsg4N9Qv
     run:
         display-name: API Integration Tests
         build: 1.25.0.134-SNAPSHOT
