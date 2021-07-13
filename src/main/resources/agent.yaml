@@ -8,5 +8,4 @@ reporting:
         access-token: YMknXOU6YWAzDS7L1Q0ufsUvBWogbmwzwJE6bdrBIcfsg4N9Qv
     run:
         display-name: API Integration Tests
-        build: 1.25.0.134-SNAPSHOT
         environment: QA
